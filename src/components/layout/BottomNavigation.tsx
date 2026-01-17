@@ -1,11 +1,11 @@
-import { Home, Package, Users, User } from 'lucide-react';
+import { Home, Briefcase, BarChart3, User } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { icon: Home, label: 'Home', path: '/' },
-  { icon: Package, label: 'Products', path: '/products' },
-  { icon: Users, label: 'Team', path: '/team' },
+  { icon: Briefcase, label: 'Products', path: '/products' },
+  { icon: BarChart3, label: 'Team', path: '/team' },
   { icon: User, label: 'Profile', path: '/profile' },
 ];
 
@@ -14,7 +14,7 @@ export function BottomNavigation() {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border shadow-elevated safe-area-inset-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border shadow-elevated">
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -29,18 +29,14 @@ export function BottomNavigation() {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <div className={cn(
-                "p-1.5 rounded-xl transition-all duration-200",
-                isActive && "bg-primary/10"
-              )}>
-                <item.icon 
-                  className={cn(
-                    "w-5 h-5 transition-all duration-200",
-                    isActive && "scale-110"
-                  )} 
-                  strokeWidth={isActive ? 2.5 : 2}
-                />
-              </div>
+              <item.icon 
+                className={cn(
+                  "w-6 h-6 transition-all duration-200",
+                  isActive && "scale-110"
+                )} 
+                strokeWidth={isActive ? 2.5 : 2}
+                fill={isActive ? 'currentColor' : 'none'}
+              />
               <span className={cn(
                 "text-xs font-medium transition-all duration-200",
                 isActive && "font-semibold"
