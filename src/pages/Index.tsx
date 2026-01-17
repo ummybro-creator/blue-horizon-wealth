@@ -1,43 +1,51 @@
-import { Bell, Wallet } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Send } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { WalletCard } from '@/components/home/WalletCard';
-import { QuickActions } from '@/components/home/QuickActions';
-import { ActiveInvestments } from '@/components/home/ActiveInvestments';
-import { RecentTransactions } from '@/components/home/RecentTransactions';
-import { mockUser } from '@/data/mockData';
+import { BannerSlider } from '@/components/home/BannerSlider';
+import { QuickMenu } from '@/components/home/QuickMenu';
+import { LatestNews } from '@/components/home/LatestNews';
+import { WelcomePopup } from '@/components/home/WelcomePopup';
 
 const Index = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Show popup once per session
+    const hasSeenPopup = sessionStorage.getItem('hasSeenWelcomePopup');
+    if (!hasSeenPopup) {
+      setShowPopup(true);
+      sessionStorage.setItem('hasSeenWelcomePopup', 'true');
+    }
+  }, []);
+
   return (
     <AppLayout>
       {/* Header */}
-      <div className="gradient-header pt-12 pb-28 px-4">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <p className="text-primary-foreground/70 text-sm">Good Morning</p>
-            <h1 className="text-xl font-bold text-primary-foreground">{mockUser.name}</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center">
-              <Bell className="w-5 h-5 text-primary-foreground" />
-            </button>
-            <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-              <Wallet className="w-5 h-5 text-primary-foreground" />
-            </div>
-          </div>
-        </div>
+      <div className="gradient-header pt-12 pb-6 px-4">
+        <h1 className="text-2xl font-bold text-primary-foreground text-center">Home</h1>
       </div>
 
-      {/* Wallet Card */}
-      <WalletCard />
+      {/* Banner Slider */}
+      <div className="-mt-2">
+        <BannerSlider />
+      </div>
 
-      {/* Quick Actions */}
-      <QuickActions />
+      {/* Quick Menu */}
+      <QuickMenu />
 
-      {/* Active Investments */}
-      <ActiveInvestments />
+      {/* Latest News */}
+      <LatestNews />
 
-      {/* Recent Transactions */}
-      <RecentTransactions />
+      {/* Floating Telegram Button */}
+      <button
+        onClick={() => window.open('https://t.me/tatanmak', '_blank')}
+        className="fixed bottom-24 right-4 w-14 h-14 rounded-full gradient-primary shadow-button flex items-center justify-center z-40"
+      >
+        <Send className="w-6 h-6 text-primary-foreground" />
+      </button>
+
+      {/* Welcome Popup */}
+      <WelcomePopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
     </AppLayout>
   );
 };
