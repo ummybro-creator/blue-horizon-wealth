@@ -14,16 +14,415 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          app_logo_url: string | null
+          app_name: string | null
+          checkin_bonus_amount: number | null
+          created_at: string | null
+          id: string
+          minimum_recharge: number | null
+          minimum_withdrawal: number | null
+          payment_qr_code_url: string | null
+          payment_upi_id: string | null
+          support_email: string | null
+          support_phone: string | null
+          support_whatsapp: string | null
+          telegram_group_link: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          app_logo_url?: string | null
+          app_name?: string | null
+          checkin_bonus_amount?: number | null
+          created_at?: string | null
+          id?: string
+          minimum_recharge?: number | null
+          minimum_withdrawal?: number | null
+          payment_qr_code_url?: string | null
+          payment_upi_id?: string | null
+          support_email?: string | null
+          support_phone?: string | null
+          support_whatsapp?: string | null
+          telegram_group_link?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          app_logo_url?: string | null
+          app_name?: string | null
+          checkin_bonus_amount?: number | null
+          created_at?: string | null
+          id?: string
+          minimum_recharge?: number | null
+          minimum_withdrawal?: number | null
+          payment_qr_code_url?: string | null
+          payment_upi_id?: string | null
+          support_email?: string | null
+          support_phone?: string | null
+          support_whatsapp?: string | null
+          telegram_group_link?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      bank_details: {
+        Row: {
+          account_holder_name: string | null
+          account_number: string | null
+          bank_name: string | null
+          created_at: string | null
+          id: string
+          ifsc_code: string | null
+          updated_at: string | null
+          upi_id: string | null
+          user_id: string
+        }
+        Insert: {
+          account_holder_name?: string | null
+          account_number?: string | null
+          bank_name?: string | null
+          created_at?: string | null
+          id?: string
+          ifsc_code?: string | null
+          updated_at?: string | null
+          upi_id?: string | null
+          user_id: string
+        }
+        Update: {
+          account_holder_name?: string | null
+          account_number?: string | null
+          bank_name?: string | null
+          created_at?: string | null
+          id?: string
+          ifsc_code?: string | null
+          updated_at?: string | null
+          upi_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      daily_checkins: {
+        Row: {
+          bonus_amount: number
+          checked_in_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          bonus_amount: number
+          checked_in_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          bonus_amount?: number
+          checked_in_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      investments: {
+        Row: {
+          expires_at: string
+          id: string
+          invested_at: string | null
+          product_id: string
+          status: string
+          total_earned: number | null
+          user_id: string
+        }
+        Insert: {
+          expires_at: string
+          id?: string
+          invested_at?: string | null
+          product_id: string
+          status?: string
+          total_earned?: number | null
+          user_id: string
+        }
+        Update: {
+          expires_at?: string
+          id?: string
+          invested_at?: string | null
+          product_id?: string
+          status?: string
+          total_earned?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investments_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string | null
+          daily_income: number
+          description: string | null
+          duration_days: number
+          id: string
+          image_url: string | null
+          is_enabled: boolean | null
+          is_special_offer: boolean | null
+          name: string
+          price: number
+          total_income: number
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string | null
+          daily_income: number
+          description?: string | null
+          duration_days: number
+          id?: string
+          image_url?: string | null
+          is_enabled?: boolean | null
+          is_special_offer?: boolean | null
+          name: string
+          price: number
+          total_income: number
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          daily_income?: number
+          description?: string | null
+          duration_days?: number
+          id?: string
+          image_url?: string | null
+          is_enabled?: boolean | null
+          is_special_offer?: boolean | null
+          name?: string
+          price?: number
+          total_income?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          is_blocked: boolean | null
+          phone_number: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          is_blocked?: boolean | null
+          phone_number: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          is_blocked?: boolean | null
+          phone_number?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      recharges: {
+        Row: {
+          amount: number
+          id: string
+          processed_at: string | null
+          processed_by: string | null
+          requested_at: string | null
+          status: Database["public"]["Enums"]["transaction_status"]
+          timer_started_at: string | null
+          user_id: string
+          utr_number: string | null
+        }
+        Insert: {
+          amount: number
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          timer_started_at?: string | null
+          user_id: string
+          utr_number?: string | null
+        }
+        Update: {
+          amount?: number
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          timer_started_at?: string | null
+          user_id?: string
+          utr_number?: string | null
+        }
+        Relationships: []
+      }
+      sliders: {
+        Row: {
+          created_at: string | null
+          id: string
+          image_url: string
+          is_active: boolean | null
+          link_url: string | null
+          sort_order: number | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          link_url?: string | null
+          sort_order?: number | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          link_url?: string | null
+          sort_order?: number | null
+          title?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wallets: {
+        Row: {
+          bonus_balance: number
+          created_at: string | null
+          id: string
+          recharge_balance: number
+          total_balance: number
+          total_income: number
+          updated_at: string | null
+          user_id: string
+          withdrawable_balance: number
+        }
+        Insert: {
+          bonus_balance?: number
+          created_at?: string | null
+          id?: string
+          recharge_balance?: number
+          total_balance?: number
+          total_income?: number
+          updated_at?: string | null
+          user_id: string
+          withdrawable_balance?: number
+        }
+        Update: {
+          bonus_balance?: number
+          created_at?: string | null
+          id?: string
+          recharge_balance?: number
+          total_balance?: number
+          total_income?: number
+          updated_at?: string | null
+          user_id?: string
+          withdrawable_balance?: number
+        }
+        Relationships: []
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          id: string
+          processed_at: string | null
+          processed_by: string | null
+          requested_at: string | null
+          status: Database["public"]["Enums"]["transaction_status"]
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_bonus: {
+        Args: { p_amount: number; p_user_id: string }
+        Returns: undefined
+      }
+      approve_recharge: {
+        Args: { p_admin_id: string; p_recharge_id: string }
+        Returns: undefined
+      }
+      approve_withdrawal: {
+        Args: { p_admin_id: string; p_withdrawal_id: string }
+        Returns: undefined
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: never; Returns: boolean }
+      is_blocked: { Args: { _user_id: string }; Returns: boolean }
+      reject_recharge: {
+        Args: { p_admin_id: string; p_recharge_id: string }
+        Returns: undefined
+      }
+      reject_withdrawal: {
+        Args: { p_admin_id: string; p_withdrawal_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      transaction_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +549,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      transaction_status: ["pending", "approved", "rejected"],
+    },
   },
 } as const

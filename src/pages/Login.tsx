@@ -1,34 +1,95 @@
 import { useState } from 'react';
-import { Phone, Lock, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAppSettings } from '@/hooks/useAppSettings';
+import { z } from 'zod';
+
+const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, signUp, user } = useAuth();
+  const { data: settings } = useAppSettings();
+  
   const [isLogin, setIsLogin] = useState(true);
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  if (user) {
+    const from = (location.state as any)?.from?.pathname || '/';
+    navigate(from, { replace: true });
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!mobile || mobile.length < 10) {
-      toast.error('Please enter a valid mobile number');
-      return;
+    // Validate inputs
+    try {
+      phoneSchema.parse(mobile);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        toast.error(err.errors[0].message);
+        return;
+      }
     }
-    if (!password || password.length < 6) {
-      toast.error('Password must be at least 6 characters');
-      return;
+    
+    try {
+      passwordSchema.parse(password);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        toast.error(err.errors[0].message);
+        return;
+      }
     }
 
-    toast.success(isLogin ? 'Login successful!' : 'Account created successfully!');
-    navigate('/');
+    setLoading(true);
+    
+    try {
+      if (isLogin) {
+        const { error } = await signIn(mobile, password);
+        if (error) {
+          if (error.message.includes('Invalid login')) {
+            toast.error('Invalid phone number or password');
+          } else if (error.message.includes('blocked')) {
+            toast.error(error.message);
+          } else {
+            toast.error('Login failed. Please check your credentials.');
+          }
+          return;
+        }
+        toast.success('Login successful!');
+        const from = (location.state as any)?.from?.pathname || '/';
+        navigate(from, { replace: true });
+      } else {
+        const { error } = await signUp(mobile, password, fullName, referralCode);
+        if (error) {
+          if (error.message.includes('already registered')) {
+            toast.error('This phone number is already registered');
+          } else {
+            toast.error('Registration failed. Please try again.');
+          }
+          return;
+        }
+        toast.success('Account created successfully!');
+        navigate('/');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,11 +98,12 @@ const Login = () => {
       <div className="gradient-header h-64 relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-primary-foreground mb-1">TATA NAMAK</h1>
+            <h1 className="text-2xl font-bold text-primary-foreground mb-1">
+              {settings?.app_name || 'TATA NAMAK'}
+            </h1>
             <p className="text-primary-foreground/80 text-sm">SABSE ZYADA SHUDDHATA</p>
           </div>
         </div>
-        {/* Decorative elements */}
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
       </div>
 
@@ -58,6 +120,19 @@ const Login = () => {
       {/* Form Card */}
       <div className="flex-1 px-4 pt-6 pb-8">
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Full Name (Register only) */}
+          {!isLogin && (
+            <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
+              <Input
+                type="text"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="h-14 border-0 focus-visible:ring-0"
+              />
+            </div>
+          )}
+
           {/* Mobile Input */}
           <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
             <div className="flex items-center gap-2 px-4 border-r border-border">
@@ -68,7 +143,7 @@ const Login = () => {
               type="tel"
               placeholder="Phone Number"
               value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
+              onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
               className="h-14 border-0 focus-visible:ring-0"
               maxLength={10}
             />
@@ -120,8 +195,21 @@ const Login = () => {
           )}
 
           {/* Submit Button */}
-          <Button variant="gradient" size="xl" className="w-full h-14 text-lg font-bold" type="submit">
-            {isLogin ? 'SIGN IN' : 'REGISTER'}
+          <Button 
+            variant="gradient" 
+            size="xl" 
+            className="w-full h-14 text-lg font-bold" 
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                {isLogin ? 'Signing In...' : 'Creating Account...'}
+              </span>
+            ) : (
+              isLogin ? 'SIGN IN' : 'REGISTER'
+            )}
           </Button>
 
           {/* Toggle Login/Register */}

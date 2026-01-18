@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import Team from "./pages/Team";
@@ -14,36 +16,62 @@ import Support from "./pages/Support";
 import Telegram from "./pages/Telegram";
 import Login from "./pages/Login";
 import Records from "./pages/Records";
+import BankDetails from "./pages/BankDetails";
 import NotFound from "./pages/NotFound";
+
+// Admin Pages
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminRecharges from "./pages/admin/AdminRecharges";
+import AdminWithdrawals from "./pages/admin/AdminWithdrawals";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner position="top-center" />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/recharge" element={<Recharge />} />
-          <Route path="/withdraw" element={<Withdraw />} />
-          <Route path="/checkin" element={<CheckIn />} />
-          <Route path="/bonus" element={<CheckIn />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/telegram" element={<Telegram />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/records" element={<Records />} />
-          <Route path="/wallet" element={<Index />} />
-          <Route path="/bank-details" element={<Profile />} />
-          <Route path="/security" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner position="top-center" />
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            
+            {/* Protected User Routes */}
+            <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+            <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+            <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/recharge" element={<ProtectedRoute><Recharge /></ProtectedRoute>} />
+            <Route path="/withdraw" element={<ProtectedRoute><Withdraw /></ProtectedRoute>} />
+            <Route path="/checkin" element={<ProtectedRoute><CheckIn /></ProtectedRoute>} />
+            <Route path="/bonus" element={<ProtectedRoute><CheckIn /></ProtectedRoute>} />
+            <Route path="/support" element={<ProtectedRoute><Support /></ProtectedRoute>} />
+            <Route path="/telegram" element={<ProtectedRoute><Telegram /></ProtectedRoute>} />
+            <Route path="/records" element={<ProtectedRoute><Records /></ProtectedRoute>} />
+            <Route path="/bank-details" element={<ProtectedRoute><BankDetails /></ProtectedRoute>} />
+            <Route path="/wallet" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+            <Route path="/security" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            
+            {/* Protected Admin Routes */}
+            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/dashboard" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/users" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
+            <Route path="/admin/recharges" element={<ProtectedRoute requireAdmin><AdminRecharges /></ProtectedRoute>} />
+            <Route path="/admin/withdrawals" element={<ProtectedRoute requireAdmin><AdminWithdrawals /></ProtectedRoute>} />
+            <Route path="/admin/products" element={<ProtectedRoute requireAdmin><AdminProducts /></ProtectedRoute>} />
+            <Route path="/admin/settings" element={<ProtectedRoute requireAdmin><AdminSettings /></ProtectedRoute>} />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
