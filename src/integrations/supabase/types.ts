@@ -215,6 +215,8 @@ export type Database = {
           id: string
           is_blocked: boolean | null
           phone_number: string
+          referral_code: string | null
+          referred_by: string | null
           updated_at: string | null
         }
         Insert: {
@@ -223,6 +225,8 @@ export type Database = {
           id: string
           is_blocked?: boolean | null
           phone_number: string
+          referral_code?: string | null
+          referred_by?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -231,6 +235,8 @@ export type Database = {
           id?: string
           is_blocked?: boolean | null
           phone_number?: string
+          referral_code?: string | null
+          referred_by?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -268,6 +274,30 @@ export type Database = {
           timer_started_at?: string | null
           user_id?: string
           utr_number?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string | null
+          id: string
+          level: number
+          referred_id: string
+          referrer_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          level?: number
+          referred_id: string
+          referrer_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          level?: number
+          referred_id?: string
+          referrer_id?: string
         }
         Relationships: []
       }

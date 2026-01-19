@@ -34,5 +34,7 @@ export function useProducts(category?: 'daily' | 'vip') {
       if (error) throw error;
       return data as Product[];
     },
+    staleTime: 0, // Always refetch to get latest admin changes
+    refetchOnWindowFocus: true,
   });
 }

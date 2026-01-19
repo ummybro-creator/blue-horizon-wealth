@@ -4,31 +4,50 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { mockWallet } from '@/data/mockData';
-
-const MINIMUM_WITHDRAWAL = 500;
+import { useAuth } from '@/contexts/AuthContext';
+import { useAppSettings } from '@/hooks/useAppSettings';
+import { useCreateWithdrawal } from '@/hooks/useWithdrawals';
+import { useBankDetails } from '@/hooks/useBankDetails';
 
 const Withdraw = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
+  const { wallet } = useAuth();
+  const { data: settings } = useAppSettings();
+  const { data: bankDetails } = useBankDetails();
+  const createWithdrawal = useCreateWithdrawal();
 
-  const handleSubmit = () => {
+  const minimumWithdrawal = settings?.minimum_withdrawal || 500;
+  const withdrawableBalance = wallet?.withdrawable_balance || 0;
+
+  const handleSubmit = async () => {
     const withdrawAmount = parseInt(amount);
     
-    if (!amount || withdrawAmount < MINIMUM_WITHDRAWAL) {
-      toast.error(`Minimum withdrawal amount is ₹${MINIMUM_WITHDRAWAL}`);
+    if (!amount || withdrawAmount < minimumWithdrawal) {
+      toast.error(`Minimum withdrawal amount is ₹${minimumWithdrawal}`);
       return;
     }
     
-    if (withdrawAmount > mockWallet.withdrawableBalance) {
+    if (withdrawAmount > withdrawableBalance) {
       toast.error('Insufficient withdrawable balance');
       return;
     }
 
-    toast.success('Withdrawal request submitted!', {
-      description: 'Your request will be processed within 24-48 hours.',
-    });
-    navigate('/');
+    if (!bankDetails?.upi_id && !bankDetails?.account_number) {
+      toast.error('Please add your bank details first');
+      navigate('/bank-details');
+      return;
+    }
+
+    try {
+      await createWithdrawal.mutateAsync({ amount: withdrawAmount });
+      toast.success('Withdrawal request submitted!', {
+        description: 'Your request will be processed within 24-48 hours.',
+      });
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to submit withdrawal request');
+    }
   };
 
   return (
@@ -51,7 +70,7 @@ const Withdraw = () => {
         <div className="bg-card rounded-2xl shadow-card p-5 animate-slide-up">
           <p className="text-muted-foreground text-sm mb-1">Withdrawable Balance</p>
           <h2 className="text-3xl font-bold text-primary">
-            ₹{mockWallet.withdrawableBalance.toLocaleString('en-IN')}
+            ₹{withdrawableBalance.toLocaleString('en-IN')}
           </h2>
         </div>
 
@@ -61,7 +80,7 @@ const Withdraw = () => {
           <div className="text-sm">
             <p className="font-medium text-foreground">Withdrawal Rules</p>
             <ul className="text-muted-foreground mt-1 space-y-1">
-              <li>• Minimum withdrawal: ₹{MINIMUM_WITHDRAWAL}</li>
+              <li>• Minimum withdrawal: ₹{minimumWithdrawal}</li>
               <li>• Processing time: 24-48 hours</li>
               <li>• Withdrawals are processed to your registered bank/UPI</li>
             </ul>
@@ -80,7 +99,7 @@ const Withdraw = () => {
           />
           <button 
             className="text-primary text-sm font-medium mt-2"
-            onClick={() => setAmount(mockWallet.withdrawableBalance.toString())}
+            onClick={() => setAmount(withdrawableBalance.toString())}
           >
             Withdraw All
           </button>
@@ -90,14 +109,27 @@ const Withdraw = () => {
         <div className="bg-card rounded-2xl shadow-card p-5 animate-slide-up" style={{ animationDelay: '0.3s' }}>
           <h3 className="font-semibold text-foreground mb-3">Withdrawal To</h3>
           <div className="bg-secondary/50 rounded-xl p-3">
-            <p className="font-medium text-foreground">State Bank of India</p>
-            <p className="text-sm text-muted-foreground">A/C: XXXX XXXX 4567</p>
+            {bankDetails?.upi_id ? (
+              <>
+                <p className="font-medium text-foreground">UPI</p>
+                <p className="text-sm text-muted-foreground">{bankDetails.upi_id}</p>
+              </>
+            ) : bankDetails?.account_number ? (
+              <>
+                <p className="font-medium text-foreground">{bankDetails.bank_name || 'Bank Account'}</p>
+                <p className="text-sm text-muted-foreground">
+                  A/C: XXXX XXXX {bankDetails.account_number.slice(-4)}
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">No bank details added</p>
+            )}
           </div>
           <button 
             className="text-primary text-sm font-medium mt-2"
             onClick={() => navigate('/bank-details')}
           >
-            Change Bank Details
+            {bankDetails ? 'Change Bank Details' : 'Add Bank Details'}
           </button>
         </div>
 
@@ -107,9 +139,9 @@ const Withdraw = () => {
           size="xl" 
           className="w-full"
           onClick={handleSubmit}
-          disabled={!amount || parseInt(amount) < MINIMUM_WITHDRAWAL}
+          disabled={!amount || parseInt(amount) < minimumWithdrawal || createWithdrawal.isPending}
         >
-          Submit Withdrawal Request
+          {createWithdrawal.isPending ? 'Submitting...' : 'Submit Withdrawal Request'}
         </Button>
       </div>
     </div>

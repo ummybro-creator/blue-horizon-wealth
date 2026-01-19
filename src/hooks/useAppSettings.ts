@@ -29,6 +29,7 @@ export function useAppSettings() {
       if (error) throw error;
       return data as AppSettings | null;
     },
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 0, // Always refetch to get latest admin changes
+    refetchOnWindowFocus: true,
   });
 }
