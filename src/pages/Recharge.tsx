@@ -1,128 +1,114 @@
 import { useState } from 'react';
-import { ArrowLeft, Copy, QrCode } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAppSettings } from '@/hooks/useAppSettings';
 
-const UPI_ID = 'investment@paytm';
-
-const quickAmounts = [500, 1000, 2000, 5000, 10000, 20000];
+const quickAmounts = [799, 299, 699, 1099, 1999, 8500];
 
 const Recharge = () => {
   const navigate = useNavigate();
+  const { wallet } = useAuth();
+  const { data: settings } = useAppSettings();
   const [amount, setAmount] = useState('');
-  const [transactionId, setTransactionId] = useState('');
 
-  const copyUPI = () => {
-    navigator.clipboard.writeText(UPI_ID);
-    toast.success('UPI ID copied to clipboard!');
-  };
-
-  const handleSubmit = () => {
-    if (!amount || parseInt(amount) < 100) {
-      toast.error('Minimum recharge amount is ₹100');
+  const handleRechargeNow = () => {
+    const amountNum = parseInt(amount);
+    const minRecharge = settings?.minimum_recharge || 100;
+    
+    if (!amount || amountNum < minRecharge) {
+      toast.error(`Minimum recharge amount is ₹${minRecharge}`);
       return;
     }
-    if (!transactionId.trim()) {
-      toast.error('Please enter transaction ID');
-      return;
-    }
-    toast.success('Recharge request submitted!', {
-      description: 'Your request will be processed within 24 hours.',
-    });
-    navigate('/');
+    
+    // Navigate to payment page with amount
+    navigate(`/payment?amount=${amountNum}`);
   };
 
   return (
     <div className="min-h-screen bg-background max-w-lg mx-auto">
       {/* Header */}
-      <div className="gradient-header pt-12 pb-6 px-4">
-        <div className="flex items-center gap-3">
+      <div className="bg-primary pt-12 pb-8 px-4 rounded-b-3xl">
+        <div className="flex items-center gap-3 mb-6">
           <button 
             onClick={() => navigate(-1)}
             className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center"
           >
             <ArrowLeft className="w-5 h-5 text-primary-foreground" />
           </button>
-          <h1 className="text-xl font-bold text-primary-foreground">Recharge Wallet</h1>
+          <h1 className="text-xl font-bold text-primary-foreground">Recharge</h1>
+        </div>
+
+        {/* Balance Cards */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-primary-foreground/10 rounded-xl p-4 border border-primary-foreground/20">
+            <p className="text-3xl font-bold text-primary-foreground">
+              ₹{wallet?.total_balance?.toLocaleString('en-IN') || 0}
+            </p>
+            <p className="text-sm text-primary-foreground/70">Current Balance</p>
+          </div>
+          <div className="bg-primary-foreground/10 rounded-xl p-4 border border-primary-foreground/20">
+            <p className="text-3xl font-bold text-primary-foreground">
+              ₹{wallet?.recharge_balance?.toLocaleString('en-IN') || 0}
+            </p>
+            <p className="text-sm text-primary-foreground/70">Recharge Balance</p>
+          </div>
         </div>
       </div>
 
-      <div className="px-4 py-5 space-y-5">
-        {/* UPI Section */}
-        <div className="bg-card rounded-2xl shadow-card p-5 animate-slide-up">
-          <h3 className="font-semibold text-foreground mb-4">Pay via UPI</h3>
-          
-          {/* QR Code Placeholder */}
-          <div className="bg-secondary rounded-xl p-6 flex flex-col items-center mb-4">
-            <div className="w-40 h-40 bg-background rounded-xl flex items-center justify-center mb-3">
-              <QrCode className="w-24 h-24 text-primary" />
-            </div>
-            <p className="text-sm text-muted-foreground">Scan to pay</p>
-          </div>
-
-          {/* UPI ID */}
-          <div className="flex items-center gap-2 bg-secondary rounded-xl p-3">
-            <span className="flex-1 font-mono text-foreground">{UPI_ID}</span>
-            <Button variant="outline" size="sm" onClick={copyUPI}>
-              <Copy className="w-4 h-4" />
-            </Button>
-          </div>
+      <div className="px-4 py-6 space-y-6">
+        {/* Enter Amount */}
+        <div>
+          <h3 className="font-semibold text-foreground mb-3">Enter Amount</h3>
+          <Input
+            type="number"
+            placeholder="Enter Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="h-14 text-lg bg-card border-border"
+          />
         </div>
 
-        {/* Amount Selection */}
-        <div className="bg-card rounded-2xl shadow-card p-5 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <h3 className="font-semibold text-foreground mb-4">Select Amount</h3>
-          
-          <div className="grid grid-cols-3 gap-2 mb-4">
+        {/* Quick Amount */}
+        <div>
+          <h3 className="font-semibold text-primary mb-3">Quick Amount</h3>
+          <div className="grid grid-cols-3 gap-3">
             {quickAmounts.map((amt) => (
               <button
                 key={amt}
                 onClick={() => setAmount(amt.toString())}
-                className={`py-3 rounded-xl font-semibold transition-all duration-200 ${
+                className={`py-3 rounded-xl font-semibold transition-all duration-200 border-2 ${
                   amount === amt.toString()
-                    ? 'gradient-primary text-primary-foreground shadow-button'
-                    : 'bg-secondary text-foreground hover:bg-secondary/80'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border bg-card text-foreground hover:border-primary/50'
                 }`}
               >
                 ₹{amt.toLocaleString('en-IN')}
               </button>
             ))}
           </div>
-
-          <Input
-            type="number"
-            placeholder="Enter custom amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="h-12 text-lg"
-          />
         </div>
 
-        {/* Transaction ID */}
-        <div className="bg-card rounded-2xl shadow-card p-5 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          <h3 className="font-semibold text-foreground mb-4">Transaction Details</h3>
-          <Input
-            type="text"
-            placeholder="Enter UPI Transaction ID"
-            value={transactionId}
-            onChange={(e) => setTransactionId(e.target.value)}
-            className="h-12"
-          />
-          <p className="text-xs text-muted-foreground mt-2">
-            Enter the 12-digit UPI transaction reference number
-          </p>
+        {/* Online Channel */}
+        <div>
+          <h3 className="font-semibold text-primary mb-3">Online Channel</h3>
+          <div className="bg-primary rounded-xl p-4 flex items-center justify-between">
+            <span className="text-primary-foreground font-medium">PAYMENT 001</span>
+            <div className="w-5 h-5 rounded-full border-2 border-primary-foreground flex items-center justify-center">
+              <div className="w-3 h-3 rounded-full bg-primary-foreground"></div>
+            </div>
+          </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Recharge Now Button */}
         <Button 
-          variant="gradient" 
-          size="xl" 
-          className="w-full"
-          onClick={handleSubmit}
+          onClick={handleRechargeNow}
+          className="w-full h-14 text-lg font-bold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
         >
-          Submit Recharge Request
+          Recharge Now
         </Button>
       </div>
     </div>

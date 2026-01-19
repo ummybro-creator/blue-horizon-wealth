@@ -10,6 +10,7 @@ import Products from "./pages/Products";
 import Team from "./pages/Team";
 import Profile from "./pages/Profile";
 import Recharge from "./pages/Recharge";
+import Payment from "./pages/Payment";
 import Withdraw from "./pages/Withdraw";
 import CheckIn from "./pages/CheckIn";
 import Support from "./pages/Support";
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/recharge" element={<ProtectedRoute><Recharge /></ProtectedRoute>} />
+            <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
             <Route path="/withdraw" element={<ProtectedRoute><Withdraw /></ProtectedRoute>} />
             <Route path="/checkin" element={<ProtectedRoute><CheckIn /></ProtectedRoute>} />
             <Route path="/bonus" element={<ProtectedRoute><CheckIn /></ProtectedRoute>} />
