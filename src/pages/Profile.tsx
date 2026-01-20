@@ -7,7 +7,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { mockUser, mockWallet } from '@/data/mockData';
+import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const menuItems = [
@@ -18,7 +18,11 @@ const menuItems = [
 
 const Profile = () => {
   const navigate = useNavigate();
-  const maskedId = `${mockUser.mobile.slice(0, 5)}****${mockUser.mobile.slice(-3)}`;
+  const { profile, wallet, signOut } = useAuth();
+  const phoneNumber = profile?.phone_number || '';
+  const maskedId = phoneNumber.length >= 8 
+    ? `${phoneNumber.slice(0, 5)}****${phoneNumber.slice(-3)}`
+    : '****';
 
   return (
     <AppLayout>
@@ -26,7 +30,10 @@ const Profile = () => {
       <div className="gradient-header pt-12 pb-32 px-4 relative">
         {/* Logout Button */}
         <button 
-          onClick={() => navigate('/login')}
+          onClick={async () => {
+            await signOut();
+            navigate('/login');
+          }}
           className="absolute top-12 right-4 w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center"
         >
           <LogOut className="w-5 h-5 text-primary-foreground" />
@@ -36,7 +43,7 @@ const Profile = () => {
         <div className="flex items-center gap-4 mt-8">
           <div className="w-20 h-20 rounded-full bg-primary-foreground flex items-center justify-center">
             <span className="text-3xl font-bold text-primary">
-              {mockUser.name.charAt(0)}
+              {profile?.full_name?.charAt(0) || 'U'}
             </span>
           </div>
           <div>
@@ -57,15 +64,15 @@ const Profile = () => {
           
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{mockWallet.totalBalance}</p>
+              <p className="text-xl font-bold text-primary">₹{wallet?.total_balance ?? 0}</p>
               <p className="text-xs text-muted-foreground">Balance</p>
             </div>
             <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{mockWallet.rechargeBalance}</p>
+              <p className="text-xl font-bold text-primary">₹{wallet?.recharge_balance ?? 0}</p>
               <p className="text-xs text-muted-foreground">Recharge</p>
             </div>
             <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{mockWallet.totalIncome.toFixed(2)}</p>
+              <p className="text-xl font-bold text-primary">₹{(wallet?.total_income ?? 0).toFixed(2)}</p>
               <p className="text-xs text-muted-foreground">Total Income</p>
             </div>
           </div>
