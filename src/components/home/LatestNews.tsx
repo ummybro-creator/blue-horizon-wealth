@@ -1,39 +1,44 @@
-import { FileText } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
+import { useMemo } from 'react';
 
-const newsItems = [
-  {
-    id: 1,
-    date: '14',
-    month: 'JAN',
-    title: 'Tata Salt launches "Immuni+" variant fortified with zinc and iodine to support immunity, available across major retail chains.',
-  },
-  {
-    id: 2,
-    date: '12',
-    month: 'JAN',
-    title: 'New investment plans launched with higher daily returns for VIP members.',
-  },
-];
+const generateRandomWithdraws = () => {
+  const names = ['Raj K.', 'Priya S.', 'Amit P.', 'Neha R.', 'Vikram M.', 'Sunita D.', 'Rahul T.', 'Kavita B.', 'Suresh N.', 'Meena G.'];
+  
+  return Array.from({ length: 6 }, (_, i) => ({
+    id: `TXN${Math.floor(100000 + Math.random() * 900000)}`,
+    name: names[Math.floor(Math.random() * names.length)],
+    amount: Math.floor(500 + Math.random() * 49500),
+    userId: `****${Math.floor(1000 + Math.random() * 9000)}`,
+  }));
+};
 
 export function LatestNews() {
+  const withdraws = useMemo(() => generateRandomWithdraws(), []);
+
   return (
     <div className="mx-4 mt-4 mb-6">
       <div className="bg-card rounded-2xl shadow-card p-4">
         <div className="flex items-center gap-2 mb-4">
-          <FileText className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-bold text-primary">Latest News</h2>
+          <CheckCircle className="w-5 h-5 text-green-500" />
+          <h2 className="text-lg font-bold text-primary">Latest Withdraw Success</h2>
         </div>
         
-        <div className="space-y-4">
-          {newsItems.map((news) => (
-            <div key={news.id} className="flex gap-3">
-              <div className="flex-shrink-0 w-12 h-14 rounded-lg bg-primary flex flex-col items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg leading-none">{news.date}</span>
-                <span className="text-primary-foreground/80 text-xs">{news.month}</span>
+        <div className="space-y-3 max-h-48 overflow-y-auto">
+          {withdraws.map((item) => (
+            <div key={item.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">{item.name}</p>
+                  <p className="text-xs text-muted-foreground">ID: {item.userId}</p>
+                </div>
               </div>
-              <p className="text-sm text-foreground leading-relaxed">
-                {news.title}
-              </p>
+              <div className="text-right">
+                <p className="text-sm font-bold text-green-600">₹{item.amount.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">Success</p>
+              </div>
             </div>
           ))}
         </div>
