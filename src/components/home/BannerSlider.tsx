@@ -2,24 +2,9 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const banners = [
-  {
-    id: 1,
-    title: 'Unmatched range',
-    subtitle: 'for your day to day needs',
-    bgColor: 'bg-gradient-to-r from-amber-100 to-orange-100',
-  },
-  {
-    id: 2,
-    title: 'Premium Quality',
-    subtitle: 'Best FMCG Products',
-    bgColor: 'bg-gradient-to-r from-blue-100 to-cyan-100',
-  },
-  {
-    id: 3,
-    title: 'Daily Earnings',
-    subtitle: 'Invest & Earn Daily',
-    bgColor: 'bg-gradient-to-r from-green-100 to-emerald-100',
-  },
+  { id: 1, image: 'https://files.catbox.moe/ml9w6o.jpg' },
+  { id: 2, image: 'https://files.catbox.moe/9swklk.jpg' },
+  { id: 3, image: 'https://files.catbox.moe/d68wg3.jpg' },
 ];
 
 export function BannerSlider() {
@@ -39,23 +24,12 @@ export function BannerSlider() {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {banners.map((banner) => (
-          <div
-            key={banner.id}
-            className={`min-w-full h-40 ${banner.bgColor} flex flex-col items-center justify-center p-4`}
-          >
-            <h3 className="text-xl font-bold text-primary">{banner.title}</h3>
-            <p className="text-sm text-muted-foreground">{banner.subtitle}</p>
-            <div className="flex gap-2 mt-4">
-              <div className="w-12 h-16 bg-card rounded-lg shadow-sm flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">TATA</span>
-              </div>
-              <div className="w-12 h-16 bg-card rounded-lg shadow-sm flex items-center justify-center">
-                <span className="text-xs font-bold text-green-600">Salt</span>
-              </div>
-              <div className="w-12 h-16 bg-card rounded-lg shadow-sm flex items-center justify-center">
-                <span className="text-xs font-bold text-pink-500">Pink</span>
-              </div>
-            </div>
+          <div key={banner.id} className="min-w-full h-40">
+            <img 
+              src={banner.image} 
+              alt={`Banner ${banner.id}`}
+              className="w-full h-full object-cover"
+            />
           </div>
         ))}
       </div>
