@@ -23,6 +23,7 @@ interface Profile {
   full_name: string | null;
   is_blocked: boolean;
   created_at: string;
+  referral_code: string | null;
 }
 
 interface Wallet {
