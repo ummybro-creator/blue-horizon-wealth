@@ -1,22 +1,45 @@
-import { Copy, Link } from 'lucide-react';
+import { Copy, Link, User, TrendingUp, Users } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { mockUser } from '@/data/mockData';
-
-const levels = [
-  { level: 'First Level', commission: '10%', recharges: 0, members: 0 },
-  { level: 'Second Level', commission: '2%', recharges: 0, members: 0 },
-  { level: 'Third Level', commission: '1%', recharges: 0, members: 0 },
-];
+import { useAuth } from '@/contexts/AuthContext';
+import { useTeam } from '@/hooks/useTeam';
+import { cn } from '@/lib/utils';
 
 const Team = () => {
-  const referralLink = `https://www.tata-namak.com/register?ref=${mockUser.referralCode}`;
+  const { profile } = useAuth();
+  const { data: teamData, isLoading } = useTeam();
+
+  const referralCode = profile?.referral_code || '';
+  const referralLink = `https://www.tata-namak.com/register?ref=${referralCode}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
     toast.success('Referral link copied!');
   };
+
+  const levels = [
+    { 
+      level: 'First Level', 
+      commission: '30%', 
+      recharges: teamData?.stats.level1Recharges || 0, 
+      members: teamData?.stats.level1Members || 0 
+    },
+    { 
+      level: 'Second Level', 
+      commission: '5%', 
+      recharges: teamData?.stats.level2Recharges || 0, 
+      members: teamData?.stats.level2Members || 0 
+    },
+    { 
+      level: 'Third Level', 
+      commission: '2%', 
+      recharges: teamData?.stats.level3Recharges || 0, 
+      members: teamData?.stats.level3Members || 0 
+    },
+  ];
+
+  const totalTeamSize = teamData?.stats.totalMembers || 0;
 
   return (
     <AppLayout>
@@ -25,8 +48,21 @@ const Team = () => {
         <h1 className="text-2xl font-bold text-primary-foreground text-center">Team</h1>
       </div>
 
-      {/* Referral Card */}
+      {/* Total Team Size Card */}
       <div className="mx-4 -mt-4 relative z-10">
+        <div className="bg-card rounded-2xl shadow-elevated p-4 mb-4 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Users className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Total Team Size</p>
+            <p className="text-2xl font-bold text-foreground">{totalTeamSize}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Referral Card */}
+      <div className="mx-4 relative z-10">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
             <Link className="w-5 h-5 text-primary-foreground" />
@@ -50,7 +86,7 @@ const Team = () => {
       </div>
 
       {/* Level Cards */}
-      <div className="px-4 mt-4 pb-6 space-y-4">
+      <div className="px-4 mt-4 space-y-4">
         {levels.map((level, index) => (
           <div 
             key={level.level}
@@ -64,7 +100,7 @@ const Team = () => {
                 <p className="text-sm text-muted-foreground">Commission</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">₹{level.recharges}</p>
+                <p className="text-2xl font-bold text-foreground">₹{level.recharges.toLocaleString('en-IN')}</p>
                 <p className="text-sm text-muted-foreground">Recharges</p>
               </div>
               <div className="text-center">
@@ -74,6 +110,54 @@ const Team = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Team Members List */}
+      <div className="mx-4 mt-6 mb-6 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+        <h3 className="text-lg font-semibold text-foreground mb-3">Team Members</h3>
+        <div className="bg-card rounded-xl shadow-card overflow-hidden">
+          {isLoading ? (
+            <div className="p-8 text-center">
+              <p className="text-muted-foreground">Loading...</p>
+            </div>
+          ) : !teamData?.members.length ? (
+            <div className="p-8 text-center">
+              <User className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-muted-foreground">No team members yet</p>
+              <p className="text-sm text-muted-foreground">Share your referral link to grow your team</p>
+            </div>
+          ) : (
+            teamData.members.map((member, index) => (
+              <div
+                key={member.id}
+                className={cn(
+                  "flex items-center gap-3 p-4",
+                  index !== teamData.members.length - 1 && "border-b border-border"
+                )}
+              >
+                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                  <span className="text-primary-foreground font-semibold text-sm">
+                    {member.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-foreground">{member.name}</p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium">
+                      Level {member.level}
+                    </span>
+                    <span>{member.phone.slice(0, 5)}****</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-muted-foreground">
+                    {new Date(member.joinedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </AppLayout>
   );
