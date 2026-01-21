@@ -40,15 +40,12 @@ export function useCreateWithdrawal() {
     mutationFn: async ({ amount }: { amount: number }) => {
       if (!user) throw new Error('Not authenticated');
       
+      // Use the new function that deducts balance immediately
       const { data, error } = await supabase
-        .from('withdrawals')
-        .insert({
-          user_id: user.id,
-          amount,
-          status: 'pending',
-        })
-        .select()
-        .single();
+        .rpc('create_withdrawal_with_deduction', {
+          p_user_id: user.id,
+          p_amount: amount,
+        });
       
       if (error) throw error;
       return data;

@@ -432,6 +432,10 @@ export type Database = {
         Args: { p_admin_id: string; p_withdrawal_id: string }
         Returns: undefined
       }
+      create_withdrawal_with_deduction: {
+        Args: { p_amount: number; p_user_id: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
