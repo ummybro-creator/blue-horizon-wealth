@@ -18,7 +18,7 @@ const Withdraw = () => {
   const createWithdrawal = useCreateWithdrawal();
 
   const minimumWithdrawal = settings?.minimum_withdrawal || 500;
-  const withdrawableBalance = wallet?.withdrawable_balance || 0;
+  const withdrawableBalance = wallet?.total_balance || 0;
 
   const handleSubmit = async () => {
     const withdrawAmount = parseInt(amount);
