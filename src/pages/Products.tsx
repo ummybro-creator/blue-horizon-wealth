@@ -1,20 +1,56 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useProducts, Product } from '@/hooks/useProducts';
+import { useCreateInvestment } from '@/hooks/useInvestments';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 
 const Products = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'daily' | 'vip'>('daily');
+  const [investingProductId, setInvestingProductId] = useState<string | null>(null);
   
   const { data: products, isLoading } = useProducts(activeTab);
+  const { wallet } = useAuth();
+  const createInvestment = useCreateInvestment();
 
-  const handleInvest = (product: Product) => {
-    toast.success(`Investment request for ${product.name} submitted!`, {
-      description: `Amount: ₹${product.price.toLocaleString('en-IN')}`,
-    });
+  const handleInvest = async (product: Product) => {
+    // Check balance first
+    const currentBalance = wallet?.total_balance ?? 0;
+    
+    if (currentBalance < product.price) {
+      toast.error('Insufficient Balance', {
+        description: 'Please recharge your wallet to invest.',
+      });
+      navigate('/recharge');
+      return;
+    }
+
+    setInvestingProductId(product.id);
+    
+    try {
+      await createInvestment.mutateAsync(product.id);
+      toast.success(`Investment successful!`, {
+        description: `You invested ₹${product.price.toLocaleString('en-IN')} in ${product.name}`,
+      });
+    } catch (error: any) {
+      if (error.message === 'Insufficient balance') {
+        toast.error('Insufficient Balance', {
+          description: 'Please recharge your wallet to invest.',
+        });
+        navigate('/recharge');
+      } else {
+        toast.error('Investment failed', {
+          description: error.message || 'Please try again.',
+        });
+      }
+    } finally {
+      setInvestingProductId(null);
+    }
   };
 
   return (
@@ -117,9 +153,14 @@ const Products = () => {
                   variant="gradient" 
                   className="w-full h-11 text-base font-semibold"
                   onClick={() => handleInvest(product)}
+                  disabled={investingProductId === product.id}
                 >
-                  <ArrowRight className="w-4 h-4 mr-2" />
-                  Invest Now
+                  {investingProductId === product.id ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-4 h-4 mr-2" />
+                  )}
+                  {investingProductId === product.id ? 'Investing...' : 'Invest Now'}
                 </Button>
               </div>
             </div>

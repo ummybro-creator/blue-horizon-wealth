@@ -126,7 +126,9 @@ export type Database = {
         Row: {
           expires_at: string
           id: string
+          invested_amount: number
           invested_at: string | null
+          last_credited_at: string | null
           product_id: string
           status: string
           total_earned: number | null
@@ -135,7 +137,9 @@ export type Database = {
         Insert: {
           expires_at: string
           id?: string
+          invested_amount?: number
           invested_at?: string | null
+          last_credited_at?: string | null
           product_id: string
           status?: string
           total_earned?: number | null
@@ -144,7 +148,9 @@ export type Database = {
         Update: {
           expires_at?: string
           id?: string
+          invested_amount?: number
           invested_at?: string | null
+          last_credited_at?: string | null
           product_id?: string
           status?: string
           total_earned?: number | null
@@ -432,9 +438,18 @@ export type Database = {
         Args: { p_admin_id: string; p_withdrawal_id: string }
         Returns: undefined
       }
+      create_investment: {
+        Args: { p_product_id: string; p_user_id: string }
+        Returns: string
+      }
       create_withdrawal_with_deduction: {
         Args: { p_amount: number; p_user_id: string }
         Returns: string
+      }
+      credit_all_daily_income: { Args: { p_user_id: string }; Returns: number }
+      credit_daily_income: {
+        Args: { p_investment_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
