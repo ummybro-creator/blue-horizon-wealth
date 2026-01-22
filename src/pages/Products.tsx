@@ -62,63 +62,63 @@ const Products = () => {
           products.map((product, index) => (
             <div 
               key={product.id} 
-              className="bg-card rounded-2xl shadow-card overflow-hidden animate-slide-up"
+              className="bg-white rounded-xl shadow-md overflow-hidden animate-slide-up border border-border/50"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Badges */}
-              <div className="flex justify-between items-start p-3 pb-0">
+              <div className="flex justify-between items-start p-3">
                 {product.is_special_offer && (
-                  <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                  <span className="px-3 py-1 rounded-full bg-primary text-white text-xs font-semibold">
                     Special Offer
                   </span>
                 )}
-                <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-bold ml-auto">
+                <span className="px-3 py-1 rounded-full bg-primary text-white text-xs font-semibold ml-auto">
                   {product.duration_days} Days
                 </span>
               </div>
 
               {/* Product Image */}
-              <div className="flex justify-center py-2">
+              <div className="flex justify-center py-3">
                 {product.image_url ? (
                   <img 
                     src={product.image_url} 
                     alt={product.name}
-                    className="w-16 h-16 rounded-lg object-cover"
+                    className="w-20 h-20 rounded-xl object-cover shadow-sm"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-secondary/20 to-muted flex items-center justify-center">
-                    <span className="text-xs font-bold text-muted-foreground">{product.name}</span>
+                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center border border-primary/20">
+                    <span className="text-sm font-bold text-primary">{product.name}</span>
                   </div>
                 )}
               </div>
 
               {/* Product Info */}
-              <div className="px-3 pb-3">
-                <p className="text-center text-muted-foreground text-xs mb-2">Daily income Daily withdrawal</p>
+              <div className="px-4 pb-4">
+                <p className="text-center text-muted-foreground text-sm mb-3">Daily income Daily withdrawal</p>
                 
-                <div className="bg-secondary/30 rounded-lg p-3 mb-3">
-                  <div className="grid grid-cols-2 gap-3">
+                <div className="bg-primary/5 rounded-xl p-4 mb-4 border border-primary/10">
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
-                      <p className="text-lg font-bold text-primary">₹{product.daily_income.toLocaleString('en-IN')}.00</p>
-                      <p className="text-xs text-muted-foreground">Daily Income</p>
+                      <p className="text-xl font-bold text-primary">₹{product.daily_income.toLocaleString('en-IN')}.00</p>
+                      <p className="text-xs text-muted-foreground mt-1">Daily Income</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-lg font-bold text-primary">₹{product.total_income.toLocaleString('en-IN')}.00</p>
-                      <p className="text-xs text-muted-foreground">Total Income</p>
+                      <p className="text-xl font-bold text-primary">₹{product.total_income.toLocaleString('en-IN')}.00</p>
+                      <p className="text-xs text-muted-foreground mt-1">Total Income</p>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-center text-sm mb-3">
-                  Price: <span className="text-xl font-bold text-primary">₹{product.price.toLocaleString('en-IN')}.00</span>
+                <p className="text-center text-base mb-4">
+                  Price: <span className="text-2xl font-bold text-primary">₹{product.price.toLocaleString('en-IN')}.00</span>
                 </p>
 
                 <Button 
                   variant="gradient" 
-                  className="w-full h-10 text-sm font-bold"
+                  className="w-full h-11 text-base font-semibold"
                   onClick={() => handleInvest(product)}
                 >
-                  <ArrowRight className="w-4 h-4 mr-1" />
+                  <ArrowRight className="w-4 h-4 mr-2" />
                   Invest Now
                 </Button>
               </div>
