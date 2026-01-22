@@ -78,16 +78,16 @@ const Products = () => {
               </div>
 
               {/* Product Image */}
-              <div className="flex justify-center py-6">
+              <div className="flex justify-center py-3">
                 {product.image_url ? (
                   <img 
                     src={product.image_url} 
                     alt={product.name}
-                    className="w-32 h-32 rounded-2xl object-cover"
+                    className="w-20 h-20 rounded-xl object-cover"
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
-                    <span className="text-lg font-bold text-muted-foreground">{product.name}</span>
+                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-secondary/20 to-muted flex items-center justify-center">
+                    <span className="text-sm font-bold text-muted-foreground">{product.name}</span>
                   </div>
                 )}
               </div>
