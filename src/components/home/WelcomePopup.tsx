@@ -31,7 +31,7 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
         {/* Content */}
         <div className="px-6 pb-6 text-center space-y-3">
           <p className="text-foreground">
-            🎉 Welcome to <span className="text-primary font-bold">Tata Namak Official Platform</span>!
+            🎉 Welcome to <span className="text-primary font-bold">Tata Tea Official Platform</span>!
           </p>
           
           <p className="text-foreground">
@@ -39,7 +39,7 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
           </p>
           
           <p className="text-foreground">
-            📅 <strong>Launch Date:</strong> <span className="text-primary font-bold">31th Dec. 2025</span>
+            📅 <strong>Launch Date:</strong> <span className="text-primary font-bold">27th Jan. 2026</span>
           </p>
           
           <p className="text-foreground">
@@ -61,7 +61,7 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
           <Button 
             variant="gradient" 
             className="w-full mt-4 h-12"
-            onClick={() => window.open('https://t.me/tatanmak', '_blank')}
+            onClick={() => window.open('https://t.me/tatateaofficial', '_blank')}
           >
             <Send className="w-5 h-5 mr-2" />
             Join Telegram
