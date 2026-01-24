@@ -11,7 +11,7 @@ const Team = () => {
   const { data: teamData, isLoading } = useTeam();
 
   const referralCode = profile?.referral_code || '';
-  const referralLink = `https://https://www.tata-namak.com//register?ref=${referralCode}`;
+  const referralLink = `https://www.tata-namak.com//register?ref=${referralCode}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
