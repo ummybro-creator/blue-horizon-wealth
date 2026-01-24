@@ -6,15 +6,16 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTeam } from '@/hooks/useTeam';
 import { cn } from '@/lib/utils';
 
-const BASE_REFERRAL_URL = 'https://blue-horizon-wealth.vercel.app/register';
+const BASE_REFERRAL_URL = 'https://tea-tata.vercel.app/register';
 
 const Team = () => {
   const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
 
-  // ✅ ONLY TAKE CODE, IGNORE BACKEND LINK
+  // ✅ ONLY referral code (backend link ignored)
   const referralCode = profile?.referral_code ?? '';
 
+  // ✅ FORCE new domain
   const referralLink = referralCode
     ? `${BASE_REFERRAL_URL}?ref=${referralCode}`
     : '';
@@ -54,12 +55,14 @@ const Team = () => {
 
   return (
     <AppLayout>
+      {/* Header */}
       <div className="gradient-header pt-12 pb-8 px-4">
         <h1 className="text-2xl font-bold text-primary-foreground text-center">
           Team
         </h1>
       </div>
 
+      {/* Total Team Size */}
       <div className="mx-4 -mt-4 relative z-10">
         <div className="bg-card rounded-2xl shadow-elevated p-4 mb-4 flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -74,6 +77,7 @@ const Team = () => {
         </div>
       </div>
 
+      {/* Referral Link */}
       <div className="mx-4">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
@@ -104,9 +108,13 @@ const Team = () => {
         </div>
       </div>
 
+      {/* Levels */}
       <div className="px-4 mt-4 space-y-4">
-        {levels.map(level => (
-          <div key={level.level} className="bg-card rounded-2xl shadow-card p-5">
+        {levels.map((level) => (
+          <div
+            key={level.level}
+            className="bg-card rounded-2xl shadow-card p-5"
+          >
             <h3 className="text-primary font-bold text-lg mb-4">
               {level.level}
             </h3>
@@ -116,27 +124,34 @@ const Team = () => {
                 <p className="text-2xl font-bold text-primary">
                   {level.commission}
                 </p>
-                <p className="text-sm text-muted-foreground">Commission</p>
+                <p className="text-sm text-muted-foreground">
+                  Commission
+                </p>
               </div>
 
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   ₹{level.recharges.toLocaleString('en-IN')}
                 </p>
-                <p className="text-sm text-muted-foreground">Recharges</p>
+                <p className="text-sm text-muted-foreground">
+                  Recharges
+                </p>
               </div>
 
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   {level.members}
                 </p>
-                <p className="text-sm text-muted-foreground">Members</p>
+                <p className="text-sm text-muted-foreground">
+                  Members
+                </p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Team Members */}
       <div className="mx-4 mt-6 mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-3">
           Team Members
