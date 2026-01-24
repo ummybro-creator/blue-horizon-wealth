@@ -11,7 +11,7 @@ const Team = () => {
   const { data: teamData, isLoading } = useTeam();
 
   const referralCode = profile?.referral_code || '';
-  const referralLink = `https://www.tata-namak.com//register?ref=${referralCode}`;
+  const referralLink = `https://www.tata-namak.com/register?ref=${referralCode}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
@@ -19,23 +19,23 @@ const Team = () => {
   };
 
   const levels = [
-    { 
-      level: 'First Level', 
-      commission: '30%', 
-      recharges: teamData?.stats.level1Recharges || 0, 
-      members: teamData?.stats.level1Members || 0 
+    {
+      level: 'First Level',
+      commission: '30%',
+      recharges: teamData?.stats.level1Recharges || 0,
+      members: teamData?.stats.level1Members || 0,
     },
-    { 
-      level: 'Second Level', 
-      commission: '5%', 
-      recharges: teamData?.stats.level2Recharges || 0, 
-      members: teamData?.stats.level2Members || 0 
+    {
+      level: 'Second Level',
+      commission: '5%',
+      recharges: teamData?.stats.level2Recharges || 0,
+      members: teamData?.stats.level2Members || 0,
     },
-    { 
-      level: 'Third Level', 
-      commission: '2%', 
-      recharges: teamData?.stats.level3Recharges || 0, 
-      members: teamData?.stats.level3Members || 0 
+    {
+      level: 'Third Level',
+      commission: '2%',
+      recharges: teamData?.stats.level3Recharges || 0,
+      members: teamData?.stats.level3Members || 0,
     },
   ];
 
@@ -45,7 +45,9 @@ const Team = () => {
     <AppLayout>
       {/* Header */}
       <div className="gradient-header pt-12 pb-8 px-4">
-        <h1 className="text-2xl font-bold text-primary-foreground text-center">Team</h1>
+        <h1 className="text-2xl font-bold text-primary-foreground text-center">
+          Team
+        </h1>
       </div>
 
       {/* Total Team Size Card */}
@@ -56,7 +58,9 @@ const Team = () => {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Total Team Size</p>
-            <p className="text-2xl font-bold text-foreground">{totalTeamSize}</p>
+            <p className="text-2xl font-bold text-foreground">
+              {totalTeamSize}
+            </p>
           </div>
         </div>
       </div>
@@ -66,15 +70,19 @@ const Team = () => {
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
             <Link className="w-5 h-5 text-primary-foreground" />
-            <span className="text-primary-foreground font-bold">Your Referral Link</span>
+            <span className="text-primary-foreground font-bold">
+              Your Referral Link
+            </span>
           </div>
           <div className="bg-card rounded-t-2xl p-4">
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-secondary rounded-xl px-4 py-3 overflow-hidden">
-                <p className="text-sm text-foreground truncate">{referralLink}</p>
+                <p className="text-sm text-foreground truncate">
+                  {referralLink}
+                </p>
               </div>
-              <Button 
-                variant="gradient" 
+              <Button
+                variant="gradient"
                 className="h-12 px-6 font-bold"
                 onClick={handleCopy}
               >
@@ -88,23 +96,31 @@ const Team = () => {
       {/* Level Cards */}
       <div className="px-4 mt-4 space-y-4">
         {levels.map((level, index) => (
-          <div 
+          <div
             key={level.level}
             className="bg-card rounded-2xl shadow-card p-5 animate-slide-up"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
-            <h3 className="text-primary font-bold text-lg mb-4">{level.level}</h3>
+            <h3 className="text-primary font-bold text-lg mb-4">
+              {level.level}
+            </h3>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
-                <p className="text-2xl font-bold text-primary">{level.commission}</p>
+                <p className="text-2xl font-bold text-primary">
+                  {level.commission}
+                </p>
                 <p className="text-sm text-muted-foreground">Commission</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">₹{level.recharges.toLocaleString('en-IN')}</p>
+                <p className="text-2xl font-bold text-foreground">
+                  ₹{level.recharges.toLocaleString('en-IN')}
+                </p>
                 <p className="text-sm text-muted-foreground">Recharges</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">{level.members}</p>
+                <p className="text-2xl font-bold text-foreground">
+                  {level.members}
+                </p>
                 <p className="text-sm text-muted-foreground">Members</p>
               </div>
             </div>
@@ -113,8 +129,14 @@ const Team = () => {
       </div>
 
       {/* Team Members List */}
-      <div className="mx-4 mt-6 mb-6 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-        <h3 className="text-lg font-semibold text-foreground mb-3">Team Members</h3>
+      <div
+        className="mx-4 mt-6 mb-6 animate-slide-up"
+        style={{ animationDelay: '0.3s' }}
+      >
+        <h3 className="text-lg font-semibold text-foreground mb-3">
+          Team Members
+        </h3>
+
         <div className="bg-card rounded-xl shadow-card overflow-hidden">
           {isLoading ? (
             <div className="p-8 text-center">
@@ -123,16 +145,21 @@ const Team = () => {
           ) : !teamData?.members.length ? (
             <div className="p-8 text-center">
               <User className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">No team members yet</p>
-              <p className="text-sm text-muted-foreground">Share your referral link to grow your team</p>
+              <p className="text-muted-foreground">
+                No team members yet
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Share your referral link to grow your team
+              </p>
             </div>
           ) : (
             teamData.members.map((member, index) => (
               <div
                 key={member.id}
                 className={cn(
-                  "flex items-center gap-3 p-4",
-                  index !== teamData.members.length - 1 && "border-b border-border"
+                  'flex items-center gap-3 p-4',
+                  index !== teamData.members.length - 1 &&
+                    'border-b border-border'
                 )}
               >
                 <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
@@ -140,8 +167,11 @@ const Team = () => {
                     {member.name.charAt(0)}
                   </span>
                 </div>
+
                 <div className="flex-1">
-                  <p className="font-medium text-foreground">{member.name}</p>
+                  <p className="font-medium text-foreground">
+                    {member.name}
+                  </p>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium">
                       Level {member.level}
@@ -149,9 +179,13 @@ const Team = () => {
                     <span>{member.phone.slice(0, 5)}****</span>
                   </div>
                 </div>
+
                 <div className="text-right">
                   <p className="text-xs text-muted-foreground">
-                    {new Date(member.joinedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                    {new Date(member.joinedAt).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                    })}
                   </p>
                 </div>
               </div>
