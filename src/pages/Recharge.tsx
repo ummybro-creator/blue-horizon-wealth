@@ -17,7 +17,7 @@ const Recharge = () => {
 
   const handleRechargeNow = () => {
     const amountNum = parseInt(amount);
-    const minRecharge = settings?.minimum_recharge || 100;
+    const minRecharge = settings?.minimum_recharge || 300;
     
     if (!amount || amountNum < minRecharge) {
       toast.error(`Minimum recharge amount is ₹${minRecharge}`);
