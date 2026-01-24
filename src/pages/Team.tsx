@@ -1,4 +1,4 @@
-import { Copy, Link, User, Users } from 'lucide-react';
+import { Link, User, Users } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -10,36 +10,43 @@ const Team = () => {
   const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
 
-  const referralCode = profile?.referral_code || '';
-  const referralLink = `https://www.tata-namak.com/register?ref=${referralCode}`;
+  const referralCode = profile?.referral_code ?? '';
+  const referralLink = referralCode
+    ? `https://www.tata-namak.com/register?ref=${referralCode}`
+    : '';
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(referralLink);
-    toast.success('Referral link copied!');
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      toast.success('Referral link copied!');
+    } catch (err) {
+      toast.error('Failed to copy link');
+    }
   };
 
   const levels = [
     {
       level: 'First Level',
       commission: '30%',
-      recharges: teamData?.stats.level1Recharges || 0,
-      members: teamData?.stats.level1Members || 0,
+      recharges: teamData?.stats?.level1Recharges ?? 0,
+      members: teamData?.stats?.level1Members ?? 0,
     },
     {
       level: 'Second Level',
       commission: '5%',
-      recharges: teamData?.stats.level2Recharges || 0,
-      members: teamData?.stats.level2Members || 0,
+      recharges: teamData?.stats?.level2Recharges ?? 0,
+      members: teamData?.stats?.level2Members ?? 0,
     },
     {
       level: 'Third Level',
       commission: '2%',
-      recharges: teamData?.stats.level3Recharges || 0,
-      members: teamData?.stats.level3Members || 0,
+      recharges: teamData?.stats?.level3Recharges ?? 0,
+      members: teamData?.stats?.level3Members ?? 0,
     },
   ];
 
-  const totalTeamSize = teamData?.stats.totalMembers || 0;
+  const totalTeamSize = teamData?.stats?.totalMembers ?? 0;
+  const members = teamData?.members ?? [];
 
   return (
     <AppLayout>
@@ -78,13 +85,14 @@ const Team = () => {
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-secondary rounded-xl px-4 py-3 overflow-hidden">
                 <p className="text-sm text-foreground truncate">
-                  {referralLink}
+                  {referralLink || 'Referral link not available'}
                 </p>
               </div>
               <Button
                 variant="gradient"
                 className="h-12 px-6 font-bold"
                 onClick={handleCopy}
+                disabled={!referralLink}
               >
                 COPY
               </Button>
@@ -95,7 +103,7 @@ const Team = () => {
 
       {/* Levels */}
       <div className="px-4 mt-4 space-y-4">
-        {levels.map((level, index) => (
+        {levels.map(level => (
           <div
             key={level.level}
             className="bg-card rounded-2xl shadow-card p-5"
@@ -137,7 +145,7 @@ const Team = () => {
             <div className="p-8 text-center">
               <p className="text-muted-foreground">Loading...</p>
             </div>
-          ) : !teamData?.members.length ? (
+          ) : members.length === 0 ? (
             <div className="p-8 text-center">
               <User className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground">
@@ -145,26 +153,26 @@ const Team = () => {
               </p>
             </div>
           ) : (
-            teamData.members.map((member, index) => (
+            members.map((member, index) => (
               <div
                 key={member.id}
                 className={cn(
                   'flex items-center gap-3 p-4',
-                  index !== teamData.members.length - 1 &&
+                  index !== members.length - 1 &&
                     'border-b border-border'
                 )}
               >
                 <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
                   <span className="text-primary-foreground font-semibold text-sm">
-                    {member.name.charAt(0)}
+                    {(member?.name ?? 'U').charAt(0)}
                   </span>
                 </div>
                 <div className="flex-1">
                   <p className="font-medium text-foreground">
-                    {member.name}
+                    {member?.name ?? 'Unknown'}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {member.phone.slice(0, 5)}****
+                    {(member?.phone ?? '00000').slice(0, 5)}****
                   </p>
                 </div>
               </div>
