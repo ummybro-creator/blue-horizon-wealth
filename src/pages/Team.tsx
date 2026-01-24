@@ -10,20 +10,25 @@ const Team = () => {
   const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
 
+  // Referral code from user profile
   const referralCode = profile?.referral_code ?? '';
+
+  // ✅ NEW DOMAIN REFERRAL LINK
   const referralLink = referralCode
     ? `https://blue-horizon-wealth.vercel.app/register?ref=${referralCode}`
     : '';
 
+  // Copy referral link
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(referralLink);
       toast.success('Referral link copied!');
-    } catch (err) {
+    } catch {
       toast.error('Failed to copy link');
     }
   };
 
+  // Levels data
   const levels = [
     {
       level: 'First Level',
@@ -64,7 +69,9 @@ const Team = () => {
             <Users className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Team Size</p>
+            <p className="text-sm text-muted-foreground">
+              Total Team Size
+            </p>
             <p className="text-2xl font-bold text-foreground">
               {totalTeamSize}
             </p>
@@ -72,7 +79,7 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Referral Card */}
+      {/* Referral Link Card */}
       <div className="mx-4">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
@@ -81,6 +88,7 @@ const Team = () => {
               Your Referral Link
             </span>
           </div>
+
           <div className="bg-card rounded-t-2xl p-4">
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-secondary rounded-xl px-4 py-3 overflow-hidden">
@@ -88,6 +96,7 @@ const Team = () => {
                   {referralLink || 'Referral link not available'}
                 </p>
               </div>
+
               <Button
                 variant="gradient"
                 className="h-12 px-6 font-bold"
@@ -103,7 +112,7 @@ const Team = () => {
 
       {/* Levels */}
       <div className="px-4 mt-4 space-y-4">
-        {levels.map(level => (
+        {levels.map((level) => (
           <div
             key={level.level}
             className="bg-card rounded-2xl shadow-card p-5"
@@ -111,24 +120,33 @@ const Team = () => {
             <h3 className="text-primary font-bold text-lg mb-4">
               {level.level}
             </h3>
+
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-primary">
                   {level.commission}
                 </p>
-                <p className="text-sm text-muted-foreground">Commission</p>
+                <p className="text-sm text-muted-foreground">
+                  Commission
+                </p>
               </div>
+
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   ₹{level.recharges.toLocaleString('en-IN')}
                 </p>
-                <p className="text-sm text-muted-foreground">Recharges</p>
+                <p className="text-sm text-muted-foreground">
+                  Recharges
+                </p>
               </div>
+
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   {level.members}
                 </p>
-                <p className="text-sm text-muted-foreground">Members</p>
+                <p className="text-sm text-muted-foreground">
+                  Members
+                </p>
               </div>
             </div>
           </div>
@@ -140,10 +158,13 @@ const Team = () => {
         <h3 className="text-lg font-semibold text-foreground mb-3">
           Team Members
         </h3>
+
         <div className="bg-card rounded-xl shadow-card overflow-hidden">
           {isLoading ? (
             <div className="p-8 text-center">
-              <p className="text-muted-foreground">Loading...</p>
+              <p className="text-muted-foreground">
+                Loading...
+              </p>
             </div>
           ) : members.length === 0 ? (
             <div className="p-8 text-center">
@@ -167,6 +188,7 @@ const Team = () => {
                     {(member?.name ?? 'U').charAt(0)}
                   </span>
                 </div>
+
                 <div className="flex-1">
                   <p className="font-medium text-foreground">
                     {member?.name ?? 'Unknown'}
