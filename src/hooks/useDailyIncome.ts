@@ -1,22 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export const creditDailyIncome = async (userId: string) => {
+export const claimDailyIncome = async (userId: string) => {
   const today = new Date().toISOString().split("T")[0];
 
-  // active investments
-  const { data: investments } = await supabase
+  const { data: investments, error } = await supabase
     .from("investments")
     .select("*")
     .eq("user_id", userId)
     .eq("status", "active");
 
-  if (!investments || investments.length === 0) return;
+  if (error) throw error;
+  if (!investments || investments.length === 0) {
+    throw new Error("No active investment");
+  }
 
   for (const inv of investments) {
-    // already credited today
-    if (inv.last_credited_date === today) continue;
+    // already claimed today
+    if (inv.last_credited_date === today) {
+      throw new Error("Already claimed today");
+    }
 
-    // investment expired
+    // expired investment
     if (new Date(inv.end_date) < new Date()) {
       await supabase
         .from("investments")
@@ -25,16 +29,18 @@ export const creditDailyIncome = async (userId: string) => {
       continue;
     }
 
-    // credit balance
+    // credit wallet
     await supabase.rpc("increment_balance", {
       uid: userId,
       amount: inv.daily_income,
     });
 
-    // update last credited date
+    // mark today claimed
     await supabase
       .from("investments")
       .update({ last_credited_date: today })
       .eq("id", inv.id);
   }
+
+  return true;
 };
