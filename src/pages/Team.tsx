@@ -6,19 +6,19 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTeam } from '@/hooks/useTeam';
 import { cn } from '@/lib/utils';
 
+const BASE_REFERRAL_URL = 'https://blue-horizon-wealth.vercel.app/register';
+
 const Team = () => {
   const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
 
-  // Referral code from user profile
+  // ✅ ONLY TAKE CODE, IGNORE BACKEND LINK
   const referralCode = profile?.referral_code ?? '';
 
-  // ✅ NEW DOMAIN REFERRAL LINK
   const referralLink = referralCode
-    ? `https://blue-horizon-wealth.vercel.app/register?ref=${referralCode}`
+    ? `${BASE_REFERRAL_URL}?ref=${referralCode}`
     : '';
 
-  // Copy referral link
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(referralLink);
@@ -28,7 +28,6 @@ const Team = () => {
     }
   };
 
-  // Levels data
   const levels = [
     {
       level: 'First Level',
@@ -55,23 +54,19 @@ const Team = () => {
 
   return (
     <AppLayout>
-      {/* Header */}
       <div className="gradient-header pt-12 pb-8 px-4">
         <h1 className="text-2xl font-bold text-primary-foreground text-center">
           Team
         </h1>
       </div>
 
-      {/* Total Team Size */}
       <div className="mx-4 -mt-4 relative z-10">
         <div className="bg-card rounded-2xl shadow-elevated p-4 mb-4 flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
             <Users className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">
-              Total Team Size
-            </p>
+            <p className="text-sm text-muted-foreground">Total Team Size</p>
             <p className="text-2xl font-bold text-foreground">
               {totalTeamSize}
             </p>
@@ -79,7 +74,6 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Referral Link Card */}
       <div className="mx-4">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
@@ -110,13 +104,9 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Levels */}
       <div className="px-4 mt-4 space-y-4">
-        {levels.map((level) => (
-          <div
-            key={level.level}
-            className="bg-card rounded-2xl shadow-card p-5"
-          >
+        {levels.map(level => (
+          <div key={level.level} className="bg-card rounded-2xl shadow-card p-5">
             <h3 className="text-primary font-bold text-lg mb-4">
               {level.level}
             </h3>
@@ -126,34 +116,27 @@ const Team = () => {
                 <p className="text-2xl font-bold text-primary">
                   {level.commission}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Commission
-                </p>
+                <p className="text-sm text-muted-foreground">Commission</p>
               </div>
 
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   ₹{level.recharges.toLocaleString('en-IN')}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Recharges
-                </p>
+                <p className="text-sm text-muted-foreground">Recharges</p>
               </div>
 
               <div className="text-center">
                 <p className="text-2xl font-bold text-foreground">
                   {level.members}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Members
-                </p>
+                <p className="text-sm text-muted-foreground">Members</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Team Members */}
       <div className="mx-4 mt-6 mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-3">
           Team Members
@@ -161,17 +144,11 @@ const Team = () => {
 
         <div className="bg-card rounded-xl shadow-card overflow-hidden">
           {isLoading ? (
-            <div className="p-8 text-center">
-              <p className="text-muted-foreground">
-                Loading...
-              </p>
-            </div>
+            <div className="p-8 text-center">Loading...</div>
           ) : members.length === 0 ? (
             <div className="p-8 text-center">
               <User className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">
-                No team members yet
-              </p>
+              No team members yet
             </div>
           ) : (
             members.map((member, index) => (
@@ -179,20 +156,14 @@ const Team = () => {
                 key={member.id}
                 className={cn(
                   'flex items-center gap-3 p-4',
-                  index !== members.length - 1 &&
-                    'border-b border-border'
+                  index !== members.length - 1 && 'border-b'
                 )}
               >
                 <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-semibold text-sm">
-                    {(member?.name ?? 'U').charAt(0)}
-                  </span>
+                  {(member?.name ?? 'U').charAt(0)}
                 </div>
-
-                <div className="flex-1">
-                  <p className="font-medium text-foreground">
-                    {member?.name ?? 'Unknown'}
-                  </p>
+                <div>
+                  <p>{member?.name ?? 'Unknown'}</p>
                   <p className="text-xs text-muted-foreground">
                     {(member?.phone ?? '00000').slice(0, 5)}****
                   </p>
