@@ -13,11 +13,8 @@ export interface Recharge {
   processed_at: string | null;
 }
 
-const MIN_RECHARGE_AMOUNT = 300;
+const MIN_RECHARGE_AMOUNT = 300; // ✅ FIX HERE
 
-/* =========================
-   GET USER RECHARGES
-========================= */
 export function useRecharges() {
   const { user } = useAuth();
 
@@ -39,21 +36,16 @@ export function useRecharges() {
   });
 }
 
-/* =========================
-   CREATE RECHARGE (₹300 MIN)
-========================= */
 export function useCreateRecharge() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
   return useMutation({
     mutationFn: async ({ amount }: { amount: number }) => {
-      if (!user) {
-        throw new Error('Not authenticated');
-      }
+      if (!user) throw new Error('Not authenticated');
 
-      // 🔴 MINIMUM RECHARGE CHECK
-      if (!amount || amount < MIN_RECHARGE_AMOUNT) {
+      // ✅ MINIMUM AMOUNT CHECK
+      if (amount < MIN_RECHARGE_AMOUNT) {
         throw new Error(`Minimum recharge amount is ₹${MIN_RECHARGE_AMOUNT}`);
       }
 
@@ -77,9 +69,6 @@ export function useCreateRecharge() {
   });
 }
 
-/* =========================
-   UPDATE UTR NUMBER
-========================= */
 export function useUpdateRechargeUTR() {
   const queryClient = useQueryClient();
 
