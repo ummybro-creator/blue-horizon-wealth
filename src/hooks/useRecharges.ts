@@ -13,20 +13,25 @@ export interface Recharge {
   processed_at: string | null;
 }
 
+const MIN_RECHARGE_AMOUNT = 300;
+
+/* =========================
+   GET USER RECHARGES
+========================= */
 export function useRecharges() {
   const { user } = useAuth();
-  
+
   return useQuery({
     queryKey: ['recharges', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      
+
       const { data, error } = await supabase
         .from('recharges')
         .select('*')
         .eq('user_id', user.id)
         .order('requested_at', { ascending: false });
-      
+
       if (error) throw error;
       return data as Recharge[];
     },
@@ -34,14 +39,24 @@ export function useRecharges() {
   });
 }
 
+/* =========================
+   CREATE RECHARGE (₹300 MIN)
+========================= */
 export function useCreateRecharge() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  
+
   return useMutation({
     mutationFn: async ({ amount }: { amount: number }) => {
-      if (!user) throw new Error('Not authenticated');
-      
+      if (!user) {
+        throw new Error('Not authenticated');
+      }
+
+      // 🔴 MINIMUM RECHARGE CHECK
+      if (!amount || amount < MIN_RECHARGE_AMOUNT) {
+        throw new Error(`Minimum recharge amount is ₹${MIN_RECHARGE_AMOUNT}`);
+      }
+
       const { data, error } = await supabase
         .from('recharges')
         .insert({
@@ -52,7 +67,7 @@ export function useCreateRecharge() {
         })
         .select()
         .single();
-      
+
       if (error) throw error;
       return data;
     },
@@ -62,18 +77,27 @@ export function useCreateRecharge() {
   });
 }
 
+/* =========================
+   UPDATE UTR NUMBER
+========================= */
 export function useUpdateRechargeUTR() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async ({ rechargeId, utrNumber }: { rechargeId: string; utrNumber: string }) => {
+    mutationFn: async ({
+      rechargeId,
+      utrNumber,
+    }: {
+      rechargeId: string;
+      utrNumber: string;
+    }) => {
       const { data, error } = await supabase
         .from('recharges')
         .update({ utr_number: utrNumber })
         .eq('id', rechargeId)
         .select()
         .single();
-      
+
       if (error) throw error;
       return data;
     },
