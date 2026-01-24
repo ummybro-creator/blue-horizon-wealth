@@ -12,7 +12,7 @@ const Team = () => {
 
   const referralCode = profile?.referral_code ?? '';
   const referralLink = referralCode
-    ? `https://www.tata-namak.com/register?ref=${referralCode}`
+    ? `https://blue-horizon-wealth.vercel.app/register?ref=${referralCode}`
     : '';
 
   const handleCopy = async () => {
