@@ -58,7 +58,7 @@ const Telegram = () => {
             variant="gradient" 
             size="xl" 
             className="w-full"
-            onClick={() => window.open('https://t.me/tatateaofficial', '_blank')}
+            onClick={() => window.open('t.me/tatateaofficial', '_blank')}
           >
             <Send className="w-5 h-5" />
             Join Telegram Group
