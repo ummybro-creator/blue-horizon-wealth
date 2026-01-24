@@ -6,16 +6,20 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTeam } from '@/hooks/useTeam';
 import { cn } from '@/lib/utils';
 
-const BASE_REFERRAL_URL = 'https://tea-tata.vercel.app/register';
+/**
+ * ✅ FORCE GoDaddy domain for referral
+ * CHANGE ONLY HERE IF DOMAIN CHANGES IN FUTURE
+ */
+const BASE_REFERRAL_URL = 'https://tatatea.online/register';
 
 const Team = () => {
   const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
 
-  // ✅ ONLY referral code (backend link ignored)
+  // referral code from backend
   const referralCode = profile?.referral_code ?? '';
 
-  // ✅ FORCE new domain
+  // final referral link
   const referralLink = referralCode
     ? `${BASE_REFERRAL_URL}?ref=${referralCode}`
     : '';
@@ -25,7 +29,7 @@ const Team = () => {
       await navigator.clipboard.writeText(referralLink);
       toast.success('Referral link copied!');
     } catch {
-      toast.error('Failed to copy link');
+      toast.error('Failed to copy referral link');
     }
   };
 
@@ -77,7 +81,7 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Referral Link */}
+      {/* Referral Link Card */}
       <div className="mx-4">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
@@ -171,14 +175,16 @@ const Team = () => {
                 key={member.id}
                 className={cn(
                   'flex items-center gap-3 p-4',
-                  index !== members.length - 1 && 'border-b'
+                  index !== members.length - 1 && 'border-b border-border'
                 )}
               >
-                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-primary-foreground font-semibold">
                   {(member?.name ?? 'U').charAt(0)}
                 </div>
-                <div>
-                  <p>{member?.name ?? 'Unknown'}</p>
+                <div className="flex-1">
+                  <p className="font-medium">
+                    {member?.name ?? 'Unknown'}
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     {(member?.phone ?? '00000').slice(0, 5)}****
                   </p>
