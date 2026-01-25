@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,8 +8,12 @@ import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
 
-const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
-const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+const phoneSchema = z
+  .string()
+  .regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+const passwordSchema = z
+  .string()
+  .min(6, 'Password must be at least 6 characters');
 
 const BANNER_IMAGE = 'https://files.catbox.moe/9swklk.jpg';
 const LOGO_IMAGE = 'https://files.catbox.moe/i56n87.jpg';
@@ -28,10 +32,21 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  /* ===================== REFERRAL HANDLING ===================== */
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('ref');
+
+    if (ref) {
+      setIsLogin(false);       // auto open REGISTER
+      setReferralCode(ref);   // auto fill referral
+    }
+  }, [location.search]);
+  /* ============================================================= */
+
   // already logged in
   if (user) {
-    const from = (location.state as any)?.from?.pathname || '/';
-    navigate(from, { replace: true });
+    navigate('/', { replace: true });
     return null;
   }
 
@@ -57,7 +72,12 @@ const Login = () => {
         toast.success('Login successful');
         navigate('/');
       } else {
-        const { error } = await signUp(mobile, password, fullName, referralCode);
+        const { error } = await signUp(
+          mobile,
+          password,
+          fullName,
+          referralCode // ✅ referral goes to backend
+        );
         if (error) {
           toast.error(error.message || 'Registration failed');
           return;
@@ -72,28 +92,20 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-background max-w-lg mx-auto flex flex-col">
-      {/* ===== Banner ===== */}
+      {/* Banner */}
       <div className="relative h-64">
-        <img
-          src={BANNER_IMAGE}
-          alt="Banner"
-          className="w-full h-full object-cover"
-        />
+        <img src={BANNER_IMAGE} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
-      {/* ===== Logo ===== */}
+      {/* Logo */}
       <div className="flex justify-center -mt-16 z-10">
         <div className="w-32 h-32 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white">
-          <img
-            src={LOGO_IMAGE}
-            alt="Logo"
-            className="w-24 h-24 rounded-full object-cover"
-          />
+          <img src={LOGO_IMAGE} className="w-24 h-24 rounded-full object-cover" />
         </div>
       </div>
 
-      {/* ===== Form ===== */}
+      {/* Form */}
       <div className="flex-1 px-4 pt-6 pb-8">
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
@@ -137,10 +149,10 @@ const Login = () => {
 
           {!isLogin && (
             <Input
-              placeholder="Referral Code (optional)"
+              placeholder="Referral Code"
               value={referralCode}
-              onChange={(e) => setReferralCode(e.target.value)}
-              className="h-14 rounded-xl"
+              readOnly
+              className="h-14 rounded-xl bg-muted"
             />
           )}
 
