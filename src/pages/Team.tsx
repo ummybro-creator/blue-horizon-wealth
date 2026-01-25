@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
  * ✅ FORCE GoDaddy domain for referral
  * CHANGE ONLY HERE IF DOMAIN CHANGES IN FUTURE
  */
-const BASE_REFERRAL_URL = 'https://tatatea.online/register';
+const BASE_REFERRAL_URL = 'https://tataearn.online/register';
 
 const Team = () => {
   const { profile } = useAuth();
