@@ -32,18 +32,19 @@ const AdminLogin = () => {
     setLoading(true);
     
     try {
-      // For admin, use email directly (not phone@app.local format)
-      const { error } = await signIn(email.replace('@app.local', '').replace(/\D/g, '') || email, password);
+      const { error } = await signIn(
+        email.replace('@app.local', '').replace(/\D/g, '') || email,
+        password
+      );
       
       if (error) {
         toast.error('Invalid admin credentials');
         return;
       }
       
-      // Check if user is admin - this will be verified in ProtectedRoute
       toast.success('Admin login successful!');
       navigate('/admin/dashboard');
-    } catch (err) {
+    } catch {
       toast.error('Login failed');
     } finally {
       setLoading(false);
@@ -60,17 +61,23 @@ const AdminLogin = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-white text-center mb-2">Admin Panel</h1>
-        <p className="text-slate-400 text-center mb-8">Sign in to manage your platform</p>
+        <h1 className="text-2xl font-bold text-white text-center mb-2">
+          Admin Panel
+        </h1>
+        <p className="text-slate-400 text-center mb-8">
+          Sign in to manage your platform
+        </p>
 
         {/* Form Card */}
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm text-slate-300 mb-1 block">Email</label>
+              <label className="text-sm text-slate-300 mb-1 block">
+                Email
+              </label>
               <Input
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="Enter admin email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-12 bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400"
@@ -78,7 +85,9 @@ const AdminLogin = () => {
             </div>
 
             <div className="relative">
-              <label className="text-sm text-slate-300 mb-1 block">Password</label>
+              <label className="text-sm text-slate-300 mb-1 block">
+                Password
+              </label>
               <Input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter password"
@@ -91,7 +100,11 @@ const AdminLogin = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 bottom-3 text-slate-400"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
 
@@ -111,10 +124,6 @@ const AdminLogin = () => {
             </Button>
           </form>
         </div>
-
-        <p className="text-slate-500 text-center text-sm mt-6">
-          Default credentials: admin@example.com / Admin@123
-        </p>
       </div>
     </div>
   );
