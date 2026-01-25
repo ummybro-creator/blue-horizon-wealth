@@ -2,34 +2,23 @@ import { Link, User, Users } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useAuth } from '@/contexts/AuthContext';
 import { useTeam } from '@/hooks/useTeam';
 import { cn } from '@/lib/utils';
 
 /**
- * ✅ FORCE GoDaddy domain for referral
- * CHANGE ONLY HERE IF DOMAIN CHANGES IN FUTURE
+ * ✅ ONLY DOMAIN LINK (NO REFERRAL SYSTEM)
  */
-const BASE_REFERRAL_URL = 'https://tataearn.online/register';
+const APP_DOMAIN = 'https://tataearn.online';
 
 const Team = () => {
-  const { profile } = useAuth();
   const { data: teamData, isLoading } = useTeam();
-
-  // referral code from backend
-  const referralCode = profile?.referral_code ?? '';
-
-  // final referral link
-  const referralLink = referralCode
-    ? `${BASE_REFERRAL_URL}?ref=${referralCode}`
-    : '';
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(referralLink);
-      toast.success('Referral link copied!');
+      await navigator.clipboard.writeText(APP_DOMAIN);
+      toast.success('App link copied!');
     } catch {
-      toast.error('Failed to copy referral link');
+      toast.error('Failed to copy link');
     }
   };
 
@@ -81,13 +70,13 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Referral Link Card */}
+      {/* App Link Card */}
       <div className="mx-4">
         <div className="bg-primary rounded-2xl shadow-elevated overflow-hidden">
           <div className="p-4 flex items-center gap-2">
             <Link className="w-5 h-5 text-primary-foreground" />
             <span className="text-primary-foreground font-bold">
-              Your Referral Link
+              App Website Link
             </span>
           </div>
 
@@ -95,7 +84,7 @@ const Team = () => {
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-secondary rounded-xl px-4 py-3 overflow-hidden">
                 <p className="text-sm text-foreground truncate">
-                  {referralLink || 'Referral link not available'}
+                  {APP_DOMAIN}
                 </p>
               </div>
 
@@ -103,7 +92,6 @@ const Team = () => {
                 variant="gradient"
                 className="h-12 px-6 font-bold"
                 onClick={handleCopy}
-                disabled={!referralLink}
               >
                 COPY
               </Button>
@@ -112,7 +100,7 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Levels */}
+      {/* Levels (unchanged) */}
       <div className="px-4 mt-4 space-y-4">
         {levels.map((level) => (
           <div
