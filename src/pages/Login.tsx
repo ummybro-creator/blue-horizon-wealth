@@ -6,18 +6,19 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { useAppSettings } from '@/hooks/useAppSettings';
 import { z } from 'zod';
 
 const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
+const BANNER_IMAGE = 'https://files.catbox.moe/9swklk.jpg';
+const LOGO_IMAGE = 'https://files.catbox.moe/i56n87.jpg';
+
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signUp, user } = useAuth();
-  const { data: settings } = useAppSettings();
-  
+
   const [isLogin, setIsLogin] = useState(true);
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +28,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
+  // already logged in
   if (user) {
     const from = (location.state as any)?.from?.pathname || '/';
     navigate(from, { replace: true });
@@ -36,55 +37,32 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate inputs
+
     try {
       phoneSchema.parse(mobile);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        toast.error(err.errors[0].message);
-        return;
-      }
-    }
-    
-    try {
       passwordSchema.parse(password);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        toast.error(err.errors[0].message);
-        return;
-      }
+    } catch (err: any) {
+      toast.error(err.errors?.[0]?.message || 'Invalid input');
+      return;
     }
 
     setLoading(true);
-    
     try {
       if (isLogin) {
         const { error } = await signIn(mobile, password);
         if (error) {
-          if (error.message.includes('Invalid login')) {
-            toast.error('Invalid phone number or password');
-          } else if (error.message.includes('blocked')) {
-            toast.error(error.message);
-          } else {
-            toast.error('Login failed. Please check your credentials.');
-          }
+          toast.error('Invalid phone number or password');
           return;
         }
-        toast.success('Login successful!');
-        const from = (location.state as any)?.from?.pathname || '/';
-        navigate(from, { replace: true });
+        toast.success('Login successful');
+        navigate('/');
       } else {
         const { error } = await signUp(mobile, password, fullName, referralCode);
         if (error) {
-          if (error.message.includes('already registered')) {
-            toast.error('This phone number is already registered');
-          } else {
-            toast.error('Registration failed. Please try again.');
-          }
+          toast.error(error.message || 'Registration failed');
           return;
         }
-        toast.success('Account created successfully!');
+        toast.success('Account created successfully');
         navigate('/');
       }
     } finally {
@@ -94,132 +72,109 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-background max-w-lg mx-auto flex flex-col">
-      {/* Header Banner */}
-      <div className="gradient-header h-64 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-primary-foreground mb-1">
-              {settings?.app_name || 'TATA NAMAK'}
-            </h1>
-            <p className="text-primary-foreground/80 text-sm">SABSE ZYADA SHUDDHATA</p>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+      {/* ===== Banner ===== */}
+      <div className="relative h-64">
+        <img
+          src={BANNER_IMAGE}
+          alt="Banner"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
-      {/* Logo */}
-      <div className="flex justify-center -mt-12 relative z-10">
-        <div className="w-24 h-24 rounded-full bg-amber-900 flex items-center justify-center shadow-elevated border-4 border-card">
-          <div className="text-center">
-            <span className="text-primary-foreground font-bold text-lg">TATA</span>
-            <span className="text-amber-400 font-bold text-sm block">Salt</span>
-          </div>
+      {/* ===== Logo ===== */}
+      <div className="flex justify-center -mt-16 z-10">
+        <div className="w-32 h-32 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white">
+          <img
+            src={LOGO_IMAGE}
+            alt="Logo"
+            className="w-24 h-24 rounded-full object-cover"
+          />
         </div>
       </div>
 
-      {/* Form Card */}
+      {/* ===== Form ===== */}
       <div className="flex-1 px-4 pt-6 pb-8">
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Full Name (Register only) */}
           {!isLogin && (
-            <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
-              <Input
-                type="text"
-                placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="h-14 border-0 focus-visible:ring-0"
-              />
-            </div>
+            <Input
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="h-14 rounded-xl"
+            />
           )}
 
-          {/* Mobile Input */}
-          <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
-            <div className="flex items-center gap-2 px-4 border-r border-border">
-              <span className="text-lg">🇮🇳</span>
-              <span className="text-muted-foreground">+91</span>
-            </div>
+          <div className="flex items-center border rounded-xl overflow-hidden">
+            <div className="px-4 text-sm text-muted-foreground">🇮🇳 +91</div>
             <Input
               type="tel"
               placeholder="Phone Number"
               value={mobile}
-              onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="h-14 border-0 focus-visible:ring-0"
-              maxLength={10}
+              onChange={(e) =>
+                setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))
+              }
+              className="h-14 border-0"
             />
           </div>
 
-          {/* Password Input */}
-          <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
+          <div className="relative">
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-14 border-0 focus-visible:ring-0 pr-12"
+              className="h-14 pr-12 rounded-xl"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 text-muted-foreground"
+              className="absolute right-4 top-4 text-muted-foreground"
             >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              {showPassword ? <EyeOff /> : <Eye />}
             </button>
           </div>
 
-          {/* Referral Code (Register only) */}
           {!isLogin && (
-            <div className="relative flex items-center border border-border rounded-xl overflow-hidden bg-card">
-              <Input
-                type="text"
-                placeholder="Referral Code (Optional)"
-                value={referralCode}
-                onChange={(e) => setReferralCode(e.target.value)}
-                className="h-14 border-0 focus-visible:ring-0"
-              />
-            </div>
+            <Input
+              placeholder="Referral Code (optional)"
+              value={referralCode}
+              onChange={(e) => setReferralCode(e.target.value)}
+              className="h-14 rounded-xl"
+            />
           )}
 
-          {/* Remember Me */}
           {isLogin && (
             <div className="flex items-center gap-2">
-              <Checkbox 
-                id="remember" 
+              <Checkbox
                 checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                onCheckedChange={(v) => setRememberMe(Boolean(v))}
               />
-              <label htmlFor="remember" className="text-sm text-foreground">
-                Remember Me
-              </label>
+              <span className="text-sm">Remember Me</span>
             </div>
           )}
 
-          {/* Submit Button */}
-          <Button 
-            variant="gradient" 
-            size="xl" 
-            className="w-full h-14 text-lg font-bold" 
+          <Button
             type="submit"
             disabled={loading}
+            className="w-full h-14 text-lg font-bold bg-green-700 hover:bg-green-800"
           >
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                {isLogin ? 'Signing In...' : 'Creating Account...'}
-              </span>
-            ) : (
-              isLogin ? 'SIGN IN' : 'REGISTER'
-            )}
+            {loading
+              ? 'Please wait...'
+              : isLogin
+              ? 'SIGN IN'
+              : 'REGISTER'}
           </Button>
 
-          {/* Toggle Login/Register */}
-          <div className="text-center pt-2">
+          <div className="text-center">
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-primary font-medium"
+              className="text-green-700 font-medium"
             >
-              {isLogin ? "Don't have account, register" : "Already have account, login"}
+              {isLogin
+                ? "Don't have account? Register"
+                : 'Already have account? Login'}
             </button>
           </div>
         </form>
