@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useProducts, Product } from '@/hooks/useProducts';
 import { useCreateInvestment } from '@/hooks/useInvestments';
@@ -19,7 +19,6 @@ const Products = () => {
   const createInvestment = useCreateInvestment();
 
   const handleInvest = async (product: Product) => {
-    // Check balance first
     const currentBalance = wallet?.total_balance ?? 0;
     
     if (currentBalance < product.price) {
@@ -56,39 +55,39 @@ const Products = () => {
   return (
     <AppLayout>
       {/* Header */}
-      <div className="gradient-header pt-12 pb-8 px-4">
-        <h1 className="text-2xl font-bold text-primary-foreground text-center">Investment Plans</h1>
+      <div className="gradient-header pt-10 pb-6 px-4">
+        <h1 className="text-xl font-bold text-primary-foreground text-center">Plan Store</h1>
       </div>
 
       {/* Tabs */}
       <div className="px-4 -mt-4 relative z-10">
-        <div className="bg-card rounded-2xl p-1.5 shadow-card flex">
+        <div className="bg-card rounded-full p-1 shadow-card flex">
           <button
             onClick={() => setActiveTab('daily')}
             className={cn(
-              "flex-1 py-3 rounded-xl font-bold text-sm transition-all duration-200",
+              "flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200",
               activeTab === 'daily' 
                 ? "gradient-primary text-primary-foreground shadow-button" 
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            Daily Plans
+            Daily Plan
           </button>
           <button
             onClick={() => setActiveTab('vip')}
             className={cn(
-              "flex-1 py-3 rounded-xl font-bold text-sm transition-all duration-200",
+              "flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200",
               activeTab === 'vip' 
                 ? "gradient-primary text-primary-foreground shadow-button" 
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            VIP Plans
+            VIP Plan
           </button>
         </div>
       </div>
 
-      {/* Products Grid */}
+      {/* Products List */}
       <div className="px-4 mt-5 pb-6 space-y-4">
         {isLoading ? (
           <div className="flex justify-center py-12">
@@ -98,69 +97,77 @@ const Products = () => {
           products.map((product, index) => (
             <div 
               key={product.id} 
-              className="bg-white rounded-xl shadow-md overflow-hidden animate-slide-up border border-border/50"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="bg-card rounded-2xl shadow-card overflow-hidden animate-slide-up border border-border/40"
+              style={{ animationDelay: `${index * 0.08}s` }}
             >
-              {/* Badges */}
-              <div className="flex justify-between items-start p-3">
-                {product.is_special_offer && (
-                  <span className="px-3 py-1 rounded-full bg-primary text-white text-xs font-semibold">
-                    Special Offer
+              {/* Badge row */}
+              <div className="flex justify-between items-center px-4 pt-3">
+                {product.is_special_offer ? (
+                  <span className="px-3 py-0.5 rounded-md bg-primary text-primary-foreground text-xs font-bold">
+                    Special plan
                   </span>
+                ) : (
+                  <span className="text-sm font-semibold text-foreground">{product.name}</span>
                 )}
-                <span className="px-3 py-1 rounded-full bg-primary text-white text-xs font-semibold ml-auto">
-                  {product.duration_days} Days
+                <span className="text-xs font-semibold text-muted-foreground">
+                  Days: {product.duration_days}
                 </span>
               </div>
 
-              {/* Product Image */}
-              <div className="flex justify-center py-3">
-                {product.image_url ? (
-                  <img 
-                    src={product.image_url} 
-                    alt={product.name}
-                    className="w-20 h-20 rounded-xl object-cover shadow-sm"
-                  />
-                ) : (
-                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center border border-primary/20">
-                    <span className="text-sm font-bold text-primary">{product.name}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Product Info */}
-              <div className="px-4 pb-4">
-                <p className="text-center text-muted-foreground text-sm mb-3">Daily income Daily withdrawal</p>
-                
-                <div className="bg-primary/5 rounded-xl p-4 mb-4 border border-primary/10">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-primary">₹{product.daily_income.toLocaleString('en-IN')}.00</p>
-                      <p className="text-xs text-muted-foreground mt-1">Daily Income</p>
+              {/* Main content: image left, info right */}
+              <div className="flex items-center gap-4 px-4 py-3">
+                {/* Product image */}
+                <div className="flex-shrink-0">
+                  {product.image_url ? (
+                    <img 
+                      src={product.image_url} 
+                      alt={product.name}
+                      className="w-20 h-20 rounded-xl object-cover"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-xl bg-secondary/10 flex items-center justify-center border border-primary/20">
+                      <span className="text-xs font-bold text-primary text-center leading-tight px-1">{product.name}</span>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-primary">₹{product.total_income.toLocaleString('en-IN')}.00</p>
-                      <p className="text-xs text-muted-foreground mt-1">Total Income</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
-                <p className="text-center text-base mb-4">
-                  Price: <span className="text-2xl font-bold text-primary">₹{product.price.toLocaleString('en-IN')}.00</span>
-                </p>
+                {/* Income info */}
+                <div className="flex gap-6">
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">₹{product.daily_income.toLocaleString('en-IN')}</p>
+                    <p className="text-[10px] text-muted-foreground">Daily</p>
+                    <p className="text-[10px] text-muted-foreground">Income</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">₹{product.total_income.toLocaleString('en-IN')}</p>
+                    <p className="text-[10px] text-muted-foreground">Total</p>
+                    <p className="text-[10px] text-muted-foreground">Income</p>
+                  </div>
+                </div>
+              </div>
 
+              {/* Price */}
+              <p className="text-center text-base font-semibold text-foreground pb-2">
+                Price: <span className="text-xl font-bold">₹{product.price.toLocaleString('en-IN')}</span>
+              </p>
+
+              {/* Buy Now button */}
+              <div className="px-4 pb-4">
                 <Button 
                   variant="gradient" 
-                  className="w-full h-11 text-base font-semibold"
+                  size="lg"
+                  className="w-full rounded-full text-base font-bold"
                   onClick={() => handleInvest(product)}
                   disabled={investingProductId === product.id}
                 >
                   {investingProductId === product.id ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Investing...
+                    </>
                   ) : (
-                    <ArrowRight className="w-4 h-4 mr-2" />
+                    'Buy Now'
                   )}
-                  {investingProductId === product.id ? 'Investing...' : 'Invest Now'}
                 </Button>
               </div>
             </div>
