@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const banners = [
-  { id: 1, image: 'https://files.catbox.moe/ml9w6o.jpg' },
-  { id: 2, image: 'https://files.catbox.moe/9swklk.jpg' },
-  { id: 3, image: 'https://files.catbox.moe/d68wg3.jpg' },
+  { id: 1, image: 'https://files.catbox.moe/jpq9i3.jpg' },
+  { id: 2, image: 'https://files.catbox.moe/mr1kts.jpg' },
+  { id: 3, image: 'https://files.catbox.moe/ksfp44.jpg' },
 ];
 
 export function BannerSlider() {
