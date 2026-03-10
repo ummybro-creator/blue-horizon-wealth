@@ -145,7 +145,7 @@ const Team = () => {
         <Button
           variant="gradient"
           className="w-full"
-          onClick={() => window.location.href = '/extra-bonus'}
+          onClick={() => navigate('/extra-bonus')}
         >
           <Gift className="w-4 h-4" />
           Extra Referral Bonus
