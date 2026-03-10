@@ -14,6 +14,7 @@ const menuItems = [
   { icon: Building2, label: 'About Company', path: '/about', color: 'text-primary' },
   { icon: FileText, label: 'Income Record', path: '/records', color: 'text-primary' },
   { icon: CreditCard, label: 'Withdraw Record', path: '/records', color: 'text-primary' },
+  { icon: TrendingUp, label: 'Extra Referral Bonus', path: '/extra-bonus', color: 'text-primary' },
 ];
 
 const Profile = () => {

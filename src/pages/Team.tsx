@@ -138,6 +138,19 @@ const Team = () => {
         </div>
       </div>
 
+      {/* Extra Referral Bonus Link */}
+      <div className="mx-4 mt-5">
+        <Button
+          variant="gradient"
+          className="w-full"
+          onClick={() => window.location.href = '/extra-bonus'}
+        >
+          <Gift className="w-4 h-4" />
+          Extra Referral Bonus
+          <ChevronRight className="w-4 h-4 ml-auto" />
+        </Button>
+      </div>
+
       {/* How It Works */}
       <div className="mx-4 mt-5">
         <div className="bg-card rounded-xl border border-border shadow-card p-5">
