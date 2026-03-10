@@ -22,6 +22,7 @@ import Register from "./pages/Register";
 import Records from "./pages/Records";
 import BankDetails from "./pages/BankDetails";
 import About from "./pages/About";
+import ExtraReferralBonus from "./pages/ExtraReferralBonus";
 import NotFound from "./pages/NotFound";
 
 // ================= ADMIN PAGES =================
@@ -88,6 +89,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <About />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/extra-bonus"
+                element={
+                  <ProtectedRoute>
+                    <ExtraReferralBonus />
                   </ProtectedRoute>
                 }
               />

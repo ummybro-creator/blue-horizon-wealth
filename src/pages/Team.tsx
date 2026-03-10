@@ -1,4 +1,5 @@
 import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -7,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const Team = () => {
+  const navigate = useNavigate();
   const { data: teamData, isLoading } = useTeam();
   const { profile } = useAuth();
 
@@ -136,6 +138,19 @@ const Team = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Extra Referral Bonus Link */}
+      <div className="mx-4 mt-5">
+        <Button
+          variant="gradient"
+          className="w-full"
+          onClick={() => navigate('/extra-bonus')}
+        >
+          <Gift className="w-4 h-4" />
+          Extra Referral Bonus
+          <ChevronRight className="w-4 h-4 ml-auto" />
+        </Button>
       </div>
 
       {/* How It Works */}
