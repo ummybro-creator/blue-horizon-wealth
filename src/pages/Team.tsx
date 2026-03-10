@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const Team = () => {
+  const navigate = useNavigate();
   const { data: teamData, isLoading } = useTeam();
   const { profile } = useAuth();
 
