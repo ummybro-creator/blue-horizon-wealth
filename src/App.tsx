@@ -93,6 +93,13 @@ const App = () => {
                 }
               />
               <Route
+                path="/extra-bonus"
+                element={
+                  <ProtectedRoute>
+                    <ExtraReferralBonus />
+                  </ProtectedRoute>
+                }
+              <Route
                 path="/recharge"
                 element={
                   <ProtectedRoute>

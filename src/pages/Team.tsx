@@ -1,4 +1,5 @@
 import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
