@@ -81,22 +81,22 @@ const Login = () => {
     <div className="min-h-screen flex flex-col" style={{ background: '#F0FDF4' }}>
       {/* Green gradient header */}
       <div
-        className="relative flex flex-col items-center justify-center pt-12 pb-20 rounded-b-[2.5rem]"
+        className="relative flex flex-col items-center justify-center pt-8 pb-14 rounded-b-[2.5rem]"
         style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}
       >
-        <div className="w-24 h-24 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white/80">
-          <img src={LOGO_IMAGE} className="w-20 h-20 rounded-full object-cover" alt="Logo" />
+        <div className="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white/80">
+          <img src={LOGO_IMAGE} className="w-16 h-16 rounded-full object-cover" alt="Logo" />
         </div>
-        <h1 className="text-white text-2xl font-bold mt-4 tracking-wide">
+        <h1 className="text-white text-xl font-bold mt-3 tracking-wide">
           {isLogin ? 'Welcome Back' : 'Create Account'}
         </h1>
-        <p className="text-white/80 text-sm mt-1">
+        <p className="text-white/80 text-sm mt-0.5">
           {isLogin ? 'Sign in to continue' : 'Register to get started'}
         </p>
       </div>
 
       {/* Form card */}
-      <div className="flex-1 px-5 -mt-10 pb-8">
+      <div className="flex-1 px-5 -mt-8 pb-8">
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow-lg p-6 space-y-4"
