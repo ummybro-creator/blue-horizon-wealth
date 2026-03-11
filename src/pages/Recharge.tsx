@@ -22,7 +22,12 @@ const Recharge = () => {
     <AppLayout>
       <div className="px-4 py-6">
         {/* Header */}
-        <h1 className="text-2xl font-bold mb-6">Recharge</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <button onClick={() => navigate(-1)} className="w-9 h-9 flex items-center justify-center rounded-full bg-card shadow-card">
+            <ArrowLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <h1 className="text-2xl font-bold">Recharge</h1>
+        </div>
 
         {/* Balance Cards */}
         <div className="grid grid-cols-2 gap-4 mb-6">
