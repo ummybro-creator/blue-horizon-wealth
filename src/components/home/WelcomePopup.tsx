@@ -1,6 +1,5 @@
-import { X, Send } from 'lucide-react';
+import { X, Info, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
 
 interface WelcomePopupProps {
   isOpen: boolean;
@@ -11,60 +10,57 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-card rounded-2xl shadow-elevated max-w-sm w-full animate-scale-in overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40 p-6">
+      <div className="bg-card rounded-2xl shadow-elevated max-w-xs w-full animate-scale-in overflow-hidden">
         {/* Header */}
-        <div className="relative p-6 pb-4">
+        <div className="relative flex items-center justify-between px-4 pt-4 pb-2">
+          <Info className="w-5 h-5 text-muted-foreground" />
+          <div className="bg-primary rounded-full px-4 py-1.5">
+            <span className="text-primary-foreground font-bold text-sm">Platform Information</span>
+          </div>
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground"
+            className="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-foreground"
           >
-            <X className="w-6 h-6" />
+            <X className="w-4 h-4" />
           </button>
-          
-          <h2 className="text-center text-xl font-bold text-foreground flex items-center justify-center gap-2">
-            🧧 IMPORTANT NOTICE 🧧
-          </h2>
-          <div className="w-full h-px bg-primary/30 mt-3" />
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6 text-center space-y-3">
+        <div className="px-5 py-4 space-y-3 text-center text-sm">
           <p className="text-foreground">
-            🎉 Welcome to <span className="text-primary font-bold">Tata Tea Official Platform</span>!
+            1. Platform launch time: <span className="text-primary font-semibold">17 March – 2026</span>
           </p>
-          
           <p className="text-foreground">
-            🌟 <strong>Launch Bonus:</strong> All new users will receive an instant <span className="text-primary font-bold">₹12 Check-in Reward</span>.
+            2. Sign-up Bonus: <span className="text-primary font-semibold">₹5</span>
           </p>
-          
           <p className="text-foreground">
-            📅 <strong>Launch Date:</strong> <span className="text-primary font-bold">27th Jan. 2026</span>
+            3. Daily Gift Code: <span className="text-primary font-semibold">₹12 to ₹200 (Need Plan)</span>
           </p>
-          
           <p className="text-foreground">
-            🥳 Every refer Each: <span className="text-primary font-bold">₹6</span>
+            4. Level 3 agent commission cashback:<br />
+            1st Level: <span className="text-primary font-semibold">13% Happy Earning</span>
           </p>
-          
           <p className="text-foreground">
-            💰 <strong>Minimum Recharge:</strong> <span className="text-primary font-bold">₹300.00rs</span>
+            5. Income: <span className="text-primary font-semibold">Daily Income Daily Withdrawal</span>
           </p>
-          
           <p className="text-foreground">
-            🏧 <strong>Minimum Withdrawal:</strong> <span className="text-primary font-bold">180.00rs</span>
+            6. Minimum Withdrawal is: <span className="text-primary font-semibold">₹150 – ₹10000</span>
           </p>
-          
           <p className="text-foreground">
-            🎯 Start earning today and enjoy exclusive early access benefits!
+            7. Number of withdrawals: <span className="text-primary font-semibold">Unlimited</span>
           </p>
+        </div>
 
-          <Button 
-            variant="gradient" 
-            className="w-full mt-4 h-12"
+        {/* Button */}
+        <div className="px-5 pb-5">
+          <Button
+            variant="gradient"
+            className="w-full h-11 rounded-full"
             onClick={() => window.open('https://t.me/tatateaofficial', '_blank')}
           >
-            <Send className="w-5 h-5 mr-2" />
-            Join Telegram
+            <Send className="w-4 h-4 mr-2" />
+            Telegram Channel
           </Button>
         </div>
       </div>
