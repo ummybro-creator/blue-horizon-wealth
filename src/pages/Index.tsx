@@ -7,16 +7,7 @@ import { LatestNews } from '@/components/home/LatestNews';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
 
 const Index = () => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    // Show popup once per session
-    const hasSeenPopup = sessionStorage.getItem('hasSeenWelcomePopup');
-    if (!hasSeenPopup) {
-      setShowPopup(true);
-      sessionStorage.setItem('hasSeenWelcomePopup', 'true');
-    }
-  }, []);
+  const [showPopup, setShowPopup] = useState(true);
 
   return (
     <AppLayout>
