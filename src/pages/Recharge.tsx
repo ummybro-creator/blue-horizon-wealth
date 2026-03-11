@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 
@@ -8,8 +9,8 @@ const Recharge = () => {
   const [amount, setAmount] = useState<number | "">("");
 
   const handleRecharge = () => {
-    if (!amount || amount < 300) {
-      alert("Minimum recharge amount is ₹300");
+    if (!amount || amount < 250) {
+      alert("Minimum recharge amount is ₹250");
       return;
     }
 
@@ -21,7 +22,12 @@ const Recharge = () => {
     <AppLayout>
       <div className="px-4 py-6">
         {/* Header */}
-        <h1 className="text-2xl font-bold mb-6">Recharge</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <button onClick={() => navigate(-1)} className="w-9 h-9 flex items-center justify-center rounded-full bg-card shadow-card">
+            <ArrowLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <h1 className="text-2xl font-bold">Recharge</h1>
+        </div>
 
         {/* Balance Cards */}
         <div className="grid grid-cols-2 gap-4 mb-6">
@@ -57,7 +63,7 @@ const Recharge = () => {
             }
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Minimum recharge amount ₹300
+            Minimum recharge amount ₹250
           </p>
         </div>
 
@@ -65,7 +71,7 @@ const Recharge = () => {
         <div className="mb-6">
           <p className="font-semibold mb-3">Quick Amount</p>
           <div className="grid grid-cols-3 gap-3">
-            {[300, 500, 1000, 2000, 5000, 8500].map((amt) => (
+            {[250, 500, 1000, 2000, 5000, 8500].map((amt) => (
               <button
                 key={amt}
                 onClick={() => setAmount(amt)}
