@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff, User, Phone, Lock, Gift } from 'lucide-react';
+import { Eye, EyeOff, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -14,7 +14,8 @@ const passwordSchema = z
   .string()
   .min(6, 'Password must be at least 6 characters');
 
-const LOGO_IMAGE = 'https://files.catbox.moe/i56n87.jpg';
+const BANNER_IMAGE = 'https://files.catbox.moe/ksfp44.jpg';
+const LOGO_IMAGE = 'https://files.catbox.moe/vkrxye.jpg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -78,73 +79,99 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#F0FDF4' }}>
-      {/* Green gradient header */}
-      <div
-        className="relative flex flex-col items-center justify-center pt-8 pb-14 rounded-b-[2.5rem]"
-        style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}
-      >
-        <div className="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white/80">
-          <img src={LOGO_IMAGE} className="w-16 h-16 rounded-full object-cover" alt="Logo" />
-        </div>
-        <h1 className="text-white text-xl font-bold mt-3 tracking-wide">
-          {isLogin ? 'Welcome Back' : 'Create Account'}
-        </h1>
-        <p className="text-white/80 text-sm mt-0.5">
-          {isLogin ? 'Sign in to continue' : 'Register to get started'}
-        </p>
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ background: 'linear-gradient(180deg, hsl(142, 78%, 36%) 0%, hsl(142, 78%, 90%) 50%, hsl(142, 78%, 95%) 100%)' }}
+    >
+      {/* Banner image section */}
+      <div className="relative w-full h-48 overflow-hidden rounded-b-[2.5rem]">
+        <img
+          src={BANNER_IMAGE}
+          alt="Banner"
+          className="w-full h-full object-cover"
+        />
+        {/* Gradient overlay to blend into background */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, transparent 40%, hsl(142, 78%, 36%) 100%)' }}
+        />
       </div>
 
-      {/* Form card */}
-      <div className="flex-1 px-5 -mt-8 pb-8">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg p-6 space-y-4"
-          style={{ border: '1px solid #E5E7EB' }}
-        >
-          {/* Full Name (register only) */}
+      {/* Logo overlapping banner */}
+      <div className="flex justify-center -mt-12 relative z-10">
+        <div className="w-24 h-24 rounded-full border-4 shadow-xl overflow-hidden"
+          style={{ borderColor: 'hsl(142, 78%, 36%)' }}>
+          <img src={LOGO_IMAGE} className="w-full h-full object-cover" alt="Logo" />
+        </div>
+      </div>
+
+      {/* Tab switch */}
+      <div className="flex justify-center mt-4 px-8">
+        <div className="flex rounded-full overflow-hidden shadow-md w-full max-w-xs"
+          style={{ background: 'hsl(142, 78%, 90%)' }}>
+          <button
+            type="button"
+            onClick={() => setIsLogin(true)}
+            className="flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200"
+            style={{
+              background: isLogin ? 'hsl(142, 78%, 36%)' : 'transparent',
+              color: isLogin ? 'white' : 'hsl(142, 78%, 30%)',
+            }}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsLogin(false)}
+            className="flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200"
+            style={{
+              background: !isLogin ? 'hsl(142, 78%, 36%)' : 'transparent',
+              color: !isLogin ? 'white' : 'hsl(142, 78%, 30%)',
+            }}
+          >
+            Register
+          </button>
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="flex-1 px-6 mt-5 pb-8">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Username (register only) */}
           {!isLogin && (
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#6B7280' }} />
-              <Input
-                placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="h-13 pl-11 rounded-xl border-border"
-              />
-            </div>
+            <Input
+              placeholder="Username"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="h-13 rounded-full bg-white border-0 shadow-md px-5 text-base placeholder:text-muted-foreground"
+            />
           )}
 
           {/* Phone */}
-          <div className="relative flex items-center rounded-xl overflow-hidden border" style={{ borderColor: '#E5E7EB' }}>
-            <div className="pl-3 pr-2 text-sm font-medium flex items-center gap-1" style={{ color: '#6B7280' }}>
-              <Phone className="w-4 h-4" />
-              +91
-            </div>
-            <Input
+          <div className="flex items-center rounded-full bg-white shadow-md overflow-hidden h-13">
+            <span className="pl-5 pr-2 text-sm font-medium text-muted-foreground">+91</span>
+            <input
               type="tel"
               placeholder="Phone Number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="h-13 border-0 focus-visible:ring-0 shadow-none"
+              className="flex-1 h-full bg-transparent border-0 outline-none text-base placeholder:text-muted-foreground pr-5"
             />
           </div>
 
           {/* Password */}
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#6B7280' }} />
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-13 pl-11 pr-12 rounded-xl border-border"
+              className="h-13 rounded-full bg-white border-0 shadow-md px-5 pr-12 text-base placeholder:text-muted-foreground"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
-              style={{ color: '#6B7280' }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -152,40 +179,33 @@ const Login = () => {
 
           {/* Referral Code (register only) */}
           {!isLogin && (
-            <div className="relative">
-              <Gift className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#6B7280' }} />
-              <Input
-                placeholder="Referral Code (optional)"
-                value={referralCode}
-                readOnly={!!referralCode}
-                onChange={(e) => setReferralCode(e.target.value)}
-                className="h-13 pl-11 rounded-xl border-border bg-muted/50"
-              />
-            </div>
+            <Input
+              placeholder="Refer Code (optional)"
+              value={referralCode}
+              readOnly={!!referralCode}
+              onChange={(e) => setReferralCode(e.target.value)}
+              className="h-13 rounded-full bg-white border-0 shadow-md px-5 text-base font-medium placeholder:text-muted-foreground placeholder:font-medium"
+            />
           )}
 
           {/* Submit */}
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full h-13 text-lg font-bold rounded-xl text-white shadow-md"
-            style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}
-          >
-            {loading ? 'Please wait...' : isLogin ? 'SIGN IN' : 'REGISTER'}
-          </Button>
-
-          {/* Toggle */}
-          <p className="text-center text-sm" style={{ color: '#6B7280' }}>
-            {isLogin ? "Don't have an account? " : 'Already have an account? '}
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="font-semibold"
-              style={{ color: '#16A34A' }}
+          <div className="pt-3">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-14 text-lg font-bold rounded-full text-white shadow-lg"
+              style={{ background: 'linear-gradient(135deg, hsl(142, 78%, 36%), hsl(142, 71%, 55%))' }}
             >
-              {isLogin ? 'Register' : 'Login'}
-            </button>
-          </p>
+              {loading ? (
+                'Please wait...'
+              ) : (
+                <span className="flex items-center gap-2">
+                  <Send className="w-5 h-5" />
+                  {isLogin ? 'Login Now' : 'Register Now'}
+                </span>
+              )}
+            </Button>
+          </div>
         </form>
       </div>
     </div>
