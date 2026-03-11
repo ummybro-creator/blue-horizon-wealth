@@ -9,7 +9,7 @@ const Recharge = () => {
   const [amount, setAmount] = useState<number | "">("");
 
   const handleRecharge = () => {
-    if (!amount || amount < 300) {
+    if (!amount || amount < 250) {
       alert("Minimum recharge amount is ₹300");
       return;
     }
