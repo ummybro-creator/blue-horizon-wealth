@@ -10,7 +10,7 @@ const Recharge = () => {
 
   const handleRecharge = () => {
     if (!amount || amount < 250) {
-      alert("Minimum recharge amount is ₹300");
+      alert("Minimum recharge amount is ₹250");
       return;
     }
 
