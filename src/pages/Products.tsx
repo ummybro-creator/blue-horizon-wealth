@@ -125,10 +125,10 @@ const Products = () => {
                     <img
                       src={product.image_url}
                       alt={product.name}
-                      className="w-24 h-24 rounded-xl object-cover"
+                      className="w-28 h-28 rounded-xl object-cover"
                     />
                   ) : (
-                    <div className="w-24 h-24 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
+                    <div className="w-28 h-28 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
                       <span className="text-xs font-bold text-primary text-center leading-tight px-2">
                         {product.name}
                       </span>
