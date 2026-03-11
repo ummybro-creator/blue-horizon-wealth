@@ -148,15 +148,15 @@ const Login = () => {
           )}
 
           {/* Phone */}
-          <div className="flex items-center rounded-full bg-white shadow-md overflow-hidden h-13">
-            <span className="pl-5 pr-2 text-sm font-medium text-muted-foreground">+91</span>
-            <input
+          <div className="relative">
+            <Input
               type="tel"
               placeholder="Phone Number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="flex-1 h-full bg-transparent border-0 outline-none text-base placeholder:text-muted-foreground pr-5"
+              className="h-13 rounded-full bg-white border-0 shadow-md pl-14 pr-5 text-base placeholder:text-muted-foreground"
             />
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">+91</span>
           </div>
 
           {/* Password */}
