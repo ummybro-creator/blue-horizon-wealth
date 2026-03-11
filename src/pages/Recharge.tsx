@@ -63,7 +63,7 @@ const Recharge = () => {
             }
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Minimum recharge amount ₹300
+            Minimum recharge amount ₹250
           </p>
         </div>
 
