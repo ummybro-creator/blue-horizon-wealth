@@ -54,22 +54,22 @@ const Products = () => {
   return (
     <AppLayout>
       {/* Green Gradient Header */}
-      <div className="gradient-header pt-10 pb-14 px-4 rounded-b-[2rem]">
-        <h1 className="text-2xl font-extrabold text-primary-foreground text-center tracking-wide">
+      <div className="bg-primary pt-8 pb-16 px-4" style={{ borderRadius: '0 0 2rem 2rem' }}>
+        <h1 className="text-xl font-extrabold text-primary-foreground text-center tracking-wide">
           Plan Store
         </h1>
       </div>
 
       {/* Pill Tabs */}
-      <div className="px-6 -mt-6 relative z-10">
-        <div className="bg-card rounded-full p-1.5 shadow-elevated flex">
+      <div className="px-8 -mt-6 relative z-10">
+        <div className="bg-card rounded-full p-1 shadow-md flex">
           <button
             onClick={() => setActiveTab('daily')}
             className={cn(
-              "flex-1 py-3 rounded-full font-bold text-sm transition-all duration-200",
+              "flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200",
               activeTab === 'daily'
-                ? "gradient-primary text-primary-foreground shadow-button"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground"
             )}
           >
             Daily Plan
@@ -77,10 +77,10 @@ const Products = () => {
           <button
             onClick={() => setActiveTab('vip')}
             className={cn(
-              "flex-1 py-3 rounded-full font-bold text-sm transition-all duration-200",
+              "flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200",
               activeTab === 'vip'
-                ? "gradient-primary text-primary-foreground shadow-button"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground"
             )}
           >
             Welfare Plan
@@ -89,7 +89,7 @@ const Products = () => {
       </div>
 
       {/* Products List */}
-      <div className="px-4 mt-6 pb-8 space-y-5">
+      <div className="px-4 mt-5 pb-8 space-y-5">
         {isLoading ? (
           <div className="flex justify-center py-16">
             <Loader2 className="w-9 h-9 animate-spin text-primary" />
@@ -98,37 +98,31 @@ const Products = () => {
           products.map((product, index) => (
             <div
               key={product.id}
-              className="bg-card rounded-2xl shadow-elevated overflow-hidden animate-slide-up"
+              className="bg-card rounded-2xl shadow-md overflow-hidden animate-slide-up border border-border/40"
               style={{ animationDelay: `${index * 0.08}s` }}
             >
               {/* Top badges row */}
-              <div className="flex justify-between items-start px-4 pt-4">
-                {product.is_special_offer ? (
-                  <span className="px-4 py-1 rounded-r-full rounded-tl-lg bg-primary text-primary-foreground text-xs font-bold shadow-button">
-                    Special plan
-                  </span>
-                ) : (
-                  <span className="px-4 py-1 rounded-r-full rounded-tl-lg bg-primary text-primary-foreground text-xs font-bold shadow-button">
-                    {product.name}
-                  </span>
-                )}
+              <div className="flex justify-between items-start px-0 pt-4 pr-3">
+                <span className="px-5 py-1 rounded-r-full bg-primary text-primary-foreground text-xs font-bold">
+                  {product.is_special_offer ? 'Special plan' : product.name}
+                </span>
                 <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
                   Days: {product.duration_days}
                 </span>
               </div>
 
               {/* Main content: image left, earnings right */}
-              <div className="flex items-center gap-3 px-5 pt-4 pb-2">
+              <div className="flex items-center gap-2 px-4 pt-4 pb-2">
                 {/* Product image */}
                 <div className="flex-shrink-0">
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt={product.name}
-                      className="w-28 h-28 rounded-xl object-cover"
+                      className="w-24 h-24 rounded-xl object-cover"
                     />
                   ) : (
-                    <div className="w-28 h-28 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
+                    <div className="w-24 h-24 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
                       <span className="text-xs font-bold text-primary text-center leading-tight px-2">
                         {product.name}
                       </span>
@@ -137,16 +131,16 @@ const Products = () => {
                 </div>
 
                 {/* Two-column earnings */}
-                <div className="flex gap-8 flex-1 justify-center">
+                <div className="flex gap-6 flex-1 justify-center">
                   <div className="text-center">
-                    <p className="text-xl font-extrabold text-foreground">
+                    <p className="text-lg font-extrabold text-foreground">
                       ₹{product.daily_income.toLocaleString('en-IN')}
                     </p>
                     <p className="text-[11px] text-muted-foreground leading-tight">Daily</p>
                     <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xl font-extrabold text-foreground">
+                    <p className="text-lg font-extrabold text-foreground">
                       ₹{product.total_income.toLocaleString('en-IN')}
                     </p>
                     <p className="text-[11px] text-muted-foreground leading-tight">Total</p>
@@ -156,15 +150,15 @@ const Products = () => {
               </div>
 
               {/* Price */}
-              <p className="text-center text-base font-semibold text-foreground py-2">
-                Price: <span className="text-xl font-extrabold">₹{product.price.toLocaleString('en-IN')}</span>
+              <p className="text-center text-base font-semibold text-foreground py-1.5">
+                Price: <span className="text-lg font-extrabold">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
               {/* Buy Now button */}
-              <div className="px-6 pb-5">
+              <div className="px-8 pb-5 pt-1">
                 <button
                   className={cn(
-                    "w-full py-3.5 rounded-full font-bold text-base text-primary-foreground gradient-primary shadow-button transition-all duration-200 active:scale-[0.98]",
+                    "w-full py-3 rounded-full font-bold text-base text-primary-foreground bg-primary shadow-md transition-all duration-200 active:scale-[0.98]",
                     investingProductId === product.id && "opacity-70 pointer-events-none"
                   )}
                   onClick={() => handleInvest(product)}
