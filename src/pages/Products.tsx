@@ -98,11 +98,15 @@ const Products = () => {
           products.map((product, index) => (
             <div
               key={product.id}
-              className="bg-card rounded-2xl shadow-md overflow-hidden animate-slide-up border border-border/40"
-              style={{ animationDelay: `${index * 0.08}s` }}
+              className="bg-card overflow-hidden animate-slide-up"
+              style={{
+                animationDelay: `${index * 0.08}s`,
+                borderRadius: '20px',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
+              }}
             >
               {/* Top badges row */}
-              <div className="flex justify-between items-start px-0 pt-4 pr-3">
+              <div className="flex justify-between items-start pt-4 pr-4">
                 <span className="px-5 py-1 rounded-r-full bg-primary text-primary-foreground text-xs font-bold">
                   {product.is_special_offer ? 'Special plan' : product.name}
                 </span>
@@ -112,17 +116,17 @@ const Products = () => {
               </div>
 
               {/* Main content: image left, earnings right */}
-              <div className="flex items-center gap-2 px-4 pt-4 pb-2">
+              <div className="flex items-center gap-3 px-5 pt-4 pb-3">
                 {/* Product image */}
                 <div className="flex-shrink-0">
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt={product.name}
-                      className="w-24 h-24 rounded-xl object-cover"
+                      className="w-20 h-20 rounded-xl object-cover"
                     />
                   ) : (
-                    <div className="w-24 h-24 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
+                    <div className="w-20 h-20 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
                       <span className="text-xs font-bold text-primary text-center leading-tight px-2">
                         {product.name}
                       </span>
@@ -150,8 +154,8 @@ const Products = () => {
               </div>
 
               {/* Price */}
-              <p className="text-center text-base font-semibold text-foreground py-1.5">
-                Price: <span className="text-lg font-extrabold">₹{product.price.toLocaleString('en-IN')}</span>
+              <p className="text-center text-base font-semibold text-foreground py-2">
+                Price: <span className="text-xl font-extrabold text-primary">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
               {/* Buy Now button */}
