@@ -13,7 +13,7 @@ const Team = () => {
   const { profile } = useAuth();
 
   const referralCode = profile?.referral_code || '------';
-  const referralLink = `https://tataearn.online/register?ref=${referralCode}`;
+  const referralLink = `${window.location.origin}/login?ref=${referralCode}`;
 
   const handleCopy = async (text: string, label: string) => {
     try {
