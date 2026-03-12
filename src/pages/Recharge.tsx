@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Recharge = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState<number | "">("");
+  const { wallet } = useAuth();
 
   const handleRecharge = () => {
     if (!amount || amount < 250) {
@@ -35,14 +37,14 @@ const Recharge = () => {
             <p className="text-sm text-muted-foreground">
               Current Balance
             </p>
-            <p className="text-2xl font-bold text-primary">₹12</p>
+            <p className="text-2xl font-bold text-primary">₹{wallet?.total_balance ?? 0}</p>
           </div>
 
           <div className="bg-card rounded-2xl p-4 shadow-card">
             <p className="text-sm text-muted-foreground">
               Recharge Balance
             </p>
-            <p className="text-2xl font-bold text-primary">₹0</p>
+            <p className="text-2xl font-bold text-primary">₹{wallet?.recharge_balance ?? 0}</p>
           </div>
         </div>
 

@@ -21,15 +21,21 @@ const menuItems = [
   { icon: Building2, label: 'About Company', path: '/about' },
   { icon: FileText, label: 'Financial Records', path: '/records' },
   { icon: CreditCard, label: 'Withdraw Records', path: '/records' },
-  { icon: Target, label: 'Mission', path: '/check-in' },
+  { icon: Target, label: 'Mission', path: '/checkin' },
   { icon: Download, label: 'Download App', path: '#' },
 ];
+
+// Strip @app.local from phone number for display
+function formatPhone(phone: string | undefined) {
+  if (!phone) return '';
+  return phone.replace(/@app\.local$/, '');
+}
 
 const Profile = () => {
   const navigate = useNavigate();
   const { profile, wallet, signOut } = useAuth();
   const userName = profile?.full_name || 'User';
-  const phoneNumber = profile?.phone_number || '';
+  const phoneNumber = formatPhone(profile?.phone_number);
 
   return (
     <AppLayout>
