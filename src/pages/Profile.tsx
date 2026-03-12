@@ -4,102 +4,160 @@ import {
   CreditCard, 
   ChevronRight,
   LogOut,
-  TrendingUp
+  Wallet,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Target,
+  Download,
+  CheckCircle,
+  ShoppingBag
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 const menuItems = [
-  { icon: Building2, label: 'About Company', path: '/about', color: 'text-primary' },
-  { icon: FileText, label: 'Income Record', path: '/records', color: 'text-primary' },
-  { icon: CreditCard, label: 'Withdraw Record', path: '/records', color: 'text-primary' },
-  { icon: TrendingUp, label: 'Extra Referral Bonus', path: '/extra-bonus', color: 'text-primary' },
+  { icon: Building2, label: 'About Company', path: '/about' },
+  { icon: FileText, label: 'Financial Records', path: '/records' },
+  { icon: CreditCard, label: 'Withdraw Records', path: '/records' },
+  { icon: Target, label: 'Mission', path: '/check-in' },
+  { icon: Download, label: 'Download App', path: '#' },
 ];
 
 const Profile = () => {
   const navigate = useNavigate();
   const { profile, wallet, signOut } = useAuth();
+  const userName = profile?.full_name || 'User';
   const phoneNumber = profile?.phone_number || '';
-  const maskedId = phoneNumber.length >= 8 
-    ? `${phoneNumber.slice(0, 5)}****${phoneNumber.slice(-3)}`
-    : '****';
 
   return (
     <AppLayout>
-      {/* Header */}
-      <div className="gradient-header pt-12 pb-32 px-4 relative">
-        {/* Logout Button */}
-        <button 
-          onClick={async () => {
-            await signOut();
-            navigate('/login');
-          }}
-          className="absolute top-12 right-4 w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center"
-        >
-          <LogOut className="w-5 h-5 text-primary-foreground" />
-        </button>
-
-        {/* Profile Info */}
-        <div className="flex items-center gap-4 mt-8">
-          <div className="w-20 h-20 rounded-full bg-primary-foreground flex items-center justify-center">
-            <span className="text-3xl font-bold text-primary">
-              {profile?.full_name?.charAt(0) || 'U'}
-            </span>
+      {/* Header with user info */}
+      <div className="bg-primary pt-10 pb-6 px-5" style={{ borderRadius: '0 0 1.5rem 1.5rem' }}>
+        <div className="flex items-center justify-between">
+          {/* Avatar + Info */}
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-full bg-primary-foreground flex items-center justify-center shadow-md">
+              <span className="text-xl font-extrabold text-primary">
+                {userName.slice(0, 2).toUpperCase()}
+              </span>
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-primary-foreground">{userName}</h2>
+              <p className="text-sm text-primary-foreground/80">{phoneNumber}</p>
+            </div>
           </div>
-          <div>
-            <span className="inline-block px-3 py-1 rounded-full bg-primary-foreground/20 text-primary-foreground text-sm">
-              ID: {maskedId}
-            </span>
+
+          {/* Orders button */}
+          <button
+            onClick={() => navigate('/records')}
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary-foreground text-primary text-xs font-bold shadow-sm"
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            Orders
+          </button>
+        </div>
+
+        {/* Total Withdraw strip */}
+        <div className="mt-4 flex items-center gap-2 bg-primary-foreground/15 rounded-full px-4 py-2">
+          <CheckCircle className="w-4 h-4 text-primary-foreground" />
+          <span className="text-sm font-semibold text-primary-foreground">
+            Total Withdraw: ₹{wallet?.withdrawable_balance ?? 0}
+          </span>
+        </div>
+      </div>
+
+      {/* Deposit / Withdraw buttons */}
+      <div className="px-5 mt-5">
+        <div className="flex gap-3">
+          <button
+            onClick={() => navigate('/recharge')}
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-card border border-border shadow-sm font-bold text-foreground text-sm"
+          >
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <ArrowDownToLine className="w-4 h-4 text-primary" />
+            </div>
+            Deposit
+          </button>
+          <button
+            onClick={() => navigate('/withdraw')}
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-card border border-border shadow-sm font-bold text-foreground text-sm"
+          >
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <ArrowUpFromLine className="w-4 h-4 text-primary" />
+            </div>
+            Withdraw
+          </button>
+        </div>
+      </div>
+
+      {/* Personal Details pill */}
+      <div className="flex justify-center mt-5">
+        <span className="px-5 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+          Personal Details
+        </span>
+      </div>
+
+      {/* Earnings section */}
+      <div className="px-5 mt-4">
+        <h3 className="text-base font-bold text-foreground mb-3">Earnings</h3>
+        <div className="flex gap-3">
+          <div className="flex-1 bg-card rounded-2xl border border-border shadow-sm p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="w-2 h-2 rounded-full bg-primary" />
+              <span className="text-xs text-muted-foreground font-medium">Main Balance</span>
+            </div>
+            <p className="text-xl font-extrabold text-foreground">
+              ₹{(wallet?.total_balance ?? 0).toFixed(2)}
+            </p>
+          </div>
+          <div className="flex-1 bg-card rounded-2xl border border-border shadow-sm p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="w-2 h-2 rounded-full bg-primary" />
+              <span className="text-xs text-muted-foreground font-medium">Recharge Wallet</span>
+            </div>
+            <p className="text-xl font-extrabold text-foreground">
+              ₹{(wallet?.recharge_balance ?? 0).toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Account Summary Card */}
-      <div className="mx-4 -mt-20 relative z-10">
-        <div className="bg-card rounded-2xl shadow-elevated p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-5 h-5 text-primary" />
-            <h2 className="font-bold text-foreground">Account Summary</h2>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{wallet?.total_balance ?? 0}</p>
-              <p className="text-xs text-muted-foreground">Balance</p>
-            </div>
-            <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{wallet?.recharge_balance ?? 0}</p>
-              <p className="text-xs text-muted-foreground">Recharge</p>
-            </div>
-            <div className="bg-secondary/30 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-primary">₹{(wallet?.total_income ?? 0).toFixed(2)}</p>
-              <p className="text-xs text-muted-foreground">Total Income</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* My Account Section */}
-      <div className="mx-4 mt-6 mb-6">
-        <h2 className="font-bold text-foreground text-lg mb-3">My Account</h2>
-        
-        <div className="bg-card rounded-2xl shadow-card overflow-hidden">
+      {/* Menu list */}
+      <div className="px-5 mt-6 pb-8">
+        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
           {menuItems.map((item, index) => (
             <button
-              key={item.path + item.label}
+              key={item.label}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-4 p-4 hover:bg-secondary/50 transition-colors ${
-                index !== menuItems.length - 1 ? 'border-b border-border' : ''
-              }`}
+              className={cn(
+                "w-full flex items-center gap-4 px-4 py-4 hover:bg-secondary/50 transition-colors",
+                index !== menuItems.length - 1 && "border-b border-border"
+              )}
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <item.icon className={`w-5 h-5 ${item.color}`} />
+              <div className="w-10 h-10 rounded-full bg-secondary/60 flex items-center justify-center">
+                <item.icon className="w-5 h-5 text-muted-foreground" />
               </div>
-              <span className="flex-1 text-left font-medium text-foreground">{item.label}</span>
+              <span className="flex-1 text-left font-semibold text-foreground text-sm">{item.label}</span>
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </button>
           ))}
+
+          {/* Log Out */}
+          <button
+            onClick={async () => {
+              await signOut();
+              navigate('/login');
+            }}
+            className="w-full flex items-center gap-4 px-4 py-4 hover:bg-secondary/50 transition-colors"
+          >
+            <div className="w-10 h-10 rounded-full bg-secondary/60 flex items-center justify-center">
+              <LogOut className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <span className="flex-1 text-left font-semibold text-foreground text-sm">Log Out</span>
+            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </button>
         </div>
       </div>
     </AppLayout>
