@@ -150,8 +150,8 @@ const Products = () => {
               </div>
 
               {/* Price */}
-              <p className="text-center text-base font-semibold text-foreground py-2">
-                Price: <span className="text-xl font-extrabold text-primary">₹{product.price.toLocaleString('en-IN')}</span>
+              <p className="text-center text-lg font-bold text-foreground py-2">
+                Price: <span className="text-2xl font-extrabold text-foreground">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
               {/* Buy Now button */}
