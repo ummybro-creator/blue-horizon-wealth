@@ -98,35 +98,36 @@ const Products = () => {
           products.map((product, index) => (
             <div
               key={product.id}
-              className="bg-card overflow-hidden animate-slide-up"
+              className="bg-card overflow-hidden animate-slide-up border border-border"
               style={{
                 animationDelay: `${index * 0.08}s`,
                 borderRadius: '20px',
                 boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
+                borderLeft: '4px solid hsl(var(--primary))',
               }}
             >
               {/* Top badges row */}
-              <div className="flex justify-between items-start pt-4 pr-4">
-                <span className="px-5 py-1 rounded-r-full bg-primary text-primary-foreground text-xs font-bold">
+              <div className="flex justify-between items-start pt-3 pr-4">
+                <span className="px-4 py-1 rounded-r-full bg-primary text-primary-foreground text-xs font-bold italic">
                   {product.is_special_offer ? 'Special plan' : product.name}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-[11px] font-bold">
                   Days: {product.duration_days}
                 </span>
               </div>
 
               {/* Image left + Earnings right */}
-              <div className="flex items-center gap-4 px-5 pt-4 pb-3">
+              <div className="flex items-center px-5 pt-3 pb-2">
                 <div className="flex-shrink-0">
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt={product.name}
                       className="rounded-xl object-cover"
-                      style={{ width: '90px', height: '90px' }}
+                      style={{ width: '80px', height: '90px' }}
                     />
                   ) : (
-                    <div className="rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20" style={{ width: '90px', height: '90px' }}>
+                    <div className="rounded-xl bg-muted/20 flex items-center justify-center" style={{ width: '80px', height: '90px' }}>
                       <span className="text-xs font-bold text-primary text-center leading-tight px-2">
                         {product.name}
                       </span>
@@ -134,36 +135,40 @@ const Products = () => {
                   )}
                 </div>
 
-                <div className="flex gap-6 flex-1 justify-center">
+                <div className="flex gap-5 flex-1 justify-center">
                   <div className="text-center">
                     <p className="text-lg font-extrabold text-foreground">
-                      ₹{product.daily_income.toLocaleString('en-IN')}
+                      ₹{product.daily_income.toLocaleString('en-IN')}{' '}
+                      <span className="text-[10px] font-normal text-muted-foreground">Daily</span>
                     </p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Daily</p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
+                    <p className="text-[11px] text-muted-foreground">Income</p>
                   </div>
                   <div className="text-center">
                     <p className="text-lg font-extrabold text-foreground">
-                      ₹{product.total_income.toLocaleString('en-IN')}
+                      ₹{product.total_income.toLocaleString('en-IN')}{' '}
+                      <span className="text-[10px] font-normal text-muted-foreground">Total</span>
                     </p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Total</p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
+                    <p className="text-[11px] text-muted-foreground">Income</p>
                   </div>
                 </div>
               </div>
 
               {/* Price */}
-              <p className="text-center text-lg font-bold text-foreground py-2">
-                Price: <span className="text-2xl font-extrabold text-foreground">₹{product.price.toLocaleString('en-IN')}</span>
+              <p className="text-center text-base font-semibold text-foreground py-2">
+                Price: <span className="text-xl font-extrabold text-foreground">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
               {/* Buy Now button */}
-              <div className="px-8 pb-5 pt-1">
+              <div className="px-6 pb-5 pt-1">
                 <button
                   className={cn(
-                    "w-full py-3 rounded-full font-bold text-base text-primary-foreground bg-primary shadow-md transition-all duration-200 active:scale-[0.98]",
+                    "w-full py-3.5 rounded-full font-bold text-base text-primary-foreground shadow-lg transition-all duration-200 active:scale-[0.98]",
                     investingProductId === product.id && "opacity-70 pointer-events-none"
                   )}
+                  style={{
+                    background: 'linear-gradient(180deg, hsl(142, 71%, 45%) 0%, hsl(142, 78%, 36%) 100%)',
+                    boxShadow: '0 6px 20px rgba(22, 163, 74, 0.35)',
+                  }}
                   onClick={() => handleInvest(product)}
                   disabled={investingProductId === product.id}
                 >
