@@ -115,47 +115,43 @@ const Products = () => {
                 </span>
               </div>
 
-              {/* Main content: image left, earnings right */}
-              <div className="flex items-center gap-3 px-5 pt-4 pb-3">
-                {/* Product image */}
-                <div className="flex-shrink-0">
-                  {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-20 h-20 rounded-xl object-cover"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20">
-                      <span className="text-xs font-bold text-primary text-center leading-tight px-2">
-                        {product.name}
-                      </span>
-                    </div>
-                  )}
-                </div>
+              {/* Product image - centered */}
+              <div className="flex justify-center pt-3 pb-2 px-4">
+                {product.image_url ? (
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="rounded-xl object-cover"
+                    style={{ width: '318px', height: '264px' }}
+                  />
+                ) : (
+                  <div className="rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20" style={{ width: '318px', height: '264px' }}>
+                    <span className="text-sm font-bold text-primary text-center leading-tight px-4">
+                      {product.name}
+                    </span>
+                  </div>
+                )}
+              </div>
 
-                {/* Two-column earnings */}
-                <div className="flex gap-6 flex-1 justify-center">
-                  <div className="text-center">
-                    <p className="text-lg font-extrabold text-foreground">
-                      ₹{product.daily_income.toLocaleString('en-IN')}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Daily</p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg font-extrabold text-foreground">
-                      ₹{product.total_income.toLocaleString('en-IN')}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Total</p>
-                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
-                  </div>
+              {/* Two-column earnings */}
+              <div className="flex justify-center gap-8 px-5 py-3">
+                <div className="text-center">
+                  <p className="text-xl font-extrabold text-foreground">
+                    ₹{product.daily_income.toLocaleString('en-IN')} <span className="text-xs font-normal text-muted-foreground">Daily</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">Income</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-extrabold text-foreground">
+                    ₹{product.total_income.toLocaleString('en-IN')} <span className="text-xs font-normal text-muted-foreground">Total</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">Income</p>
                 </div>
               </div>
 
               {/* Price */}
-              <p className="text-center text-base font-semibold text-foreground py-2">
-                Price: <span className="text-xl font-extrabold text-primary">₹{product.price.toLocaleString('en-IN')}</span>
+              <p className="text-center text-lg font-bold text-foreground py-2">
+                Price: <span className="text-2xl font-extrabold text-foreground">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
               {/* Buy Now button */}
