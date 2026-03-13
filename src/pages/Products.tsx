@@ -115,37 +115,40 @@ const Products = () => {
                 </span>
               </div>
 
-              {/* Product image - centered */}
-              <div className="flex justify-center pt-3 pb-2 px-4">
-                {product.image_url ? (
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="rounded-xl object-cover"
-                    style={{ width: '318px', height: '264px' }}
-                  />
-                ) : (
-                  <div className="rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20" style={{ width: '318px', height: '264px' }}>
-                    <span className="text-sm font-bold text-primary text-center leading-tight px-4">
-                      {product.name}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Two-column earnings */}
-              <div className="flex justify-center gap-8 px-5 py-3">
-                <div className="text-center">
-                  <p className="text-xl font-extrabold text-foreground">
-                    ₹{product.daily_income.toLocaleString('en-IN')} <span className="text-xs font-normal text-muted-foreground">Daily</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">Income</p>
+              {/* Image left + Earnings right */}
+              <div className="flex items-center gap-4 px-5 pt-4 pb-3">
+                <div className="flex-shrink-0">
+                  {product.image_url ? (
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      className="rounded-xl object-cover"
+                      style={{ width: '90px', height: '90px' }}
+                    />
+                  ) : (
+                    <div className="rounded-xl bg-muted/30 flex items-center justify-center border border-primary/20" style={{ width: '90px', height: '90px' }}>
+                      <span className="text-xs font-bold text-primary text-center leading-tight px-2">
+                        {product.name}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <div className="text-center">
-                  <p className="text-xl font-extrabold text-foreground">
-                    ₹{product.total_income.toLocaleString('en-IN')} <span className="text-xs font-normal text-muted-foreground">Total</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">Income</p>
+
+                <div className="flex gap-6 flex-1 justify-center">
+                  <div className="text-center">
+                    <p className="text-lg font-extrabold text-foreground">
+                      ₹{product.daily_income.toLocaleString('en-IN')}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground leading-tight">Daily</p>
+                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-extrabold text-foreground">
+                      ₹{product.total_income.toLocaleString('en-IN')}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground leading-tight">Total</p>
+                    <p className="text-[11px] text-muted-foreground leading-tight">Income</p>
+                  </div>
                 </div>
               </div>
 
