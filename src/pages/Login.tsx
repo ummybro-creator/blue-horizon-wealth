@@ -81,7 +81,7 @@ const Login = () => {
   return (
     <div
       className="min-h-screen flex flex-col"
-      style={{ background: 'linear-gradient(180deg, hsl(142, 78%, 36%) 0%, hsl(142, 78%, 90%) 50%, hsl(142, 78%, 95%) 100%)' }}
+      style={{ background: 'linear-gradient(180deg, hsl(140, 52%, 43%) 0%, hsl(138, 47%, 85%) 50%, hsl(138, 47%, 93%) 100%)' }}
     >
       {/* Banner image section */}
       <div className="relative w-full h-48 overflow-hidden rounded-b-[2.5rem]">
@@ -93,14 +93,14 @@ const Login = () => {
         {/* Gradient overlay to blend into background */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, transparent 40%, hsl(142, 78%, 36%) 100%)' }}
+          style={{ background: 'linear-gradient(to bottom, transparent 40%, hsl(140, 52%, 43%) 100%)' }}
         />
       </div>
 
       {/* Logo overlapping banner */}
       <div className="flex justify-center -mt-14 relative z-10">
         <div className="w-28 h-28 rounded-full border-4 shadow-xl overflow-hidden"
-          style={{ borderColor: 'hsl(142, 78%, 36%)' }}>
+          style={{ borderColor: 'hsl(140, 52%, 43%)' }}>
           <img src={LOGO_IMAGE} className="w-full h-full object-cover scale-125" alt="Logo" />
         </div>
       </div>
@@ -108,14 +108,14 @@ const Login = () => {
       {/* Tab switch */}
       <div className="flex justify-center mt-4 px-8">
         <div className="flex rounded-full overflow-hidden shadow-md w-full max-w-xs"
-          style={{ background: 'hsl(142, 78%, 90%)' }}>
+          style={{ background: 'hsl(138, 47%, 85%)' }}>
           <button
             type="button"
             onClick={() => setIsLogin(true)}
             className="flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200"
             style={{
-              background: isLogin ? 'hsl(142, 78%, 36%)' : 'transparent',
-              color: isLogin ? 'white' : 'hsl(142, 78%, 30%)',
+              background: isLogin ? 'hsl(140, 52%, 43%)' : 'transparent',
+              color: isLogin ? 'white' : 'hsl(140, 64%, 34%)',
             }}
           >
             Login
@@ -125,8 +125,8 @@ const Login = () => {
             onClick={() => setIsLogin(false)}
             className="flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200"
             style={{
-              background: !isLogin ? 'hsl(142, 78%, 36%)' : 'transparent',
-              color: !isLogin ? 'white' : 'hsl(142, 78%, 30%)',
+              background: !isLogin ? 'hsl(140, 52%, 43%)' : 'transparent',
+              color: !isLogin ? 'white' : 'hsl(140, 64%, 34%)',
             }}
           >
             Register
@@ -194,7 +194,7 @@ const Login = () => {
               type="submit"
               disabled={loading}
               className="w-full h-14 text-lg font-bold rounded-full text-white shadow-lg"
-              style={{ background: 'linear-gradient(135deg, hsl(142, 78%, 36%), hsl(142, 71%, 55%))' }}
+              style={{ background: 'linear-gradient(135deg, hsl(140, 52%, 43%), hsl(137, 55%, 41%))' }}
             >
               {loading ? (
                 'Please wait...'

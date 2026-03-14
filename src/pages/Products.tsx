@@ -56,7 +56,7 @@ const Products = () => {
       {/* Green Gradient Header - deep curve */}
       <div
         style={{
-          background: 'linear-gradient(180deg, #16A34A 0%, #22C55E 100%)',
+          background: 'linear-gradient(180deg, #34A853 0%, #2FA24F 100%)',
           borderRadius: '0 0 2.5rem 2.5rem',
           paddingTop: '2.5rem',
           paddingBottom: '3.5rem',
@@ -103,9 +103,9 @@ const Products = () => {
                 transition: 'all 0.2s',
                 ...(activeTab === tab
                   ? {
-                      background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                      background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                       color: '#fff',
-                      boxShadow: '0 4px 14px rgba(22,163,74,0.35)',
+                      boxShadow: '0 4px 14px rgba(52,168,83,0.35)',
                     }
                   : {
                       background: 'transparent',
@@ -136,7 +136,7 @@ const Products = () => {
                 background: 'rgba(255,255,255,0.88)',
                 backdropFilter: 'blur(16px)',
                 boxShadow: '0 6px 28px rgba(0,0,0,0.07), 0 1.5px 6px rgba(0,0,0,0.04)',
-                border: '1.5px solid #E5E7EB',
+                border: '1.5px solid #DDE5E1',
                 overflow: 'hidden',
               }}
             >
@@ -144,7 +144,7 @@ const Products = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '10px' }}>
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
                     fontSize: '0.8rem',
@@ -158,7 +158,7 @@ const Products = () => {
                 </span>
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
                     fontSize: '0.7rem',
@@ -185,7 +185,7 @@ const Products = () => {
                         height: '105px',
                         borderRadius: '14px',
                         objectFit: 'cover',
-                        border: '1px solid #E5E7EB',
+                        border: '1px solid #DDE5E1',
                       }}
                     />
                   ) : (
@@ -194,8 +194,8 @@ const Products = () => {
                         width: '95px',
                         height: '105px',
                         borderRadius: '14px',
-                        background: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
-                        border: '1px solid #BBF7D0',
+                        background: 'linear-gradient(135deg, #E8F5EC 0%, #CFE8D8 100%)',
+                        border: '1px solid #DDE5E1',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -203,7 +203,7 @@ const Products = () => {
                     >
                       <span
                         style={{
-                          color: '#16A34A',
+                          color: '#1E9E48',
                           fontFamily: 'Poppins, sans-serif',
                           fontSize: '0.7rem',
                           fontWeight: 700,
@@ -222,7 +222,7 @@ const Products = () => {
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '24px' }}>
                   <div style={{ textAlign: 'center' }}>
                     <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1E9E48' }}>
                         ₹{product.daily_income.toLocaleString('en-IN')}
                       </span>
                       <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
@@ -235,7 +235,7 @@ const Products = () => {
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1E9E48' }}>
                         ₹{product.total_income.toLocaleString('en-IN')}
                       </span>
                       <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
@@ -274,7 +274,7 @@ const Products = () => {
                     investingProductId === product.id && "opacity-70 pointer-events-none"
                   )}
                   style={{
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
                     fontSize: '1rem',
@@ -282,7 +282,7 @@ const Products = () => {
                     padding: '14px 0',
                     borderRadius: '999px',
                     border: 'none',
-                    boxShadow: '0 6px 20px rgba(22, 163, 74, 0.30)',
+                    boxShadow: '0 6px 20px rgba(52, 168, 83, 0.30)',
                     cursor: 'pointer',
                   }}
                   onClick={() => handleInvest(product)}
