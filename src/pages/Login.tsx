@@ -108,7 +108,7 @@ const Login = () => {
       {/* Tab switch */}
       <div className="flex justify-center mt-4 px-8">
         <div className="flex rounded-full overflow-hidden shadow-md w-full max-w-xs"
-          style={{ background: 'hsl(142, 78%, 90%)' }}>
+          style={{ background: 'hsl(138, 47%, 85%)' }}>
           <button
             type="button"
             onClick={() => setIsLogin(true)}
