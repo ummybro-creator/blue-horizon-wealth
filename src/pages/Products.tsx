@@ -235,7 +235,7 @@ const Products = () => {
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1E9E48' }}>
                         ₹{product.total_income.toLocaleString('en-IN')}
                       </span>
                       <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
