@@ -185,7 +185,7 @@ const Products = () => {
                         height: '105px',
                         borderRadius: '14px',
                         objectFit: 'cover',
-                        border: '1px solid #E5E7EB',
+                        border: '1px solid #DDE5E1',
                       }}
                     />
                   ) : (

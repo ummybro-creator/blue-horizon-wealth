@@ -194,7 +194,7 @@ const Login = () => {
               type="submit"
               disabled={loading}
               className="w-full h-14 text-lg font-bold rounded-full text-white shadow-lg"
-              style={{ background: 'linear-gradient(135deg, hsl(142, 78%, 36%), hsl(142, 71%, 55%))' }}
+              style={{ background: 'linear-gradient(135deg, hsl(140, 52%, 43%), hsl(137, 55%, 41%))' }}
             >
               {loading ? (
                 'Please wait...'
