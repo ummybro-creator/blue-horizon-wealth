@@ -136,7 +136,7 @@ const Products = () => {
                 background: 'rgba(255,255,255,0.88)',
                 backdropFilter: 'blur(16px)',
                 boxShadow: '0 6px 28px rgba(0,0,0,0.07), 0 1.5px 6px rgba(0,0,0,0.04)',
-                border: '1.5px solid #E5E7EB',
+                border: '1.5px solid #DDE5E1',
                 overflow: 'hidden',
               }}
             >
