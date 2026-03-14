@@ -282,7 +282,7 @@ const Products = () => {
                     padding: '14px 0',
                     borderRadius: '999px',
                     border: 'none',
-                    boxShadow: '0 6px 20px rgba(22, 163, 74, 0.30)',
+                    boxShadow: '0 6px 20px rgba(52, 168, 83, 0.30)',
                     cursor: 'pointer',
                   }}
                   onClick={() => handleInvest(product)}
