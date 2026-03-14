@@ -58,6 +58,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        money: "hsl(var(--color-money))",
+        "btn-grey": "hsl(var(--color-btn-grey))",
+        "btn-border": "hsl(var(--color-btn-border))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
