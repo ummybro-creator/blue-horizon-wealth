@@ -56,7 +56,7 @@ const Products = () => {
       {/* Green Gradient Header - deep curve */}
       <div
         style={{
-          background: 'linear-gradient(180deg, #16A34A 0%, #22C55E 100%)',
+          background: 'linear-gradient(180deg, #34A853 0%, #2FA24F 100%)',
           borderRadius: '0 0 2.5rem 2.5rem',
           paddingTop: '2.5rem',
           paddingBottom: '3.5rem',
