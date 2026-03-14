@@ -114,8 +114,8 @@ const Login = () => {
             onClick={() => setIsLogin(true)}
             className="flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200"
             style={{
-              background: isLogin ? 'hsl(142, 78%, 36%)' : 'transparent',
-              color: isLogin ? 'white' : 'hsl(142, 78%, 30%)',
+              background: isLogin ? 'hsl(140, 52%, 43%)' : 'transparent',
+              color: isLogin ? 'white' : 'hsl(140, 64%, 34%)',
             }}
           >
             Login
