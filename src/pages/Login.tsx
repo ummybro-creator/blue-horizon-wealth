@@ -81,7 +81,7 @@ const Login = () => {
   return (
     <div
       className="min-h-screen flex flex-col"
-      style={{ background: 'linear-gradient(180deg, hsl(142, 78%, 36%) 0%, hsl(142, 78%, 90%) 50%, hsl(142, 78%, 95%) 100%)' }}
+      style={{ background: 'linear-gradient(180deg, hsl(140, 52%, 43%) 0%, hsl(138, 47%, 85%) 50%, hsl(138, 47%, 93%) 100%)' }}
     >
       {/* Banner image section */}
       <div className="relative w-full h-48 overflow-hidden rounded-b-[2.5rem]">
