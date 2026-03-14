@@ -103,9 +103,9 @@ const Products = () => {
                 transition: 'all 0.2s',
                 ...(activeTab === tab
                   ? {
-                      background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                      background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                       color: '#fff',
-                      boxShadow: '0 4px 14px rgba(22,163,74,0.35)',
+                      boxShadow: '0 4px 14px rgba(52,168,83,0.35)',
                     }
                   : {
                       background: 'transparent',
