@@ -158,7 +158,7 @@ const Products = () => {
                 </span>
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
                     fontSize: '0.7rem',
