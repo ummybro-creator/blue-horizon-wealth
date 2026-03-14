@@ -53,76 +53,74 @@ const Products = () => {
 
   return (
     <AppLayout>
-      {/* Green Gradient Header */}
+      {/* Green Gradient Header - deep curve */}
       <div
-        className="pt-10 pb-16 px-4"
         style={{
-          background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
-          borderRadius: '0 0 2rem 2rem',
+          background: 'linear-gradient(180deg, #16A34A 0%, #22C55E 100%)',
+          borderRadius: '0 0 2.5rem 2.5rem',
+          paddingTop: '2.5rem',
+          paddingBottom: '3.5rem',
         }}
       >
         <h1
-          className="text-2xl font-extrabold text-center tracking-wide"
-          style={{ color: '#fff', fontFamily: 'Poppins, sans-serif' }}
+          style={{
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '1.5rem',
+            fontWeight: 600,
+            color: '#fff',
+            textAlign: 'center',
+            letterSpacing: '0.02em',
+          }}
         >
           Plan Store
         </h1>
       </div>
 
-      {/* Pill Tabs */}
-      <div className="px-8 -mt-6 relative z-10">
+      {/* Floating Pill Tabs */}
+      <div className="px-6 relative z-10" style={{ marginTop: '-1.6rem' }}>
         <div
-          className="rounded-full p-1.5 flex"
           style={{
-            background: 'rgba(255,255,255,0.85)',
-            backdropFilter: 'blur(12px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            border: '1px solid rgba(255,255,255,0.6)',
+            background: 'rgba(255,255,255,0.92)',
+            backdropFilter: 'blur(14px)',
+            borderRadius: '999px',
+            padding: '5px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+            border: '1px solid rgba(255,255,255,0.7)',
+            display: 'flex',
           }}
         >
-          <button
-            onClick={() => setActiveTab('daily')}
-            className="flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200"
-            style={{
-              fontFamily: 'Poppins, sans-serif',
-              ...(activeTab === 'daily'
-                ? {
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
-                    color: '#fff',
-                    boxShadow: '0 4px 14px rgba(22,163,74,0.35)',
-                  }
-                : {
-                    background: 'transparent',
-                    color: '#9CA3AF',
-                  }),
-            }}
-          >
-            Daily Plan
-          </button>
-          <button
-            onClick={() => setActiveTab('vip')}
-            className="flex-1 py-2.5 rounded-full font-bold text-sm transition-all duration-200"
-            style={{
-              fontFamily: 'Poppins, sans-serif',
-              ...(activeTab === 'vip'
-                ? {
-                    background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
-                    color: '#fff',
-                    boxShadow: '0 4px 14px rgba(22,163,74,0.35)',
-                  }
-                : {
-                    background: 'transparent',
-                    color: '#9CA3AF',
-                  }),
-            }}
-          >
-            Welfare Plan
-          </button>
+          {(['daily', 'vip'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              style={{
+                flex: 1,
+                padding: '10px 0',
+                borderRadius: '999px',
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                transition: 'all 0.2s',
+                ...(activeTab === tab
+                  ? {
+                      background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
+                      color: '#fff',
+                      boxShadow: '0 4px 14px rgba(22,163,74,0.35)',
+                    }
+                  : {
+                      background: 'transparent',
+                      color: '#9CA3AF',
+                    }),
+              }}
+            >
+              {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Products List */}
-      <div className="px-4 mt-5 pb-8 space-y-5">
+      <div style={{ padding: '1.25rem 1rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         {isLoading ? (
           <div className="flex justify-center py-16">
             <Loader2 className="w-9 h-9 animate-spin text-primary" />
@@ -131,63 +129,88 @@ const Products = () => {
           products.map((product, index) => (
             <div
               key={product.id}
-              className="animate-slide-up overflow-hidden"
+              className="animate-slide-up"
               style={{
                 animationDelay: `${index * 0.08}s`,
-                borderRadius: '20px',
-                background: 'rgba(255,255,255,0.75)',
+                borderRadius: '22px',
+                background: 'rgba(255,255,255,0.88)',
                 backdropFilter: 'blur(16px)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)',
-                border: '1px solid rgba(255,255,255,0.6)',
+                boxShadow: '0 6px 28px rgba(0,0,0,0.07), 0 1.5px 6px rgba(0,0,0,0.04)',
+                border: '1.5px solid #E5E7EB',
+                overflow: 'hidden',
               }}
             >
-              {/* Top badges row */}
-              <div className="flex justify-between items-start pt-3">
+              {/* Badges row */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '10px' }}>
                 <span
-                  className="px-5 py-1.5 rounded-r-full text-xs font-bold italic"
                   style={{
                     background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    fontStyle: 'italic',
+                    padding: '5px 20px 5px 16px',
+                    borderRadius: '0 999px 999px 0',
                   }}
                 >
                   {product.is_special_offer ? 'Special plan' : product.name}
                 </span>
                 <span
-                  className="px-4 py-1.5 rounded-full text-[11px] font-bold mr-4"
                   style={{
                     background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
                     color: '#fff',
                     fontFamily: 'Poppins, sans-serif',
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    padding: '5px 14px',
+                    borderRadius: '999px',
+                    marginRight: '12px',
                   }}
                 >
                   Days: {product.duration_days}
                 </span>
               </div>
 
-              {/* Image left + Earnings right */}
-              <div className="flex items-center px-5 pt-4 pb-2">
-                <div className="flex-shrink-0">
+              {/* Image + Income row */}
+              <div style={{ display: 'flex', alignItems: 'center', padding: '14px 16px 8px' }}>
+                {/* Product image */}
+                <div style={{ flexShrink: 0 }}>
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt={product.name}
-                      className="rounded-xl object-cover"
-                      style={{ width: '90px', height: '100px' }}
+                      style={{
+                        width: '95px',
+                        height: '105px',
+                        borderRadius: '14px',
+                        objectFit: 'cover',
+                        border: '1px solid #E5E7EB',
+                      }}
                     />
                   ) : (
                     <div
-                      className="rounded-xl flex items-center justify-center"
                       style={{
-                        width: '90px',
-                        height: '100px',
+                        width: '95px',
+                        height: '105px',
+                        borderRadius: '14px',
                         background: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
                         border: '1px solid #BBF7D0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
                       <span
-                        className="text-xs font-bold text-center leading-tight px-2"
-                        style={{ color: '#16A34A', fontFamily: 'Poppins, sans-serif' }}
+                        style={{
+                          color: '#16A34A',
+                          fontFamily: 'Poppins, sans-serif',
+                          fontSize: '0.7rem',
+                          fontWeight: 700,
+                          textAlign: 'center',
+                          lineHeight: 1.3,
+                          padding: '0 6px',
+                        }}
                       >
                         {product.name}
                       </span>
@@ -195,30 +218,31 @@ const Products = () => {
                   )}
                 </div>
 
-                <div className="flex gap-6 flex-1 justify-center">
-                  <div className="text-center">
-                    <p style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      <span className="text-xl font-extrabold" style={{ color: '#16A34A' }}>
+                {/* Income stats */}
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '24px' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>
                         ₹{product.daily_income.toLocaleString('en-IN')}
                       </span>
-                      <span className="text-[10px] font-medium ml-1" style={{ color: '#9CA3AF' }}>
+                      <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
                         Daily
                       </span>
                     </p>
-                    <p className="text-[11px] mt-0.5" style={{ color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.65rem', color: '#9CA3AF', margin: '2px 0 0' }}>
                       Income
                     </p>
                   </div>
-                  <div className="text-center">
-                    <p style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      <span className="text-xl font-extrabold" style={{ color: '#16A34A' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>
                         ₹{product.total_income.toLocaleString('en-IN')}
                       </span>
-                      <span className="text-[10px] font-medium ml-1" style={{ color: '#9CA3AF' }}>
+                      <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
                         Total
                       </span>
                     </p>
-                    <p className="text-[11px] mt-0.5" style={{ color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.65rem', color: '#9CA3AF', margin: '2px 0 0' }}>
                       Income
                     </p>
                   </div>
@@ -227,27 +251,39 @@ const Products = () => {
 
               {/* Price */}
               <p
-                className="text-center text-base font-semibold py-2"
-                style={{ color: '#1F2937', fontFamily: 'Poppins, sans-serif' }}
+                style={{
+                  textAlign: 'center',
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: '#1F2937',
+                  margin: '4px 0 2px',
+                }}
               >
                 Price:{' '}
-                <span className="text-xl font-extrabold" style={{ color: '#1F2937' }}>
+                <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>
                   ₹{product.price.toLocaleString('en-IN')}
                 </span>
               </p>
 
               {/* Buy Now button */}
-              <div className="px-6 pb-5 pt-1">
+              <div style={{ padding: '6px 20px 18px' }}>
                 <button
                   className={cn(
-                    "w-full py-3.5 rounded-full font-bold text-base transition-all duration-200 active:scale-[0.98]",
+                    "w-full transition-all duration-200 active:scale-[0.98]",
                     investingProductId === product.id && "opacity-70 pointer-events-none"
                   )}
                   style={{
                     background: 'linear-gradient(135deg, #16A34A 0%, #22C55E 100%)',
                     color: '#fff',
-                    boxShadow: '0 6px 20px rgba(22, 163, 74, 0.35)',
                     fontFamily: 'Poppins, sans-serif',
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    padding: '14px 0',
+                    borderRadius: '999px',
+                    border: 'none',
+                    boxShadow: '0 6px 20px rgba(22, 163, 74, 0.30)',
+                    cursor: 'pointer',
                   }}
                   onClick={() => handleInvest(product)}
                   disabled={investingProductId === product.id}
@@ -265,7 +301,7 @@ const Products = () => {
             </div>
           ))
         ) : (
-          <div className="text-center py-16" style={{ color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}>
+          <div style={{ textAlign: 'center', padding: '4rem 0', color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}>
             No products available
           </div>
         )}
