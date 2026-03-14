@@ -100,7 +100,7 @@ const Login = () => {
       {/* Logo overlapping banner */}
       <div className="flex justify-center -mt-14 relative z-10">
         <div className="w-28 h-28 rounded-full border-4 shadow-xl overflow-hidden"
-          style={{ borderColor: 'hsl(142, 78%, 36%)' }}>
+          style={{ borderColor: 'hsl(140, 52%, 43%)' }}>
           <img src={LOGO_IMAGE} className="w-full h-full object-cover scale-125" alt="Logo" />
         </div>
       </div>
