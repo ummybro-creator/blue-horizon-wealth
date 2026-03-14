@@ -203,7 +203,7 @@ const Products = () => {
                     >
                       <span
                         style={{
-                          color: '#16A34A',
+                          color: '#1E9E48',
                           fontFamily: 'Poppins, sans-serif',
                           fontSize: '0.7rem',
                           fontWeight: 700,
