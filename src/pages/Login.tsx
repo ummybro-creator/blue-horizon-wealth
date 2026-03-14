@@ -93,7 +93,7 @@ const Login = () => {
         {/* Gradient overlay to blend into background */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, transparent 40%, hsl(142, 78%, 36%) 100%)' }}
+          style={{ background: 'linear-gradient(to bottom, transparent 40%, hsl(140, 52%, 43%) 100%)' }}
         />
       </div>
 
