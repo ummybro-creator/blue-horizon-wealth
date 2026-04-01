@@ -1,68 +1,74 @@
-import { X, Info, Send } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { X, Gift, Sparkles } from 'lucide-react';
 
 interface WelcomePopupProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const bonusTiers = [
+  { deposit: 300, bonus: 7 },
+  { deposit: 500, bonus: 30 },
+  { deposit: 700, bonus: 50 },
+  { deposit: 1000, bonus: 80 },
+  { deposit: 1500, bonus: 200 },
+  { deposit: 2000, bonus: 500 },
+];
+
 export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40 p-6">
-      <div className="bg-card rounded-2xl shadow-elevated max-w-xs w-full animate-scale-in overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 p-6">
+      <div className="clay-card-lg max-w-sm w-full animate-scale-in overflow-hidden p-6" style={{ borderRadius: '28px' }}>
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
         {/* Header */}
-        <div className="relative flex items-center justify-between px-4 pt-4 pb-2">
-          <Info className="w-5 h-5 text-muted-foreground" />
-          <div className="bg-primary rounded-full px-4 py-1.5">
-            <span className="text-primary-foreground font-bold text-sm">Platform Information</span>
+        <div className="text-center mb-5">
+          <div className="w-16 h-16 rounded-2xl clay-button flex items-center justify-center mx-auto mb-3">
+            <Gift className="w-8 h-8 text-white" />
           </div>
-          <button
-            onClick={onClose}
-            className="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-foreground"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <h2 className="text-xl font-extrabold text-foreground">🎉 First Deposit Bonus</h2>
+          <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-destructive/10 text-destructive text-xs font-bold">
+            <Sparkles className="w-3.5 h-3.5" />
+            Limited Time Offer
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="px-5 py-4 space-y-3 text-center text-sm">
-          <p className="text-foreground">
-            1. Platform launch time: <span className="text-primary font-semibold">17 March – 2026</span>
-          </p>
-          <p className="text-foreground">
-            2. Sign-up Bonus: <span className="text-primary font-semibold">₹5</span>
-          </p>
-          <p className="text-foreground">
-            3. Daily Gift Code: <span className="text-primary font-semibold">₹12 to ₹200 (Need Plan)</span>
-          </p>
-          <p className="text-foreground">
-            4. Level 3 agent commission cashback:<br />
-            1st Level: <span className="text-primary font-semibold">13% Happy Earning</span>
-          </p>
-          <p className="text-foreground">
-            5. Income: <span className="text-primary font-semibold">Daily Income Daily Withdrawal</span>
-          </p>
-          <p className="text-foreground">
-            6. Minimum Withdrawal is: <span className="text-primary font-semibold">₹150 – ₹10000</span>
-          </p>
-          <p className="text-foreground">
-            7. Number of withdrawals: <span className="text-primary font-semibold">Unlimited</span>
-          </p>
+        {/* Bonus Tiers */}
+        <div className="space-y-2.5">
+          {bonusTiers.map((tier) => (
+            <div
+              key={tier.deposit}
+              className="clay-inset flex items-center justify-between px-4 py-3"
+            >
+              <span className="text-sm font-medium text-foreground">
+                Deposit <span className="font-bold">₹{tier.deposit}</span>
+              </span>
+              <span className="text-sm font-extrabold text-primary">
+                +₹{tier.bonus} Bonus
+              </span>
+            </div>
+          ))}
         </div>
 
-        {/* Button */}
-        <div className="px-5 pb-5">
-          <Button
-            variant="gradient"
-            className="w-full h-11 rounded-full"
-            onClick={() => window.open('https://t.me/tatateaofficial', '_blank')}
-          >
-            <Send className="w-4 h-4 mr-2" />
-            Telegram Channel
-          </Button>
-        </div>
+        {/* Footer note */}
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          Bonus applies ONLY to your first deposit
+        </p>
+
+        {/* CTA Button */}
+        <button
+          onClick={onClose}
+          className="w-full mt-4 clay-button py-3.5 text-sm font-bold"
+        >
+          Got It!
+        </button>
       </div>
     </div>
   );

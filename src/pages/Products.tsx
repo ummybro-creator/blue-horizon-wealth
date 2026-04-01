@@ -19,32 +19,21 @@ const Products = () => {
 
   const handleInvest = async (product: Product) => {
     const currentBalance = wallet?.total_balance ?? 0;
-    
     if (currentBalance < product.price) {
-      toast.error('Insufficient Balance', {
-        description: 'Please recharge your wallet to invest.',
-      });
+      toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
       navigate('/recharge');
       return;
     }
-
     setInvestingProductId(product.id);
-    
     try {
       await createInvestment.mutateAsync(product.id);
-      toast.success(`Investment successful!`, {
-        description: `You invested ₹${product.price.toLocaleString('en-IN')} in ${product.name}`,
-      });
+      toast.success(`Investment successful!`, { description: `You invested ₹${product.price.toLocaleString('en-IN')} in ${product.name}` });
     } catch (error: any) {
       if (error.message === 'Insufficient balance') {
-        toast.error('Insufficient Balance', {
-          description: 'Please recharge your wallet to invest.',
-        });
+        toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
         navigate('/recharge');
       } else {
-        toast.error('Investment failed', {
-          description: error.message || 'Please try again.',
-        });
+        toast.error('Investment failed', { description: error.message || 'Please try again.' });
       }
     } finally {
       setInvestingProductId(null);
@@ -53,65 +42,24 @@ const Products = () => {
 
   return (
     <AppLayout>
-      {/* Green Gradient Header - deep curve */}
-      <div
-        style={{
-          background: 'linear-gradient(180deg, #34A853 0%, #2FA24F 100%)',
-          borderRadius: '0 0 2.5rem 2.5rem',
-          paddingTop: '2.5rem',
-          paddingBottom: '3.5rem',
-        }}
-      >
-        <h1
-          style={{
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: '1.5rem',
-            fontWeight: 600,
-            color: '#fff',
-            textAlign: 'center',
-            letterSpacing: '0.02em',
-          }}
-        >
-          Plan Store
-        </h1>
+      {/* Header */}
+      <div className="clay-header pt-10 pb-8 px-4">
+        <h1 className="text-2xl font-bold text-white text-center">Plan Store</h1>
       </div>
 
-      {/* Floating Pill Tabs */}
-      <div className="px-6 relative z-10" style={{ marginTop: '-1.6rem' }}>
-        <div
-          style={{
-            background: 'rgba(255,255,255,0.92)',
-            backdropFilter: 'blur(14px)',
-            borderRadius: '999px',
-            padding: '5px',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
-            border: '1px solid rgba(255,255,255,0.7)',
-            display: 'flex',
-          }}
-        >
+      {/* Tab Switcher */}
+      <div className="px-6 -mt-4 relative z-10">
+        <div className="clay-card flex p-1.5" style={{ borderRadius: '999px' }}>
           {(['daily', 'vip'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              style={{
-                flex: 1,
-                padding: '10px 0',
-                borderRadius: '999px',
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                transition: 'all 0.2s',
-                ...(activeTab === tab
-                  ? {
-                      background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
-                      color: '#fff',
-                      boxShadow: '0 4px 14px rgba(52,168,83,0.35)',
-                    }
-                  : {
-                      background: 'transparent',
-                      color: '#9CA3AF',
-                    }),
-              }}
+              className={cn(
+                "flex-1 py-2.5 rounded-full text-sm font-bold transition-all duration-200",
+                activeTab === tab
+                  ? "clay-button"
+                  : "text-muted-foreground"
+              )}
             >
               {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
             </button>
@@ -120,7 +68,7 @@ const Products = () => {
       </div>
 
       {/* Products List */}
-      <div style={{ padding: '1.25rem 1rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      <div className="px-4 pt-5 pb-8 space-y-4">
         {isLoading ? (
           <div className="flex justify-center py-16">
             <Loader2 className="w-9 h-9 animate-spin text-primary" />
@@ -129,168 +77,65 @@ const Products = () => {
           products.map((product, index) => (
             <div
               key={product.id}
-              className="animate-slide-up"
-              style={{
-                animationDelay: `${index * 0.08}s`,
-                borderRadius: '22px',
-                background: 'rgba(255,255,255,0.88)',
-                backdropFilter: 'blur(16px)',
-                boxShadow: '0 6px 28px rgba(0,0,0,0.07), 0 1.5px 6px rgba(0,0,0,0.04)',
-                border: '1.5px solid #DDE5E1',
-                overflow: 'hidden',
-              }}
+              className="clay-card animate-slide-up overflow-hidden"
+              style={{ animationDelay: `${index * 0.08}s` }}
             >
-              {/* Badges row */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '10px' }}>
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
-                    color: '#fff',
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: '0.8rem',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    padding: '5px 20px 5px 16px',
-                    borderRadius: '0 999px 999px 0',
-                  }}
-                >
-                  {product.is_special_offer ? 'Special plan' : product.name}
+              {/* Badges */}
+              <div className="flex justify-between items-start pt-3">
+                <span className="clay-button px-4 py-1.5 text-xs" style={{ borderRadius: '0 999px 999px 0' }}>
+                  {product.is_special_offer ? '🔥 Hot Selling' : product.name}
                 </span>
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
-                    color: '#fff',
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: '0.7rem',
-                    fontWeight: 700,
-                    padding: '5px 14px',
-                    borderRadius: '999px',
-                    marginRight: '12px',
-                  }}
-                >
+                <span className="clay-button px-3 py-1 text-[11px] mr-3" style={{ borderRadius: '999px' }}>
                   Days: {product.duration_days}
                 </span>
               </div>
 
-              {/* Image + Income row */}
-              <div style={{ display: 'flex', alignItems: 'center', padding: '14px 16px 8px' }}>
-                {/* Product image */}
-                <div style={{ flexShrink: 0 }}>
+              {/* Image + Income */}
+              <div className="flex items-center p-4 gap-4">
+                <div className="flex-shrink-0">
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt={product.name}
-                      style={{
-                        width: '95px',
-                        height: '105px',
-                        borderRadius: '14px',
-                        objectFit: 'cover',
-                        border: '1px solid #DDE5E1',
-                      }}
+                      className="w-20 h-[90px] rounded-2xl object-cover shadow-clay-sm"
                     />
                   ) : (
-                    <div
-                      style={{
-                        width: '95px',
-                        height: '105px',
-                        borderRadius: '14px',
-                        background: 'linear-gradient(135deg, #E8F5EC 0%, #CFE8D8 100%)',
-                        border: '1px solid #DDE5E1',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: '#1E9E48',
-                          fontFamily: 'Poppins, sans-serif',
-                          fontSize: '0.7rem',
-                          fontWeight: 700,
-                          textAlign: 'center',
-                          lineHeight: 1.3,
-                          padding: '0 6px',
-                        }}
-                      >
-                        {product.name}
-                      </span>
+                    <div className="w-20 h-[90px] rounded-2xl bg-primary/10 flex items-center justify-center shadow-clay-sm">
+                      <span className="text-primary text-[11px] font-bold text-center px-1">{product.name}</span>
                     </div>
                   )}
                 </div>
 
-                {/* Income stats */}
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '24px' }}>
-                  <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1E9E48' }}>
-                        ₹{product.daily_income.toLocaleString('en-IN')}
-                      </span>
-                      <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
-                        Daily
-                      </span>
-                    </p>
-                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.65rem', color: '#9CA3AF', margin: '2px 0 0' }}>
-                      Income
-                    </p>
+                <div className="flex-1 flex justify-center gap-6">
+                  <div className="text-center">
+                    <p className="text-lg font-extrabold text-money">₹{product.daily_income.toLocaleString('en-IN')}</p>
+                    <p className="text-[10px] text-muted-foreground font-medium">Daily Income</p>
                   </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'Poppins, sans-serif', margin: 0, lineHeight: 1.2 }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1E9E48' }}>
-                        ₹{product.total_income.toLocaleString('en-IN')}
-                      </span>
-                      <span style={{ fontSize: '0.6rem', fontWeight: 500, color: '#9CA3AF', marginLeft: '3px' }}>
-                        Total
-                      </span>
-                    </p>
-                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.65rem', color: '#9CA3AF', margin: '2px 0 0' }}>
-                      Income
-                    </p>
+                  <div className="text-center">
+                    <p className="text-lg font-extrabold text-money">₹{product.total_income.toLocaleString('en-IN')}</p>
+                    <p className="text-[10px] text-muted-foreground font-medium">Total Income</p>
                   </div>
                 </div>
               </div>
 
               {/* Price */}
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: '#1F2937',
-                  margin: '4px 0 2px',
-                }}
-              >
-                Price:{' '}
-                <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>
-                  ₹{product.price.toLocaleString('en-IN')}
-                </span>
+              <p className="text-center text-sm font-semibold text-foreground pb-1">
+                Price: <span className="text-lg font-extrabold text-money">₹{product.price.toLocaleString('en-IN')}</span>
               </p>
 
-              {/* Buy Now button */}
-              <div style={{ padding: '6px 20px 18px' }}>
+              {/* Buy Button */}
+              <div className="px-5 pb-4 pt-1">
                 <button
                   className={cn(
-                    "w-full transition-all duration-200 active:scale-[0.98]",
+                    "w-full clay-button py-3.5 text-sm transition-all active:scale-[0.97]",
                     investingProductId === product.id && "opacity-70 pointer-events-none"
                   )}
-                  style={{
-                    background: 'linear-gradient(135deg, #34A853 0%, #2FA24F 100%)',
-                    color: '#fff',
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: '1rem',
-                    fontWeight: 700,
-                    padding: '14px 0',
-                    borderRadius: '999px',
-                    border: 'none',
-                    boxShadow: '0 6px 20px rgba(52, 168, 83, 0.30)',
-                    cursor: 'pointer',
-                  }}
                   onClick={() => handleInvest(product)}
                   disabled={investingProductId === product.id}
                 >
                   {investingProductId === product.id ? (
                     <span className="flex items-center justify-center gap-2">
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Investing...
                     </span>
                   ) : (
@@ -301,9 +146,7 @@ const Products = () => {
             </div>
           ))
         ) : (
-          <div style={{ textAlign: 'center', padding: '4rem 0', color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}>
-            No products available
-          </div>
+          <div className="text-center py-16 text-muted-foreground">No products available</div>
         )}
       </div>
     </AppLayout>

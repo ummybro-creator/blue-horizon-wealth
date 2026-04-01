@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const banners = [
   { id: 1, image: 'https://files.catbox.moe/jpq9i3.jpg' },
@@ -18,7 +17,7 @@ export function BannerSlider() {
   }, []);
 
   return (
-    <div className="relative mx-4 rounded-2xl overflow-hidden shadow-card">
+    <div className="clay-card overflow-hidden" style={{ borderRadius: '22px' }}>
       <div 
         className="flex transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -40,13 +39,12 @@ export function BannerSlider() {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex ? 'bg-primary w-4' : 'bg-primary/30'
+            className={`h-2 rounded-full transition-all ${
+              index === currentIndex ? 'bg-primary w-5' : 'bg-white/50 w-2'
             }`}
           />
         ))}
       </div>
-
     </div>
   );
 }
