@@ -29,30 +29,30 @@ export function LatestNews() {
   }, [addNewPayment]);
 
   return (
-    <div className="mx-4 mt-4 mb-6">
+    <div className="mx-4 mt-5 mb-6">
       <div className="flex items-center gap-2 mb-3">
-        <CheckCircle className="w-5 h-5 text-green-500" />
-        <h2 className="text-lg font-bold text-primary">Recent Payment</h2>
+        <CheckCircle className="w-5 h-5 text-primary" />
+        <h2 className="text-base font-bold text-foreground">Recent Payments</h2>
       </div>
       
-      <div className="space-y-2 overflow-hidden">
+      <div className="clay-card p-4 space-y-2">
         {payments.map((item) => (
           <div 
             key={item.id} 
-            className={`flex items-center justify-between p-3 rounded-xl transition-all duration-500 ease-out ${
-              item.isNew ? 'animate-fade-in bg-green-50/50' : 'bg-muted/30'
+            className={`flex items-center justify-between p-3 rounded-2xl transition-all duration-500 ease-out ${
+              item.isNew ? 'animate-fade-in bg-primary/5' : 'bg-muted/40'
             }`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center">
-                <CheckCircle className="w-4 h-4 text-green-500" />
+              <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shadow-clay-sm">
+                <CheckCircle className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-medium text-foreground">{item.name}</p>
+                <p className="text-sm font-semibold text-foreground">{item.name}</p>
                 <p className="text-xs text-muted-foreground">ID: {item.userId}</p>
               </div>
             </div>
-            <p className="text-sm font-bold text-green-600">₹{item.amount.toLocaleString()}</p>
+            <p className="text-sm font-bold text-money">₹{item.amount.toLocaleString()}</p>
           </div>
         ))}
       </div>
