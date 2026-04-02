@@ -21,6 +21,7 @@ const menuItems = [
   { icon: FileText, label: 'Financial Records', path: '/records' },
   { icon: CreditCard, label: 'Withdraw Records', path: '/records' },
   { icon: Target, label: 'Mission', path: '/checkin' },
+  { icon: Trophy, label: 'Top Promoters', path: '/leaderboard' },
   { icon: Download, label: 'Download App', path: '#' },
 ];
 
