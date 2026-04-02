@@ -100,7 +100,7 @@ const Products = () => {
                       className="w-20 h-[90px] rounded-2xl object-cover"
                     />
                   ) : (
-                    <div className="w-20 h-[90px] rounded-2xl bg-primary/10 flex items-center justify-center shadow-clay-sm">
+                    <div className="w-20 h-[90px] rounded-2xl bg-primary/10 flex items-center justify-center">
                       <span className="text-primary text-[11px] font-bold text-center px-1">{product.name}</span>
                     </div>
                   )}

@@ -246,8 +246,27 @@
 
   /* App gradient background */
   .app-bg {
-    background: var(--gradient-bg);
+    background: url('/images/app-bg.png') no-repeat top center / cover fixed;
     min-height: 100vh;
+  }
+
+  /* Admin clay light */
+  .admin-bg {
+    background: linear-gradient(180deg, rgba(52,168,83,0.06) 0%, #F2F4F3 30%, #F7F7F7 100%);
+    min-height: 100vh;
+  }
+
+  .admin-card {
+    background: hsl(var(--card));
+    border-radius: 22px;
+    box-shadow: var(--shadow-clay);
+    border: none;
+  }
+
+  .admin-inset {
+    box-shadow: var(--shadow-clay-inset);
+    border-radius: 14px;
+    background: hsl(var(--muted));
   }
 }
 
