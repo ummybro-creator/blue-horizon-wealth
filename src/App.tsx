@@ -182,6 +182,14 @@ const App = () => {
                 }
               />
               <Route
+                path="/leaderboard"
+                element={
+                  <ProtectedRoute>
+                    <Leaderboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/security"
                 element={
                   <ProtectedRoute>
