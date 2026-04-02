@@ -40,67 +40,67 @@ const AdminUsers = () => {
   });
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#0F172A' }}>
+    <div className="admin-bg p-6">
       <div className="flex items-center gap-4 mb-6">
-        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-300 shadow-clay-dark" style={{ background: '#1E293B' }}>
+        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">User Management</h1>
-          <p className="text-slate-400">Manage all registered users</p>
+          <h1 className="text-2xl font-bold text-foreground">User Management</h1>
+          <p className="text-muted-foreground">Manage all registered users</p>
         </div>
       </div>
 
-      <div className="rounded-3xl p-4 mb-6 shadow-clay-dark" style={{ background: '#1E293B' }}>
+      <div className="clay-card p-4 mb-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input type="text" placeholder="Search by phone number..." value={search} onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 h-12 rounded-2xl border-none text-white" style={{ background: '#0F172A', boxShadow: 'inset 2px 2px 6px rgba(0,0,0,0.3), inset -2px -2px 6px rgba(255,255,255,0.03)' }} />
+            className="pl-10 h-12 rounded-2xl clay-inset border-none" />
         </div>
       </div>
 
-      <div className="rounded-3xl overflow-hidden shadow-clay-dark" style={{ background: '#1E293B' }}>
+      <div className="clay-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead style={{ background: 'rgba(15,23,42,0.5)' }}>
+            <thead className="bg-muted/50">
               <tr>
-                <th className="text-left p-4 text-slate-300 font-medium">User</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Phone</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Balance</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Status</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Joined</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Actions</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">User</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Phone</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Balance</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Status</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Joined</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/50">
+            <tbody className="divide-y divide-border">
               {isLoading ? (
-                <tr><td colSpan={6} className="p-8 text-center text-slate-400">Loading users...</td></tr>
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">Loading users...</td></tr>
               ) : users?.length === 0 ? (
-                <tr><td colSpan={6} className="p-8 text-center text-slate-400">No users found</td></tr>
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">No users found</td></tr>
               ) : (
                 users?.map((user) => (
-                  <tr key={user.id} className="hover:bg-slate-700/20">
+                  <tr key={user.id} className="hover:bg-muted/30">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-medium shadow-clay-dark-sm" style={{ background: '#0F172A' }}>
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary font-medium bg-primary/10 shadow-clay-sm">
                           {user.full_name?.charAt(0) || user.phone_number.charAt(0)}
                         </div>
-                        <span className="text-white">{user.full_name || 'User'}</span>
+                        <span className="text-foreground">{user.full_name || 'User'}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-slate-300">{user.phone_number}</td>
-                    <td className="p-4 font-medium" style={{ color: '#34A853' }}>₹{Number(user.wallet?.total_balance || 0).toLocaleString('en-IN')}</td>
+                    <td className="p-4 text-foreground">{user.phone_number}</td>
+                    <td className="p-4 font-medium text-primary">₹{Number(user.wallet?.total_balance || 0).toLocaleString('en-IN')}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.is_blocked ? 'bg-red-500/20 text-red-400' : 'bg-emerald-500/20 text-emerald-400'}`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.is_blocked ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'}`}>
                         {user.is_blocked ? 'Blocked' : 'Active'}
                       </span>
                     </td>
-                    <td className="p-4 text-slate-400 text-sm">{new Date(user.created_at).toLocaleDateString()}</td>
+                    <td className="p-4 text-muted-foreground text-sm">{new Date(user.created_at).toLocaleDateString()}</td>
                     <td className="p-4">
                       <Button size="sm" variant={user.is_blocked ? 'outline' : 'destructive'}
                         onClick={() => toggleBlockMutation.mutate({ userId: user.id, isBlocked: user.is_blocked })}
                         disabled={toggleBlockMutation.isPending}
-                        className={user.is_blocked ? 'border-emerald-500 text-emerald-400 hover:bg-emerald-500/20' : ''}>
+                        className={user.is_blocked ? 'border-primary text-primary hover:bg-primary/10' : ''}>
                         {user.is_blocked ? <><CheckCircle className="w-4 h-4 mr-1" />Unblock</> : <><Ban className="w-4 h-4 mr-1" />Block</>}
                       </Button>
                     </td>

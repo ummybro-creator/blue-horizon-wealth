@@ -49,25 +49,24 @@ const AdminWithdrawals = () => {
     onError: () => { toast.error('Failed to reject'); },
   });
 
-  const statusColors = { pending: 'bg-yellow-500/20 text-yellow-400', approved: 'bg-emerald-500/20 text-emerald-400', rejected: 'bg-red-500/20 text-red-400' };
+  const statusColors = { pending: 'bg-yellow-500/10 text-yellow-600', approved: 'bg-primary/10 text-primary', rejected: 'bg-destructive/10 text-destructive' };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#0F172A' }}>
+    <div className="admin-bg p-6">
       <div className="flex items-center gap-4 mb-6">
-        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-300 shadow-clay-dark" style={{ background: '#1E293B' }}>
+        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Withdrawal Management</h1>
-          <p className="text-slate-400">Approve or reject withdrawal requests</p>
+          <h1 className="text-2xl font-bold text-foreground">Withdrawal Management</h1>
+          <p className="text-muted-foreground">Approve or reject withdrawal requests</p>
         </div>
       </div>
 
-      <div className="rounded-3xl p-1.5 mb-6 flex gap-1.5 overflow-x-auto shadow-clay-dark" style={{ background: '#1E293B' }}>
+      <div className="clay-card p-1.5 mb-6 flex gap-1.5 overflow-x-auto">
         {(['pending', 'approved', 'rejected', 'all'] as const).map((status) => (
           <button key={status} onClick={() => setFilter(status)}
-            className={`px-4 py-2.5 rounded-2xl font-medium transition-all whitespace-nowrap text-sm ${filter === status ? 'text-white shadow-clay-dark-sm' : 'text-slate-400'}`}
-            style={filter === status ? { background: 'linear-gradient(135deg, #34A853, #2FA24F)' } : {}}>
+            className={`px-4 py-2.5 rounded-2xl font-medium transition-all whitespace-nowrap text-sm ${filter === status ? 'clay-button' : 'text-muted-foreground'}`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </button>
         ))}
@@ -75,47 +74,47 @@ const AdminWithdrawals = () => {
 
       <div className="space-y-4">
         {isLoading ? (
-          <div className="rounded-3xl p-8 text-center text-slate-400 shadow-clay-dark" style={{ background: '#1E293B' }}>Loading...</div>
+          <div className="clay-card p-8 text-center text-muted-foreground">Loading...</div>
         ) : withdrawals?.length === 0 ? (
-          <div className="rounded-3xl p-8 text-center text-slate-400 shadow-clay-dark" style={{ background: '#1E293B' }}>No withdrawal requests found</div>
+          <div className="clay-card p-8 text-center text-muted-foreground">No withdrawal requests found</div>
         ) : (
           withdrawals?.map((w) => (
-            <div key={w.id} className="rounded-3xl p-5 shadow-clay-dark" style={{ background: '#1E293B' }}>
+            <div key={w.id} className="clay-card p-5">
               <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-clay-dark-sm" style={{ background: '#0F172A' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary font-medium bg-primary/10 shadow-clay-sm">
                       {w.profile?.full_name?.charAt(0) || 'U'}
                     </div>
                     <div>
-                      <p className="text-white font-medium">{w.profile?.full_name || 'User'}</p>
-                      <p className="text-slate-400 text-sm">{w.profile?.phone_number}</p>
+                      <p className="text-foreground font-medium">{w.profile?.full_name || 'User'}</p>
+                      <p className="text-muted-foreground text-sm">{w.profile?.phone_number}</p>
                     </div>
                   </div>
-                  <div className="rounded-2xl p-3 mt-3 shadow-clay-dark-inset" style={{ background: '#0F172A' }}>
-                    <p className="text-slate-500 text-xs mb-1">Bank Details</p>
+                  <div className="clay-inset p-3 mt-3">
+                    <p className="text-muted-foreground text-xs mb-1">Bank Details</p>
                     {w.bank_details?.upi_id ? (
-                      <p className="text-white">UPI: {w.bank_details.upi_id}</p>
+                      <p className="text-foreground">UPI: {w.bank_details.upi_id}</p>
                     ) : w.bank_details?.account_number ? (
-                      <div className="text-white text-sm">
+                      <div className="text-foreground text-sm">
                         <p>{w.bank_details.account_holder_name}</p>
                         <p>{w.bank_details.bank_name} - {w.bank_details.account_number}</p>
-                        <p className="text-slate-400">IFSC: {w.bank_details.ifsc_code}</p>
+                        <p className="text-muted-foreground">IFSC: {w.bank_details.ifsc_code}</p>
                       </div>
                     ) : (
-                      <p className="text-slate-400">No bank details</p>
+                      <p className="text-muted-foreground">No bank details</p>
                     )}
                   </div>
                 </div>
                 <div className="text-center lg:text-right">
-                  <p className="text-3xl font-extrabold text-red-400">₹{Number(w.amount).toLocaleString('en-IN')}</p>
+                  <p className="text-3xl font-extrabold text-destructive">₹{Number(w.amount).toLocaleString('en-IN')}</p>
                   <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${statusColors[w.status]}`}>{w.status.toUpperCase()}</span>
-                  <p className="text-slate-500 text-xs mt-1">{new Date(w.requested_at).toLocaleDateString()} at {new Date(w.requested_at).toLocaleTimeString()}</p>
+                  <p className="text-muted-foreground text-xs mt-1">{new Date(w.requested_at).toLocaleDateString()} at {new Date(w.requested_at).toLocaleTimeString()}</p>
                 </div>
                 {w.status === 'pending' && (
                   <div className="flex gap-2 lg:flex-col">
-                    <Button className="flex-1 rounded-xl" onClick={() => approveMutation.mutate(w.id)} disabled={approveMutation.isPending}
-                      style={{ background: '#34A853' }}><Check className="w-4 h-4 mr-1" />Approve</Button>
+                    <Button className="flex-1 rounded-xl clay-button" onClick={() => approveMutation.mutate(w.id)} disabled={approveMutation.isPending}>
+                      <Check className="w-4 h-4 mr-1" />Approve</Button>
                     <Button className="flex-1 rounded-xl" variant="destructive" onClick={() => rejectMutation.mutate(w.id)} disabled={rejectMutation.isPending}>
                       <X className="w-4 h-4 mr-1" />Reject</Button>
                   </div>
