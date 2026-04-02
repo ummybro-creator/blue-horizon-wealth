@@ -44,71 +44,70 @@ const AdminRecharges = () => {
     onError: () => { toast.error('Failed to reject recharge'); },
   });
 
-  const statusColors = { pending: 'bg-yellow-500/20 text-yellow-400', approved: 'bg-emerald-500/20 text-emerald-400', rejected: 'bg-red-500/20 text-red-400' };
+  const statusColors = { pending: 'bg-yellow-500/10 text-yellow-600', approved: 'bg-primary/10 text-primary', rejected: 'bg-destructive/10 text-destructive' };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#0F172A' }}>
+    <div className="admin-bg p-6">
       <div className="flex items-center gap-4 mb-6">
-        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-300 shadow-clay-dark" style={{ background: '#1E293B' }}>
+        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Recharge Management</h1>
-          <p className="text-slate-400">Approve or reject recharge requests</p>
+          <h1 className="text-2xl font-bold text-foreground">Recharge Management</h1>
+          <p className="text-muted-foreground">Approve or reject recharge requests</p>
         </div>
       </div>
 
-      <div className="rounded-3xl p-1.5 mb-6 flex gap-1.5 overflow-x-auto shadow-clay-dark" style={{ background: '#1E293B' }}>
+      <div className="clay-card p-1.5 mb-6 flex gap-1.5 overflow-x-auto">
         {(['pending', 'approved', 'rejected', 'all'] as const).map((status) => (
           <button key={status} onClick={() => setFilter(status)}
             className={`px-4 py-2.5 rounded-2xl font-medium transition-all whitespace-nowrap text-sm ${
-              filter === status ? 'text-white shadow-clay-dark-sm' : 'text-slate-400'
-            }`}
-            style={filter === status ? { background: 'linear-gradient(135deg, #34A853, #2FA24F)' } : {}}>
+              filter === status ? 'clay-button' : 'text-muted-foreground'
+            }`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </button>
         ))}
       </div>
 
-      <div className="rounded-3xl overflow-hidden shadow-clay-dark" style={{ background: '#1E293B' }}>
+      <div className="clay-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead style={{ background: 'rgba(15,23,42,0.5)' }}>
+            <thead className="bg-muted/50">
               <tr>
-                <th className="text-left p-4 text-slate-300 font-medium">User</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Amount</th>
-                <th className="text-left p-4 text-slate-300 font-medium">UTR</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Status</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Date</th>
-                <th className="text-left p-4 text-slate-300 font-medium">Actions</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">User</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Amount</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">UTR</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Status</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Date</th>
+                <th className="text-left p-4 text-muted-foreground font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/50">
+            <tbody className="divide-y divide-border">
               {isLoading ? (
-                <tr><td colSpan={6} className="p-8 text-center text-slate-400">Loading recharges...</td></tr>
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">Loading recharges...</td></tr>
               ) : recharges?.length === 0 ? (
-                <tr><td colSpan={6} className="p-8 text-center text-slate-400">No recharge requests found</td></tr>
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">No recharge requests found</td></tr>
               ) : (
                 recharges?.map((recharge) => (
-                  <tr key={recharge.id} className="hover:bg-slate-700/20">
+                  <tr key={recharge.id} className="hover:bg-muted/30">
                     <td className="p-4">
-                      <p className="text-white">{recharge.profile?.full_name || 'User'}</p>
-                      <p className="text-slate-400 text-sm">{recharge.profile?.phone_number}</p>
+                      <p className="text-foreground">{recharge.profile?.full_name || 'User'}</p>
+                      <p className="text-muted-foreground text-sm">{recharge.profile?.phone_number}</p>
                     </td>
-                    <td className="p-4 font-bold text-lg" style={{ color: '#34A853' }}>₹{Number(recharge.amount).toLocaleString('en-IN')}</td>
-                    <td className="p-4 text-slate-300 font-mono">{recharge.utr_number || '-'}</td>
+                    <td className="p-4 font-bold text-lg text-primary">₹{Number(recharge.amount).toLocaleString('en-IN')}</td>
+                    <td className="p-4 text-foreground font-mono">{recharge.utr_number || '-'}</td>
                     <td className="p-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[recharge.status]}`}>{recharge.status.toUpperCase()}</span></td>
-                    <td className="p-4 text-slate-400 text-sm">{new Date(recharge.requested_at).toLocaleDateString()}<br />{new Date(recharge.requested_at).toLocaleTimeString()}</td>
+                    <td className="p-4 text-muted-foreground text-sm">{new Date(recharge.requested_at).toLocaleDateString()}<br />{new Date(recharge.requested_at).toLocaleTimeString()}</td>
                     <td className="p-4">
                       {recharge.status === 'pending' ? (
                         <div className="flex gap-2">
                           <Button size="sm" onClick={() => approveMutation.mutate(recharge.id)} disabled={approveMutation.isPending}
-                            className="rounded-xl" style={{ background: '#34A853' }}><Check className="w-4 h-4 mr-1" />Approve</Button>
+                            className="rounded-xl clay-button"><Check className="w-4 h-4 mr-1" />Approve</Button>
                           <Button size="sm" variant="destructive" onClick={() => rejectMutation.mutate(recharge.id)} disabled={rejectMutation.isPending}
                             className="rounded-xl"><X className="w-4 h-4 mr-1" />Reject</Button>
                         </div>
                       ) : (
-                        <span className="text-slate-500 text-sm">{recharge.processed_at && new Date(recharge.processed_at).toLocaleDateString()}</span>
+                        <span className="text-muted-foreground text-sm">{recharge.processed_at && new Date(recharge.processed_at).toLocaleDateString()}</span>
                       )}
                     </td>
                   </tr>

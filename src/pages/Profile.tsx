@@ -9,7 +9,8 @@ import {
   Target,
   Download,
   CheckCircle,
-  ShoppingBag
+  ShoppingBag,
+  Trophy
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,6 +22,7 @@ const menuItems = [
   { icon: FileText, label: 'Financial Records', path: '/records' },
   { icon: CreditCard, label: 'Withdraw Records', path: '/records' },
   { icon: Target, label: 'Mission', path: '/checkin' },
+  { icon: Trophy, label: 'Top Promoters', path: '/leaderboard' },
   { icon: Download, label: 'Download App', path: '#' },
 ];
 

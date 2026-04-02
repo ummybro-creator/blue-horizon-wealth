@@ -24,6 +24,7 @@ import BankDetails from "./pages/BankDetails";
 import About from "./pages/About";
 import ExtraReferralBonus from "./pages/ExtraReferralBonus";
 import NotFound from "./pages/NotFound";
+import Leaderboard from "./pages/Leaderboard";
 
 // ================= ADMIN PAGES =================
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -177,6 +178,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Index />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/leaderboard"
+                element={
+                  <ProtectedRoute>
+                    <Leaderboard />
                   </ProtectedRoute>
                 }
               />

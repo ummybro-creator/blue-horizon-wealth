@@ -29,9 +29,7 @@ const AdminSettings = () => {
     onError: () => { toast.error('Failed to save settings'); },
   });
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center" style={{ background: '#0F172A' }}><div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#34A853', borderTopColor: 'transparent' }} /></div>;
-
-  const inputStyle = { background: '#0F172A', boxShadow: 'inset 2px 2px 6px rgba(0,0,0,0.3), inset -2px -2px 6px rgba(255,255,255,0.03)' };
+  if (isLoading) return <div className="admin-bg flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>;
 
   const sections = [
     { title: 'App Branding', icon: Settings, fields: [
@@ -56,40 +54,38 @@ const AdminSettings = () => {
   ];
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#0F172A' }}>
+    <div className="admin-bg p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-300 shadow-clay-dark" style={{ background: '#1E293B' }}>
+          <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-white">App Settings</h1>
-            <p className="text-slate-400">Configure your platform</p>
+            <h1 className="text-2xl font-bold text-foreground">App Settings</h1>
+            <p className="text-muted-foreground">Configure your platform</p>
           </div>
         </div>
         <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}
-          className="px-4 py-2.5 rounded-2xl text-white font-bold text-sm flex items-center gap-2 shadow-clay-dark disabled:opacity-50 transition-all active:scale-95"
-          style={{ background: 'linear-gradient(135deg, #34A853, #2FA24F)' }}>
+          className="px-4 py-2.5 rounded-2xl clay-button text-sm flex items-center gap-2 disabled:opacity-50 transition-all active:scale-95">
           <Save className="w-4 h-4" />{saveMutation.isPending ? 'Saving...' : 'Save All'}
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {sections.map((section) => (
-          <div key={section.title} className="rounded-3xl p-6 shadow-clay-dark" style={{ background: '#1E293B' }}>
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <section.icon className="w-5 h-5" style={{ color: '#34A853' }} />{section.title}
+          <div key={section.title} className="clay-card p-6">
+            <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+              <section.icon className="w-5 h-5 text-primary" />{section.title}
             </h2>
             <div className="space-y-4">
               {section.fields.map((field) => (
                 <div key={field.key}>
-                  <label className="text-sm text-slate-300 mb-1 block">{field.label}</label>
+                  <label className="text-sm text-muted-foreground mb-1 block">{field.label}</label>
                   <Input
                     type={field.type || 'text'}
                     value={(formData as any)[field.key]}
                     onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
-                    className="rounded-2xl border-none text-white"
-                    style={inputStyle}
+                    className="rounded-2xl clay-inset border-none"
                     placeholder={field.placeholder}
                   />
                 </div>
