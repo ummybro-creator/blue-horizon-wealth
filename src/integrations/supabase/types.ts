@@ -14,54 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_logs: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: string | null
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
       app_settings: {
         Row: {
           app_logo_url: string | null
           app_name: string | null
           checkin_bonus_amount: number | null
           created_at: string | null
+          deposit_bonus_percent: number | null
+          earnings_paused: boolean | null
+          global_earning_cap: number | null
           id: string
+          level1_commission: number | null
+          level2_commission: number | null
+          level3_commission: number | null
+          maximum_withdrawal: number | null
           minimum_recharge: number | null
           minimum_withdrawal: number | null
           payment_qr_code_url: string | null
           payment_upi_id: string | null
+          per_user_earning_limit: number | null
+          recharge_enabled: boolean | null
+          referral_enabled: boolean | null
+          roi_multiplier: number | null
+          signup_bonus: number | null
           support_email: string | null
           support_phone: string | null
           support_whatsapp: string | null
           telegram_group_link: string | null
           updated_at: string | null
+          withdraw_charge_percent: number | null
+          withdraw_delay_hours: number | null
+          withdraw_enabled: boolean | null
         }
         Insert: {
           app_logo_url?: string | null
           app_name?: string | null
           checkin_bonus_amount?: number | null
           created_at?: string | null
+          deposit_bonus_percent?: number | null
+          earnings_paused?: boolean | null
+          global_earning_cap?: number | null
           id?: string
+          level1_commission?: number | null
+          level2_commission?: number | null
+          level3_commission?: number | null
+          maximum_withdrawal?: number | null
           minimum_recharge?: number | null
           minimum_withdrawal?: number | null
           payment_qr_code_url?: string | null
           payment_upi_id?: string | null
+          per_user_earning_limit?: number | null
+          recharge_enabled?: boolean | null
+          referral_enabled?: boolean | null
+          roi_multiplier?: number | null
+          signup_bonus?: number | null
           support_email?: string | null
           support_phone?: string | null
           support_whatsapp?: string | null
           telegram_group_link?: string | null
           updated_at?: string | null
+          withdraw_charge_percent?: number | null
+          withdraw_delay_hours?: number | null
+          withdraw_enabled?: boolean | null
         }
         Update: {
           app_logo_url?: string | null
           app_name?: string | null
           checkin_bonus_amount?: number | null
           created_at?: string | null
+          deposit_bonus_percent?: number | null
+          earnings_paused?: boolean | null
+          global_earning_cap?: number | null
           id?: string
+          level1_commission?: number | null
+          level2_commission?: number | null
+          level3_commission?: number | null
+          maximum_withdrawal?: number | null
           minimum_recharge?: number | null
           minimum_withdrawal?: number | null
           payment_qr_code_url?: string | null
           payment_upi_id?: string | null
+          per_user_earning_limit?: number | null
+          recharge_enabled?: boolean | null
+          referral_enabled?: boolean | null
+          roi_multiplier?: number | null
+          signup_bonus?: number | null
           support_email?: string | null
           support_phone?: string | null
           support_whatsapp?: string | null
           telegram_group_link?: string | null
           updated_at?: string | null
+          withdraw_charge_percent?: number | null
+          withdraw_delay_hours?: number | null
+          withdraw_enabled?: boolean | null
         }
         Relationships: []
       }
@@ -165,6 +243,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          title: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          title: string
+          type?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          title?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       products: {
         Row: {
@@ -307,6 +415,42 @@ export type Database = {
         }
         Relationships: []
       }
+      revenue_logs: {
+        Row: {
+          created_at: string
+          id: string
+          log_date: string
+          profit: number
+          total_bonus: number
+          total_commission: number
+          total_recharge: number
+          total_withdraw: number
+          user_count: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          log_date?: string
+          profit?: number
+          total_bonus?: number
+          total_commission?: number
+          total_recharge?: number
+          total_withdraw?: number
+          user_count?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          log_date?: string
+          profit?: number
+          total_bonus?: number
+          total_commission?: number
+          total_recharge?: number
+          total_withdraw?: number
+          user_count?: number
+        }
+        Relationships: []
+      }
       sliders: {
         Row: {
           created_at: string | null
@@ -334,6 +478,105 @@ export type Database = {
           link_url?: string | null
           sort_order?: number | null
           title?: string | null
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          admin_reply: string | null
+          created_at: string
+          id: string
+          message: string
+          replied_by: string | null
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          replied_by?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          replied_by?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transaction_ledger: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          description: string | null
+          id: string
+          reference_id: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_devices: {
+        Row: {
+          created_at: string
+          device_id: string | null
+          id: string
+          ip_address: string | null
+          last_login_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          ip_address?: string | null
+          last_login_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          ip_address?: string | null
+          last_login_at?: string
+          user_agent?: string | null
+          user_id?: string
         }
         Relationships: []
       }
