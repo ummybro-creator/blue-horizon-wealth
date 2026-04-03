@@ -246,13 +246,15 @@
 
   /* App gradient background */
   .app-bg {
-    background: url('/images/app-bg.png') no-repeat top center / cover fixed;
+    background: linear-gradient(180deg, #34A853 0%, #4CAF6A 8%, #A7C9B2 18%, #C9D8D1 30%, #E8F0EB 50%, #F2F4F3 70%, #F7F7F7 100%);
+    background-attachment: fixed;
     min-height: 100vh;
   }
 
   /* Admin clay light */
   .admin-bg {
-    background: linear-gradient(180deg, rgba(52,168,83,0.06) 0%, #F2F4F3 30%, #F7F7F7 100%);
+    background: linear-gradient(180deg, #34A853 0%, #4CAF6A 8%, #A7C9B2 18%, #C9D8D1 30%, #E8F0EB 50%, #F2F4F3 70%, #F7F7F7 100%);
+    background-attachment: fixed;
     min-height: 100vh;
   }
 

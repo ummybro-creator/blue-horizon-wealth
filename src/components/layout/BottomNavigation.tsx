@@ -14,8 +14,8 @@ export function BottomNavigation() {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg pb-[env(safe-area-inset-bottom)]">
-      <div className="clay-card mx-3 mb-2 flex items-center justify-around h-16 px-2" style={{ borderRadius: '30px' }}>
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg" style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
+      <div className="clay-card mx-3 mb-1 flex items-center justify-around h-16 px-2" style={{ borderRadius: '30px' }}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (

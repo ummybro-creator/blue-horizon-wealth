@@ -98,6 +98,7 @@ const Products = () => {
                       src={product.image_url}
                       alt={product.name}
                       className="w-20 h-[90px] rounded-2xl object-cover"
+                      style={{ boxShadow: 'none' }}
                     />
                   ) : (
                     <div className="w-20 h-[90px] rounded-2xl bg-primary/10 flex items-center justify-center">
