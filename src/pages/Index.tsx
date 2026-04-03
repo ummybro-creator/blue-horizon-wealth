@@ -25,8 +25,8 @@ const Index = () => {
       {/* Quick Menu */}
       <QuickMenu />
 
-      {/* Recent Payments */}
-      <RecentPayments />
+
+
 
       {/* Latest News */}
       <LatestNews />
