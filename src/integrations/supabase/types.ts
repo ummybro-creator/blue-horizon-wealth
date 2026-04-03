@@ -673,6 +673,15 @@ export type Database = {
         Args: { p_amount: number; p_user_id: string }
         Returns: undefined
       }
+      adjust_wallet: {
+        Args: {
+          p_admin_id: string
+          p_amount: number
+          p_reason?: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
       approve_recharge: {
         Args: { p_admin_id: string; p_recharge_id: string }
         Returns: undefined
@@ -694,6 +703,16 @@ export type Database = {
         Args: { p_investment_id: string }
         Returns: boolean
       }
+      get_dashboard_stats: { Args: never; Returns: Json }
+      get_revenue_chart: {
+        Args: { p_days?: number }
+        Returns: {
+          log_date: string
+          profit_amount: number
+          recharge_amount: number
+          withdraw_amount: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -703,6 +722,26 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_blocked: { Args: { _user_id: string }; Returns: boolean }
+      log_admin_action: {
+        Args: {
+          p_action: string
+          p_admin_id: string
+          p_details?: Json
+          p_target_id?: string
+          p_target_type?: string
+        }
+        Returns: undefined
+      }
+      record_ledger: {
+        Args: {
+          p_amount: number
+          p_description?: string
+          p_reference_id?: string
+          p_type: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
       reject_recharge: {
         Args: { p_admin_id: string; p_recharge_id: string }
         Returns: undefined
