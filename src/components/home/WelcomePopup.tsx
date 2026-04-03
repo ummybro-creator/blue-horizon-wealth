@@ -18,8 +18,8 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center backdrop-blur-md bg-black/30 p-4 pt-[10vh]">
-      <div className="clay-card-lg max-w-sm w-full animate-scale-in overflow-hidden p-5 max-h-[80vh] overflow-y-auto mb-24" style={{ borderRadius: '28px' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 p-4">
+      <div className="clay-card-lg max-w-sm w-full animate-scale-in overflow-hidden p-5 max-h-[72vh] overflow-y-auto mb-20" style={{ borderRadius: '28px' }}>
         {/* Close button */}
         <button
           onClick={onClose}
