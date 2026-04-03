@@ -5,7 +5,7 @@ import { BannerSlider } from '@/components/home/BannerSlider';
 import { QuickMenu } from '@/components/home/QuickMenu';
 import { LatestNews } from '@/components/home/LatestNews';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
-import { RecentPayments } from '@/components/home/RecentPayments';
+
 
 const Index = () => {
   const [showPopup, setShowPopup] = useState(true);
