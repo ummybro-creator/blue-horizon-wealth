@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { ArrowLeft, Plus, Edit, Trash2, X } from 'lucide-react';
+import { Plus, Edit, Trash2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import AdminLayout from '@/components/admin/AdminLayout';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
@@ -56,16 +56,11 @@ const AdminProducts = () => {
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (!formData.name || !formData.price || !formData.daily_income) { toast.error('Please fill all required fields'); return; } saveMutation.mutate(formData); };
 
   return (
-    <div className="admin-bg p-6">
+    <AdminLayout>
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Product Management</h1>
-            <p className="text-muted-foreground">Add, edit, or remove investment products</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Product Management</h1>
+          <p className="text-muted-foreground text-sm">Add, edit, or remove products</p>
         </div>
         <button onClick={() => setShowForm(true)} className="px-4 py-2.5 rounded-2xl clay-button text-sm flex items-center gap-2 transition-all active:scale-95">
           <Plus className="w-4 h-4" />Add Product
@@ -145,7 +140,7 @@ const AdminProducts = () => {
           ))
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

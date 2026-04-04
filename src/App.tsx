@@ -34,6 +34,14 @@ import AdminRecharges from "./pages/admin/AdminRecharges";
 import AdminWithdrawals from "./pages/admin/AdminWithdrawals";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminTransactions from "./pages/admin/AdminTransactions";
+import AdminReferrals from "./pages/admin/AdminReferrals";
+import AdminRewards from "./pages/admin/AdminRewards";
+import AdminCheckins from "./pages/admin/AdminCheckins";
+import AdminLeaderboard from "./pages/admin/AdminLeaderboard";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminSecurity from "./pages/admin/AdminSecurity";
 
 const queryClient = new QueryClient();
 
@@ -255,6 +263,14 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/admin/orders" element={<ProtectedRoute requireAdmin><AdminOrders /></ProtectedRoute>} />
+              <Route path="/admin/transactions" element={<ProtectedRoute requireAdmin><AdminTransactions /></ProtectedRoute>} />
+              <Route path="/admin/referrals" element={<ProtectedRoute requireAdmin><AdminReferrals /></ProtectedRoute>} />
+              <Route path="/admin/rewards" element={<ProtectedRoute requireAdmin><AdminRewards /></ProtectedRoute>} />
+              <Route path="/admin/checkins" element={<ProtectedRoute requireAdmin><AdminCheckins /></ProtectedRoute>} />
+              <Route path="/admin/leaderboard" element={<ProtectedRoute requireAdmin><AdminLeaderboard /></ProtectedRoute>} />
+              <Route path="/admin/reports" element={<ProtectedRoute requireAdmin><AdminReports /></ProtectedRoute>} />
+              <Route path="/admin/security" element={<ProtectedRoute requireAdmin><AdminSecurity /></ProtectedRoute>} />
 
               {/* ================= 404 ================= */}
               <Route path="*" element={<NotFound />} />
