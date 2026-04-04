@@ -140,7 +140,7 @@ const AdminProducts = () => {
           ))
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

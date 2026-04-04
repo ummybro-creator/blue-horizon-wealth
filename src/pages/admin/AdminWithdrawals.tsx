@@ -119,7 +119,7 @@ const AdminWithdrawals = () => {
           ))
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

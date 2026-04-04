@@ -89,7 +89,7 @@ const AdminSettings = () => {
           </div>
         ))}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

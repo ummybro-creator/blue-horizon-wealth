@@ -112,7 +112,7 @@ const AdminRecharges = () => {
           </table>
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 
