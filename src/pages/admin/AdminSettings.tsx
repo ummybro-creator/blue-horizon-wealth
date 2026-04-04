@@ -54,16 +54,11 @@ const AdminSettings = () => {
   ];
 
   return (
-    <div className="admin-bg p-6">
+    <AdminLayout>
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">App Settings</h1>
-            <p className="text-muted-foreground">Configure your platform</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">System Settings</h1>
+          <p className="text-muted-foreground text-sm">Configure your platform</p>
         </div>
         <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}
           className="px-4 py-2.5 rounded-2xl clay-button text-sm flex items-center gap-2 disabled:opacity-50 transition-all active:scale-95">
