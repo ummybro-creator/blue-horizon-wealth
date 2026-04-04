@@ -47,15 +47,10 @@ const AdminRecharges = () => {
   const statusColors = { pending: 'bg-yellow-500/10 text-yellow-600', approved: 'bg-primary/10 text-primary', rejected: 'bg-destructive/10 text-destructive' };
 
   return (
-    <div className="admin-bg p-6">
-      <div className="flex items-center gap-4 mb-6">
-        <Link to="/admin/dashboard" className="w-10 h-10 rounded-2xl flex items-center justify-center text-muted-foreground clay-card">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Recharge Management</h1>
-          <p className="text-muted-foreground">Approve or reject recharge requests</p>
-        </div>
+    <AdminLayout>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-foreground">Recharge Management</h1>
+        <p className="text-muted-foreground text-sm">Approve or reject recharge requests</p>
       </div>
 
       <div className="clay-card p-1.5 mb-6 flex gap-1.5 overflow-x-auto">
