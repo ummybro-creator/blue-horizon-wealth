@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Settings, ArrowLeft, Save, MessageCircle, Mail, Phone, Send, CreditCard } from 'lucide-react';
+import { Settings, Save, MessageCircle, CreditCard, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router-dom';
+import AdminLayout from '@/components/admin/AdminLayout';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
