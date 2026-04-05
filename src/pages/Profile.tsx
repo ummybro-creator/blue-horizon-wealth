@@ -10,7 +10,9 @@ import {
   Download,
   CheckCircle,
   ShoppingBag,
-  Trophy
+  Trophy,
+  Briefcase,
+  BarChart3
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,10 +20,12 @@ import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const menuItems = [
+  { icon: Briefcase, label: 'Active Plan', path: '/active-plans' },
+  { icon: BarChart3, label: 'Earnings Details', path: '/earnings' },
   { icon: Building2, label: 'About Company', path: '/about' },
   { icon: FileText, label: 'Financial Records', path: '/records' },
   { icon: CreditCard, label: 'Withdraw Records', path: '/records' },
-  { icon: Target, label: 'Mission', path: '/checkin' },
+  { icon: Target, label: 'Mission', path: '/extra-bonus' },
   { icon: Trophy, label: 'Top Promoters', path: '/leaderboard' },
   { icon: Download, label: 'Download App', path: '#' },
 ];
@@ -95,11 +99,13 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Personal Details pill */}
-      <div className="flex justify-center mt-5">
-        <span className="px-5 py-1.5 rounded-full clay-button text-xs">
+      {/* Personal Details with divider lines */}
+      <div className="flex items-center justify-center mt-5 px-5 gap-3">
+        <div className="flex-1 h-px bg-border" />
+        <span className="px-4 py-1.5 rounded-full clay-button text-xs whitespace-nowrap">
           Personal Details
         </span>
+        <div className="flex-1 h-px bg-border" />
       </div>
 
       {/* Earnings section */}

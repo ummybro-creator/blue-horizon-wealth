@@ -1,4 +1,5 @@
-import { X, Gift, Sparkles } from 'lucide-react';
+import { X, Gift } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface WelcomePopupProps {
   isOpen: boolean;
@@ -15,59 +16,58 @@ const bonusTiers = [
 ];
 
 export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
+  const navigate = useNavigate();
+
   if (!isOpen) return null;
 
+  const handleGotIt = () => {
+    onClose();
+    navigate('/recharge');
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 p-4">
-      <div className="clay-card-lg max-w-sm w-full animate-scale-in overflow-hidden p-5 max-h-[72vh] overflow-y-auto mb-20" style={{ borderRadius: '28px' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 p-6">
+      <div className="clay-card-lg max-w-[300px] w-full animate-scale-in overflow-hidden p-4 relative" style={{ borderRadius: '24px' }}>
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors"
+          className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors z-10"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5" />
         </button>
 
         {/* Header */}
-        <div className="text-center mb-5">
-          <div className="w-16 h-16 rounded-2xl clay-button flex items-center justify-center mx-auto mb-3">
-            <Gift className="w-8 h-8 text-white" />
+        <div className="text-center mb-3">
+          <div className="w-12 h-12 rounded-xl clay-button flex items-center justify-center mx-auto mb-2">
+            <Gift className="w-6 h-6 text-white" />
           </div>
-          <h2 className="text-xl font-extrabold text-foreground">🎉 First Deposit Bonus</h2>
-          <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-destructive/10 text-destructive text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5" />
-            Limited Time Offer
-          </div>
+          <h2 className="text-base font-extrabold text-foreground">🎉 First Deposit Bonus</h2>
+          <p className="text-[10px] text-destructive font-bold mt-1">Limited Time Offer</p>
         </div>
 
         {/* Bonus Tiers */}
-        <div className="space-y-2.5">
+        <div className="space-y-1.5">
           {bonusTiers.map((tier) => (
             <div
               key={tier.deposit}
-              className="clay-inset flex items-center justify-between px-4 py-3"
+              className="clay-inset flex items-center justify-between px-3 py-2"
             >
-              <span className="text-sm font-medium text-foreground">
+              <span className="text-xs font-medium text-foreground">
                 Deposit <span className="font-bold">₹{tier.deposit}</span>
               </span>
-              <span className="text-sm font-extrabold text-primary">
-                +₹{tier.bonus} Bonus
+              <span className="text-xs font-extrabold text-primary">
+                +₹{tier.bonus}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Footer note */}
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          Bonus applies ONLY to your first deposit
-        </p>
-
         {/* CTA Button */}
         <button
-          onClick={onClose}
-          className="w-full mt-4 clay-button py-3.5 text-sm font-bold"
+          onClick={handleGotIt}
+          className="w-full mt-3 clay-button py-2.5 text-sm font-bold"
         >
-          Got It!
+          Got it
         </button>
       </div>
     </div>
