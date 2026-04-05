@@ -200,6 +200,22 @@ const App = () => {
                 }
               />
               <Route
+                path="/active-plans"
+                element={
+                  <ProtectedRoute>
+                    <ActivePlans />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/earnings"
+                element={
+                  <ProtectedRoute>
+                    <Earnings />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/security"
                 element={
                   <ProtectedRoute>
