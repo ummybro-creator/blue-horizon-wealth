@@ -23,6 +23,8 @@ import Records from "./pages/Records";
 import BankDetails from "./pages/BankDetails";
 import About from "./pages/About";
 import ExtraReferralBonus from "./pages/ExtraReferralBonus";
+import ActivePlans from "./pages/ActivePlans";
+import Earnings from "./pages/Earnings";
 import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
 
@@ -194,6 +196,22 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Leaderboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/active-plans"
+                element={
+                  <ProtectedRoute>
+                    <ActivePlans />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/earnings"
+                element={
+                  <ProtectedRoute>
+                    <Earnings />
                   </ProtectedRoute>
                 }
               />

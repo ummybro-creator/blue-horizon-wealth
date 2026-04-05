@@ -36,12 +36,13 @@ const CheckIn = () => {
   
   const checkedDays = getCheckedDaysThisWeek();
   const todayCheckedIn = !!todayCheckin;
+  const todayReward = dayRewards[currentDayIndex] || bonusAmount;
 
   const handleCheckIn = async () => {
     if (todayCheckedIn) return;
     try {
-      await createCheckin.mutateAsync({ bonusAmount: dayRewards[currentDayIndex] || bonusAmount });
-      toast.success(`You earned ₹${dayRewards[currentDayIndex] || bonusAmount}!`, {
+      await createCheckin.mutateAsync({ bonusAmount: todayReward });
+      toast.success(`You earned ₹${todayReward}!`, {
         description: 'Check-in bonus added to your wallet',
       });
     } catch (error: any) {
@@ -70,7 +71,7 @@ const CheckIn = () => {
           <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur mx-auto mb-2 flex items-center justify-center shadow-clay-sm">
             <Gift className="w-8 h-8 text-white" />
           </div>
-          <p className="text-white/80 text-sm">Check in daily to earn bonus! Weekly total: ₹78</p>
+          <p className="text-white/80 text-sm">Check in daily to earn bonus! Weekly total: <strong className="text-white">₹78</strong></p>
         </div>
       </div>
 
@@ -82,23 +83,24 @@ const CheckIn = () => {
               const isChecked = checkedDays.includes(index);
               const isCurrent = index === currentDayIndex;
               const isPast = index < currentDayIndex;
+              const reward = dayRewards[index];
               
               return (
                 <div key={day} className="text-center">
                   <div className={cn(
-                    "w-10 h-10 mx-auto rounded-xl flex items-center justify-center mb-1 transition-all duration-300",
+                    "w-10 h-10 mx-auto rounded-xl flex flex-col items-center justify-center mb-1 transition-all duration-300",
                     isChecked && "clay-button",
                     isCurrent && !isChecked && "border-2 border-primary border-dashed bg-primary/5",
                     !isChecked && !isCurrent && (isPast ? "bg-destructive/10 shadow-clay-sm" : "clay-inset")
                   )}>
                     {isChecked ? (
-                      <Check className="w-5 h-5 text-white" />
+                      <Check className="w-4 h-4 text-white" />
                     ) : (
                       <span className={cn(
-                        "text-[10px] font-bold",
+                        "text-[10px] font-extrabold",
                         isCurrent ? "text-primary" : "text-muted-foreground"
                       )}>
-                        ₹{dayRewards[index]}
+                        ₹{reward}
                       </span>
                     )}
                   </div>
@@ -113,8 +115,14 @@ const CheckIn = () => {
             })}
           </div>
 
+          {/* Today's Reward Highlight */}
+          <div className="clay-inset p-4 mb-4 text-center rounded-xl">
+            <p className="text-xs text-muted-foreground">Today's Reward</p>
+            <p className="text-3xl font-extrabold text-primary">₹{todayReward}</p>
+          </div>
+
           {/* Streak */}
-          <div className="clay-inset p-4 mb-5 text-center">
+          <div className="clay-inset p-4 mb-5 text-center rounded-xl">
             <p className="text-xs text-muted-foreground">This Week</p>
             <p className="text-2xl font-extrabold text-primary">{checkedDays.length} Days</p>
             <p className="text-xs text-muted-foreground mt-1">
@@ -138,7 +146,7 @@ const CheckIn = () => {
             ) : (
               <>
                 <Gift className="w-5 h-5" />
-                Check In Now (+₹{dayRewards[currentDayIndex]})
+                Check In Now (+₹{todayReward})
               </>
             )}
           </button>

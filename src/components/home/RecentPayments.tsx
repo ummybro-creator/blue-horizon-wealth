@@ -1,61 +1,84 @@
-import { useRecharges } from '@/hooks/useRecharges';
-import { useWithdrawals } from '@/hooks/useWithdrawals';
-import { ArrowUpCircle, ArrowDownCircle, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const statusConfig = {
-  pending: { icon: Clock, color: 'text-yellow-500', bg: 'bg-yellow-500/10', label: 'Pending' },
-  approved: { icon: CheckCircle, color: 'text-primary', bg: 'bg-primary/10', label: 'Approved' },
-  rejected: { icon: XCircle, color: 'text-destructive', bg: 'bg-destructive/10', label: 'Rejected' },
-};
+const firstNames = ['Rahul', 'Priya', 'Amit', 'Sneha', 'Vikram', 'Anjali', 'Deepak', 'Pooja', 'Rajesh', 'Neha', 'Suresh', 'Kavita', 'Arjun', 'Manisha', 'Ravi'];
+const lastInitials = ['S', 'K', 'M', 'P', 'R', 'D', 'G', 'V', 'T', 'B', 'J', 'N', 'L', 'C', 'A'];
+
+function randomAmount() {
+  const amounts = [1000, 1500, 2000, 2500, 3000, 5000, 7000, 8000, 10000, 15000, 20000, 25000, 30000, 50000];
+  return amounts[Math.floor(Math.random() * amounts.length)];
+}
+
+function randomId() {
+  return `${Math.floor(Math.random() * 9000 + 1000)}****${Math.floor(Math.random() * 90 + 10)}`;
+}
+
+function generateFakeTransaction() {
+  const isWithdraw = Math.random() > 0.4;
+  return {
+    id: Math.random().toString(36).substr(2, 9),
+    name: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastInitials[Math.floor(Math.random() * lastInitials.length)]}.`,
+    maskedId: randomId(),
+    amount: randomAmount(),
+    type: isWithdraw ? 'withdraw' : 'recharge',
+    time: `${Math.floor(Math.random() * 59 + 1)} min ago`,
+  };
+}
+
+function generateList() {
+  return Array.from({ length: 8 }, () => generateFakeTransaction());
+}
 
 export function RecentPayments() {
-  const { data: recharges } = useRecharges();
-  const { data: withdrawals } = useWithdrawals();
+  const [transactions, setTransactions] = useState(generateList);
 
-  const combined = [
-    ...(recharges || []).map(r => ({ ...r, type: 'recharge' as const })),
-    ...(withdrawals || []).map(w => ({ ...w, type: 'withdrawal' as const })),
-  ]
-    .sort((a, b) => new Date(b.requested_at || '').getTime() - new Date(a.requested_at || '').getTime())
-    .slice(0, 5);
-
-  if (!combined.length) return null;
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTransactions(prev => {
+        const newTx = generateFakeTransaction();
+        return [newTx, ...prev.slice(0, 7)];
+      });
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="mx-4 mt-5">
-      <h2 className="text-base font-bold text-foreground mb-3">Recent Payments</h2>
-      <div className="clay-card overflow-hidden">
-        {combined.map((item, index) => {
-          const status = statusConfig[item.status];
-          const StatusIcon = status.icon;
-          const isRecharge = item.type === 'recharge';
-          return (
-            <div
-              key={item.id}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3",
-                index !== combined.length - 1 && "border-b border-muted"
+      <h2 className="text-base font-bold text-foreground mb-3">Recent Activity</h2>
+      <div className="space-y-1">
+        {transactions.map((tx, index) => (
+          <div
+            key={tx.id}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-500",
+              index === 0 && "animate-slide-up"
+            )}
+          >
+            <div className={cn(
+              "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+              tx.type === 'withdraw' ? 'bg-primary/10' : 'bg-primary/10'
+            )}>
+              {tx.type === 'withdraw' ? (
+                <ArrowDownCircle className="w-4 h-4 text-primary" />
+              ) : (
+                <ArrowUpCircle className="w-4 h-4 text-primary" />
               )}
-            >
-              <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center", isRecharge ? 'bg-primary/10' : 'bg-destructive/10')}>
-                {isRecharge ? <ArrowUpCircle className="w-4 h-4 text-primary" /> : <ArrowDownCircle className="w-4 h-4 text-destructive" />}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground">{isRecharge ? 'Recharge' : 'Withdrawal'}</p>
-                <p className="text-[10px] text-muted-foreground">
-                  {item.requested_at ? new Date(item.requested_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : ''}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className={cn("text-sm font-bold", isRecharge ? 'text-primary' : 'text-foreground')}>
-                  {isRecharge ? '+' : '-'}₹{item.amount.toLocaleString('en-IN')}
-                </p>
-                <span className={cn("text-[10px] font-medium", status.color)}>{status.label}</span>
-              </div>
             </div>
-          );
-        })}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground">{tx.name}</p>
+              <p className="text-[10px] text-muted-foreground">ID: {tx.maskedId} · {tx.time}</p>
+            </div>
+            <div className="text-right">
+              <p className={cn("text-sm font-bold", tx.type === 'withdraw' ? 'text-primary' : 'text-primary')}>
+                {tx.type === 'withdraw' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN')}
+              </p>
+              <span className="text-[10px] text-primary font-medium">
+                {tx.type === 'withdraw' ? 'Withdrawn' : 'Deposited'}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

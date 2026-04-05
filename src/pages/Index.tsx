@@ -3,9 +3,8 @@ import { Send } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { BannerSlider } from '@/components/home/BannerSlider';
 import { QuickMenu } from '@/components/home/QuickMenu';
-import { LatestNews } from '@/components/home/LatestNews';
+import { RecentPayments } from '@/components/home/RecentPayments';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
-
 
 const Index = () => {
   const [showPopup, setShowPopup] = useState(true);
@@ -14,7 +13,10 @@ const Index = () => {
     <AppLayout>
       {/* Header */}
       <div className="clay-header pt-12 pb-8 px-4">
-        <h1 className="text-2xl font-bold text-primary-foreground text-center">Home</h1>
+        <div className="flex items-center justify-center gap-3">
+          <img src="https://files.catbox.moe/ar4gt6.jpg" alt="Logo" className="w-10 h-10 rounded-xl object-cover" />
+          <h1 className="text-2xl font-bold text-primary-foreground">Home</h1>
+        </div>
       </div>
 
       {/* Banner Slider */}
@@ -25,11 +27,8 @@ const Index = () => {
       {/* Quick Menu */}
       <QuickMenu />
 
-
-
-
-      {/* Latest News */}
-      <LatestNews />
+      {/* Recent Activity (Fake) */}
+      <RecentPayments />
 
       {/* Floating Telegram Button */}
       <button

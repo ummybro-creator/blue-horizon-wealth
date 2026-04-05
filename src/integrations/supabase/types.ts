@@ -67,6 +67,7 @@ export type Database = {
           payment_upi_id: string | null
           per_user_earning_limit: number | null
           recharge_enabled: boolean | null
+          referral_deposit_bonus_enabled: boolean | null
           referral_enabled: boolean | null
           roi_multiplier: number | null
           signup_bonus: number | null
@@ -78,6 +79,7 @@ export type Database = {
           withdraw_charge_percent: number | null
           withdraw_delay_hours: number | null
           withdraw_enabled: boolean | null
+          withdrawal_deposit_multiplier: number | null
         }
         Insert: {
           app_logo_url?: string | null
@@ -98,6 +100,7 @@ export type Database = {
           payment_upi_id?: string | null
           per_user_earning_limit?: number | null
           recharge_enabled?: boolean | null
+          referral_deposit_bonus_enabled?: boolean | null
           referral_enabled?: boolean | null
           roi_multiplier?: number | null
           signup_bonus?: number | null
@@ -109,6 +112,7 @@ export type Database = {
           withdraw_charge_percent?: number | null
           withdraw_delay_hours?: number | null
           withdraw_enabled?: boolean | null
+          withdrawal_deposit_multiplier?: number | null
         }
         Update: {
           app_logo_url?: string | null
@@ -129,6 +133,7 @@ export type Database = {
           payment_upi_id?: string | null
           per_user_earning_limit?: number | null
           recharge_enabled?: boolean | null
+          referral_deposit_bonus_enabled?: boolean | null
           referral_enabled?: boolean | null
           roi_multiplier?: number | null
           signup_bonus?: number | null
@@ -140,6 +145,7 @@ export type Database = {
           withdraw_charge_percent?: number | null
           withdraw_delay_hours?: number | null
           withdraw_enabled?: boolean | null
+          withdrawal_deposit_multiplier?: number | null
         }
         Relationships: []
       }
@@ -388,6 +394,33 @@ export type Database = {
           timer_started_at?: string | null
           user_id?: string
           utr_number?: string | null
+        }
+        Relationships: []
+      }
+      referral_deposit_bonuses: {
+        Row: {
+          bonus_amount: number
+          created_at: string
+          deposit_number: number
+          id: string
+          referred_id: string
+          referrer_id: string
+        }
+        Insert: {
+          bonus_amount: number
+          created_at?: string
+          deposit_number: number
+          id?: string
+          referred_id: string
+          referrer_id: string
+        }
+        Update: {
+          bonus_amount?: number
+          created_at?: string
+          deposit_number?: number
+          id?: string
+          referred_id?: string
+          referrer_id?: string
         }
         Relationships: []
       }

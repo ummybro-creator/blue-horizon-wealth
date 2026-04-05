@@ -10,7 +10,7 @@ const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-dig
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
 const BANNER_IMAGE = 'https://files.catbox.moe/ksfp44.jpg';
-const LOGO_IMAGE = 'https://files.catbox.moe/vkrxye.jpg';
+const LOGO_IMAGE = 'https://files.catbox.moe/ar4gt6.jpg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const Login = () => {
       {/* Logo */}
       <div className="flex justify-center -mt-14 relative z-10">
         <div className="w-28 h-28 rounded-3xl shadow-clay overflow-hidden border-4 border-white">
-          <img src={LOGO_IMAGE} className="w-full h-full object-cover scale-125" alt="Logo" />
+          <img src={LOGO_IMAGE} className="w-full h-full object-cover" alt="Logo" />
         </div>
       </div>
 

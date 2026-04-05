@@ -1,7 +1,6 @@
-import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift } from 'lucide-react';
+import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift, MessageCircle, Send, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useTeam } from '@/hooks/useTeam';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,10 +20,22 @@ const Team = () => {
   };
 
   const handleShare = async () => {
+    const shareText = `🎉 Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`;
     if (navigator.share) {
-      try { await navigator.share({ title: 'Join & Start Earning!', text: `Use my referral code: ${referralCode}`, url: referralLink }); }
+      try { await navigator.share({ title: 'Join & Start Earning!', text: shareText, url: referralLink }); }
       catch { handleCopy(referralLink, 'Referral link'); }
     } else { handleCopy(referralLink, 'Referral link'); }
+  };
+
+  const handleWhatsApp = () => {
+    const text = encodeURIComponent(`🎉 Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  };
+
+  const handleTelegram = () => {
+    const text = encodeURIComponent(`🎉 Join & Start Earning! Use my referral code: ${referralCode}\nEarn up to ₹350 per referral!`);
+    const url = encodeURIComponent(referralLink);
+    window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
   };
 
   const stats = teamData?.stats;
@@ -35,27 +46,45 @@ const Team = () => {
   const level3Earnings = (stats?.level3Recharges ?? 0) * 0.02;
   const totalEarnings = level1Earnings + level2Earnings + level3Earnings;
 
-  const statCards = [
-    { label: 'Total Team', value: stats?.totalMembers ?? 0, icon: Users },
-    { label: 'Level 1', value: stats?.level1Members ?? 0, icon: User },
-    { label: 'Level 2', value: stats?.level2Members ?? 0, icon: User },
-    { label: 'Level 3', value: stats?.level3Members ?? 0, icon: User },
+  const steps = [
+    { step: '1', title: 'Invite', desc: 'Share your code with friends' },
+    { step: '2', title: 'Register', desc: 'They sign up using your code' },
+    { step: '3', title: 'Earn', desc: 'Get commission on deposits' },
   ];
 
   return (
     <AppLayout>
       {/* Header */}
       <div className="clay-header pt-12 pb-20 px-4 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur mx-auto mb-2 flex items-center justify-center shadow-clay-sm">
-          <Gift className="w-6 h-6 text-white" />
-        </div>
-        <h1 className="text-2xl font-bold text-white">Invite Friends & Earn</h1>
-        <p className="text-white/80 text-sm mt-1">Share your referral and earn commission</p>
+        <h1 className="text-3xl font-extrabold text-white mb-1">Earn Upto ₹350</h1>
+        <h2 className="text-2xl font-extrabold text-white">Per Refer</h2>
+        <p className="text-white/80 text-sm mt-2">Share & earn unlimited commission</p>
       </div>
 
-      {/* Referral Card */}
+      {/* Commission Breakdown */}
       <div className="mx-4 -mt-12 relative z-10">
         <div className="clay-card-lg p-5">
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            {[
+              { label: 'Level 1', pct: '13%', color: 'bg-primary' },
+              { label: 'Level 2', pct: '5%', color: 'bg-primary/70' },
+              { label: 'Level 3', pct: '2%', color: 'bg-primary/50' },
+            ].map(l => (
+              <div key={l.label} className="text-center clay-inset p-3 rounded-xl">
+                <p className="text-2xl font-extrabold text-primary">{l.pct}</p>
+                <p className="text-[10px] text-muted-foreground font-medium mt-1">{l.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center clay-inset p-3 rounded-xl">
+            <p className="text-xs text-muted-foreground">+ Extra ₹20 + ₹30 + ₹50 + ₹100 + ₹150 per referral's deposits</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Referral Code Card */}
+      <div className="mx-4 mt-4">
+        <div className="clay-card p-5">
           <p className="text-xs text-muted-foreground mb-1">Your Referral Code</p>
           <div className="flex items-center gap-2 mb-4">
             <div className="flex-1 clay-inset px-4 py-3 font-mono text-xl font-bold text-primary tracking-widest text-center">
@@ -66,25 +95,50 @@ const Team = () => {
             </button>
           </div>
 
-          <p className="text-xs text-muted-foreground mb-1">Your Referral Link</p>
-          <div className="clay-inset px-4 py-3 text-sm text-muted-foreground truncate mb-4">
-            {referralLink}
+          {/* Share CTA Buttons */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            <button onClick={handleWhatsApp} className="clay-button py-3 flex items-center justify-center gap-2 text-sm active:scale-95 transition-all">
+              <MessageCircle className="w-4 h-4" /> WhatsApp
+            </button>
+            <button onClick={handleTelegram} className="clay-card-sm py-3 flex items-center justify-center gap-2 text-sm font-bold text-foreground active:scale-95 transition-all">
+              <Send className="w-4 h-4" /> Telegram
+            </button>
           </div>
+          <button onClick={handleShare} className="w-full clay-card-sm py-3 flex items-center justify-center gap-2 text-sm font-bold text-foreground active:scale-95 transition-all">
+            <Share2 className="w-4 h-4" /> Share Link
+          </button>
+        </div>
+      </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button onClick={() => handleCopy(referralLink, 'Referral link')} className="clay-card-sm py-3 flex items-center justify-center gap-2 text-sm font-bold text-foreground active:scale-95 transition-all">
-              <Copy className="w-4 h-4" /> Copy Link
-            </button>
-            <button onClick={handleShare} className="clay-button py-3 flex items-center justify-center gap-2 text-sm active:scale-95 transition-all">
-              <Share2 className="w-4 h-4" /> Share
-            </button>
+      {/* How It Works */}
+      <div className="mx-4 mt-4">
+        <div className="clay-card p-5">
+          <h3 className="font-bold text-foreground mb-4 text-center">How It Works</h3>
+          <div className="flex items-center justify-between">
+            {steps.map((s, i) => (
+              <div key={s.step} className="flex items-center gap-2">
+                <div className="text-center">
+                  <div className="w-10 h-10 rounded-full clay-button flex items-center justify-center mx-auto mb-1">
+                    <span className="text-sm font-bold text-white">{s.step}</span>
+                  </div>
+                  <p className="text-xs font-bold text-foreground">{s.title}</p>
+                  <p className="text-[9px] text-muted-foreground">{s.desc}</p>
+                </div>
+                {i < steps.length - 1 && <ArrowRight className="w-4 h-4 text-muted-foreground mx-1" />}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="mx-4 mt-5 grid grid-cols-2 gap-3">
-        {statCards.map((s) => (
+      <div className="mx-4 mt-4 grid grid-cols-2 gap-3">
+        {[
+          { label: 'Total Team', value: stats?.totalMembers ?? 0, icon: Users },
+          { label: 'Level 1', value: stats?.level1Members ?? 0, icon: User },
+          { label: 'Level 2', value: stats?.level2Members ?? 0, icon: User },
+          { label: 'Level 3', value: stats?.level3Members ?? 0, icon: User },
+        ].map((s) => (
           <div key={s.label} className="clay-card p-4">
             <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mb-2 shadow-clay-sm">
               <s.icon className="w-4 h-4 text-primary" />
@@ -96,16 +150,16 @@ const Team = () => {
       </div>
 
       {/* Earnings */}
-      <div className="mx-4 mt-5">
+      <div className="mx-4 mt-4">
         <div className="clay-card p-5">
           <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-primary" /> Referral Earnings
           </h3>
           <div className="space-y-3">
             {[
-              { label: 'Level 1 Earnings (13%)', value: level1Earnings },
-              { label: 'Level 2 Earnings (5%)', value: level2Earnings },
-              { label: 'Level 3 Earnings (2%)', value: level3Earnings },
+              { label: 'Level 1 (13%)', value: level1Earnings },
+              { label: 'Level 2 (5%)', value: level2Earnings },
+              { label: 'Level 3 (2%)', value: level3Earnings },
             ].map((e) => (
               <div key={e.label} className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">{e.label}</span>
@@ -121,14 +175,14 @@ const Team = () => {
       </div>
 
       {/* Extra Bonus */}
-      <div className="mx-4 mt-5">
+      <div className="mx-4 mt-4">
         <button onClick={() => navigate('/extra-bonus')} className="w-full clay-button py-3.5 flex items-center justify-center gap-2 text-sm active:scale-[0.97] transition-all">
           <Gift className="w-4 h-4" /> Extra Referral Bonus <ChevronRight className="w-4 h-4 ml-auto" />
         </button>
       </div>
 
       {/* Team Members */}
-      <div className="mx-4 mt-5 mb-6">
+      <div className="mx-4 mt-4 mb-6">
         <h3 className="text-base font-bold text-foreground mb-3">Team Members</h3>
         <div className="clay-card overflow-hidden">
           <div className="grid grid-cols-4 gap-2 px-4 py-3 bg-muted/30 text-xs font-semibold text-muted-foreground">

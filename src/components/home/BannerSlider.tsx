@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const banners = [
-  { id: 1, image: 'https://files.catbox.moe/jpq9i3.jpg' },
-  { id: 2, image: 'https://files.catbox.moe/mr1kts.jpg' },
-  { id: 3, image: 'https://files.catbox.moe/ksfp44.jpg' },
+  { id: 1, image: 'https://files.catbox.moe/yxtq5d.jpg' },
+  { id: 2, image: 'https://files.catbox.moe/w9q9jg.jpg' },
+  { id: 3, image: 'https://files.catbox.moe/dgdv9y.jpg' },
 ];
 
 export function BannerSlider() {
