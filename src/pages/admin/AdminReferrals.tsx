@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GitBranch, Save } from 'lucide-react';
+import { GitBranch, Save, Gift, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -22,6 +22,12 @@ const AdminReferrals = () => {
   const [l2, setL2] = useState('');
   const [l3, setL3] = useState('');
   const [enabled, setEnabled] = useState(true);
+  const [bonusEnabled, setBonusEnabled] = useState(true);
+  const [bonus1, setBonus1] = useState('20');
+  const [bonus2, setBonus2] = useState('30');
+  const [bonus3, setBonus3] = useState('50');
+  const [bonus4, setBonus4] = useState('100');
+  const [bonus5, setBonus5] = useState('150');
 
   const initialized = settings && l1 === '';
   if (initialized) {
@@ -30,6 +36,7 @@ const AdminReferrals = () => {
       setL2(String(settings.level2_commission || 5));
       setL3(String(settings.level3_commission || 2));
       setEnabled(settings.referral_enabled ?? true);
+      setBonusEnabled((settings as any).referral_deposit_bonus_enabled ?? true);
     }, 0);
   }
 
@@ -48,11 +55,31 @@ const AdminReferrals = () => {
     },
   });
 
+  const { data: bonusStats } = useQuery({
+    queryKey: ['admin-referral-bonus-stats'],
+    queryFn: async () => {
+      const { data } = await supabase.from('referral_deposit_bonuses').select('*').order('created_at', { ascending: false }).limit(20);
+      if (!data?.length) return [];
+      const userIds = [...new Set(data.flatMap(b => [b.referrer_id, b.referred_id]))];
+      const { data: profiles } = await supabase.from('profiles').select('id, phone_number, full_name').in('id', userIds);
+      const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
+      return data.map(b => ({
+        ...b,
+        referrer: profileMap.get(b.referrer_id),
+        referred: profileMap.get(b.referred_id),
+      }));
+    },
+  });
+
   const saveMutation = useMutation({
     mutationFn: async () => {
       const { error } = await supabase.from('app_settings').update({
-        level1_commission: Number(l1), level2_commission: Number(l2), level3_commission: Number(l3), referral_enabled: enabled,
-      }).eq('id', settings?.id || '');
+        level1_commission: Number(l1),
+        level2_commission: Number(l2),
+        level3_commission: Number(l3),
+        referral_enabled: enabled,
+        referral_deposit_bonus_enabled: bonusEnabled,
+      } as any).eq('id', settings?.id || '');
       if (error) throw error;
     },
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['app-settings'] }); toast.success('Referral settings saved'); },
@@ -63,10 +90,11 @@ const AdminReferrals = () => {
     <AdminLayout>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-foreground">Referral System</h1>
-        <p className="text-muted-foreground text-sm">Configure referral commissions</p>
+        <p className="text-muted-foreground text-sm">Configure referral commissions & bonuses</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Commission Rates */}
         <div className="admin-card p-5">
           <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2"><GitBranch className="w-4 h-4 text-primary" />Commission Rates</h3>
           <div className="space-y-4">
@@ -80,12 +108,45 @@ const AdminReferrals = () => {
                 <Input type="number" value={item.val} onChange={e => item.set(e.target.value)} className="h-11 rounded-2xl admin-inset border-none" />
               </div>
             ))}
-            <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="w-full clay-button h-11">
-              <Save className="w-4 h-4 mr-2" />Save Settings
-            </Button>
           </div>
         </div>
 
+        {/* ₹350 Bonus System */}
+        <div className="admin-card p-5">
+          <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2"><Gift className="w-4 h-4 text-primary" />₹350 Deposit Bonus</h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-foreground">Enable ₹350 Bonus</span>
+              <Switch checked={bonusEnabled} onCheckedChange={setBonusEnabled} />
+            </div>
+            <div className="grid grid-cols-5 gap-2">
+              {[
+                { label: '1st', val: bonus1, set: setBonus1 },
+                { label: '2nd', val: bonus2, set: setBonus2 },
+                { label: '3rd', val: bonus3, set: setBonus3 },
+                { label: '4th', val: bonus4, set: setBonus4 },
+                { label: '5th', val: bonus5, set: setBonus5 },
+              ].map(b => (
+                <div key={b.label} className="text-center">
+                  <label className="text-[10px] text-muted-foreground block mb-1">{b.label}</label>
+                  <Input type="number" value={b.val} onChange={e => b.set(e.target.value)} className="h-9 text-center text-xs rounded-xl admin-inset border-none" />
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-foreground text-center">
+              Total: ₹{Number(bonus1) + Number(bonus2) + Number(bonus3) + Number(bonus4) + Number(bonus5)} per referral
+            </p>
+          </div>
+        </div>
+
+        {/* Save Button */}
+        <div className="lg:col-span-2">
+          <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="w-full clay-button h-11">
+            <Save className="w-4 h-4 mr-2" />Save All Settings
+          </Button>
+        </div>
+
+        {/* Top Promoters */}
         <div className="admin-card p-5">
           <h3 className="font-semibold text-foreground mb-4">Top Promoters</h3>
           <div className="space-y-2">
@@ -101,6 +162,24 @@ const AdminReferrals = () => {
                   </div>
                 </div>
                 <span className="text-sm font-bold text-primary">{r.count} refs</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Bonus Payouts */}
+        <div className="admin-card p-5">
+          <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2"><DollarSign className="w-4 h-4 text-primary" />Recent Bonus Payouts</h3>
+          <div className="space-y-2">
+            {!bonusStats?.length ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No bonus payouts yet</p>
+            ) : bonusStats.map((b: any) => (
+              <div key={b.id} className="flex items-center justify-between p-3 admin-inset">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{b.referrer?.full_name || 'User'}</p>
+                  <p className="text-[10px] text-muted-foreground">Deposit #{b.deposit_number} from {b.referred?.full_name || 'User'}</p>
+                </div>
+                <span className="text-sm font-bold text-primary">+₹{b.bonus_amount}</span>
               </div>
             ))}
           </div>
