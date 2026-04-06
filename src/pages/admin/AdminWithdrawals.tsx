@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, X } from 'lucide-react';
+import { Check, X, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -10,12 +10,14 @@ import { useAuth } from '@/contexts/AuthContext';
 interface WithdrawalWithUser {
   id: string; user_id: string; amount: number; status: 'pending' | 'approved' | 'rejected';
   requested_at: string; processed_at: string | null;
-  profile?: { phone_number: string; full_name: string | null };
+  profile?: { phone_number: string; full_name: string | null; referral_code: string | null };
   bank_details?: { account_holder_name: string | null; bank_name: string | null; account_number: string | null; ifsc_code: string | null; upi_id: string | null };
+  teamStats?: { level1: number; level2: number; level3: number; totalDeposits: number };
 }
 
 const AdminWithdrawals = () => {
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('pending');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
@@ -27,13 +29,39 @@ const AdminWithdrawals = () => {
       const { data, error } = await query.limit(100);
       if (error) throw error;
       const userIds = [...new Set(data.map(w => w.user_id))];
-      const [profilesRes, bankRes] = await Promise.all([
-        supabase.from('profiles').select('id, phone_number, full_name').in('id', userIds),
+      const [profilesRes, bankRes, referralsRes, depositsRes] = await Promise.all([
+        supabase.from('profiles').select('id, phone_number, full_name, referral_code').in('id', userIds),
         supabase.from('bank_details').select('*').in('user_id', userIds),
+        supabase.from('referrals').select('referrer_id, level').in('referrer_id', userIds),
+        supabase.from('recharges').select('user_id, amount').eq('status', 'approved').in('user_id', userIds),
       ]);
       const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
       const bankMap = new Map(bankRes.data?.map(b => [b.user_id, b]) || []);
-      return data.map(w => ({ ...w, profile: profileMap.get(w.user_id), bank_details: bankMap.get(w.user_id) })) as WithdrawalWithUser[];
+
+      // Build team stats per user
+      const teamMap = new Map<string, { level1: number; level2: number; level3: number }>();
+      (referralsRes.data || []).forEach(r => {
+        const stats = teamMap.get(r.referrer_id) || { level1: 0, level2: 0, level3: 0 };
+        if (r.level === 1) stats.level1++;
+        else if (r.level === 2) stats.level2++;
+        else if (r.level === 3) stats.level3++;
+        teamMap.set(r.referrer_id, stats);
+      });
+
+      const depositMap = new Map<string, number>();
+      (depositsRes.data || []).forEach(d => {
+        depositMap.set(d.user_id, (depositMap.get(d.user_id) || 0) + d.amount);
+      });
+
+      return data.map(w => ({
+        ...w,
+        profile: profileMap.get(w.user_id),
+        bank_details: bankMap.get(w.user_id),
+        teamStats: {
+          ...(teamMap.get(w.user_id) || { level1: 0, level2: 0, level3: 0 }),
+          totalDeposits: depositMap.get(w.user_id) || 0,
+        },
+      })) as WithdrawalWithUser[];
     },
   });
 
@@ -100,6 +128,26 @@ const AdminWithdrawals = () => {
                       <p className="text-muted-foreground">No bank details</p>
                     )}
                   </div>
+
+                  {/* Team Details Toggle */}
+                  <button
+                    onClick={() => setExpandedId(expandedId === w.id ? null : w.id)}
+                    className="flex items-center gap-1.5 mt-2 text-xs text-primary font-semibold"
+                  >
+                    <Users className="w-3.5 h-3.5" />
+                    {expandedId === w.id ? 'Hide' : 'View'} Team Details
+                  </button>
+
+                  {expandedId === w.id && w.teamStats && (
+                    <div className="clay-inset p-3 mt-2 grid grid-cols-2 gap-2 text-xs">
+                      <div><span className="text-muted-foreground">Level 1:</span> <strong className="text-foreground">{w.teamStats.level1}</strong></div>
+                      <div><span className="text-muted-foreground">Level 2:</span> <strong className="text-foreground">{w.teamStats.level2}</strong></div>
+                      <div><span className="text-muted-foreground">Level 3:</span> <strong className="text-foreground">{w.teamStats.level3}</strong></div>
+                      <div><span className="text-muted-foreground">Total Deposits:</span> <strong className="text-primary">₹{w.teamStats.totalDeposits.toLocaleString('en-IN')}</strong></div>
+                      <div><span className="text-muted-foreground">Referral Code:</span> <strong className="text-foreground">{w.profile?.referral_code || '-'}</strong></div>
+                      <div><span className="text-muted-foreground">Total Team:</span> <strong className="text-foreground">{w.teamStats.level1 + w.teamStats.level2 + w.teamStats.level3}</strong></div>
+                    </div>
+                  )}
                 </div>
                 <div className="text-center lg:text-right">
                   <p className="text-3xl font-extrabold text-destructive">₹{Number(w.amount).toLocaleString('en-IN')}</p>

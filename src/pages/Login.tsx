@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff, Send } from 'lucide-react';
+import { Eye, EyeOff, Send, ShieldCheck } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -25,18 +25,55 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // OTP state
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpTimer, setOtpTimer] = useState(0);
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const ref = params.get('ref');
     if (ref) { setIsLogin(false); setReferralCode(ref); }
   }, [location.search]);
 
+  useEffect(() => {
+    if (otpTimer > 0) {
+      const interval = setInterval(() => setOtpTimer(t => t - 1), 1000);
+      return () => clearInterval(interval);
+    }
+  }, [otpTimer]);
+
   if (user) { navigate('/', { replace: true }); return null; }
+
+  const handleSendOtp = () => {
+    try { phoneSchema.parse(mobile); } catch { toast.error('Enter a valid 10-digit phone number'); return; }
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    setGeneratedOtp(otp);
+    setOtpSent(true);
+    setOtpTimer(60);
+    toast.success(`OTP sent to +91 ${mobile}`, { description: `Your OTP is: ${otp}` });
+  };
+
+  const handleVerifyOtp = () => {
+    if (otpCode === generatedOtp) {
+      setOtpVerified(true);
+      toast.success('Phone number verified!');
+    } else {
+      toast.error('Invalid OTP. Please try again.');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try { phoneSchema.parse(mobile); passwordSchema.parse(password); }
     catch (err: any) { toast.error(err.errors?.[0]?.message || 'Invalid input'); return; }
+
+    if (!isLogin && !otpVerified) {
+      toast.error('Please verify your phone number first');
+      return;
+    }
 
     setLoading(true);
     try {
@@ -50,6 +87,15 @@ const Login = () => {
         toast.success('Account created successfully'); navigate('/');
       }
     } finally { setLoading(false); }
+  };
+
+  // Reset OTP when switching tabs or changing phone
+  const handleTabSwitch = (login: boolean) => {
+    setIsLogin(login);
+    setOtpSent(false);
+    setOtpVerified(false);
+    setOtpCode('');
+    setGeneratedOtp('');
   };
 
   return (
@@ -70,22 +116,12 @@ const Login = () => {
       {/* Tab switch */}
       <div className="flex justify-center mt-4 px-8">
         <div className="clay-card flex w-full max-w-xs p-1.5" style={{ borderRadius: '999px' }}>
-          <button
-            type="button"
-            onClick={() => setIsLogin(true)}
-            className={`flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200 ${
-              isLogin ? 'clay-button' : 'text-muted-foreground'
-            }`}
-          >
+          <button type="button" onClick={() => handleTabSwitch(true)}
+            className={`flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200 ${isLogin ? 'clay-button' : 'text-muted-foreground'}`}>
             Login
           </button>
-          <button
-            type="button"
-            onClick={() => setIsLogin(false)}
-            className={`flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200 ${
-              !isLogin ? 'clay-button' : 'text-muted-foreground'
-            }`}
-          >
+          <button type="button" onClick={() => handleTabSwitch(false)}
+            className={`flex-1 py-2.5 text-sm font-bold rounded-full transition-all duration-200 ${!isLogin ? 'clay-button' : 'text-muted-foreground'}`}>
             Register
           </button>
         </div>
@@ -108,11 +144,70 @@ const Login = () => {
               type="tel"
               placeholder="Phone Number"
               value={mobile}
-              onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+              onChange={(e) => {
+                setMobile(e.target.value.replace(/\D/g, '').slice(0, 10));
+                if (!isLogin) { setOtpSent(false); setOtpVerified(false); setOtpCode(''); }
+              }}
               className="h-13 rounded-2xl clay-inset border-none pl-14 pr-5 text-base placeholder:text-muted-foreground"
             />
             <span className="absolute left-5 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">+91</span>
           </div>
+
+          {/* OTP Section for Registration */}
+          {!isLogin && !otpVerified && (
+            <div className="space-y-3">
+              {!otpSent ? (
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={mobile.length !== 10}
+                  className="w-full h-12 rounded-2xl clay-inset border-2 border-dashed border-primary/30 text-primary font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-40 transition-all hover:border-primary/50"
+                >
+                  <Send className="w-4 h-4" />
+                  Send OTP
+                </button>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    <Input
+                      type="text"
+                      placeholder="Enter 4-digit OTP"
+                      value={otpCode}
+                      onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                      className="h-13 rounded-2xl clay-inset border-none px-5 text-center text-lg font-bold tracking-[0.5em] placeholder:tracking-normal placeholder:text-sm"
+                      maxLength={4}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleVerifyOtp}
+                      disabled={otpCode.length !== 4}
+                      className="h-13 px-5 rounded-2xl clay-button text-sm font-bold disabled:opacity-40 whitespace-nowrap"
+                    >
+                      Verify
+                    </button>
+                  </div>
+                  <div className="flex justify-between items-center px-1">
+                    <p className="text-xs text-muted-foreground">
+                      {otpTimer > 0 ? `Resend in ${otpTimer}s` : ''}
+                    </p>
+                    {otpTimer === 0 && (
+                      <button type="button" onClick={handleSendOtp} className="text-xs text-primary font-semibold">
+                        Resend OTP
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Verified badge */}
+          {!isLogin && otpVerified && (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/10">
+              <ShieldCheck className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Phone verified</span>
+            </div>
+          )}
 
           <div className="relative">
             <Input
@@ -122,11 +217,8 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="h-13 rounded-2xl clay-inset border-none px-5 pr-12 text-base placeholder:text-muted-foreground"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-            >
+            <button type="button" onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
@@ -144,7 +236,7 @@ const Login = () => {
           <div className="pt-3">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || (!isLogin && !otpVerified)}
               className="w-full h-14 text-lg font-bold rounded-full clay-button disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? 'Please wait...' : (

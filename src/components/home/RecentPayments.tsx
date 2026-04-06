@@ -3,7 +3,6 @@ import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const firstNames = ['Rahul', 'Priya', 'Amit', 'Sneha', 'Vikram', 'Anjali', 'Deepak', 'Pooja', 'Rajesh', 'Neha', 'Suresh', 'Kavita', 'Arjun', 'Manisha', 'Ravi'];
-const lastInitials = ['S', 'K', 'M', 'P', 'R', 'D', 'G', 'V', 'T', 'B', 'J', 'N', 'L', 'C', 'A'];
 
 function randomAmount() {
   const amounts = [1000, 1500, 2000, 2500, 3000, 5000, 7000, 8000, 10000, 15000, 20000, 25000, 30000, 50000];
@@ -18,7 +17,7 @@ function generateFakeTransaction() {
   const isWithdraw = Math.random() > 0.4;
   return {
     id: Math.random().toString(36).substr(2, 9),
-    name: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastInitials[Math.floor(Math.random() * lastInitials.length)]}.`,
+    name: firstNames[Math.floor(Math.random() * firstNames.length)],
     maskedId: randomId(),
     amount: randomAmount(),
     type: isWithdraw ? 'withdraw' : 'recharge',
@@ -55,10 +54,7 @@ export function RecentPayments() {
               index === 0 && "animate-slide-up"
             )}
           >
-            <div className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-              tx.type === 'withdraw' ? 'bg-primary/10' : 'bg-primary/10'
-            )}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-primary/10">
               {tx.type === 'withdraw' ? (
                 <ArrowDownCircle className="w-4 h-4 text-primary" />
               ) : (
@@ -70,7 +66,7 @@ export function RecentPayments() {
               <p className="text-[10px] text-muted-foreground">ID: {tx.maskedId} · {tx.time}</p>
             </div>
             <div className="text-right">
-              <p className={cn("text-sm font-bold", tx.type === 'withdraw' ? 'text-primary' : 'text-primary')}>
+              <p className="text-sm font-bold text-primary">
                 {tx.type === 'withdraw' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN')}
               </p>
               <span className="text-[10px] text-primary font-medium">
