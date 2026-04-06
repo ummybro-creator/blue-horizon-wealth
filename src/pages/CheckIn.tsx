@@ -16,11 +16,11 @@ const CheckIn = () => {
   const createCheckin = useCreateCheckin();
 
   const bonusAmount = settings?.checkin_bonus_amount || 12;
-  
+
   const today = new Date();
   const dayIndex = today.getDay();
   const currentDayIndex = dayIndex === 0 ? 6 : dayIndex - 1;
-  
+
   const getCheckedDaysThisWeek = () => {
     const weekStart = new Date(today);
     weekStart.setDate(today.getDate() - currentDayIndex);
@@ -33,7 +33,7 @@ const CheckIn = () => {
         return day === 0 ? 6 : day - 1;
       });
   };
-  
+
   const checkedDays = getCheckedDaysThisWeek();
   const todayCheckedIn = !!todayCheckin;
   const todayReward = dayRewards[currentDayIndex] || bonusAmount;
@@ -56,10 +56,10 @@ const CheckIn = () => {
 
   return (
     <div className="min-h-screen max-w-lg mx-auto app-bg">
-      {/* Header */}
-      <div className="clay-header pt-12 pb-24 px-4">
-        <div className="flex items-center gap-3 mb-6">
-          <button 
+      {/* Compact Header */}
+      <div className="clay-header pt-10 pb-6 px-4">
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => navigate(-1)}
             className="w-10 h-10 rounded-full bg-white/15 backdrop-blur flex items-center justify-center"
           >
@@ -67,24 +67,28 @@ const CheckIn = () => {
           </button>
           <h1 className="text-xl font-bold text-white">Daily Check-in</h1>
         </div>
-        <div className="text-center">
-          <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur mx-auto mb-2 flex items-center justify-center shadow-clay-sm">
-            <Gift className="w-8 h-8 text-white" />
-          </div>
-          <p className="text-white/80 text-sm">Check in daily to earn bonus! Weekly total: <strong className="text-white">₹78</strong></p>
-        </div>
       </div>
 
-      <div className="px-4 -mt-12">
-        <div className="clay-card-lg p-5 animate-slide-up">
+      <div className="px-4 pt-4 pb-8">
+        {/* Info Banner */}
+        <div className="clay-card p-4 mb-4 text-center animate-slide-up">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 mx-auto mb-2 flex items-center justify-center">
+            <Gift className="w-6 h-6 text-primary" />
+          </div>
+          <p className="text-muted-foreground text-sm">
+            Check in daily to earn bonus! Weekly total: <strong className="text-primary">₹78</strong>
+          </p>
+        </div>
+
+        <div className="clay-card-lg p-5 animate-slide-up" style={{ animationDelay: '0.05s' }}>
           {/* Days Grid */}
-          <div className="grid grid-cols-7 gap-2 mb-6">
+          <div className="grid grid-cols-7 gap-2 mb-5">
             {weekDays.map((day, index) => {
               const isChecked = checkedDays.includes(index);
               const isCurrent = index === currentDayIndex;
               const isPast = index < currentDayIndex;
               const reward = dayRewards[index];
-              
+
               return (
                 <div key={day} className="text-center">
                   <div className={cn(
@@ -115,7 +119,7 @@ const CheckIn = () => {
             })}
           </div>
 
-          {/* Today's Reward Highlight */}
+          {/* Today's Reward */}
           <div className="clay-inset p-4 mb-4 text-center rounded-xl">
             <p className="text-xs text-muted-foreground">Today's Reward</p>
             <p className="text-3xl font-extrabold text-primary">₹{todayReward}</p>
@@ -131,7 +135,7 @@ const CheckIn = () => {
           </div>
 
           {/* Button */}
-          <button 
+          <button
             className="w-full clay-button py-3.5 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-50 flex items-center justify-center gap-2"
             onClick={handleCheckIn}
             disabled={todayCheckedIn || createCheckin.isPending}

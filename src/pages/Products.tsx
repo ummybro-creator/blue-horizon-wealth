@@ -12,7 +12,7 @@ const Products = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'daily' | 'vip'>('daily');
   const [investingProductId, setInvestingProductId] = useState<string | null>(null);
-  
+
   const { data: products, isLoading } = useProducts(activeTab);
   const { wallet } = useAuth();
   const createInvestment = useCreateInvestment();
@@ -56,9 +56,7 @@ const Products = () => {
               onClick={() => setActiveTab(tab)}
               className={cn(
                 "flex-1 py-2.5 rounded-full text-sm font-bold transition-all duration-200",
-                activeTab === tab
-                  ? "clay-button"
-                  : "text-muted-foreground"
+                activeTab === tab ? "clay-button" : "text-muted-foreground"
               )}
             >
               {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
@@ -80,10 +78,10 @@ const Products = () => {
               className="clay-card animate-slide-up overflow-hidden"
               style={{ animationDelay: `${index * 0.08}s` }}
             >
-              {/* Badges */}
+              {/* Badges - use description as tag */}
               <div className="flex justify-between items-start pt-3">
                 <span className="clay-button px-4 py-1.5 text-xs" style={{ borderRadius: '0 999px 999px 0' }}>
-                  {product.is_special_offer ? '🔥 Hot Selling' : product.name}
+                  {product.description || product.name}
                 </span>
                 <span className="clay-button px-3 py-1 text-[11px] mr-3" style={{ borderRadius: '999px' }}>
                   Days: {product.duration_days}
@@ -94,19 +92,13 @@ const Products = () => {
               <div className="flex items-center p-4 gap-4">
                 <div className="flex-shrink-0">
                   {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-20 h-[90px] rounded-2xl object-cover"
-                      style={{ boxShadow: 'none' }}
-                    />
+                    <img src={product.image_url} alt={product.name} className="w-20 h-[90px] rounded-2xl object-cover" style={{ boxShadow: 'none' }} />
                   ) : (
                     <div className="w-20 h-[90px] rounded-2xl bg-primary/10 flex items-center justify-center">
                       <span className="text-primary text-[11px] font-bold text-center px-1">{product.name}</span>
                     </div>
                   )}
                 </div>
-
                 <div className="flex-1 flex justify-center gap-6">
                   <div className="text-center">
                     <p className="text-lg font-extrabold text-money">₹{product.daily_income.toLocaleString('en-IN')}</p>
@@ -136,12 +128,9 @@ const Products = () => {
                 >
                   {investingProductId === product.id ? (
                     <span className="flex items-center justify-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Investing...
+                      <Loader2 className="w-4 h-4 animate-spin" />Investing...
                     </span>
-                  ) : (
-                    'Buy Now'
-                  )}
+                  ) : 'Buy Now'}
                 </button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, AlertCircle, Lock } from 'lucide-react';
+import { ArrowLeft, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -7,38 +7,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useAppSettings } from '@/hooks/useAppSettings';
 import { useCreateWithdrawal } from '@/hooks/useWithdrawals';
 import { useBankDetails } from '@/hooks/useBankDetails';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 
 const Withdraw = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
-  const { wallet, user } = useAuth();
+  const { wallet } = useAuth();
   const { data: settings } = useAppSettings();
   const { data: bankDetails } = useBankDetails();
   const createWithdrawal = useCreateWithdrawal();
 
   const minimumWithdrawal = settings?.minimum_withdrawal || 500;
   const withdrawableBalance = wallet?.total_balance || 0;
-  const depositMultiplier = (settings as any)?.withdrawal_deposit_multiplier || 3;
-
-  // Check total deposits and withdrawals to enforce deposit requirement
-  const { data: depositStats } = useQuery({
-    queryKey: ['deposit-stats', user?.id],
-    queryFn: async () => {
-      if (!user?.id) return { totalDeposits: 0, totalWithdrawals: 0 };
-      const { data: recharges } = await supabase.from('recharges').select('amount').eq('user_id', user.id).eq('status', 'approved');
-      const { data: withdrawals } = await supabase.from('withdrawals').select('amount').eq('user_id', user.id).eq('status', 'approved');
-      const totalDeposits = (recharges || []).reduce((s, r) => s + r.amount, 0);
-      const totalWithdrawals = (withdrawals || []).reduce((s, w) => s + w.amount, 0);
-      return { totalDeposits, totalWithdrawals };
-    },
-    enabled: !!user?.id,
-  });
-
-  const requiredDeposits = (depositStats?.totalWithdrawals || 0) * depositMultiplier;
-  const canWithdraw = (depositStats?.totalDeposits || 0) >= Math.max(minimumWithdrawal, requiredDeposits > 0 ? requiredDeposits : 0);
-  const needsMoreDeposit = depositStats && depositStats.totalWithdrawals > 0 && depositStats.totalDeposits < requiredDeposits;
 
   const handleSubmit = async () => {
     const withdrawAmount = parseInt(amount);
@@ -53,10 +32,6 @@ const Withdraw = () => {
     if (!bankDetails?.upi_id && !bankDetails?.account_number) {
       toast.error('Please add your bank details first');
       navigate('/bank-details');
-      return;
-    }
-    if (needsMoreDeposit) {
-      toast.error('Please complete required deposits to unlock withdrawal');
       return;
     }
     try {
@@ -88,25 +63,6 @@ const Withdraw = () => {
           </h2>
         </div>
 
-        {/* Deposit Requirement Warning */}
-        {needsMoreDeposit && (
-          <div className="clay-card p-4 animate-slide-up border-2 border-warning/30">
-            <div className="flex items-start gap-3">
-              <Lock className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-semibold text-foreground">Withdrawal Locked</p>
-                <p className="text-muted-foreground mt-1">
-                  Upgrade your plan or complete required deposits to unlock withdrawal. 
-                  You need ₹{(requiredDeposits - (depositStats?.totalDeposits || 0)).toLocaleString('en-IN')} more in deposits.
-                </p>
-                <button onClick={() => navigate('/recharge')} className="mt-2 text-primary font-bold text-sm">
-                  Deposit Now →
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Info Alert */}
         <div className="clay-card p-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-start gap-3">
@@ -132,7 +88,7 @@ const Withdraw = () => {
             onChange={(e) => setAmount(e.target.value)}
             className="h-14 text-xl font-semibold rounded-2xl clay-inset border-none"
           />
-          <button 
+          <button
             className="text-primary text-sm font-semibold mt-2"
             onClick={() => setAmount(withdrawableBalance.toString())}
           >
@@ -160,7 +116,7 @@ const Withdraw = () => {
               <p className="text-sm text-muted-foreground">No bank details added</p>
             )}
           </div>
-          <button 
+          <button
             className="text-primary text-sm font-semibold mt-2"
             onClick={() => navigate('/bank-details')}
           >
@@ -169,10 +125,10 @@ const Withdraw = () => {
         </div>
 
         {/* Submit */}
-        <button 
+        <button
           className="w-full clay-button py-4 text-base font-bold transition-all active:scale-[0.97] disabled:opacity-50"
           onClick={handleSubmit}
-          disabled={!amount || parseInt(amount) < minimumWithdrawal || createWithdrawal.isPending || !!needsMoreDeposit}
+          disabled={!amount || parseInt(amount) < minimumWithdrawal || createWithdrawal.isPending}
         >
           {createWithdrawal.isPending ? 'Submitting...' : 'Submit Withdrawal Request'}
         </button>

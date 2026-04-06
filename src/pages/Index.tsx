@@ -7,14 +7,14 @@ import { RecentPayments } from '@/components/home/RecentPayments';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
 
 const Index = () => {
-  const [showPopup, setShowPopup] = useState(true);
+  const hideToday = sessionStorage.getItem('hidePopupToday') === 'true';
+  const [showPopup, setShowPopup] = useState(!hideToday);
 
   return (
     <AppLayout>
       {/* Header */}
       <div className="clay-header pt-12 pb-8 px-4">
         <div className="flex items-center justify-center gap-3">
-          <img src="https://files.catbox.moe/ar4gt6.jpg" alt="Logo" className="w-10 h-10 rounded-xl object-cover" />
           <h1 className="text-2xl font-bold text-primary-foreground">Home</h1>
         </div>
       </div>

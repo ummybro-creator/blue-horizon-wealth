@@ -14,10 +14,12 @@ interface Product {
   is_special_offer: boolean; description: string | null;
 }
 
+const defaultTags = ['🔥 Hot Selling', '⭐ Most Buying', '💎 Best Value', '🚀 Trending', '👑 Premium', '🎯 Popular'];
+
 const AdminProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState({ name: '', price: '', daily_income: '', total_income: '', duration_days: '', category: 'daily', is_special_offer: false, description: '', image_url: '' });
+  const [formData, setFormData] = useState({ name: '', price: '', daily_income: '', total_income: '', duration_days: '', category: 'daily', is_special_offer: false, description: '', image_url: '', tag: '' });
   const queryClient = useQueryClient();
 
   const { data: products, isLoading } = useQuery({
@@ -27,7 +29,13 @@ const AdminProducts = () => {
 
   const saveMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      const productData = { name: data.name, price: parseFloat(data.price), daily_income: parseFloat(data.daily_income), total_income: parseFloat(data.total_income), duration_days: parseInt(data.duration_days), category: data.category, is_special_offer: data.is_special_offer, description: data.description || null, image_url: data.image_url || null };
+      const tag = data.tag || (data.is_special_offer ? '🔥 Hot Selling' : '');
+      const productData = {
+        name: data.name, price: parseFloat(data.price), daily_income: parseFloat(data.daily_income),
+        total_income: parseFloat(data.total_income), duration_days: parseInt(data.duration_days),
+        category: data.category, is_special_offer: data.is_special_offer,
+        description: tag || null, image_url: data.image_url || null,
+      };
       if (editingProduct) { const { error } = await supabase.from('products').update(productData).eq('id', editingProduct.id); if (error) throw error; }
       else { const { error } = await supabase.from('products').insert(productData); if (error) throw error; }
     },
@@ -45,11 +53,17 @@ const AdminProducts = () => {
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['admin-products'] }); toast.success('Product deleted'); },
   });
 
-  const resetForm = () => { setShowForm(false); setEditingProduct(null); setFormData({ name: '', price: '', daily_income: '', total_income: '', duration_days: '', category: 'daily', is_special_offer: false, description: '', image_url: '' }); };
+  const resetForm = () => { setShowForm(false); setEditingProduct(null); setFormData({ name: '', price: '', daily_income: '', total_income: '', duration_days: '', category: 'daily', is_special_offer: false, description: '', image_url: '', tag: '' }); };
 
   const openEditForm = (product: Product) => {
     setEditingProduct(product);
-    setFormData({ name: product.name, price: product.price.toString(), daily_income: product.daily_income.toString(), total_income: product.total_income.toString(), duration_days: product.duration_days.toString(), category: product.category, is_special_offer: product.is_special_offer, description: product.description || '', image_url: product.image_url || '' });
+    setFormData({
+      name: product.name, price: product.price.toString(), daily_income: product.daily_income.toString(),
+      total_income: product.total_income.toString(), duration_days: product.duration_days.toString(),
+      category: product.category, is_special_offer: product.is_special_offer,
+      description: '', image_url: product.image_url || '',
+      tag: product.description || '',
+    });
     setShowForm(true);
   };
 
@@ -87,15 +101,27 @@ const AdminProducts = () => {
                 <div><label className="text-sm text-muted-foreground mb-1 block">Daily Income (₹) *</label><Input type="number" value={formData.daily_income} onChange={(e) => setFormData({ ...formData, daily_income: e.target.value })} className="rounded-2xl clay-inset border-none" /></div>
                 <div><label className="text-sm text-muted-foreground mb-1 block">Total Income (₹) *</label><Input type="number" value={formData.total_income} onChange={(e) => setFormData({ ...formData, total_income: e.target.value })} className="rounded-2xl clay-inset border-none" /></div>
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-muted-foreground mb-1 block">Category</label>
+                  <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="w-full h-10 rounded-2xl px-3 clay-inset border-none text-foreground">
+                    <option value="daily">Daily Plans</option><option value="vip">VIP Plans</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm text-muted-foreground mb-1 block">Product Tag</label>
+                  <select value={formData.tag} onChange={(e) => setFormData({ ...formData, tag: e.target.value })} className="w-full h-10 rounded-2xl px-3 clay-inset border-none text-foreground">
+                    <option value="">No Tag</option>
+                    {defaultTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                  </select>
+                </div>
+              </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-1 block">Category</label>
-                <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="w-full h-10 rounded-2xl px-3 clay-inset border-none text-foreground">
-                  <option value="daily">Daily Plans</option><option value="vip">VIP Plans</option>
-                </select>
+                <label className="text-sm text-muted-foreground mb-1 block">Custom Tag (override)</label>
+                <Input value={formData.tag} onChange={(e) => setFormData({ ...formData, tag: e.target.value })} className="rounded-2xl clay-inset border-none" placeholder="e.g., 🏆 Best Seller" />
               </div>
               <div><label className="text-sm text-muted-foreground mb-1 block">Image URL</label><Input value={formData.image_url} onChange={(e) => setFormData({ ...formData, image_url: e.target.value })} className="rounded-2xl clay-inset border-none" /></div>
-              <div><label className="text-sm text-muted-foreground mb-1 block">Description</label><Input value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="rounded-2xl clay-inset border-none" /></div>
-              <div className="flex items-center gap-2"><Switch checked={formData.is_special_offer} onCheckedChange={(checked) => setFormData({ ...formData, is_special_offer: checked })} /><label className="text-sm text-muted-foreground">Special Offer</label></div>
+              <div className="flex items-center gap-2"><Switch checked={formData.is_special_offer} onCheckedChange={(checked) => setFormData({ ...formData, is_special_offer: checked })} /><label className="text-sm text-muted-foreground">Special Offer Badge</label></div>
               <div className="flex gap-3 pt-4">
                 <Button type="button" variant="outline" onClick={resetForm} className="flex-1 rounded-2xl">Cancel</Button>
                 <button type="submit" className="flex-1 rounded-2xl py-2.5 clay-button disabled:opacity-50" disabled={saveMutation.isPending}>
@@ -118,9 +144,16 @@ const AdminProducts = () => {
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <h3 className="text-foreground font-semibold">{product.name}</h3>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${product.category === 'vip' ? 'bg-purple-500/10 text-purple-600' : 'bg-blue-500/10 text-blue-600'}`}>
-                    {product.category.toUpperCase()}
-                  </span>
+                  <div className="flex gap-1.5 flex-wrap mt-1">
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${product.category === 'vip' ? 'bg-purple-500/10 text-purple-600' : 'bg-blue-500/10 text-blue-600'}`}>
+                      {product.category.toUpperCase()}
+                    </span>
+                    {product.description && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+                        {product.description}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <Switch checked={product.is_enabled} onCheckedChange={(checked) => toggleMutation.mutate({ id: product.id, enabled: checked })} />
               </div>
