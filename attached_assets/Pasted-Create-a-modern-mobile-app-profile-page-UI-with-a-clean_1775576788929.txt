@@ -1,0 +1,78 @@
+Create a modern mobile app profile page UI with a clean green gradient theme.
+
+Important:
+Do not use any hardcoded or static data. All data must be dynamically fetched from backend APIs and properly bound to UI.
+
+Design requirements:
+	1.	Top Section:
+
+	•	Full width green gradient background (light green to dark green)
+	•	Centered title text: “Profile”
+	•	Left side circular avatar image (user profile image from backend)
+	•	Next to avatar:
+	•	Display username from backend
+	•	Display phone number from backend
+	•	Right side: small rounded square button with lock icon (for security/settings)
+
+	2.	Balance Card:
+
+	•	White rounded card with soft shadow
+	•	Fetch and display account balance from backend
+	•	Show label: “Account Balance”
+	•	Display balance in large bold format with currency symbol
+	•	Right side:
+	•	Rounded green gradient button labeled “Recharge”
+	•	Button triggers recharge flow (API integration ready)
+
+	3.	Stats Section:
+
+	•	Green rounded container with soft blur effect
+	•	Display three values from backend:
+	•	Recharge total
+	•	Withdraw total
+	•	Welfare amount
+	•	Each value should be dynamically loaded from API
+
+	4.	Menu List:
+
+	•	Vertical list with minimal separators
+	•	Each row includes:
+	•	Left icon (simple outline style)
+	•	Title text
+	•	Right arrow indicator
+	•	Menu items:
+	•	About Company
+	•	Income Record
+	•	Withdraw Record
+	•	Redeem Code
+	•	App Download
+	•	Each item should be clickable and ready for navigation routing
+
+	5.	Bottom Section:
+
+	•	Large rounded green button
+	•	Text: “Exit App”
+	•	Button should trigger logout function connected to backend
+
+	6.	Data Handling:
+
+	•	Use API calls (REST or GraphQL) to fetch all user-related data
+	•	Implement loading states (skeleton or spinner)
+	•	Handle error states gracefully
+	•	Ensure secure authentication (token-based)
+
+	7.	Style Guidelines:
+
+	•	Use soft shadows and neumorphism-inspired design
+	•	Rounded corners everywhere
+	•	Clean spacing and padding
+	•	Modern minimal UI
+	•	Mobile-first responsive layout
+
+	8.	Tech Requirements:
+
+	•	Use React with Tailwind CSS
+	•	Use hooks for state management
+	•	Use Axios or Fetch for API calls
+	•	Modular component structure
+	•	Clean and maintainable code

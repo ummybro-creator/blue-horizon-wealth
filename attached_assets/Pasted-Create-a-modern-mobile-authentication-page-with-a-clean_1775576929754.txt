@@ -1,0 +1,81 @@
+Create a modern mobile authentication page with a clean light background and green primary theme.
+
+Important:
+Do not use any hardcoded or static data. All inputs and actions must be connected to backend APIs.
+
+Design requirements:
+	1.	Top Section:
+
+	•	Centered app logo (fetched from backend or config)
+	•	Below logo, display app name dynamically
+	•	Clean spacing with minimal design
+
+	2.	Form Container:
+
+	•	Rounded card layout with soft shadow
+	•	Light background (white or very light gray)
+
+	3.	Input Fields:
+
+	•	Four input fields with rounded borders and soft inner shadow:
+	•	Nickname (text input)
+	•	Phone Number (with country code selector, default from backend)
+	•	Password (secure input with show/hide toggle)
+	•	Referral Code (optional field)
+	•	Each input should include:
+	•	Left side icon (minimal outline style)
+	•	Placeholder text
+	•	Proper validation (required fields, phone format, password rules)
+
+	4.	Register Button:
+
+	•	Large full-width green gradient button
+	•	Text: “Register Now”
+	•	Slight glow and elevation effect
+	•	On click:
+	•	Send data to backend API for registration
+	•	Handle success and error responses properly
+
+	5.	Login Redirect:
+
+	•	Below register button:
+	•	Text: “Have an account? Login”
+	•	“Login” should be clickable and navigate to login screen
+
+	6.	Login Page (Separate View):
+
+	•	Phone Number input
+	•	Password input
+	•	Login button (same style as register)
+	•	Optional: Forgot password link (API ready)
+
+	7.	Data Handling:
+
+	•	All form data must be sent to backend via API (REST or GraphQL)
+	•	Use proper validation before API call
+	•	Show loading state during API request
+	•	Show error messages from backend
+	•	Store auth token securely after login/signup
+
+	8.	UX Features:
+
+	•	Input focus animations
+	•	Password visibility toggle
+	•	Smooth transitions between login and signup
+	•	Mobile-first responsive layout
+
+	9.	Style Guidelines:
+
+	•	Green primary color theme
+	•	Soft shadows and neumorphism-inspired UI
+	•	Rounded corners everywhere
+	•	Clean spacing and modern typography
+	•	Minimal and high-conversion design
+
+	10.	Tech Requirements:
+
+	•	Use React with Tailwind CSS
+	•	Use hooks for state management
+	•	Use Axios or Fetch for API integration
+	•	Component-based clean structure
+	•	Separate components for Input, Button, Form
