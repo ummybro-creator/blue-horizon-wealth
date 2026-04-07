@@ -1,9 +1,10 @@
-import { ArrowLeft, Gift, Check } from 'lucide-react';
+import { ArrowLeft, Gift, Check, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useCheckins, useTodayCheckin, useCreateCheckin } from '@/hooks/useCheckins';
 import { useAppSettings } from '@/hooks/useAppSettings';
+import { useInvestments } from '@/hooks/useInvestments';
 
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const dayRewards = [5, 7, 9, 10, 12, 15, 20];
@@ -13,9 +14,15 @@ const CheckIn = () => {
   const { data: checkins = [] } = useCheckins();
   const { data: todayCheckin } = useTodayCheckin();
   const { data: settings } = useAppSettings();
+  const { data: investments = [] } = useInvestments();
   const createCheckin = useCreateCheckin();
 
   const bonusAmount = settings?.checkin_bonus_amount || 12;
+
+  // Check if user has an active investment plan
+  const hasActivePlan = investments.some(
+    inv => inv.status === 'active' && new Date(inv.expires_at) > new Date()
+  );
 
   const today = new Date();
   const dayIndex = today.getDay();
@@ -40,6 +47,12 @@ const CheckIn = () => {
 
   const handleCheckIn = async () => {
     if (todayCheckedIn) return;
+    if (!hasActivePlan) {
+      toast.error('Active plan required', {
+        description: 'Please purchase a plan to be eligible for daily check-in bonus.',
+      });
+      return;
+    }
     try {
       await createCheckin.mutateAsync({ bonusAmount: todayReward });
       toast.success(`You earned ₹${todayReward}!`, {
@@ -56,7 +69,7 @@ const CheckIn = () => {
 
   return (
     <div className="min-h-screen max-w-lg mx-auto app-bg">
-      {/* Compact Header */}
+      {/* Header */}
       <div className="clay-header pt-10 pb-6 px-4">
         <div className="flex items-center gap-3">
           <button
@@ -70,6 +83,29 @@ const CheckIn = () => {
       </div>
 
       <div className="px-4 pt-4 pb-8">
+        {/* No Active Plan Banner */}
+        {!hasActivePlan && (
+          <div className="clay-card p-4 mb-4 border-2 border-amber-300/50 animate-slide-up">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                <ShoppingBag className="w-5 h-5 text-amber-500" />
+              </div>
+              <div className="flex-1">
+                <p className="font-bold text-foreground text-sm">Active Plan Required</p>
+                <p className="text-muted-foreground text-xs mt-0.5">
+                  You need an active investment plan to claim your daily check-in bonus.
+                </p>
+                <button
+                  onClick={() => navigate('/products')}
+                  className="mt-2 px-4 py-1.5 rounded-full clay-button text-xs font-bold"
+                >
+                  Buy a Plan →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Info Banner */}
         <div className="clay-card p-4 mb-4 text-center animate-slide-up">
           <div className="w-12 h-12 rounded-xl bg-primary/10 mx-auto mb-2 flex items-center justify-center">
@@ -138,12 +174,17 @@ const CheckIn = () => {
           <button
             className="w-full clay-button py-3.5 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-50 flex items-center justify-center gap-2"
             onClick={handleCheckIn}
-            disabled={todayCheckedIn || createCheckin.isPending}
+            disabled={todayCheckedIn || createCheckin.isPending || !hasActivePlan}
           >
             {todayCheckedIn ? (
               <>
                 <Check className="w-5 h-5" />
                 Checked In Today
+              </>
+            ) : !hasActivePlan ? (
+              <>
+                <ShoppingBag className="w-5 h-5" />
+                Plan Required to Check In
               </>
             ) : createCheckin.isPending ? (
               'Checking in...'

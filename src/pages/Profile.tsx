@@ -4,11 +4,8 @@ import {
   CreditCard, 
   ChevronRight,
   LogOut,
-  ArrowDownToLine,
-  ArrowUpFromLine,
   Target,
   Download,
-  CheckCircle,
   ShoppingBag,
   Trophy,
   Briefcase,
@@ -18,6 +15,8 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+
+const AVATAR_URL = 'https://files.catbox.moe/imjd3p.jpg';
 
 const menuItems = [
   { icon: Briefcase, label: 'Active Plan', path: '/active-plans' },
@@ -43,128 +42,108 @@ const Profile = () => {
 
   return (
     <AppLayout>
-      {/* Header with user info */}
-      <div className="clay-header pt-10 pb-6 px-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center shadow-clay-sm">
-              <span className="text-xl font-extrabold text-white">
-                {userName.slice(0, 2).toUpperCase()}
-              </span>
-            </div>
-            <div>
-              <h2 className="text-base font-bold text-white">{userName}</h2>
-              <p className="text-sm text-white/80">{phoneNumber}</p>
-            </div>
+      {/* Green gradient header */}
+      <div
+        className="pt-10 pb-8 px-5"
+        style={{ background: 'linear-gradient(180deg, hsl(140,52%,43%) 0%, hsl(140,55%,36%) 100%)' }}
+      >
+        {/* Title row */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="w-9" />
+          <h1 className="text-xl font-extrabold text-white tracking-wide">Profile</h1>
+          {/* Shopping bag → Active Plans */}
+          <button
+            onClick={() => navigate('/active-plans')}
+            className="w-9 h-9 rounded-xl flex items-center justify-center bg-white/20 backdrop-blur"
+          >
+            <ShoppingBag className="w-5 h-5 text-white" />
+          </button>
+        </div>
+
+        {/* Avatar + name */}
+        <div className="flex flex-col items-center">
+          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white/40 mb-3"
+            style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
+            <img src={AVATAR_URL} alt="Avatar" className="w-full h-full object-cover" />
           </div>
-
-          <button
-            onClick={() => navigate('/records')}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 backdrop-blur text-white text-xs font-bold shadow-clay-sm"
-          >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            Orders
-          </button>
+          <h2 className="text-lg font-extrabold text-white">{userName}</h2>
+          <p className="text-sm text-white/80 mt-0.5">{phoneNumber}</p>
         </div>
 
-        <div className="mt-4 flex items-center gap-2 bg-white/15 backdrop-blur rounded-full px-4 py-2.5">
-          <CheckCircle className="w-4 h-4 text-white" />
-          <span className="text-sm font-semibold text-white">
-            Total Withdraw: ₹{wallet?.withdrawable_balance ?? 0}
-          </span>
-        </div>
-      </div>
-
-      {/* Deposit / Withdraw buttons */}
-      <div className="px-5 mt-5">
-        <div className="flex gap-3">
-          <button
-            onClick={() => navigate('/recharge')}
-            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl clay-card font-bold text-foreground text-sm transition-all active:scale-95"
-          >
-            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-              <ArrowDownToLine className="w-4 h-4 text-primary" />
-            </div>
-            Deposit
-          </button>
-          <button
-            onClick={() => navigate('/withdraw')}
-            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl clay-card font-bold text-foreground text-sm transition-all active:scale-95"
-          >
-            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-              <ArrowUpFromLine className="w-4 h-4 text-primary" />
-            </div>
-            Withdraw
-          </button>
-        </div>
-      </div>
-
-      {/* Personal Details with divider lines */}
-      <div className="flex items-center justify-center mt-5 px-5 gap-3">
-        <div className="flex-1 h-px bg-border" />
-        <span className="px-4 py-1.5 rounded-full clay-button text-xs whitespace-nowrap">
-          Personal Details
-        </span>
-        <div className="flex-1 h-px bg-border" />
-      </div>
-
-      {/* Earnings section */}
-      <div className="px-5 mt-4">
-        <h3 className="text-base font-bold text-foreground mb-3">Earnings</h3>
-        <div className="flex gap-3">
-          <div className="flex-1 clay-card p-4">
-            <div className="flex items-center gap-1.5 mb-2">
-              <span className="w-2 h-2 rounded-full bg-primary" />
-              <span className="text-xs text-muted-foreground font-medium">Main Balance</span>
-            </div>
-            <p className="text-xl font-extrabold text-foreground">
+        {/* Account Balance Card */}
+        <div className="mt-5 bg-white rounded-2xl px-5 py-4 flex items-center justify-between"
+          style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
+          <div>
+            <p className="text-xs font-semibold text-primary mb-1">Account Balance</p>
+            <p className="text-2xl font-extrabold text-gray-800">
               ₹{(wallet?.total_balance ?? 0).toFixed(2)}
             </p>
           </div>
-          <div className="flex-1 clay-card p-4">
-            <div className="flex items-center gap-1.5 mb-2">
-              <span className="w-2 h-2 rounded-full bg-primary" />
-              <span className="text-xs text-muted-foreground font-medium">Recharge Wallet</span>
-            </div>
-            <p className="text-xl font-extrabold text-foreground">
+          <button
+            onClick={() => navigate('/recharge')}
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, hsl(140,52%,43%) 0%, hsl(140,60%,38%) 100%)', boxShadow: '0 3px 12px rgba(52,168,83,0.35)' }}
+          >
+            Recharge ⚡
+          </button>
+        </div>
+
+        {/* Stats row */}
+        <div className="mt-3 rounded-2xl px-2 py-4 grid grid-cols-3 text-center"
+          style={{ background: 'rgba(0,0,0,0.15)' }}>
+          <div className="border-r border-white/20">
+            <p className="text-base font-extrabold text-white">
               ₹{(wallet?.recharge_balance ?? 0).toFixed(2)}
             </p>
+            <p className="text-[11px] text-white/75 mt-0.5">Recharge</p>
+          </div>
+          <div className="border-r border-white/20">
+            <p className="text-base font-extrabold text-white">
+              ₹{(wallet?.withdrawable_balance ?? 0).toFixed(2)}
+            </p>
+            <p className="text-[11px] text-white/75 mt-0.5">Withdraw</p>
+          </div>
+          <div>
+            <p className="text-base font-extrabold text-white">
+              ₹{(wallet?.bonus_balance ?? 0).toFixed(2)}
+            </p>
+            <p className="text-[11px] text-white/75 mt-0.5">Welfare</p>
           </div>
         </div>
       </div>
 
       {/* Menu list */}
-      <div className="px-5 mt-6 pb-8">
-        <div className="clay-card overflow-hidden">
+      <div className="px-4 mt-4 pb-8">
+        <div className="bg-white rounded-2xl overflow-hidden"
+          style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
           {menuItems.map((item, index) => (
             <button
               key={item.label}
               onClick={() => navigate(item.path)}
               className={cn(
-                "w-full flex items-center gap-4 px-4 py-4 hover:bg-muted/50 transition-colors",
-                index !== menuItems.length - 1 && "border-b border-muted"
+                "w-full flex items-center gap-4 px-4 py-3.5 hover:bg-gray-50 transition-colors",
+                index !== menuItems.length - 1 && "border-b border-gray-100"
               )}
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center shadow-clay-sm">
-                <item.icon className="w-5 h-5 text-primary" />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+                style={{ background: 'rgba(52,168,83,0.1)' }}>
+                <item.icon className="w-4.5 h-4.5 text-primary" style={{ width: '18px', height: '18px' }} />
               </div>
-              <span className="flex-1 text-left font-semibold text-foreground text-sm">{item.label}</span>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              <span className="flex-1 text-left font-semibold text-gray-800 text-sm">{item.label}</span>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
             </button>
           ))}
 
+          {/* Logout */}
           <button
-            onClick={async () => {
-              await signOut();
-              navigate('/login');
-            }}
-            className="w-full flex items-center gap-4 px-4 py-4 hover:bg-muted/50 transition-colors"
+            onClick={async () => { await signOut(); navigate('/login'); }}
+            className="w-full flex items-center gap-4 px-4 py-3.5 hover:bg-red-50 transition-colors"
           >
-            <div className="w-10 h-10 rounded-xl bg-destructive/10 flex items-center justify-center shadow-clay-sm">
-              <LogOut className="w-5 h-5 text-destructive" />
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-red-50">
+              <LogOut className="w-4.5 h-4.5 text-red-500" style={{ width: '18px', height: '18px' }} />
             </div>
-            <span className="flex-1 text-left font-semibold text-foreground text-sm">Log Out</span>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            <span className="flex-1 text-left font-semibold text-red-500 text-sm">Log Out</span>
+            <ChevronRight className="w-4 h-4 text-gray-400" />
           </button>
         </div>
       </div>

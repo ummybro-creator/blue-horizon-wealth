@@ -5,6 +5,7 @@ import { BannerSlider } from '@/components/home/BannerSlider';
 import { QuickMenu } from '@/components/home/QuickMenu';
 import { RecentPayments } from '@/components/home/RecentPayments';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
+import { FeaturedProduct } from '@/components/home/FeaturedProduct';
 
 const Index = () => {
   const hideToday = sessionStorage.getItem('hidePopupToday') === 'true';
@@ -26,6 +27,9 @@ const Index = () => {
 
       {/* Quick Menu */}
       <QuickMenu />
+
+      {/* Featured Product */}
+      <FeaturedProduct />
 
       {/* Recent Activity (Fake) */}
       <RecentPayments />
