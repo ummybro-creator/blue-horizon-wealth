@@ -27,6 +27,7 @@ import ActivePlans from "./pages/ActivePlans";
 import Earnings from "./pages/Earnings";
 import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
+import BecomePromoter from "./pages/BecomePromoter";
 
 // ================= ADMIN PAGES =================
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -189,6 +190,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Index />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/become-promoter"
+                element={
+                  <ProtectedRoute>
+                    <BecomePromoter />
                   </ProtectedRoute>
                 }
               />

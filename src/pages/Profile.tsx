@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Building2, FileText, ChevronRight, ShoppingBag,
   Download, MessageSquare, BarChart3, LogOut, Wallet, Send
@@ -6,11 +5,7 @@ import {
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 
-/* ─────────────────────────────────────────────
-   Design Token — matches Home / Promotion pages
-───────────────────────────────────────────── */
 const D = {
   primary:       '#22C55E',
   primaryDark:   '#16A34A',
@@ -52,36 +47,13 @@ function formatPhone(phone: string | undefined) {
 }
 
 const Profile = () => {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const { profile, wallet, signOut } = useAuth();
-  const userName   = profile?.full_name || 'User';
-  const phone      = formatPhone(profile?.phone_number);
-
-  const [promoForm, setPromoForm] = useState({ contact: '', audience: '', description: '' });
-  const [promoStatus, setPromoStatus] = useState<'idle'|'sending'|'sent'|'error'>('idle');
-
-  const handlePromoSubmit = async () => {
-    if (!promoForm.contact.trim() || !promoForm.description.trim()) return;
-    setPromoStatus('sending');
-    try {
-      const message = `📢 PROMOTER APPLICATION\n\nContact: ${promoForm.contact}\nAudience: ${promoForm.audience}\nDescription: ${promoForm.description}\n\nUser: ${userName} | ${phone}`;
-      const { error } = await supabase.from('support_tickets').insert({
-        user_id: profile?.id,
-        subject: 'Promoter Application',
-        message,
-        status: 'open',
-      });
-      if (error) throw error;
-      setPromoStatus('sent');
-      setPromoForm({ contact: '', audience: '', description: '' });
-    } catch {
-      setPromoStatus('error');
-    }
-  };
+  const userName = profile?.full_name || 'User';
+  const phone    = formatPhone(profile?.phone_number);
 
   return (
     <AppLayout>
-      {/* ── Page Shell ── */}
       <div className="min-h-screen pb-36" style={{ background: D.pageBg }}>
 
         {/* ══════════════ HEADER ══════════════ */}
@@ -150,16 +122,14 @@ const Profile = () => {
             style={{ background: D.statsCard, border: `1px solid ${D.border}` }}
           >
             {[
-              { label: 'Recharge',  value: wallet?.recharge_balance      ?? 0 },
-              { label: 'Withdraw',  value: wallet?.withdrawable_balance   ?? 0 },
-              { label: 'Welfare',   value: wallet?.bonus_balance          ?? 0 },
+              { label: 'Recharge', value: wallet?.recharge_balance     ?? 0 },
+              { label: 'Withdraw', value: wallet?.withdrawable_balance  ?? 0 },
+              { label: 'Welfare',  value: wallet?.bonus_balance         ?? 0 },
             ].map((stat, i) => (
               <div
                 key={stat.label}
                 className="py-4 text-center"
-                style={{
-                  borderRight: i < 2 ? `1px solid ${D.border}` : 'none',
-                }}
+                style={{ borderRight: i < 2 ? `1px solid ${D.border}` : 'none' }}
               >
                 <p className="text-base font-extrabold" style={{ color: D.primary }}>
                   ₹{Number(stat.value).toFixed(2)}
@@ -198,103 +168,29 @@ const Profile = () => {
           })}
         </div>
 
-        {/* ══════════════ PROMOTER APPLICATION ══════════════ */}
-        <div className="px-4 mt-5">
-          <div
-            className="rounded-[22px] overflow-hidden"
+        {/* ══════════════ BECOME A PROMOTER ══════════════ */}
+        <div className="px-4 mt-3">
+          <button
+            onClick={() => navigate('/become-promoter')}
+            className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all active:scale-[0.98]"
             style={{ background: D.card, boxShadow: D.shadowCard }}
           >
-            {/* Section Header */}
             <div
-              className="px-5 py-4"
-              style={{ background: 'linear-gradient(135deg, #D9040A, #B50309)' }}
+              className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0"
+              style={{ background: '#FFE4E4' }}
             >
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.2)' }}>
-                  <Send className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-extrabold text-white">Become a Promoter</p>
-                  <p className="text-[10px] text-white/70 mt-0.5">Partner with Veltrix & earn more</p>
-                </div>
-              </div>
+              <Send className="w-5 h-5" style={{ color: '#D9040A' }} />
             </div>
-
-            {/* Form Fields */}
-            <div className="px-5 py-4 space-y-3">
-              <div>
-                <label className="block text-[11px] font-semibold mb-1.5" style={{ color: D.textSecondary }}>
-                  Telegram Username or Contact Number *
-                </label>
-                <input
-                  type="text"
-                  placeholder="@yourusername or +91 XXXXXXXXXX"
-                  value={promoForm.contact}
-                  onChange={e => setPromoForm(f => ({ ...f, contact: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{
-                    background: '#F7FCF9',
-                    border: `1px solid ${D.border}`,
-                    color: D.textPrimary,
-                  }}
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold mb-1.5" style={{ color: D.textSecondary }}>
-                  Your Audience / Followers Data
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. 5000 Instagram followers, 2000 Telegram members"
-                  value={promoForm.audience}
-                  onChange={e => setPromoForm(f => ({ ...f, audience: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{
-                    background: '#F7FCF9',
-                    border: `1px solid ${D.border}`,
-                    color: D.textPrimary,
-                  }}
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold mb-1.5" style={{ color: D.textSecondary }}>
-                  How will you promote Veltrix? *
-                </label>
-                <textarea
-                  rows={3}
-                  placeholder="Briefly describe your promotion strategy..."
-                  value={promoForm.description}
-                  onChange={e => setPromoForm(f => ({ ...f, description: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
-                  style={{
-                    background: '#F7FCF9',
-                    border: `1px solid ${D.border}`,
-                    color: D.textPrimary,
-                  }}
-                />
-              </div>
-
-              {promoStatus === 'sent' && (
-                <div className="text-center py-2 px-4 rounded-xl text-xs font-semibold" style={{ background: '#DCFCE7', color: '#16A34A' }}>
-                  ✅ Application sent! Admin will contact you soon.
-                </div>
-              )}
-              {promoStatus === 'error' && (
-                <div className="text-center py-2 px-4 rounded-xl text-xs font-semibold" style={{ background: '#FEE2E2', color: '#B91C1C' }}>
-                  ❌ Something went wrong. Please try again.
-                </div>
-              )}
-
-              <button
-                onClick={handlePromoSubmit}
-                disabled={promoStatus === 'sending' || promoStatus === 'sent'}
-                className="w-full py-3.5 rounded-xl text-sm font-extrabold text-white transition-all active:scale-[0.98] disabled:opacity-60"
-                style={{ background: 'linear-gradient(135deg, #D9040A, #B50309)', boxShadow: '0 6px 18px rgba(217,4,10,0.3)' }}
-              >
-                {promoStatus === 'sending' ? 'Sending...' : promoStatus === 'sent' ? '✅ Submitted' : '🚀 Submit Application'}
-              </button>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm leading-tight" style={{ color: D.textPrimary }}>
+                Become a Promoter
+              </p>
+              <p className="text-[11px] mt-0.5 font-medium" style={{ color: D.textSecondary }}>
+                Partner with Veltrix &amp; earn more
+              </p>
             </div>
-          </div>
+            <ChevronRight className="w-5 h-5 shrink-0" style={{ color: D.textSecondary }} />
+          </button>
         </div>
 
         {/* ══════════════ EXIT APP ══════════════ */}
