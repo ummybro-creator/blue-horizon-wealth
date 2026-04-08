@@ -24,10 +24,10 @@ Veltrix is a React + Vite investment platform app with a mobile-first design. Us
 - No local Express/Node server needed — all API logic lives in Supabase
 
 ## Environment Variables
-Set in Replit's environment system (not in .env files):
-- `VITE_SUPABASE_URL` — Supabase project URL
-- `VITE_SUPABASE_PUBLISHABLE_KEY` — Supabase anon/public key (safe for frontend)
-- `VITE_SUPABASE_PROJECT_ID` — Supabase project ID
+Set in Replit's environment system (Secrets/Env Vars tab):
+- `VITE_SUPABASE_URL` — Supabase project URL (shared)
+- `VITE_SUPABASE_PUBLISHABLE_KEY` — Supabase anon/public key (safe for frontend, shared)
+- `VITE_SUPABASE_PROJECT_ID` — Supabase project ID (shared)
 
 ## Running the App
 ```
@@ -39,7 +39,7 @@ Starts Vite dev server on port 5000.
 ```
 npm run build
 ```
-Outputs to `dist/`. Deployed as a static site.
+Outputs static files to `dist/`. Deploy as a static site using `npx serve -s dist -l 3000`.
 
 ## Key Files
 - `src/integrations/supabase/client.ts` — Supabase client setup
@@ -63,3 +63,11 @@ Key tables: `profiles`, `wallets`, `products`, `investments`, `recharges`, `with
 - Fraud detection via device/IP tracking
 - Support ticket system
 - Notification system
+
+## Replit Migration Notes
+- This is a pure frontend (React/Vite) app — no Express server needed
+- Supabase handles all backend logic via RLS policies and stored procedures
+- Env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`) are set as Replit shared env vars
+- The `VITE_SUPABASE_PUBLISHABLE_KEY` is the anon/public key — safe to use in client-side code
+- Dev server runs on port 5000 via `npm run dev`
+- Production build outputs to `dist/` via `npm run build`
