@@ -8,10 +8,12 @@ interface WelcomePopupProps {
 }
 
 const bonusTiers = [
-  { deposit: 100, bonus: 30 },
-  { deposit: 500, bonus: 175 },
-  { deposit: 1000, bonus: 350 },
-  { deposit: 5000, bonus: 2000 },
+  { deposit: 100,   bonus: 30   },
+  { deposit: 500,   bonus: 175  },
+  { deposit: 1000,  bonus: 350  },
+  { deposit: 5000,  bonus: 2000 },
+  { deposit: 8000,  bonus: 2300 },
+  { deposit: 10000, bonus: 2800 },
 ];
 
 export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {

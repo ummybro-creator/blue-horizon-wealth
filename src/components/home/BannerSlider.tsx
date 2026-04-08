@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const banners = [
-  { id: 1, image: 'https://files.catbox.moe/vwjdvc.jpg' },
-  { id: 2, image: 'https://files.catbox.moe/co8mef.jpg' },
-  { id: 3, image: 'https://files.catbox.moe/qijlon.jpg' },
+  { id: 1, image: 'https://files.catbox.moe/yles2d.jpg' },
+  { id: 2, image: 'https://files.catbox.moe/dl5ifj.jpg' },
+  { id: 3, image: 'https://files.catbox.moe/4d2uxt.jpg' },
 ];
 
 export function BannerSlider() {
@@ -26,7 +26,7 @@ export function BannerSlider() {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {banners.map((banner) => (
-          <div key={banner.id} className="min-w-full h-40">
+          <div key={banner.id} className="min-w-full h-52">
             <img
               src={banner.image}
               alt={`Banner ${banner.id}`}

@@ -50,10 +50,10 @@ const ActivePlans = () => {
     <div className="min-h-screen max-w-lg mx-auto app-bg">
       <div className="clay-header pt-12 pb-8 px-4">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-white/60 backdrop-blur flex items-center justify-center" style={{ border: '1px solid #C8E6C9' }}>
-            <ArrowLeft className="w-5 h-5" style={{ color: '#2E7D32' }} />
+          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full backdrop-blur flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)' }}>
+            <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-xl font-bold" style={{ color: '#2E7D32' }}>Active Plans</h1>
+          <h1 className="text-xl font-bold text-white">Active Plans</h1>
         </div>
       </div>
 

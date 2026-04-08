@@ -1,0 +1,116 @@
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/36280a.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/saerxp.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/ms19s0.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/j3mgak.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/eiz79j.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/dgdv9y.jpg
+
+> Emily:
+blob:https://gemini.google.com/9da73767-3019-457f-abf2-efd9fc59e3eb
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/w9q9jg.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/yxtq5d.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/ar4gt6.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/imjd3p.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/czrznu.jpg
+
+> Emily:
+And add soft shadow in product card background claymorphism style
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/vwjdvc.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/co8mef.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/qijlon.jpg
+
+> Emily:
+1. Use reference image for redesign login/signup and profile page. Don’t add more bottom. In profile page only Change and match colour according to my webapp colour code.
+2. Add the active plan page in profile page top right at bag icons.
+3. Remove OTP verification.
+4. In profile page add this avatar for all user profile, image link: https://files.catbox.moe/imjd3p.jpg
+5. In login/signup page change app logo: https://files.catbox.moe/czrznu.jpg
+And change name: Veltrix.
+6. Make small popup in home screen, current popup very large size make it small size.
+7. Add an one single product in home page above the recent activity, And add soft shadow in product card background claymorphism style.
+8. Admin: when user make withdraw admin can see user all data like: balance, team, earning details, plan details, extra much more details admin can see in withdraw page.
+9. In user panel change banner. Image link: 1. https://files.catbox.moe/vwjdvc.jpg
+2. https://files.catbox.moe/co8mef.jpg
+3. https://files.catbox.moe/qijlon.jpg
+10. In daily checking add logic need to active plan then elegble to claim daily checking bonus.
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/yles2d.jpg
+
+> Emily:
+🖼 Photo
+
+> IMAGE TO LINK BOT:
+https://files.catbox.moe/dl5ifj.jpg
+
+> Emily:
+🖼 Photo
