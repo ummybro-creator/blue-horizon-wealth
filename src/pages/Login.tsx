@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
@@ -130,7 +130,7 @@ const Login = () => {
     if (ref) { setIsLogin(false); setReferralCode(ref); }
   }, [location.search]);
 
-  if (user) { navigate('/', { replace: true }); return null; }
+  if (user) return <Navigate to="/" replace />;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
