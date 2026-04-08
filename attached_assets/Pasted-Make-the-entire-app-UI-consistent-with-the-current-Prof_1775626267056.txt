@@ -1,0 +1,152 @@
+Make the entire app UI consistent with the current Profile Page design.
+
+IMPORTANT:
+- Do NOT use any static or dummy data
+- Fetch all data dynamically from backend APIs
+- Keep logic unchanged, only improve UI/UX and styling
+
+🎨 GLOBAL DESIGN SYSTEM (FOLLOW PROFILE PAGE EXACTLY)
+
+Primary Color:
+#22C55E
+
+Background Gradient (Main Pages):
+linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)
+
+Card Background:
+#FFFFFF
+
+Text Colors:
+- Primary: #111827
+- Secondary: #6B7280
+
+Border:
+#E5E7EB
+
+Button Gradient:
+linear-gradient(135deg, #22C55E, #16A34A)
+
+Shadow:
+box-shadow: 0 8px 20px rgba(0,0,0,0.05)
+
+Border Radius:
+- Cards: 16px–20px
+- Buttons: 999px (rounded full)
+
+Spacing System:
+8px grid (16px, 20px, 24px consistent padding)
+
+----------------------------------
+
+🏠 HOME PAGE (REDESIGN)
+- Replace dark green header with light gradient (same as Profile)
+- Banner section:
+  - Rounded 20px
+  - Soft shadow
+- Grid icons:
+  - White cards
+  - Light pastel icon background (green/blue/yellow/purple soft tones)
+- Recent Activity:
+  - White card
+  - Clean spacing
+- Floating action button:
+  - Use green gradient
+
+----------------------------------
+
+📊 PROMOTION PAGE
+- Remove heavy green background
+- Use light gradient top section
+- Cards:
+  - White background
+  - Soft shadow
+  - Rounded corners
+- Referral percentages:
+  - Keep inside soft grey/green cards (#F0FDF4)
+- Buttons:
+  - WhatsApp = green gradient
+  - Telegram = white with border
+- Referral code box:
+  - Light grey background
+  - Rounded 12px
+
+----------------------------------
+
+🛒 PLAN STORE PAGE
+- Header:
+  - Light gradient (same style)
+- Tabs (Daily / Welfare):
+  - Active = green gradient
+  - Inactive = light grey
+- Product cards:
+  - White card
+  - Shadow
+  - Rounded 20px
+- Price highlight:
+  - Green color
+- Buy button:
+  - Full width green gradient
+  - Rounded full
+
+----------------------------------
+
+👤 PROFILE PAGE (KEEP SAME – ALREADY PERFECT)
+- No major changes needed
+- Just ensure spacing consistency
+
+----------------------------------
+
+🔐 LOGIN / SIGNUP PAGE (IMPORTANT – MATCH STYLE)
+
+Background:
+- Same light gradient (#E8F8EE → #F7FCF9)
+
+Card Layout:
+- Centered white card
+- Rounded 20px
+- Soft shadow
+
+Inputs:
+- Light grey background (#F9FAFB)
+- Border: #E5E7EB
+- Rounded 12px
+- Padding: 14px–16px
+
+Buttons:
+- Green gradient
+- Rounded full
+- Bold text
+
+Extra:
+- Add logo on top
+- Add small subtitle text
+- Add "Already have account? Login" / "Create account"
+
+----------------------------------
+
+📱 BOTTOM NAVBAR (ALL PAGES)
+- White background
+- Top shadow
+- Active icon = green (#22C55E)
+- Inactive = grey
+
+----------------------------------
+
+✨ UI STYLE RULES
+
+- Minimal & clean
+- No dark heavy backgrounds
+- No harsh shadows
+- Use soft colors only
+- Maintain consistent spacing
+- Use same font style everywhere
+- Smooth rounded UI (modern fintech style)
+
+----------------------------------
+
+🎯 FINAL GOAL:
+
+Transform entire app into:
+Clean, premium, modern earning app UI
+Fully consistent with Profile Page design system
+Similar to high-quality fintech apps (Paytm / PhonePe style minimal UI)

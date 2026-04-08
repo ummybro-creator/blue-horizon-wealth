@@ -17,7 +17,10 @@ export function BannerSlider() {
   }, []);
 
   return (
-    <div className="relative clay-card overflow-hidden" style={{ borderRadius: '22px' }}>
+    <div
+      className="relative overflow-hidden"
+      style={{ borderRadius: '20px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+    >
       <div
         className="flex transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}

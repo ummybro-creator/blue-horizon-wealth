@@ -6,6 +6,22 @@ import { useTeam } from '@/hooks/useTeam';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
+/* ── Design tokens ── */
+const D = {
+  primary:     '#22C55E',
+  primaryDark: '#16A34A',
+  btnGrad:     'linear-gradient(135deg, #22C55E, #16A34A)',
+  headerGrad:  'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)',
+  statsCard:   '#F0FDF4',
+  card:        '#FFFFFF',
+  textPrimary: '#111827',
+  textSec:     '#6B7280',
+  border:      '#E5E7EB',
+  shadowCard:  '0 2px 12px rgba(0,0,0,0.06)',
+  shadowGreen: '0 8px 24px rgba(34,197,94,0.22)',
+  iconBg:      '#DCFCE7',
+};
+
 const Team = () => {
   const navigate = useNavigate();
   const { data: teamData, isLoading } = useTeam();
@@ -47,145 +63,241 @@ const Team = () => {
   const totalEarnings = level1Earnings + level2Earnings + level3Earnings;
 
   const steps = [
-    { step: '1', title: 'Invite', desc: 'Share your code with friends' },
-    { step: '2', title: 'Register', desc: 'They sign up using your code' },
-    { step: '3', title: 'Earn', desc: 'Get commission on deposits' },
+    { step: '1', title: 'Invite',    desc: 'Share your code' },
+    { step: '2', title: 'Register',  desc: 'They sign up'    },
+    { step: '3', title: 'Earn',      desc: 'Get commission'  },
   ];
 
   return (
     <AppLayout>
-      {/* Header */}
-      <div className="clay-header pt-12 pb-20 px-4 text-center">
-        <h1 className="text-3xl font-extrabold text-white mb-1">Earn Upto ₹350</h1>
-        <h2 className="text-2xl font-extrabold text-white">Per Refer</h2>
-        <p className="text-white/80 text-sm mt-2">Share & earn unlimited commission</p>
+      {/* ── Header ── */}
+      <div
+        className="px-4 pt-12 pb-6 text-center"
+        style={{
+          background: D.headerGrad,
+          borderRadius: '0 0 28px 28px',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
+        }}
+      >
+        <h1 className="text-2xl font-extrabold" style={{ color: D.primary }}>Earn Upto ₹350</h1>
+        <h2 className="text-xl font-extrabold" style={{ color: D.textPrimary }}>Per Refer</h2>
+        <p className="text-sm mt-1" style={{ color: D.textSec }}>Share & earn unlimited commission</p>
       </div>
 
-      {/* Commission Breakdown */}
-      <div className="mx-4 -mt-12 relative z-10">
-        <div className="clay-card-lg p-5">
-          <div className="grid grid-cols-3 gap-3 mb-4">
+      {/* ── Commission Breakdown ── */}
+      <div className="mx-4 mt-4">
+        <div
+          className="rounded-[20px] p-4"
+          style={{ background: D.card, boxShadow: D.shadowCard }}
+        >
+          <h3 className="text-sm font-bold mb-3 text-center" style={{ color: D.textPrimary }}>
+            Commission Rates
+          </h3>
+          <div className="grid grid-cols-3 gap-3 mb-3">
             {[
-              { label: 'Level 1', pct: '13%', color: 'bg-primary' },
-              { label: 'Level 2', pct: '5%', color: 'bg-primary/70' },
-              { label: 'Level 3', pct: '2%', color: 'bg-primary/50' },
-            ].map(l => (
-              <div key={l.label} className="text-center clay-inset p-3 rounded-xl">
-                <p className="text-2xl font-extrabold text-primary">{l.pct}</p>
-                <p className="text-[10px] text-muted-foreground font-medium mt-1">{l.label}</p>
+              { label: 'Level 1', pct: '13%' },
+              { label: 'Level 2', pct: '5%'  },
+              { label: 'Level 3', pct: '2%'  },
+            ].map((l) => (
+              <div
+                key={l.label}
+                className="text-center py-3 px-2 rounded-2xl"
+                style={{ background: D.statsCard }}
+              >
+                <p className="text-2xl font-extrabold" style={{ color: D.primary }}>{l.pct}</p>
+                <p className="text-[10px] mt-1 font-medium" style={{ color: D.textSec }}>{l.label}</p>
               </div>
             ))}
           </div>
-          <div className="text-center clay-inset p-3 rounded-xl">
-            <p className="text-xs text-muted-foreground">+ Extra ₹20 + ₹30 + ₹50 + ₹100 + ₹150 per referral's deposits</p>
+          <div
+            className="rounded-xl px-4 py-2.5 text-center"
+            style={{ background: '#F9FAFB', border: `1px solid ${D.border}` }}
+          >
+            <p className="text-xs" style={{ color: D.textSec }}>
+              + Extra ₹20 + ₹30 + ₹50 + ₹100 + ₹150 per referral's deposits
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Referral Code Card */}
+      {/* ── Referral Code Card ── */}
       <div className="mx-4 mt-4">
-        <div className="clay-card p-5">
-          <p className="text-xs text-muted-foreground mb-1">Your Referral Code</p>
+        <div
+          className="rounded-[20px] p-4"
+          style={{ background: D.card, boxShadow: D.shadowCard }}
+        >
+          <p className="text-xs font-semibold mb-2" style={{ color: D.textSec }}>Your Referral Code</p>
           <div className="flex items-center gap-2 mb-4">
-            <div className="flex-1 clay-inset px-4 py-3 font-mono text-xl font-bold text-primary tracking-widest text-center">
+            <div
+              className="flex-1 rounded-xl px-4 py-3 font-mono text-xl font-bold tracking-widest text-center"
+              style={{
+                background: '#F9FAFB',
+                border: `1px solid ${D.border}`,
+                color: D.primary,
+              }}
+            >
               {referralCode}
             </div>
-            <button onClick={() => handleCopy(referralCode, 'Referral code')} className="w-11 h-11 rounded-xl clay-card-sm flex items-center justify-center">
-              <Copy className="w-4 h-4 text-foreground" />
+            <button
+              onClick={() => handleCopy(referralCode, 'Referral code')}
+              className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all active:scale-95"
+              style={{ background: D.iconBg }}
+            >
+              <Copy className="w-4 h-4" style={{ color: D.primary }} />
             </button>
           </div>
 
-          {/* Share CTA Buttons */}
+          {/* Share Buttons */}
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <button onClick={handleWhatsApp} className="clay-button py-3 flex items-center justify-center gap-2 text-sm active:scale-95 transition-all">
+            <button
+              onClick={handleWhatsApp}
+              className="py-3 rounded-full flex items-center justify-center gap-2 text-sm font-bold text-white transition-all active:scale-95"
+              style={{ background: D.btnGrad, boxShadow: D.shadowGreen }}
+            >
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </button>
-            <button onClick={handleTelegram} className="clay-card-sm py-3 flex items-center justify-center gap-2 text-sm font-bold text-foreground active:scale-95 transition-all">
+            <button
+              onClick={handleTelegram}
+              className="py-3 rounded-full flex items-center justify-center gap-2 text-sm font-bold transition-all active:scale-95"
+              style={{
+                background: D.card,
+                border: `1.5px solid ${D.border}`,
+                color: D.textPrimary,
+              }}
+            >
               <Send className="w-4 h-4" /> Telegram
             </button>
           </div>
-          <button onClick={handleShare} className="w-full clay-card-sm py-3 flex items-center justify-center gap-2 text-sm font-bold text-foreground active:scale-95 transition-all">
+          <button
+            onClick={handleShare}
+            className="w-full py-3 rounded-full flex items-center justify-center gap-2 text-sm font-bold transition-all active:scale-95"
+            style={{
+              background: '#F9FAFB',
+              border: `1.5px solid ${D.border}`,
+              color: D.textPrimary,
+            }}
+          >
             <Share2 className="w-4 h-4" /> Share Link
           </button>
         </div>
       </div>
 
-      {/* How It Works */}
+      {/* ── How It Works ── */}
       <div className="mx-4 mt-4">
-        <div className="clay-card p-5">
-          <h3 className="font-bold text-foreground mb-4 text-center">How It Works</h3>
+        <div
+          className="rounded-[20px] p-4"
+          style={{ background: D.card, boxShadow: D.shadowCard }}
+        >
+          <h3 className="font-bold text-center mb-4" style={{ color: D.textPrimary }}>
+            How It Works
+          </h3>
           <div className="flex items-center justify-between">
             {steps.map((s, i) => (
               <div key={s.step} className="flex items-center gap-2">
                 <div className="text-center">
-                  <div className="w-10 h-10 rounded-full clay-button flex items-center justify-center mx-auto mb-1">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1"
+                    style={{ background: D.btnGrad, boxShadow: D.shadowGreen }}
+                  >
                     <span className="text-sm font-bold text-white">{s.step}</span>
                   </div>
-                  <p className="text-xs font-bold text-foreground">{s.title}</p>
-                  <p className="text-[9px] text-muted-foreground">{s.desc}</p>
+                  <p className="text-xs font-bold" style={{ color: D.textPrimary }}>{s.title}</p>
+                  <p className="text-[9px]" style={{ color: D.textSec }}>{s.desc}</p>
                 </div>
-                {i < steps.length - 1 && <ArrowRight className="w-4 h-4 text-muted-foreground mx-1" />}
+                {i < steps.length - 1 && (
+                  <ArrowRight className="w-4 h-4 mx-1" style={{ color: D.textSec }} />
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Stats */}
+      {/* ── Stats Grid ── */}
       <div className="mx-4 mt-4 grid grid-cols-2 gap-3">
         {[
           { label: 'Total Team', value: stats?.totalMembers ?? 0, icon: Users },
-          { label: 'Level 1', value: stats?.level1Members ?? 0, icon: User },
-          { label: 'Level 2', value: stats?.level2Members ?? 0, icon: User },
-          { label: 'Level 3', value: stats?.level3Members ?? 0, icon: User },
+          { label: 'Level 1',    value: stats?.level1Members ?? 0, icon: User  },
+          { label: 'Level 2',    value: stats?.level2Members ?? 0, icon: User  },
+          { label: 'Level 3',    value: stats?.level3Members ?? 0, icon: User  },
         ].map((s) => (
-          <div key={s.label} className="clay-card p-4">
-            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mb-2 shadow-clay-sm">
-              <s.icon className="w-4 h-4 text-primary" />
+          <div
+            key={s.label}
+            className="rounded-[18px] p-4"
+            style={{ background: D.card, boxShadow: D.shadowCard }}
+          >
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center mb-2"
+              style={{ background: D.iconBg }}
+            >
+              <s.icon className="w-4 h-4" style={{ color: D.primary }} />
             </div>
-            <p className="text-xs text-muted-foreground">{s.label}</p>
-            <p className="text-2xl font-extrabold text-foreground">{isLoading ? '...' : s.value}</p>
+            <p className="text-xs" style={{ color: D.textSec }}>{s.label}</p>
+            <p className="text-2xl font-extrabold" style={{ color: D.textPrimary }}>
+              {isLoading ? '...' : s.value}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* Earnings */}
+      {/* ── Earnings Breakdown ── */}
       <div className="mx-4 mt-4">
-        <div className="clay-card p-5">
-          <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-primary" /> Referral Earnings
+        <div
+          className="rounded-[20px] p-4"
+          style={{ background: D.card, boxShadow: D.shadowCard }}
+        >
+          <h3 className="font-bold mb-4 flex items-center gap-2" style={{ color: D.textPrimary }}>
+            <TrendingUp className="w-5 h-5" style={{ color: D.primary }} />
+            Referral Earnings
           </h3>
           <div className="space-y-3">
             {[
               { label: 'Level 1 (13%)', value: level1Earnings },
-              { label: 'Level 2 (5%)', value: level2Earnings },
-              { label: 'Level 3 (2%)', value: level3Earnings },
+              { label: 'Level 2 (5%)',  value: level2Earnings },
+              { label: 'Level 3 (2%)',  value: level3Earnings },
             ].map((e) => (
               <div key={e.label} className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{e.label}</span>
-                <span className="font-bold text-foreground">₹{e.value.toFixed(0)}</span>
+                <span className="text-sm" style={{ color: D.textSec }}>{e.label}</span>
+                <span className="font-bold" style={{ color: D.textPrimary }}>₹{e.value.toFixed(0)}</span>
               </div>
             ))}
-            <div className="border-t border-muted pt-3 flex items-center justify-between">
-              <span className="font-bold text-foreground">Total Earnings</span>
-              <span className="text-lg font-extrabold text-primary">₹{totalEarnings.toFixed(0)}</span>
+            <div
+              className="pt-3 flex items-center justify-between"
+              style={{ borderTop: `1px solid ${D.border}` }}
+            >
+              <span className="font-bold" style={{ color: D.textPrimary }}>Total Earnings</span>
+              <span className="text-lg font-extrabold" style={{ color: D.primary }}>
+                ₹{totalEarnings.toFixed(0)}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Extra Bonus */}
+      {/* ── Extra Bonus Button ── */}
       <div className="mx-4 mt-4">
-        <button onClick={() => navigate('/extra-bonus')} className="w-full clay-button py-3.5 flex items-center justify-center gap-2 text-sm active:scale-[0.97] transition-all">
-          <Gift className="w-4 h-4" /> Extra Referral Bonus <ChevronRight className="w-4 h-4 ml-auto" />
+        <button
+          onClick={() => navigate('/extra-bonus')}
+          className="w-full py-4 rounded-full flex items-center justify-center gap-2 text-sm font-bold text-white transition-all active:scale-[0.97]"
+          style={{ background: D.btnGrad, boxShadow: D.shadowGreen }}
+        >
+          <Gift className="w-4 h-4" />
+          Extra Referral Bonus
+          <ChevronRight className="w-4 h-4 ml-auto" />
         </button>
       </div>
 
-      {/* Team Members */}
+      {/* ── Team Members ── */}
       <div className="mx-4 mt-4 mb-6">
-        <h3 className="text-base font-bold text-foreground mb-3">Team Members</h3>
-        <div className="clay-card overflow-hidden">
-          <div className="grid grid-cols-4 gap-2 px-4 py-3 bg-muted/30 text-xs font-semibold text-muted-foreground">
+        <h3 className="text-base font-bold mb-3" style={{ color: D.textPrimary }}>Team Members</h3>
+        <div
+          className="rounded-[20px] overflow-hidden"
+          style={{ background: D.card, boxShadow: D.shadowCard }}
+        >
+          <div
+            className="grid grid-cols-4 gap-2 px-4 py-3 text-xs font-semibold"
+            style={{ background: '#F9FAFB', color: D.textSec, borderBottom: `1px solid ${D.border}` }}
+          >
             <span>User</span>
             <span className="text-center">Level</span>
             <span className="text-center">Joined</span>
@@ -193,29 +305,52 @@ const Team = () => {
           </div>
 
           {isLoading ? (
-            <div className="p-8 text-center text-muted-foreground">Loading...</div>
+            <div className="p-8 text-center" style={{ color: D.textSec }}>Loading...</div>
           ) : members.length === 0 ? (
             <div className="p-8 text-center">
-              <Users className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-              <p className="text-sm text-muted-foreground">No team members yet</p>
+              <Users className="w-10 h-10 mx-auto mb-2" style={{ color: '#D1FAE5' }} />
+              <p className="text-sm" style={{ color: D.textSec }}>No team members yet</p>
             </div>
           ) : (
             members.map((member, index) => (
-              <div key={member.id} className={cn('grid grid-cols-4 gap-2 px-4 py-3 items-center', index !== members.length - 1 && 'border-b border-muted')}>
+              <div
+                key={member.id}
+                className={cn('grid grid-cols-4 gap-2 px-4 py-3 items-center')}
+                style={{
+                  borderBottom: index !== members.length - 1 ? `1px solid ${D.border}` : 'none',
+                }}
+              >
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 shadow-clay-sm">
-                    <span className="text-xs font-bold text-primary">{(member?.name ?? 'U').charAt(0)}</span>
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: '#DCFCE7' }}
+                  >
+                    <span className="text-xs font-bold" style={{ color: D.primary }}>
+                      {(member?.name ?? 'U').charAt(0)}
+                    </span>
                   </div>
-                  <span className="text-sm font-medium text-foreground truncate">{member?.name ?? 'User'}</span>
+                  <span className="text-sm font-medium truncate" style={{ color: D.textPrimary }}>
+                    {member?.name ?? 'User'}
+                  </span>
                 </div>
                 <div className="text-center">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">L{member.level}</span>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full font-medium"
+                    style={{ background: '#DCFCE7', color: D.primary }}
+                  >
+                    L{member.level}
+                  </span>
                 </div>
-                <p className="text-xs text-muted-foreground text-center">
+                <p className="text-xs text-center" style={{ color: D.textSec }}>
                   {new Date(member.joinedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                 </p>
                 <div className="text-right">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full font-medium"
+                    style={{ background: '#DCFCE7', color: D.primary }}
+                  >
+                    Active
+                  </span>
                 </div>
               </div>
             ))

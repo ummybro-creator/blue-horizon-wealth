@@ -246,7 +246,7 @@
 
   /* App gradient background */
   .app-bg {
-    background: hsl(var(--background));
+    background: #F7FCF9;
     min-height: 100vh;
   }
 

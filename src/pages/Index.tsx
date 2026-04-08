@@ -12,33 +12,44 @@ const Index = () => {
 
   return (
     <AppLayout>
-      {/* Header */}
-      <div className="clay-header pt-12 pb-8 px-4">
-        <div className="flex items-center justify-center gap-3">
-          <h1 className="text-2xl font-bold text-primary-foreground">Home</h1>
-        </div>
+      {/* ── Light Gradient Header ── */}
+      <div
+        className="px-4 pt-12 pb-5 text-center"
+        style={{
+          background: 'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)',
+          borderRadius: '0 0 28px 28px',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
+        }}
+      >
+        <h1 className="text-xl font-extrabold" style={{ color: '#111827' }}>
+          Home
+        </h1>
       </div>
 
-      {/* Banner Slider */}
-      <div className="-mt-4 px-4">
+      {/* ── Banner ── */}
+      <div className="mt-4 px-4">
         <BannerSlider />
       </div>
 
-      {/* Quick Menu */}
+      {/* ── Quick Menu ── */}
       <QuickMenu />
 
-      {/* Recent Activity */}
+      {/* ── Recent Activity ── */}
       <RecentPayments />
 
-      {/* Floating Telegram Button */}
+      {/* ── Floating Telegram Button ── */}
       <button
         onClick={() => window.open('https://t.me/tatanmak', '_blank')}
-        className="fixed bottom-28 right-4 w-14 h-14 rounded-full clay-button flex items-center justify-center z-40"
+        className="fixed bottom-[80px] right-4 w-14 h-14 rounded-full flex items-center justify-center z-40 transition-all active:scale-95"
+        style={{
+          background: 'linear-gradient(135deg, #22C55E, #16A34A)',
+          boxShadow: '0 6px 20px rgba(34,197,94,0.35)',
+        }}
       >
-        <Send className="w-6 h-6 text-primary-foreground" />
+        <Send className="w-6 h-6 text-white" />
       </button>
 
-      {/* Welcome Popup */}
+      {/* ── Welcome Popup ── */}
       <WelcomePopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
     </AppLayout>
   );

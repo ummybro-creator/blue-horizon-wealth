@@ -43,33 +43,46 @@ export function RecentPayments() {
   }, []);
 
   return (
-    <div className="mx-4 mt-5">
-      <h2 className="text-base font-bold text-foreground mb-3">Recent Activity</h2>
-      <div className="space-y-1">
+    <div className="mx-4 mt-4 mb-4">
+      <h2 className="text-[15px] font-bold mb-3" style={{ color: '#111827' }}>
+        Recent Activity
+      </h2>
+      <div
+        className="rounded-[20px] overflow-hidden"
+        style={{ background: '#FFFFFF', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
+      >
         {transactions.map((tx, index) => (
           <div
             key={tx.id}
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-500",
-              index === 0 && "animate-slide-up"
+              'flex items-center gap-3 px-4 py-3 transition-all duration-500',
+              index === 0 && 'animate-slide-up',
+              index < transactions.length - 1 && 'border-b'
             )}
+            style={{ borderColor: '#F3F4F6' }}
           >
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-primary/10">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+              style={{ background: tx.type === 'withdraw' ? '#FEE2E2' : '#DCFCE7' }}
+            >
               {tx.type === 'withdraw' ? (
-                <ArrowDownCircle className="w-4 h-4 text-primary" />
+                <ArrowDownCircle className="w-4 h-4" style={{ color: '#EF4444' }} />
               ) : (
-                <ArrowUpCircle className="w-4 h-4 text-primary" />
+                <ArrowUpCircle className="w-4 h-4" style={{ color: '#22C55E' }} />
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground">{tx.name}</p>
-              <p className="text-[10px] text-muted-foreground">ID: {tx.maskedId} · {tx.time}</p>
+              <p className="text-sm font-semibold" style={{ color: '#111827' }}>{tx.name}</p>
+              <p className="text-[10px]" style={{ color: '#9CA3AF' }}>ID: {tx.maskedId} · {tx.time}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm font-bold text-primary">
+              <p
+                className="text-sm font-bold"
+                style={{ color: tx.type === 'withdraw' ? '#EF4444' : '#22C55E' }}
+              >
                 {tx.type === 'withdraw' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN')}
               </p>
-              <span className="text-[10px] text-primary font-medium">
+              <span className="text-[10px] font-medium" style={{ color: '#9CA3AF' }}>
                 {tx.type === 'withdraw' ? 'Withdrawn' : 'Deposited'}
               </span>
             </div>

@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-5 py-10"
-      style={{ background: '#eef0f8' }}
+      style={{ background: 'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)' }}
     >
       {/* Logo */}
       <div className="flex flex-col items-center mb-6">
