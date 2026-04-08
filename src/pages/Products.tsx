@@ -61,14 +61,12 @@ const Products = () => {
       <div
         className="px-4 pt-12 pb-5 text-center"
         style={{
-          background: D.headerGrad,
-          borderRadius: '0 0 28px 28px',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
+          background: 'linear-gradient(135deg, #16A34A, #15803D)',
+          borderRadius: '0 0 30px 30px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
         }}
       >
-        <h1 className="text-xl font-extrabold" style={{ color: D.textPrimary }}>
-          Plan Store
-        </h1>
+        <h1 className="text-[22px] font-extrabold text-white">Plan Store</h1>
       </div>
 
       {/* ── Tab Switcher ── */}

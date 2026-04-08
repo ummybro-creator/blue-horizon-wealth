@@ -1,0 +1,160 @@
+Update the entire app UI with the following improvements while keeping backend data dynamic.
+
+DO NOT use dummy/static data.
+
+----------------------------------
+
+🎨 1. HEADER SECTION (IMPORTANT FIX)
+
+Apply to ALL pages:
+(Home, Plan Store, Promotion, Profile)
+
+- Make top header background DARK GREEN
+
+Use:
+background: linear-gradient(135deg, #16A34A, #15803D);
+
+- Text color: white (#FFFFFF)
+- Title (Home / Plan / Promotion / Profile):
+  - Bold
+  - Font size: 22px–24px
+  - Center aligned
+
+- Add:
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+- Add soft shadow:
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+----------------------------------
+
+🛒 2. PRODUCT IMAGE FIX (VERY IMPORTANT)
+
+For all product cards:
+
+- REMOVE any shadow from product images
+- No glow, no blur shadow
+
+Use:
+box-shadow: none;
+
+- Keep image clean, sharp
+- Optional:
+  background: #F9FAFB;
+  border-radius: 12px;
+  padding: 8px;
+
+----------------------------------
+
+💰 3. DEPOSIT POPUP FIX (MAKE BIGGER + PREMIUM)
+
+Popup should match reference design.
+
+Increase size:
+- Width: 90%
+- Max-width: 420px
+
+Structure:
+
+Header:
+- Green gradient background (#22C55E → #16A34A)
+- White text
+- Rounded top corners (20px)
+
+Body:
+- White background
+- Proper spacing (16px–20px padding)
+
+Deposit rows:
+- Clean row layout
+- Left: "Deposit ₹XXX"
+- Right: bonus in RED (e.g. +₹350)
+- Right button: green rounded button
+
+Divider:
+- Dashed line between rows
+
+Bottom:
+- Checkbox: "No more reminders today"
+- Big CTA button:
+  "Deposit Now"
+  full width
+  green gradient
+  rounded (999px)
+
+Add shadow:
+box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+
+----------------------------------
+
+🔐 4. LOGIN / SIGNUP PAGE (MATCH REFERENCE EXACTLY)
+
+Background:
+- Soft gradient:
+  linear-gradient(180deg, #EEF2FF, #F8FAFC);
+
+Top Section:
+- Center logo
+- App name below (green color #22C55E)
+- Clean spacing
+
+Form Card:
+- White background
+- Rounded 20px
+- Soft shadow
+
+Inputs:
+- Light grey background (#F9FAFB)
+- Border: #E5E7EB
+- Rounded: 12px
+- Icons inside inputs (left side)
+- Padding: 14px–16px
+
+Password field:
+- Eye toggle icon (right side)
+
+Buttons:
+
+Primary (REGISTER / LOGIN):
+- Green gradient
+- Full width
+- Rounded full
+- Bold text
+
+Secondary:
+- Outline button (green border)
+- "Have an account? Login"
+
+----------------------------------
+
+🏠 5. HOME PAGE SMALL IMPROVEMENT
+
+- Keep header dark green (new style)
+- Banner:
+  - Rounded 20px
+  - No heavy shadow
+
+- Floating button:
+  - Increase size slightly
+  - Add soft glow
+
+----------------------------------
+
+📊 6. GENERAL UI RULES
+
+- Keep UI clean like Profile page
+- Use white cards everywhere
+- Avoid heavy shadows
+- Use soft spacing
+- Maintain consistent border radius
+
+----------------------------------
+
+🎯 FINAL RESULT:
+
+- Strong premium header (dark green)
+- Clean product cards (no shadow images)
+- Bigger high-converting deposit popup
+- Professional login/signup UI (trust increase)
+- Consistent design across full app

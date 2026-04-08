@@ -12,18 +12,16 @@ const Index = () => {
 
   return (
     <AppLayout>
-      {/* ── Light Gradient Header ── */}
+      {/* ── Header ── */}
       <div
         className="px-4 pt-12 pb-5 text-center"
         style={{
-          background: 'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)',
-          borderRadius: '0 0 28px 28px',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
+          background: 'linear-gradient(135deg, #16A34A, #15803D)',
+          borderRadius: '0 0 30px 30px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
         }}
       >
-        <h1 className="text-xl font-extrabold" style={{ color: '#111827' }}>
-          Home
-        </h1>
+        <h1 className="text-[22px] font-extrabold text-white">Home</h1>
       </div>
 
       {/* ── Banner ── */}

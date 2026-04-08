@@ -74,14 +74,13 @@ const Team = () => {
       <div
         className="px-4 pt-12 pb-6 text-center"
         style={{
-          background: D.headerGrad,
-          borderRadius: '0 0 28px 28px',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
+          background: 'linear-gradient(135deg, #16A34A, #15803D)',
+          borderRadius: '0 0 30px 30px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
         }}
       >
-        <h1 className="text-2xl font-extrabold" style={{ color: D.primary }}>Earn Upto ₹350</h1>
-        <h2 className="text-xl font-extrabold" style={{ color: D.textPrimary }}>Per Refer</h2>
-        <p className="text-sm mt-1" style={{ color: D.textSec }}>Share & earn unlimited commission</p>
+        <h1 className="text-[22px] font-extrabold text-white">Earn Upto ₹350</h1>
+        <p className="text-white/80 text-sm mt-1">Per Refer — Share & earn unlimited commission</p>
       </div>
 
       {/* ── Commission Breakdown ── */}
