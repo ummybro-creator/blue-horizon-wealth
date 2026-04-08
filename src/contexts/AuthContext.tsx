@@ -1,17 +1,27 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+
+interface AuthUser {
+  id: string;
+  email: string;
+  created_at: string;
+  user_metadata?: Record<string, any>;
+}
+
+interface AuthSession {
+  access_token: string;
+  user: AuthUser;
+}
 
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: AuthUser | null;
+  session: AuthSession | null;
   loading: boolean;
   isAdmin: boolean;
   profile: Profile | null;
   wallet: Wallet | null;
   signUp: (phone: string, password: string, fullName?: string, referralCode?: string) => Promise<{ error: Error | null }>;
-  signIn: (phone: string, password: string) => Promise<{ error: Error | null }>;
+  signIn: (phoneOrEmail: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
   refreshWallet: () => Promise<void>;
@@ -39,8 +49,8 @@ interface Wallet {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [session, setSession] = useState<AuthSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -52,10 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select('*')
       .eq('id', userId)
       .maybeSingle();
-    
-    if (data && !error) {
-      setProfile(data as Profile);
-    }
+    if (data && !error) setProfile(data as Profile);
   };
 
   const fetchWallet = async (userId: string) => {
@@ -64,10 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select('*')
       .eq('user_id', userId)
       .maybeSingle();
-    
-    if (data && !error) {
-      setWallet(data as Wallet);
-    }
+    if (data && !error) setWallet(data as Wallet);
   };
 
   const checkAdminRole = async (userId: string) => {
@@ -77,35 +81,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq('user_id', userId)
       .eq('role', 'admin')
       .maybeSingle();
-    
     setIsAdmin(!!data && !error);
   };
 
-  const refreshProfile = async () => {
-    if (user?.id) {
-      await fetchProfile(user.id);
-    }
-  };
-
-  const refreshWallet = async () => {
-    if (user?.id) {
-      await fetchWallet(user.id);
-    }
-  };
+  const refreshProfile = async () => { if (user?.id) await fetchProfile(user.id); };
+  const refreshWallet = async () => { if (user?.id) await fetchWallet(user.id); };
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Use setTimeout to avoid deadlock
+      (event: string, sess: AuthSession | null) => {
+        setSession(sess);
+        setUser(sess?.user ?? null);
+        if (sess?.user) {
           setTimeout(() => {
-            fetchProfile(session.user.id);
-            fetchWallet(session.user.id);
-            checkAdminRole(session.user.id);
+            fetchProfile(sess.user.id);
+            fetchWallet(sess.user.id);
+            checkAdminRole(sess.user.id);
           }, 0);
         } else {
           setProfile(null);
@@ -115,17 +106,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        fetchProfile(session.user.id);
-        fetchWallet(session.user.id);
-        checkAdminRole(session.user.id);
+    supabase.auth.getSession().then(({ data }: { data: { session: AuthSession | null } }) => {
+      const sess = data?.session;
+      setSession(sess ?? null);
+      setUser(sess?.user ?? null);
+      if (sess?.user) {
+        fetchProfile(sess.user.id);
+        fetchWallet(sess.user.id);
+        checkAdminRole(sess.user.id);
       }
-      
       setLoading(false);
     });
 
@@ -134,59 +123,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (phone: string, password: string, fullName?: string, referralCode?: string) => {
     try {
-      // Use phone as email for Supabase auth (phone@app.local)
       const email = `${phone}@app.local`;
-      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/`,
-          data: {
-            full_name: fullName || '',
-            phone: phone,
-            referral_code: referralCode || '',
-          },
+          data: { full_name: fullName || '', phone, referral_code: referralCode || '' },
         },
       });
-
-      if (error) {
-        return { error };
-      }
-
+      if (error) return { error: new Error((error as any).message || String(error)) };
       return { error: null };
     } catch (err) {
       return { error: err as Error };
     }
   };
 
-  const signIn = async (phone: string, password: string) => {
+  const signIn = async (phoneOrEmail: string, password: string) => {
     try {
-      const email = `${phone}@app.local`;
-      
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      // If input contains @, use as-is (admin email); otherwise treat as phone
+      const email = phoneOrEmail.includes('@') && !phoneOrEmail.endsWith('@app.local')
+        ? phoneOrEmail
+        : `${phoneOrEmail.replace('@app.local', '')}@app.local`;
 
-      if (error) {
-        return { error };
-      }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) return { error: new Error((error as any).message || String(error)) };
 
-      // Check if user is blocked
-      if (data.user) {
+      if ((data as any)?.user) {
         const { data: profileData } = await supabase
           .from('profiles')
           .select('is_blocked')
-          .eq('id', data.user.id)
+          .eq('id', (data as any).user.id)
           .maybeSingle();
-        
         if (profileData?.is_blocked) {
           await supabase.auth.signOut();
           return { error: new Error('Your account has been blocked. Please contact support.') };
         }
       }
-
       return { error: null };
     } catch (err) {
       return { error: err as Error };
@@ -203,19 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      session,
-      loading,
-      isAdmin,
-      profile,
-      wallet,
-      signUp,
-      signIn,
-      signOut,
-      refreshProfile,
-      refreshWallet,
-    }}>
+    <AuthContext.Provider value={{ user, session, loading, isAdmin, profile, wallet, signUp, signIn, signOut, refreshProfile, refreshWallet }}>
       {children}
     </AuthContext.Provider>
   );
@@ -223,8 +183,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 }
