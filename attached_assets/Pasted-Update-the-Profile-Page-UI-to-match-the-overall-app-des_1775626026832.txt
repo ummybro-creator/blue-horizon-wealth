@@ -1,0 +1,76 @@
+Update the Profile Page UI to match the overall app design system used in Home, Promotion, and Plan Store pages.
+
+IMPORTANT:
+- Do NOT use static or dummy data
+- Fetch all data dynamically from backend APIs
+
+🎨 COLOR SYSTEM (MATCH OTHER PAGES)
+- Primary Green: #22C55E
+- Light Green Background Gradient: linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)
+- Card Background: #FFFFFF
+- Text Primary: #111827
+- Text Secondary: #6B7280
+- Border / Divider: #E5E7EB
+- Button Gradient: linear-gradient(135deg, #22C55E, #16A34A)
+
+🧩 PROFILE HEADER FIX
+- Remove dark green heavy background
+- Replace with soft light green gradient (same as Home top section)
+- Keep rounded bottom corners (30px radius)
+- Add subtle shadow: box-shadow: 0 8px 20px rgba(0,0,0,0.05)
+
+👤 USER INFO SECTION
+- Keep avatar left, name + phone right
+- Make text white only if background is green gradient
+- Otherwise use dark text (#111827)
+- Add clean spacing and alignment
+
+💰 ACCOUNT BALANCE CARD
+- Use white card with soft shadow
+- border-radius: 20px
+- Add padding: 16px–20px
+- Keep balance bold and large
+- Recharge button:
+   - Green gradient button
+   - Rounded full (border-radius: 999px)
+   - Add icon ⚡
+
+📊 STATS SECTION (Recharge / Withdraw / Welfare)
+- Convert into 3 equal columns
+- Use white or very light green card (#F0FDF4)
+- Add divider lines between columns
+- Center align text
+- Use green for numbers, grey for labels
+
+📋 LIST ITEMS (About Company, Income Record)
+- Use white cards
+- Add subtle shadow
+- Rounded corners (16px)
+- Add left icon with light green background (#DCFCE7)
+- Right arrow icon
+
+🚪 EXIT BUTTON
+- Make it consistent with primary CTA
+- Use green gradient button
+- Add soft shadow glow effect
+- Increase padding for better touch UX
+
+📱 BOTTOM NAVBAR
+- Keep same style as other pages
+- Active tab color: #22C55E
+- Background: white with top shadow
+
+✨ DESIGN STYLE
+- Minimal
+- Soft shadows (no harsh UI)
+- Consistent spacing (16px grid)
+- Smooth rounded corners everywhere
+
+⚠️ REMOVE:
+- Dark green heavy backgrounds
+- Hard shadows
+- Inconsistent colors
+
+🎯 GOAL:
+Make Profile Page visually consistent with Home and Promotion pages:
+Clean, modern, light, premium fintech-style UI.
