@@ -7,7 +7,8 @@ import { z } from 'zod';
 const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
-const APP_NAME = 'Farmer Bazar';
+const APP_NAME = 'Veltrix';
+const LOGO_URL = 'https://files.catbox.moe/czrznu.jpg';
 
 /* ── Farmer Bazar Logo SVG (tractor + wheat badge) ── */
 const FarmerLogo = () => (
@@ -174,7 +175,11 @@ const Login = () => {
           className="w-[104px] h-[104px] rounded-[22px] bg-white flex items-center justify-center mb-4"
           style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.10)' }}
         >
-          <FarmerLogo />
+          <img
+            src={LOGO_URL}
+            alt={APP_NAME}
+            className="w-full h-full object-cover"
+          />
         </div>
         <p
           className="font-extrabold text-xl"

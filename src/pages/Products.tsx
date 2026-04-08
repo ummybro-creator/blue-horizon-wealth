@@ -61,12 +61,12 @@ const Products = () => {
       <div
         className="px-4 pt-12 pb-5 text-center"
         style={{
-          background: 'linear-gradient(135deg, #16A34A, #15803D)',
+          background: 'linear-gradient(135deg, #E8F5E9, #F1F8E9)',
           borderRadius: '0 0 30px 30px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
+          boxShadow: '0 6px 20px rgba(76,175,80,0.12)',
         }}
       >
-        <h1 className="text-[22px] font-extrabold text-white">Plan Store</h1>
+        <h1 className="text-[22px] font-extrabold" style={{ color: '#2E7D32' }}>Plan Store</h1>
       </div>
 
       {/* ── Tab Switcher ── */}
@@ -133,7 +133,6 @@ const Products = () => {
                       src={product.image_url}
                       alt={product.name}
                       className="w-20 h-[88px] rounded-2xl object-cover"
-                      style={{ boxShadow: D.shadowCard }}
                     />
                   ) : (
                     <div
