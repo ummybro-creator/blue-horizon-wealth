@@ -1,3 +1,4 @@
+fix deployment
 # Welcome to your Lovable project
 
 ## Project info
