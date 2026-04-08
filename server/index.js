@@ -9,7 +9,12 @@ import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const { Pool } = pg;
+const { Pool, types } = pg;
+
+// Parse DECIMAL/NUMERIC columns as JS numbers (pg returns them as strings by default)
+types.setTypeParser(1700, (val) => (val === null ? null : parseFloat(val)));
+// Parse INT8/BIGINT as JS numbers
+types.setTypeParser(20, (val) => (val === null ? null : parseInt(val, 10)));
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;

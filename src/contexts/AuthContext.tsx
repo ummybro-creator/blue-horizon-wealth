@@ -46,6 +46,13 @@ interface Wallet {
   withdrawable_balance: number;
 }
 
+// Decode role claim from JWT without verifying signature (trusted server-signed token)
+function jwtRole(token: string): string {
+  try {
+    return JSON.parse(atob(token.split('.')[1]))?.role ?? '';
+  } catch { return ''; }
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -57,64 +64,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [wallet, setWallet] = useState<Wallet | null>(null);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
-    if (data && !error) setProfile(data as Profile);
+    const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    if (data) setProfile(data as Profile);
   };
 
   const fetchWallet = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('wallets')
-      .select('*')
-      .eq('user_id', userId)
-      .maybeSingle();
-    if (data && !error) setWallet(data as Wallet);
-  };
-
-  const checkAdminRole = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', userId)
-      .eq('role', 'admin')
-      .maybeSingle();
-    setIsAdmin(!!data && !error);
+    const { data } = await supabase.from('wallets').select('*').eq('user_id', userId).maybeSingle();
+    if (data) setWallet(data as Wallet);
   };
 
   const refreshProfile = async () => { if (user?.id) await fetchProfile(user.id); };
-  const refreshWallet = async () => { if (user?.id) await fetchWallet(user.id); };
+  const refreshWallet  = async () => { if (user?.id) await fetchWallet(user.id); };
+
+  // Apply a session object to local state — everything in one synchronous pass
+  const applySession = (sess: AuthSession | null) => {
+    setSession(sess);
+    setUser(sess?.user ?? null);
+    if (sess?.user && sess.access_token) {
+      // Decode admin role from JWT — synchronous, no extra API call needed
+      setIsAdmin(jwtRole(sess.access_token).includes('admin'));
+      // Profile & wallet can load async in the background
+      fetchProfile(sess.user.id);
+      fetchWallet(sess.user.id);
+    } else {
+      setIsAdmin(false);
+      setProfile(null);
+      setWallet(null);
+    }
+  };
 
   useEffect(() => {
+    // Listen for future auth state changes (login / logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event: string, sess: AuthSession | null) => {
-        setSession(sess);
-        setUser(sess?.user ?? null);
-        if (sess?.user) {
-          setTimeout(() => {
-            fetchProfile(sess.user.id);
-            fetchWallet(sess.user.id);
-            checkAdminRole(sess.user.id);
-          }, 0);
-        } else {
-          setProfile(null);
-          setWallet(null);
-          setIsAdmin(false);
-        }
-      }
+      (_event: string, sess: AuthSession | null) => applySession(sess)
     );
 
+    // Restore existing session on mount
     supabase.auth.getSession().then(({ data }: { data: { session: AuthSession | null } }) => {
-      const sess = data?.session;
-      setSession(sess ?? null);
-      setUser(sess?.user ?? null);
-      if (sess?.user) {
-        fetchProfile(sess.user.id);
-        fetchWallet(sess.user.id);
-        checkAdminRole(sess.user.id);
-      }
+      applySession(data?.session ?? null);
       setLoading(false);
     });
 
@@ -124,23 +111,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (phone: string, password: string, fullName?: string, referralCode?: string) => {
     try {
       const email = `${phone}@app.local`;
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName || '', phone, referral_code: referralCode || '' },
-        },
+      const { error } = await supabase.auth.signUp({
+        email, password,
+        options: { data: { full_name: fullName || '', phone, referral_code: referralCode || '' } },
       });
       if (error) return { error: new Error((error as any).message || String(error)) };
       return { error: null };
-    } catch (err) {
-      return { error: err as Error };
-    }
+    } catch (err) { return { error: err as Error }; }
   };
 
   const signIn = async (phoneOrEmail: string, password: string) => {
     try {
-      // If input contains @, use as-is (admin email); otherwise treat as phone
+      // Admin uses a real email; regular users provide a phone number → phone@app.local
       const email = phoneOrEmail.includes('@') && !phoneOrEmail.endsWith('@app.local')
         ? phoneOrEmail
         : `${phoneOrEmail.replace('@app.local', '')}@app.local`;
@@ -148,30 +130,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { error: new Error((error as any).message || String(error)) };
 
-      if ((data as any)?.user) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('is_blocked')
-          .eq('id', (data as any).user.id)
-          .maybeSingle();
-        if (profileData?.is_blocked) {
+      // Block check
+      const userId = (data as any)?.user?.id;
+      if (userId) {
+        const { data: prof } = await supabase.from('profiles').select('is_blocked').eq('id', userId).maybeSingle();
+        if (prof?.is_blocked) {
           await supabase.auth.signOut();
           return { error: new Error('Your account has been blocked. Please contact support.') };
         }
       }
       return { error: null };
-    } catch (err) {
-      return { error: err as Error };
-    }
+    } catch (err) { return { error: err as Error }; }
   };
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    setUser(null);
-    setSession(null);
-    setProfile(null);
-    setWallet(null);
-    setIsAdmin(false);
+    setUser(null); setSession(null); setProfile(null); setWallet(null); setIsAdmin(false);
   };
 
   return (
@@ -182,7 +156,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+  return ctx;
 }
