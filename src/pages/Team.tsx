@@ -74,9 +74,9 @@ const Team = () => {
       <div
         className="px-4 pt-12 pb-6 text-center"
         style={{
-          background: 'linear-gradient(135deg, #D9040A, #B50309)',
+          background: 'linear-gradient(135deg, #F04438, #E03328)',
           borderRadius: '0 0 30px 30px',
-          boxShadow: '0 6px 20px rgba(217,4,10,0.25)',
+          boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
         }}
       >
         <h1 className="text-[22px] font-extrabold text-white">Earn Upto ₹350</h1>

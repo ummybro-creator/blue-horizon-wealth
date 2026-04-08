@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import {
   LayoutDashboard, Users, CreditCard, ArrowDownCircle, Package, ShoppingCart,
   Receipt, GitBranch, Gift, Trophy, BarChart3, Shield, Settings, LogOut,
-  TrendingUp, Menu, X, CalendarCheck
+  TrendingUp, Menu, X, CalendarCheck, Megaphone
 } from 'lucide-react';
 
 const menuItems = [
@@ -18,6 +18,7 @@ const menuItems = [
   { icon: GitBranch, label: 'Referral System', path: '/admin/referrals' },
   { icon: Gift, label: 'Reward Control', path: '/admin/rewards' },
   { icon: CalendarCheck, label: 'Check-in Control', path: '/admin/checkins' },
+  { icon: Megaphone, label: 'Promoter Applications', path: '/admin/promoters' },
   { icon: Trophy, label: 'Leaderboard', path: '/admin/leaderboard' },
   { icon: BarChart3, label: 'Financial Reports', path: '/admin/reports' },
   { icon: Shield, label: 'Security', path: '/admin/security' },

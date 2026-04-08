@@ -44,6 +44,7 @@ import AdminCheckins from "./pages/admin/AdminCheckins";
 import AdminLeaderboard from "./pages/admin/AdminLeaderboard";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminSecurity from "./pages/admin/AdminSecurity";
+import AdminPromoters from "./pages/admin/AdminPromoters";
 
 const queryClient = new QueryClient();
 
@@ -289,6 +290,7 @@ const App = () => {
               <Route path="/admin/leaderboard" element={<ProtectedRoute requireAdmin><AdminLeaderboard /></ProtectedRoute>} />
               <Route path="/admin/reports" element={<ProtectedRoute requireAdmin><AdminReports /></ProtectedRoute>} />
               <Route path="/admin/security" element={<ProtectedRoute requireAdmin><AdminSecurity /></ProtectedRoute>} />
+              <Route path="/admin/promoters" element={<ProtectedRoute requireAdmin><AdminPromoters /></ProtectedRoute>} />
 
               {/* ================= 404 ================= */}
               <Route path="*" element={<NotFound />} />

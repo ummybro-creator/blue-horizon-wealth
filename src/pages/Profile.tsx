@@ -15,7 +15,7 @@ const D = {
   primary:       '#22C55E',
   primaryDark:   '#16A34A',
   btnGrad:       'linear-gradient(135deg, #22C55E, #16A34A)',
-  headerGrad:    'linear-gradient(135deg, #D9040A, #B50309)',
+  headerGrad:    'linear-gradient(135deg, #F04438, #E03328)',
   pageBg:        '#F7FCF9',
   card:          '#FFFFFF',
   statsCard:     '#F0FDF4',
