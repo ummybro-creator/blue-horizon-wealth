@@ -1,10 +1,24 @@
 // Custom API client — drop-in replacement for @supabase/supabase-js
 // Talks to our Express backend instead of Supabase
 
-// In development: relative /api (proxied by Vite to Express on :3001)
-// In production on Replit: relative /api (Express serves both frontend + API on :5000)
-// For external deployments: set VITE_API_URL to full backend URL e.g. https://yourapp.replit.app/api
-const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || '/api';
+// URL resolution (evaluated once at startup in the browser):
+//   • VITE_API_URL env var (set at Vite build time) — highest priority
+//   • Replit dev / production hostnames → /api  (Express is on the same server)
+//   • Any other host (Vercel, Netlify, custom domain) → Replit production URL
+const REPLIT_BACKEND = 'https://workspace.swiftsnowbro.replit.app/api';
+
+function resolveApiBase(): string {
+  const envUrl = import.meta.env.VITE_API_URL as string | undefined;
+  if (envUrl) return envUrl;
+  if (typeof window !== 'undefined') {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.includes('replit')) return '/api';
+    return REPLIT_BACKEND; // Vercel / external frontend → call Replit backend directly
+  }
+  return '/api';
+}
+
+const API_BASE = resolveApiBase();
 const TOKEN_KEY = 'veltrix_auth_token';
 
 // ─── Token helpers ───────────────────────────────────────────────────────────

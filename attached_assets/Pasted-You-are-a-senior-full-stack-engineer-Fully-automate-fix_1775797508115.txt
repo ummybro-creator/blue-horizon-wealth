@@ -1,0 +1,85 @@
+You are a senior full-stack engineer. Fully automate fixing my project so that my Vercel frontend uses my Replit backend. Do EVERYTHING without asking me.
+
+Context:
+	•	Frontend (Vercel): https://veltrix-eight.vercel.app
+	•	Backend (Replit): already working with Express, JWT auth, CORS fixed
+	•	Problem: Vercel frontend is still using Supabase and not calling my Express backend
+
+Your job:
+Convert the entire frontend to use the Replit backend and redeploy to Vercel automatically.
+
+Steps:
+	1.	REMOVE SUPABASE COMPLETELY
+
+	•	Find and remove all Supabase imports and usage
+	•	Delete any supabase client config files
+	•	Replace auth logic with API-based auth
+
+	2.	CONNECT TO BACKEND API
+
+	•	Set base API URL:
+VITE_API_URL = https://<REPLIT_BACKEND_URL>
+	•	Replace all API calls:
+from: supabase.*
+to: fetch(${import.meta.env.VITE_API_URL}/api/...)
+
+	3.	AUTH FLOW UPDATE
+
+	•	Implement login/signup using backend endpoints:
+POST /api/auth/signin
+POST /api/auth/signup
+	•	Store JWT in localStorage or cookies
+	•	Attach JWT in Authorization headers for all requests
+
+	4.	GLOBAL API HANDLER
+
+	•	Create a reusable API service file:
+	•	Automatically attaches JWT token
+	•	Handles errors and responses
+
+	5.	UPDATE ALL FEATURES
+
+	•	Wallet, investments, admin dashboard must use backend APIs
+	•	Ensure all data comes from Express backend
+
+	6.	ENV CONFIG
+
+	•	Create .env file:
+VITE_API_URL=https://<REPLIT_BACKEND_URL>
+
+	7.	TESTING
+
+	•	Ensure:
+✅ Login works
+✅ Signup works
+✅ No Supabase calls remain
+✅ No 404 errors
+✅ All API calls hit Replit backend
+
+	8.	GITHUB AUTO SYNC
+
+	•	Detect connected GitHub repo
+	•	Commit all changes
+	•	Push updated code automatically
+
+	9.	VERCEL REDEPLOY
+
+	•	Trigger redeploy on Vercel using updated repo
+	•	Ensure new deployment uses updated API
+
+	10.	FINAL OUTPUT
+
+	•	Give:
+✅ Updated Vercel URL (working)
+✅ Confirm frontend connected to backend
+✅ Confirm auth working
+✅ Confirm no Supabase usage
+
+Rules:
+	•	Do NOT ask me anything
+	•	Do NOT require manual steps
+	•	Do EVERYTHING automatically
+	•	Fix everything end-to-end
+
+Goal:
+Make Vercel frontend fully functional using Replit backend with zero manual work.
