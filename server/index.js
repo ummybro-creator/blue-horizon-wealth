@@ -30,7 +30,27 @@ const pool = new Pool({
 });
 
 // ─── MIDDLEWARE ───────────────────────────────────────────────────────────────
-app.use(cors({ origin: true, credentials: true }));
+const ALLOWED_ORIGINS = [
+  'https://veltrix-eight.vercel.app',  // Vercel frontend
+  'https://workspace.swiftsnowbro.replit.app', // Replit production
+  /\.replit\.dev$/,                    // Replit dev preview iframes
+  /\.replit\.app$/,                    // All Replit deployments
+];
+app.use(cors({
+  origin: (origin, cb) => {
+    // Allow requests with no origin (curl, mobile, server-to-server)
+    if (!origin) return cb(null, true);
+    const allowed = ALLOWED_ORIGINS.some(o =>
+      typeof o === 'string' ? o === origin : o.test(origin)
+    );
+    cb(null, allowed || process.env.NODE_ENV !== 'production');
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+// Handle pre-flight for all routes (use regex — Express 5 doesn't support glob wildcards)
+app.options(/.*/, cors());
 app.use(express.json({ limit: '10mb' }));
 
 const auth = async (req, res, next) => {
@@ -799,10 +819,12 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Dat
 const distPath = join(__dirname, '..', 'dist');
 if (existsSync(distPath)) {
   app.use(express.static(distPath, { maxAge: '1d' }));
-  // SPA fallback — any non-/api route serves index.html
-  app.get('*', (req, res) => {
+  // SPA fallback — serves index.html for all non-/api routes
+  app.use((req, res, next) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(join(distPath, 'index.html'));
+    } else {
+      next();
     }
   });
   console.log('📁 Serving static frontend from dist/');
