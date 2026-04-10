@@ -1,7 +1,10 @@
 // Custom API client — drop-in replacement for @supabase/supabase-js
 // Talks to our Express backend instead of Supabase
 
-const API_BASE = '/api';
+// In development: relative /api (proxied by Vite to Express on :3001)
+// In production on Replit: relative /api (Express serves both frontend + API on :5000)
+// For external deployments: set VITE_API_URL to full backend URL e.g. https://yourapp.replit.app/api
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || '/api';
 const TOKEN_KEY = 'veltrix_auth_token';
 
 // ─── Token helpers ───────────────────────────────────────────────────────────

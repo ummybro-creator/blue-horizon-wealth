@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeOff, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -13,17 +13,22 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  if (user && isAdmin) return <Navigate to="/admin/dashboard" replace />;
+  // Redirect when both user and isAdmin are confirmed (they're set together from JWT)
+  useEffect(() => {
+    if (user && isAdmin) navigate('/admin/dashboard', { replace: true });
+  }, [user, isAdmin, navigate]);
+
+  if (user && isAdmin) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) { toast.error('Please enter email and password'); return; }
     setLoading(true);
     try {
-      const { error } = await signIn(email.replace('@app.local', '').replace(/\D/g, '') || email, password);
+      const { error } = await signIn(email, password);
       if (error) { toast.error('Invalid admin credentials'); return; }
       toast.success('Admin login successful!');
-      navigate('/admin/dashboard');
+      navigate('/admin/dashboard', { replace: true });
     } catch { toast.error('Login failed'); }
     finally { setLoading(false); }
   };

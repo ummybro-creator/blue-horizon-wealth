@@ -130,7 +130,17 @@ const Login = () => {
     if (ref) { setIsLogin(false); setReferralCode(ref); }
   }, [location.search]);
 
-  if (user) return <Navigate to="/" replace />;
+  // Redirect whenever user state becomes non-null — covers the async gap between
+  // signIn() returning and React committing the setUser() state update.
+  useEffect(() => {
+    if (user) {
+      const from = (location.state as any)?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, location.state]);
+
+  // Sync render fallback: if user is already in state, skip the login page
+  if (user) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,13 +156,14 @@ const Login = () => {
       if (isLogin) {
         const { error } = await signIn(mobile, password);
         if (error) { toast.error('Invalid phone number or password'); return; }
-        toast.success('Login successful');
-        navigate('/');
+        toast.success('Login successful! Redirecting...');
+        // Navigate immediately as primary path; useEffect above is the fallback
+        navigate('/', { replace: true });
       } else {
         const { error } = await signUp(mobile, password, fullName, referralCode);
         if (error) { toast.error(error.message || 'Registration failed'); return; }
-        toast.success('Account created successfully');
-        navigate('/');
+        toast.success('Account created! Redirecting...');
+        navigate('/', { replace: true });
       }
     } finally { setLoading(false); }
   };

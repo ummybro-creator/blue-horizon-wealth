@@ -17,7 +17,8 @@ types.setTypeParser(1700, (val) => (val === null ? null : parseFloat(val)));
 types.setTypeParser(20, (val) => (val === null ? null : parseInt(val, 10)));
 
 const app = express();
-const PORT = process.env.API_PORT || 3001;
+const IS_PROD = process.env.NODE_ENV === 'production';
+const PORT = process.env.PORT || (IS_PROD ? 5000 : (process.env.API_PORT || 3001));
 const JWT_SECRET = process.env.SESSION_SECRET || 'veltrix-jwt-secret-2024';
 
 // ─── DATABASE ───────────────────────────────────────────────────────────────
@@ -792,11 +793,26 @@ app.post('/api/rpc/:fn', auth, requireAuth, async (req, res) => {
 // ─── HEALTH CHECK ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
+// ─── STATIC FILES (production) ────────────────────────────────────────────────
+// Serve the Vite-built frontend so the whole app runs from one Express server.
+// In dev mode the Vite dev server handles the frontend separately.
+const distPath = join(__dirname, '..', 'dist');
+if (existsSync(distPath)) {
+  app.use(express.static(distPath, { maxAge: '1d' }));
+  // SPA fallback — any non-/api route serves index.html
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(join(distPath, 'index.html'));
+    }
+  });
+  console.log('📁 Serving static frontend from dist/');
+}
+
 // ─── START ────────────────────────────────────────────────────────────────────
 async function start() {
   await initSchema();
   await seedData();
-  app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT} (${IS_PROD ? 'production' : 'development'})`));
 }
 
 start().catch(err => { console.error('Fatal:', err); process.exit(1); });
