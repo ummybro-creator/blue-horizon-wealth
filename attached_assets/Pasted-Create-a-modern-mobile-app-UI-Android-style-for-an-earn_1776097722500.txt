@@ -1,0 +1,121 @@
+Create a modern mobile app UI (Android style) for an earning/investment app.
+
+Withdrawal & Recharge History
+SCREEN 1: Withdrawal History 
+
+Design a clean, premium UI with:
+- Soft gradient background (light green / white)
+- Rounded cards (border-radius 16px+)
+- Smooth shadows
+- Minimal, modern fintech style
+
+Top Section:
+- Title: "Withdrawal History"
+- Back arrow on left
+- Filter tabs:
+  - All (active, green)
+  - Pending
+  - Processing
+
+Transaction Card Design:
+Each card should include:
+- Transaction ID (e.g., #000027)
+- Date (top right)
+- Type: Withdrawal / Recharge
+- Amount (bold, green for credit, red for fee)
+- Fee (10%) shown in red
+- Final Received amount (highlighted in green)
+- Status badge (Completed / Pending)
+
+Example fields inside card:
+- Withdrawal: ₹5,350.00
+- Fee (10%): -₹535.00
+- Received: ₹4,815.00
+
+Bottom:
+- Timestamp (e.g., "Just now")
+
+Add smooth divider lines and icons:
+- Arrow up icon for withdrawal
+- Wallet icon for recharge
+
+---
+
+SCREEN 2: Recharge History (same style)
+- Show "Recharge" instead of withdrawal
+- Show payment method (UPI / Bank)
+- Status: Success / Failed / Pending
+
+---
+
+🔥 ADMIN PANEL (VERY IMPORTANT)
+
+Create a simple admin dashboard (web panel) with full CRUD:
+
+Admin Features:
+1. Add Transaction:
+   - User ID
+   - Transaction Type (Withdraw / Recharge)
+   - Amount
+   - Fee (% auto calculate option)
+   - Final Amount (auto calculate)
+   - Transaction ID (manual input or auto generate)
+   - Status (Pending / Processing / Completed)
+   - Date (manual select or auto)
+   - Payment Method (optional)
+
+2. Edit Transaction:
+   - Admin can modify:
+     - Amount
+     - Status
+     - Date
+     - Transaction ID
+     - Fee %
+
+3. Delete Transaction
+
+4. Search & Filter:
+   - By user ID
+   - By transaction ID
+   - By status
+
+5. Real-time update:
+   - Changes reflect instantly in user app
+
+---
+
+⚙️ BACKEND LOGIC:
+
+- Store transactions in database (Firebase / Supabase recommended)
+- Each transaction object:
+{
+  id: string,
+  userId: string,
+  type: "withdraw" | "recharge",
+  amount: number,
+  fee: number,
+  received: number,
+  status: "pending" | "processing" | "completed",
+  transactionId: string,
+  date: timestamp
+}
+
+- Fee auto calculation:
+  fee = amount * 0.10
+  received = amount - fee
+
+---
+
+🎨 DESIGN STYLE:
+- Color: Green (#22c55e), white, light gray
+- Font: Poppins / Inter
+- Buttons: rounded, soft shadow
+- UI should look like high-converting earning apps
+
+---
+
+
+
+⚠️ IMPORTANT:
+UI must look EXACTLY like a real earning app dashboard
+Clean spacing, perfect alignment, and mobile-first design
