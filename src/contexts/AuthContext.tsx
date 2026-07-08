@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface AuthUser {
@@ -46,13 +46,6 @@ interface Wallet {
   withdrawable_balance: number;
 }
 
-// Decode role claim from JWT without verifying signature (trusted server-signed token)
-function jwtRole(token: string): string {
-  try {
-    return JSON.parse(atob(token.split('.')[1]))?.role ?? '';
-  } catch { return ''; }
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -63,27 +56,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [wallet, setWallet] = useState<Wallet | null>(null);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string) => {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
     if (data) setProfile(data as Profile);
-  };
+  }, []);
 
-  const fetchWallet = async (userId: string) => {
+  const fetchWallet = useCallback(async (userId: string) => {
     const { data } = await supabase.from('wallets').select('*').eq('user_id', userId).maybeSingle();
     if (data) setWallet(data as Wallet);
-  };
+  }, []);
+
+  const fetchAdminRole = useCallback(async (userId: string) => {
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId);
+
+    if (error) {
+      setIsAdmin(false);
+      return;
+    }
+
+    setIsAdmin((data || []).some((row: any) => String(row.role).includes('admin')));
+  }, []);
 
   const refreshProfile = async () => { if (user?.id) await fetchProfile(user.id); };
   const refreshWallet  = async () => { if (user?.id) await fetchWallet(user.id); };
 
   // Apply a session object to local state — everything in one synchronous pass
-  const applySession = (sess: AuthSession | null) => {
+  const applySession = useCallback((sess: AuthSession | null) => {
     setSession(sess);
     setUser(sess?.user ?? null);
-    if (sess?.user && sess.access_token) {
-      // Decode admin role from JWT — synchronous, no extra API call needed
-      setIsAdmin(jwtRole(sess.access_token).includes('admin'));
-      // Profile & wallet can load async in the background
+    if (sess?.user) {
+      setIsAdmin(false);
+      fetchAdminRole(sess.user.id);
       fetchProfile(sess.user.id);
       fetchWallet(sess.user.id);
     } else {
@@ -91,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       setWallet(null);
     }
-  };
+  }, [fetchAdminRole, fetchProfile, fetchWallet]);
 
   useEffect(() => {
     // Listen for future auth state changes (login / logout)
@@ -106,14 +112,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [applySession]);
 
   const signUp = async (phone: string, password: string, fullName?: string, referralCode?: string) => {
     try {
-      const email = `${phone}@app.local`;
+      const cleanPhone = phone.replace(/\D/g, '');
+      const email = `${cleanPhone}@app.local`;
       const { error } = await supabase.auth.signUp({
         email, password,
-        options: { data: { full_name: fullName || '', phone, referral_code: referralCode || '' } },
+        options: { data: { full_name: fullName || '', phone: cleanPhone, referral_code: referralCode || '' } },
       });
       if (error) return { error: new Error((error as any).message || String(error)) };
       return { error: null };
@@ -123,9 +130,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (phoneOrEmail: string, password: string) => {
     try {
       // Admin uses a real email; regular users provide a phone number → phone@app.local
+      const cleanLogin = phoneOrEmail.trim().replace(/\D/g, '');
       const email = phoneOrEmail.includes('@') && !phoneOrEmail.endsWith('@app.local')
         ? phoneOrEmail
-        : `${phoneOrEmail.replace('@app.local', '')}@app.local`;
+        : `${cleanLogin || phoneOrEmail.replace('@app.local', '')}@app.local`;
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { error: new Error((error as any).message || String(error)) };

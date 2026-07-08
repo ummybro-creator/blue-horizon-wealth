@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
@@ -162,7 +162,7 @@ const Login = () => {
       } else {
         const { error } = await signUp(mobile, password, fullName, referralCode);
         if (error) { toast.error(error.message || 'Registration failed'); return; }
-        toast.success('Account created! Redirecting...');
+        toast.success('Account created successfully! Redirecting...');
         navigate('/', { replace: true });
       }
     } finally { setLoading(false); }
