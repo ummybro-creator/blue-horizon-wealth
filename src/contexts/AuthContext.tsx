@@ -1,17 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useState, ReactNode } from 'react';
+import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
-interface AuthUser {
-  id: string;
-  email: string;
-  created_at: string;
-  user_metadata?: Record<string, any>;
-}
-
-interface AuthSession {
-  access_token: string;
-  user: AuthUser;
-}
+type AuthUser = User;
+type AuthSession = Session;
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -101,12 +93,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Listen for future auth state changes (login / logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event: string, sess: AuthSession | null) => applySession(sess)
-    );
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => applySession(sess));
 
     // Restore existing session on mount
-    supabase.auth.getSession().then(({ data }: { data: { session: AuthSession | null } }) => {
+    supabase.auth.getSession().then(({ data }) => {
       applySession(data?.session ?? null);
       setLoading(false);
     });
