@@ -66,39 +66,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (error) {
       setIsAdmin(false);
-      return;
+      return false;
     }
 
-    setIsAdmin((data || []).some((row: any) => String(row.role).includes('admin')));
+    const admin = (data || []).some((row: any) => String(row.role).includes('admin'));
+    setIsAdmin(admin);
+    return admin;
   }, []);
 
   const refreshProfile = async () => { if (user?.id) await fetchProfile(user.id); };
   const refreshWallet  = async () => { if (user?.id) await fetchWallet(user.id); };
 
   // Apply a session object to local state — everything in one synchronous pass
-  const applySession = useCallback((sess: AuthSession | null) => {
+  const applySession = useCallback(async (sess: AuthSession | null) => {
+    setLoading(true);
     setSession(sess);
     setUser(sess?.user ?? null);
     if (sess?.user) {
       setIsAdmin(false);
-      fetchAdminRole(sess.user.id);
-      fetchProfile(sess.user.id);
-      fetchWallet(sess.user.id);
+      await Promise.allSettled([
+        fetchAdminRole(sess.user.id),
+        fetchProfile(sess.user.id),
+        fetchWallet(sess.user.id),
+      ]);
+      setLoading(false);
     } else {
       setIsAdmin(false);
       setProfile(null);
       setWallet(null);
+      setLoading(false);
     }
   }, [fetchAdminRole, fetchProfile, fetchWallet]);
 
   useEffect(() => {
+    localStorage.removeItem('veltrix_auth_token');
+
     // Listen for future auth state changes (login / logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => applySession(sess));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => {
+      void applySession(sess);
+    });
 
     // Restore existing session on mount
     supabase.auth.getSession().then(({ data }) => {
-      applySession(data?.session ?? null);
-      setLoading(false);
+      void applySession(data?.session ?? null);
     });
 
     return () => subscription.unsubscribe();
