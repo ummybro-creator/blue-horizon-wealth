@@ -12,70 +12,69 @@
 
 @layer base {
   :root {
-    --background: 120 10% 96%;
-    --foreground: 220 20% 14%;
+    --background: 30 100% 97%;
+    --foreground: 0 0% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 14%;
+    --card-foreground: 0 0% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 14%;
+    --popover-foreground: 0 0% 11%;
 
-    --primary: 140 52% 43%;
+    --primary: 20 100% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 137 55% 41%;
+    --secondary: 24 100% 55%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 120 6% 92%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 30 60% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 140 52% 43%;
+    --accent: 26 100% 60%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 100% 65%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 140 68% 37%;
+    --success: 145 63% 42%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 120 8% 90%;
-    --input: 120 8% 90%;
-    --ring: 140 52% 43%;
+    --border: 30 100% 89%;
+    --input: 30 100% 89%;
+    --ring: 20 100% 52%;
 
-    --radius: 0.75rem;
+    --radius: 1.125rem;
 
-    /* Clay Design Tokens */
-    --gradient-primary: linear-gradient(180deg, #FF5A0A 0%, #FF6F1F 100%);
-    --gradient-header: linear-gradient(135deg, #FF5A0A 0%, #FF6F1F 100%);
+    /* Orange Premium Tokens */
+    --gradient-primary: linear-gradient(135deg, #FF5A0A 0%, #FF6F1F 100%);
+    --gradient-header: linear-gradient(135deg, #FF5A0A 0%, #FF8C32 100%);
     --gradient-gold: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 47%) 100%);
-    --gradient-bg: linear-gradient(180deg, rgba(52,168,83,0.08) 0%, rgba(143,211,168,0.2) 20%, #F2F4F3 60%, #F7F7F7 100%);
+    --gradient-bg: linear-gradient(180deg, #FFF8F1 0%, #FFFFFF 100%);
 
-    /* Clay shadows */
-    --shadow-clay: 8px 8px 20px rgba(0,0,0,0.08), -4px -4px 12px rgba(255,255,255,0.7);
-    --shadow-clay-sm: 4px 4px 10px rgba(0,0,0,0.06), -2px -2px 8px rgba(255,255,255,0.6);
-    --shadow-clay-lg: 12px 12px 30px rgba(0,0,0,0.1), -6px -6px 16px rgba(255,255,255,0.8);
-    --shadow-clay-inset: inset 2px 2px 6px rgba(0,0,0,0.06), inset -2px -2px 6px rgba(255,255,255,0.7);
-    --shadow-clay-button: 6px 6px 16px rgba(52,168,83,0.25), -3px -3px 10px rgba(255,255,255,0.5);
-    --shadow-card: 8px 8px 20px rgba(0,0,0,0.08), -4px -4px 12px rgba(255,255,255,0.7);
-    --shadow-elevated: 12px 12px 30px rgba(0,0,0,0.1), -6px -6px 16px rgba(255,255,255,0.8);
-    --shadow-button: 6px 6px 16px rgba(52,168,83,0.25), -3px -3px 10px rgba(255,255,255,0.5);
+    --shadow-clay: 0 10px 40px rgba(255,90,10,0.10);
+    --shadow-clay-sm: 0 6px 20px rgba(255,90,10,0.08);
+    --shadow-clay-lg: 0 20px 50px rgba(255,90,10,0.14);
+    --shadow-clay-inset: inset 0 2px 6px rgba(255,90,10,0.08);
+    --shadow-clay-button: 0 12px 25px rgba(255,90,10,0.30);
+    --shadow-card: 0 10px 40px rgba(255,90,10,0.10);
+    --shadow-elevated: 0 20px 50px rgba(255,90,10,0.14);
+    --shadow-button: 0 12px 25px rgba(255,90,10,0.30);
 
-    --color-money: 148 70% 37%;
-    --color-btn-grey: 120 6% 92%;
-    --color-btn-border: 120 8% 88%;
+    --color-money: 20 100% 52%;
+    --color-btn-grey: 30 60% 96%;
+    --color-btn-border: 30 100% 89%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 220 20% 14%;
-    --sidebar-primary: 140 52% 43%;
+    --sidebar-background: 30 100% 98%;
+    --sidebar-foreground: 0 0% 11%;
+    --sidebar-primary: 20 100% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 120 10% 96%;
-    --sidebar-accent-foreground: 220 20% 14%;
-    --sidebar-border: 120 8% 90%;
-    --sidebar-ring: 140 52% 43%;
+    --sidebar-accent: 30 100% 95%;
+    --sidebar-accent-foreground: 0 0% 11%;
+    --sidebar-border: 30 100% 89%;
+    --sidebar-ring: 20 100% 52%;
   }
 
   .dark {
