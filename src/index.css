@@ -156,105 +156,106 @@
     background: var(--gradient-gold);
   }
 
-  /* Clay Design Components */
+  /* Premium Orange Card Components */
   .clay-card {
-    background: hsl(var(--card));
-    border-radius: 22px;
-    box-shadow: var(--shadow-clay);
-    border: none;
+    background: #FFFFFF;
+    border-radius: 28px;
+    box-shadow: 0 10px 40px rgba(255,90,10,0.10);
+    border: 1px solid #FFE5CC;
+    transition: transform .25s ease, box-shadow .25s ease;
   }
+  .clay-card:hover { transform: translateY(-2px); box-shadow: 0 16px 50px rgba(255,90,10,0.14); }
 
   .clay-card-sm {
-    background: hsl(var(--card));
-    border-radius: 16px;
-    box-shadow: var(--shadow-clay-sm);
-    border: none;
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(255,90,10,0.08);
+    border: 1px solid #FFE5CC;
   }
 
   .clay-card-lg {
-    background: hsl(var(--card));
-    border-radius: 26px;
-    box-shadow: var(--shadow-clay-lg);
-    border: none;
+    background: #FFFFFF;
+    border-radius: 32px;
+    box-shadow: 0 20px 50px rgba(255,90,10,0.14);
+    border: 1px solid #FFE5CC;
   }
 
   .clay-inset {
-    box-shadow: var(--shadow-clay-inset);
-    border-radius: 14px;
-    background: hsl(var(--muted));
+    background: #FFF8F1;
+    border-radius: 18px;
+    border: 1px solid #FFE5CC;
+    box-shadow: inset 0 2px 6px rgba(255,90,10,0.06);
   }
 
   .clay-button {
-    background: var(--gradient-primary);
-    border-radius: 30px;
-    box-shadow: var(--shadow-clay-button);
-    color: white;
+    background: linear-gradient(135deg, #FF5A0A 0%, #FF6F1F 100%);
+    border-radius: 20px;
+    box-shadow: 0 12px 25px rgba(255,90,10,0.30);
+    color: #fff;
     font-weight: 700;
     border: none;
-    transition: all 0.2s ease;
+    transition: all .25s ease-in-out;
   }
-
-  .clay-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 8px 8px 20px rgba(52,168,83,0.3), -4px -4px 12px rgba(255,255,255,0.6);
-  }
-
-  .clay-button:active {
-    transform: translateY(1px) scale(0.98);
-    box-shadow: var(--shadow-clay-inset);
-  }
+  .clay-button:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(255,90,10,0.38); }
+  .clay-button:active { transform: scale(0.97); }
 
   .clay-header {
-    background: var(--gradient-header);
-    border-radius: 0 0 30px 30px;
-    box-shadow: 0 6px 20px rgba(240,68,56,0.28);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #FF5A0A 0%, #FF8C32 100%);
+    border-radius: 0 0 32px 32px;
+    box-shadow: 0 10px 30px rgba(255,90,10,0.25);
   }
 
   .clay-nav {
-    background: hsl(var(--card));
-    border-radius: 30px 30px 0 0;
-    box-shadow: 0 -8px 25px rgba(0,0,0,0.06), 0 -2px 8px rgba(255,255,255,0.5);
+    background: #FFFFFF;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -8px 30px rgba(255,90,10,0.10);
+    border-top: 1px solid #FFE5CC;
   }
 
   .clay-input {
-    background: hsl(var(--card));
-    border-radius: 16px;
-    box-shadow: var(--shadow-clay-inset);
-    border: none;
+    background: #FFFFFF;
+    border-radius: 18px;
+    border: 1px solid #FFE3C5;
+    box-shadow: 0 4px 14px rgba(255,90,10,0.06);
     padding: 14px 20px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .clay-input:focus, .clay-input:focus-within {
+    outline: none;
+    border-color: #FF5A0A;
+    box-shadow: 0 0 0 3px rgba(255,90,10,0.15);
   }
 
-  .shadow-card {
-    box-shadow: var(--shadow-card);
-  }
-
-  .shadow-elevated {
-    box-shadow: var(--shadow-elevated);
-  }
-
-  .shadow-button {
-    box-shadow: var(--shadow-button);
-  }
+  .shadow-card { box-shadow: 0 10px 40px rgba(255,90,10,0.10); }
+  .shadow-elevated { box-shadow: 0 20px 50px rgba(255,90,10,0.14); }
+  .shadow-button { box-shadow: 0 12px 25px rgba(255,90,10,0.30); }
 
   .glass-card {
     @apply backdrop-blur-xl;
-    background: rgba(255,255,255,0.6);
-    box-shadow: var(--shadow-clay);
+    background: rgba(255,255,255,0.75);
+    border: 1px solid #FFE5CC;
+    box-shadow: 0 10px 40px rgba(255,90,10,0.10);
   }
 
-  /* App gradient background */
+  /* Premium cream background with soft orange glow */
   .app-bg {
-    background: #FFF8F1;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(255,140,50,0.18) 0%, transparent 40%),
+      radial-gradient(circle at 90% 20%, rgba(255,122,26,0.14) 0%, transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(255,90,10,0.08) 0%, transparent 50%),
+      #FFF8F1;
     min-height: 100vh;
   }
 
-  /* Admin clay light */
   .admin-bg {
-    background: linear-gradient(180deg, #FF5A0A 0%, #4CAF6A 8%, #A7C9B2 18%, #C9D8D1 30%, #E8F0EB 50%, #F2F4F3 70%, #F7F7F7 100%);
+    background:
+      radial-gradient(circle at 10% 0%, rgba(255,140,50,0.15) 0%, transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(255,90,10,0.10) 0%, transparent 50%),
+      #FFF8F1;
     background-attachment: fixed;
     min-height: 100vh;
   }
+
 
   .admin-card {
     background: hsl(var(--card));
