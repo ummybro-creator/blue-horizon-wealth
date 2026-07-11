@@ -16,7 +16,7 @@ const Index = () => {
       <div
         className="px-4 pt-12 pb-5 text-center"
         style={{
-          background: 'linear-gradient(135deg, #F04438, #E03328)',
+          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
           borderRadius: '0 0 30px 30px',
           boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
         }}
@@ -40,7 +40,7 @@ const Index = () => {
         onClick={() => window.open('https://t.me/tatanmak', '_blank')}
         className="fixed bottom-[80px] right-4 w-14 h-14 rounded-full flex items-center justify-center z-40 transition-all active:scale-95"
         style={{
-          background: 'linear-gradient(135deg, #22C55E, #16A34A)',
+          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
           boxShadow: '0 6px 20px rgba(34,197,94,0.35)',
         }}
       >

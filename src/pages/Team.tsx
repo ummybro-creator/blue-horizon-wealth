@@ -8,18 +8,18 @@ import { cn } from '@/lib/utils';
 
 /* ── Design tokens ── */
 const D = {
-  primary:     '#22C55E',
-  primaryDark: '#16A34A',
-  btnGrad:     'linear-gradient(135deg, #22C55E, #16A34A)',
-  headerGrad:  'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)',
-  statsCard:   '#F0FDF4',
+  primary:     '#FF5A0A',
+  primaryDark: '#FF6F1F',
+  btnGrad:     'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
+  headerGrad:  'linear-gradient(180deg, #FFF3E4 0%, #FFF8F1 100%)',
+  statsCard:   '#FFF8F1',
   card:        '#FFFFFF',
   textPrimary: '#111827',
   textSec:     '#6B7280',
   border:      '#E5E7EB',
   shadowCard:  '0 2px 12px rgba(0,0,0,0.06)',
   shadowGreen: '0 8px 24px rgba(34,197,94,0.22)',
-  iconBg:      '#DCFCE7',
+  iconBg:      '#FFE3C5',
 };
 
 const Team = () => {
@@ -74,7 +74,7 @@ const Team = () => {
       <div
         className="px-4 pt-12 pb-6 text-center"
         style={{
-          background: 'linear-gradient(135deg, #F04438, #E03328)',
+          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
           borderRadius: '0 0 30px 30px',
           boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
         }}
@@ -322,7 +322,7 @@ const Team = () => {
                 <div className="flex items-center gap-2 min-w-0">
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: '#DCFCE7' }}
+                    style={{ background: '#FFE3C5' }}
                   >
                     <span className="text-xs font-bold" style={{ color: D.primary }}>
                       {(member?.name ?? 'U').charAt(0)}
@@ -335,7 +335,7 @@ const Team = () => {
                 <div className="text-center">
                   <span
                     className="text-xs px-2 py-0.5 rounded-full font-medium"
-                    style={{ background: '#DCFCE7', color: D.primary }}
+                    style={{ background: '#FFE3C5', color: D.primary }}
                   >
                     L{member.level}
                   </span>
@@ -346,7 +346,7 @@ const Team = () => {
                 <div className="text-right">
                   <span
                     className="text-xs px-2 py-0.5 rounded-full font-medium"
-                    style={{ background: '#DCFCE7', color: D.primary }}
+                    style={{ background: '#FFE3C5', color: D.primary }}
                   >
                     Active
                   </span>

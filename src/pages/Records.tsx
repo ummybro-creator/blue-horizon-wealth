@@ -78,8 +78,8 @@ const Records = () => {
     pending: { label: 'Pending', color: '#f59e0b', bg: '#fffbeb', icon: Clock },
     approved: {
       label: page === 'withdraw' ? 'Completed' : 'Success',
-      color: '#22c55e',
-      bg: '#f0fdf4',
+      color: '#FF5A0A',
+      bg: '#FFF8F1',
       icon: BadgeCheck,
     },
     rejected: { label: 'Failed', color: '#ef4444', bg: '#fef2f2', icon: XCircle },
@@ -99,7 +99,7 @@ const Records = () => {
         >
           <ArrowLeft className="w-5 h-5 text-gray-700" />
         </button>
-        <h1 className="text-lg font-bold text-center flex-1 pr-10" style={{ color: '#16a34a' }}>
+        <h1 className="text-lg font-bold text-center flex-1 pr-10" style={{ color: '#FF6F1F' }}>
           {page === 'withdraw' ? 'Withdrawal History' : 'Recharge History'}
         </h1>
       </div>
@@ -110,7 +110,7 @@ const Records = () => {
           onClick={() => { setPage('withdraw'); setFilter('all'); }}
           className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
           style={page === 'withdraw'
-            ? { background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
+            ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
             : { color: '#6b7280' }}
         >
           Withdrawals
@@ -119,7 +119,7 @@ const Records = () => {
           onClick={() => { setPage('recharge'); setFilter('all'); }}
           className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
           style={page === 'recharge'
-            ? { background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
+            ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
             : { color: '#6b7280' }}
         >
           Recharges
@@ -129,10 +129,10 @@ const Records = () => {
       {/* ── STAT CARDS ── */}
       <div className="mx-4 mb-4 grid grid-cols-2 gap-3">
         <div className="rounded-2xl p-4" style={{ background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: '#f0fdf4' }}>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: '#FFF8F1' }}>
             {page === 'withdraw'
-              ? <TrendingDown className="w-5 h-5" style={{ color: '#22c55e' }} />
-              : <Wallet className="w-5 h-5" style={{ color: '#22c55e' }} />}
+              ? <TrendingDown className="w-5 h-5" style={{ color: '#FF5A0A' }} />
+              : <Wallet className="w-5 h-5" style={{ color: '#FF5A0A' }} />}
           </div>
           <p className="text-2xl font-extrabold" style={{ color: '#111827' }}>{allRecords.length}</p>
           <p className="text-xs mt-0.5" style={{ color: '#6b7280' }}>
@@ -140,8 +140,8 @@ const Records = () => {
           </p>
         </div>
         <div className="rounded-2xl p-4" style={{ background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: '#f0fdf4' }}>
-            <div className="w-5 h-5 rounded-full" style={{ background: 'linear-gradient(135deg,#22c55e,#16a34a)' }} />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: '#FFF8F1' }}>
+            <div className="w-5 h-5 rounded-full" style={{ background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)' }} />
           </div>
           <p className="text-2xl font-extrabold" style={{ color: '#111827' }}>
             ₹{totalAmount.toLocaleString('en-IN')}
@@ -158,7 +158,7 @@ const Records = () => {
             onClick={() => setFilter(tab.id)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all"
             style={filter === tab.id
-              ? { background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
+              ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
               : { background: '#fff', color: '#6b7280', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}
           >
             {tab.id === 'pending' && <Clock className="w-3.5 h-3.5" />}
@@ -172,7 +172,7 @@ const Records = () => {
       <div className="mx-4 pb-8 space-y-3">
         {isLoading ? (
           <div className="flex justify-center py-16">
-            <Loader2 className="w-8 h-8 animate-spin" style={{ color: '#22c55e' }} />
+            <Loader2 className="w-8 h-8 animate-spin" style={{ color: '#FF5A0A' }} />
           </div>
         ) : filtered.length === 0 ? (
           <div
@@ -181,11 +181,11 @@ const Records = () => {
           >
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-              style={{ background: '#f0fdf4' }}
+              style={{ background: '#FFF8F1' }}
             >
               {page === 'withdraw'
-                ? <ArrowUpCircle className="w-8 h-8" style={{ color: '#22c55e' }} />
-                : <Wallet className="w-8 h-8" style={{ color: '#22c55e' }} />}
+                ? <ArrowUpCircle className="w-8 h-8" style={{ color: '#FF5A0A' }} />
+                : <Wallet className="w-8 h-8" style={{ color: '#FF5A0A' }} />}
             </div>
             <p className="font-semibold" style={{ color: '#374151' }}>No records found</p>
             <p className="text-sm mt-1" style={{ color: '#9ca3af' }}>
@@ -225,11 +225,11 @@ const Records = () => {
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center"
-                      style={{ background: page === 'withdraw' ? '#fef2f2' : '#f0fdf4' }}
+                      style={{ background: page === 'withdraw' ? '#fef2f2' : '#FFF8F1' }}
                     >
                       {page === 'withdraw'
                         ? <ArrowUpCircle className="w-4 h-4" style={{ color: '#ef4444' }} />
-                        : <Wallet className="w-4 h-4" style={{ color: '#22c55e' }} />}
+                        : <Wallet className="w-4 h-4" style={{ color: '#FF5A0A' }} />}
                     </div>
                     <span className="text-sm font-semibold" style={{ color: '#374151' }}>
                       {page === 'withdraw' ? 'Withdrawal' : 'Recharge'}
@@ -265,15 +265,15 @@ const Records = () => {
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center"
-                      style={{ background: '#f0fdf4' }}
+                      style={{ background: '#FFF8F1' }}
                     >
-                      <CheckCircle2 className="w-4 h-4" style={{ color: '#22c55e' }} />
+                      <CheckCircle2 className="w-4 h-4" style={{ color: '#FF5A0A' }} />
                     </div>
                     <span className="text-sm" style={{ color: '#6b7280' }}>
                       {page === 'withdraw' ? 'Received' : 'Credited'}
                     </span>
                   </div>
-                  <span className="text-base font-extrabold" style={{ color: '#16a34a' }}>
+                  <span className="text-base font-extrabold" style={{ color: '#FF6F1F' }}>
                     ₹{received.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
