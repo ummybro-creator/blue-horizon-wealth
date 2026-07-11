@@ -7,17 +7,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const D = {
-  primary:       '#22C55E',
-  primaryDark:   '#16A34A',
-  btnGrad:       'linear-gradient(135deg, #22C55E, #16A34A)',
-  headerGrad:    'linear-gradient(135deg, #F04438, #E03328)',
-  pageBg:        '#F7FCF9',
+  primary:       '#FF5A0A',
+  primaryDark:   '#FF6F1F',
+  btnGrad:       'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
+  headerGrad:    'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
+  pageBg:        '#FFF8F1',
   card:          '#FFFFFF',
-  statsCard:     '#F0FDF4',
-  iconBg:        '#DCFCE7',
+  statsCard:     '#FFF8F1',
+  iconBg:        '#FFE3C5',
   textPrimary:   '#111827',
   textSecondary: '#6B7280',
-  textGreen:     '#22C55E',
+  textGreen:     '#FF5A0A',
   border:        '#E5E7EB',
   shadowSoft:    '0 8px 20px rgba(0,0,0,0.05)',
   shadowGreen:   '0 10px 30px rgba(34,197,94,0.22)',
@@ -27,15 +27,15 @@ const D = {
 const AVATAR_URL = 'https://files.catbox.moe/imjd3p.jpg';
 
 const menuItems = [
-  { icon: Building2,     label: 'About Company',  path: '/about',       iconColor: '#22C55E' },
+  { icon: Building2,     label: 'About Company',  path: '/about',       iconColor: '#FF5A0A' },
   { icon: BarChart3,     label: 'Income Record',   path: '/earnings',    iconColor: '#3B82F6' },
   { icon: FileText,      label: 'Withdraw Record', path: '/records',     iconColor: '#F59E0B' },
   { icon: MessageSquare, label: 'Redeem Code',     path: '/extra-bonus', iconColor: '#A855F7' },
-  { icon: Download,      label: 'App Download',    path: '#',            iconColor: '#22C55E' },
+  { icon: Download,      label: 'App Download',    path: '#',            iconColor: '#FF5A0A' },
 ];
 
 const iconBgs: Record<string, string> = {
-  '#22C55E': '#DCFCE7',
+  '#FF5A0A': '#FFE3C5',
   '#3B82F6': '#EAF4FF',
   '#F59E0B': '#FFF6E5',
   '#A855F7': '#F3E8FF',

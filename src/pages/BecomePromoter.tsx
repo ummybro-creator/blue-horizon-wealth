@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 const D = {
   redGrad:       'linear-gradient(135deg, #D9040A, #B50309)',
-  redGradLight:  'linear-gradient(135deg, #F04438, #D9040A)',
+  redGradLight:  'linear-gradient(135deg, #FF5A0A, #D9040A)',
   pageBg:        '#FFF5F5',
   card:          '#FFFFFF',
   textPrimary:   '#111827',

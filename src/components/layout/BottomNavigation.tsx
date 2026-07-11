@@ -41,14 +41,14 @@ export function BottomNavigation() {
               >
                 <item.icon
                   className="w-[22px] h-[22px] transition-all duration-200"
-                  style={{ color: isActive ? '#22C55E' : '#9CA3AF' }}
+                  style={{ color: isActive ? '#FF5A0A' : '#9CA3AF' }}
                   strokeWidth={isActive ? 2.5 : 2}
                   fill={isActive ? 'rgba(34,197,94,0.08)' : 'none'}
                 />
               </div>
               <span
                 className="text-[10px] font-semibold transition-all duration-200"
-                style={{ color: isActive ? '#22C55E' : '#9CA3AF' }}
+                style={{ color: isActive ? '#FF5A0A' : '#9CA3AF' }}
               >
                 {item.label}
               </span>

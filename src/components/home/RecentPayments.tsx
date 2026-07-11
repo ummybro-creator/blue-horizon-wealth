@@ -63,12 +63,12 @@ export function RecentPayments() {
           >
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: tx.type === 'withdraw' ? '#FEE2E2' : '#DCFCE7' }}
+              style={{ background: tx.type === 'withdraw' ? '#FEE2E2' : '#FFE3C5' }}
             >
               {tx.type === 'withdraw' ? (
                 <ArrowDownCircle className="w-4 h-4" style={{ color: '#EF4444' }} />
               ) : (
-                <ArrowUpCircle className="w-4 h-4" style={{ color: '#22C55E' }} />
+                <ArrowUpCircle className="w-4 h-4" style={{ color: '#FF5A0A' }} />
               )}
             </div>
             <div className="flex-1 min-w-0">
@@ -78,7 +78,7 @@ export function RecentPayments() {
             <div className="text-right">
               <p
                 className="text-sm font-bold"
-                style={{ color: tx.type === 'withdraw' ? '#EF4444' : '#22C55E' }}
+                style={{ color: tx.type === 'withdraw' ? '#EF4444' : '#FF5A0A' }}
               >
                 {tx.type === 'withdraw' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN')}
               </p>

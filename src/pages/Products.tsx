@@ -9,10 +9,10 @@ import { toast } from 'sonner';
 
 /* ── Design tokens ── */
 const D = {
-  primary:     '#22C55E',
-  primaryDark: '#16A34A',
-  btnGrad:     'linear-gradient(135deg, #22C55E, #16A34A)',
-  headerGrad:  'linear-gradient(180deg, #E8F8EE 0%, #F7FCF9 100%)',
+  primary:     '#FF5A0A',
+  primaryDark: '#FF6F1F',
+  btnGrad:     'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
+  headerGrad:  'linear-gradient(180deg, #FFF3E4 0%, #FFF8F1 100%)',
   card:        '#FFFFFF',
   textPrimary: '#111827',
   textSec:     '#6B7280',
@@ -61,7 +61,7 @@ const Products = () => {
       <div
         className="px-4 pt-12 pb-5 text-center"
         style={{
-          background: 'linear-gradient(135deg, #F04438, #E03328)',
+          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
           borderRadius: '0 0 30px 30px',
           boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
         }}
@@ -112,7 +112,7 @@ const Products = () => {
               <div className="flex items-center justify-between px-4 pt-3 pb-0">
                 <span
                   className="text-xs font-bold px-3 py-1 rounded-full"
-                  style={{ background: '#DCFCE7', color: D.primary }}
+                  style={{ background: '#FFE3C5', color: D.primary }}
                 >
                   {product.description || product.name}
                 </span>
@@ -137,7 +137,7 @@ const Products = () => {
                   ) : (
                     <div
                       className="w-20 h-[88px] rounded-2xl flex items-center justify-center"
-                      style={{ background: '#DCFCE7' }}
+                      style={{ background: '#FFE3C5' }}
                     >
                       <span className="text-xs font-bold text-center px-1" style={{ color: D.primary }}>
                         {product.name}

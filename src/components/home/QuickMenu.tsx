@@ -5,14 +5,14 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const menuItems = [
-  { icon: DollarSign,    label: 'CheckIn',  path: '/checkin',  iconColor: '#22C55E', iconBg: '#DCFCE7' },
+  { icon: DollarSign,    label: 'CheckIn',  path: '/checkin',  iconColor: '#FF5A0A', iconBg: '#FFE3C5' },
   { icon: Mail,          label: 'Invite',   path: '/team',     iconColor: '#3B82F6', iconBg: '#EAF4FF' },
   { icon: CreditCard,    label: 'Recharge', path: '/recharge', iconColor: '#F59E0B', iconBg: '#FFF6E5' },
   { icon: Landmark,      label: 'Withdraw', path: '/withdraw', iconColor: '#A855F7', iconBg: '#F3E8FF' },
   { icon: Package,       label: 'Orders',   path: '/records',  iconColor: '#EF4444', iconBg: '#FEE2E2' },
   { icon: FileText,      label: 'Record',   path: '/records',  iconColor: '#06B6D4', iconBg: '#ECFEFF' },
   { icon: MessageCircle, label: 'Support',  path: '/support',  iconColor: '#F97316', iconBg: '#FFF0E5' },
-  { icon: Send,          label: 'Group',    path: '/telegram', iconColor: '#22C55E', iconBg: '#DCFCE7' },
+  { icon: Send,          label: 'Group',    path: '/telegram', iconColor: '#FF5A0A', iconBg: '#FFE3C5' },
 ];
 
 export function QuickMenu() {

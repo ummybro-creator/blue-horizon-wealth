@@ -50,7 +50,7 @@ const AdminPromoters = () => {
   return (
     <AdminLayout>
       <div className="mb-6 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F04438, #E03328)' }}>
+        <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)' }}>
           <Megaphone className="w-5 h-5 text-white" />
         </div>
         <div>
@@ -77,7 +77,7 @@ const AdminPromoters = () => {
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: '#FEF2F2' }}>
-                      <Megaphone className="w-5 h-5" style={{ color: '#F04438' }} />
+                      <Megaphone className="w-5 h-5" style={{ color: '#FF5A0A' }} />
                     </div>
                     <div>
                       <p className="font-bold text-foreground text-sm">Promoter Application</p>
@@ -133,7 +133,7 @@ const AdminPromoters = () => {
                     <button
                       onClick={() => updateStatus.mutate({ id: app.id, status: 'resolved' })}
                       className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-                      style={{ background: 'linear-gradient(135deg, #22C55E, #16A34A)' }}
+                      style={{ background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)' }}
                     >
                       <CheckCircle className="w-4 h-4" />
                       Mark Reviewed
