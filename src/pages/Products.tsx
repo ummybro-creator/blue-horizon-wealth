@@ -1,25 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, TrendingUp, Clock } from 'lucide-react';
+import { Loader2, Leaf } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useProducts, Product } from '@/hooks/useProducts';
 import { useCreateInvestment } from '@/hooks/useInvestments';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
-/* ── Design tokens ── */
-const D = {
-  primary:     '#FF5A0A',
-  primaryDark: '#FF6F1F',
-  btnGrad:     'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
-  headerGrad:  'linear-gradient(180deg, #FFF3E4 0%, #FFF8F1 100%)',
-  card:        '#FFFFFF',
-  textPrimary: '#111827',
-  textSec:     '#6B7280',
-  border:      '#E5E7EB',
-  shadowCard:  '0 2px 12px rgba(0,0,0,0.06)',
-  shadowGreen: '0 8px 24px rgba(34,197,94,0.22)',
-};
+const ORANGE = '#FF6A1A';
+const ORANGE_DARK = '#F25A00';
+const BG_TOP = '#FFE4CC';
+const BTN_GRAD = `linear-gradient(180deg, ${ORANGE} 0%, ${ORANGE_DARK} 100%)`;
 
 const Products = () => {
   const navigate = useNavigate();
@@ -57,148 +48,169 @@ const Products = () => {
 
   return (
     <AppLayout>
-      {/* ── Header ── */}
       <div
-        className="px-4 pt-12 pb-5 text-center"
+        className="min-h-screen relative"
         style={{
-          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
-          borderRadius: '0 0 30px 30px',
-          boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
+          background: `linear-gradient(180deg, ${BG_TOP} 0%, #FFF3E6 22%, #FFFFFF 55%)`,
+          fontFamily: "'Poppins', 'Inter', sans-serif",
         }}
       >
-        <h1 className="text-[22px] font-extrabold text-white">Plan Store</h1>
-      </div>
-
-      {/* ── Tab Switcher ── */}
-      <div className="px-4 mt-4">
-        <div
-          className="flex p-1 gap-1 rounded-full"
-          style={{ background: '#F3F4F6' }}
-        >
-          {(['daily', 'vip'] as const).map((tab) => {
-            const isActive = activeTab === tab;
-            return (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className="flex-1 py-2.5 rounded-full text-sm font-bold transition-all duration-200"
-                style={{
-                  background: isActive ? D.btnGrad : 'transparent',
-                  color: isActive ? '#FFFFFF' : D.textSec,
-                  boxShadow: isActive ? D.shadowGreen : 'none',
-                }}
-              >
-                {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
-              </button>
-            );
-          })}
+        {/* Decorative orange slices */}
+        <div className="absolute top-2 left-0 w-24 h-24 pointer-events-none opacity-90">
+          <svg viewBox="0 0 100 100" fill="none">
+            <ellipse cx="30" cy="20" rx="14" ry="8" fill="#2E7D32" transform="rotate(-30 30 20)" />
+            <ellipse cx="45" cy="12" rx="10" ry="6" fill="#43A047" transform="rotate(-10 45 12)" />
+          </svg>
         </div>
-      </div>
+        <div className="absolute top-0 right-0 w-28 h-28 pointer-events-none">
+          <svg viewBox="0 0 120 120" fill="none">
+            <circle cx="90" cy="55" r="34" fill="#FF8A3D" />
+            <circle cx="90" cy="55" r="28" fill="#FFB27A" />
+            <g stroke="#fff" strokeWidth="1.5" opacity="0.7">
+              <line x1="90" y1="27" x2="90" y2="83" />
+              <line x1="62" y1="55" x2="118" y2="55" />
+              <line x1="70" y1="35" x2="110" y2="75" />
+              <line x1="110" y1="35" x2="70" y2="75" />
+            </g>
+            <ellipse cx="70" cy="20" rx="10" ry="6" fill="#2E7D32" transform="rotate(-20 70 20)" />
+            <ellipse cx="60" cy="30" rx="8" ry="5" fill="#43A047" transform="rotate(30 60 30)" />
+          </svg>
+        </div>
 
-      {/* ── Product Cards ── */}
-      <div className="px-4 pt-4 pb-8 space-y-4">
-        {isLoading ? (
-          <div className="flex justify-center py-16">
-            <Loader2 className="w-9 h-9 animate-spin" style={{ color: D.primary }} />
-          </div>
-        ) : products && products.length > 0 ? (
-          products.map((product) => (
-            <div
-              key={product.id}
-              className="rounded-[20px] overflow-hidden"
-              style={{ background: D.card, boxShadow: D.shadowCard }}
-            >
-              {/* Top Badge Row */}
-              <div className="flex items-center justify-between px-4 pt-3 pb-0">
-                <span
-                  className="text-xs font-bold px-3 py-1 rounded-full"
-                  style={{ background: '#FFE3C5', color: D.primary }}
-                >
-                  {product.description || product.name}
-                </span>
-                <span
-                  className="flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full"
-                  style={{ background: '#F3F4F6', color: D.textSec }}
-                >
-                  <Clock className="w-3 h-3" />
-                  {product.duration_days} Days
-                </span>
-              </div>
+        {/* Header */}
+        <div className="relative pt-12 pb-4 text-center">
+          <h1 className="text-[26px] font-extrabold" style={{ color: ORANGE_DARK }}>Plan Store</h1>
+        </div>
 
-              {/* Image + Income */}
-              <div className="flex items-center p-4 gap-4">
-                <div className="shrink-0">
-                  {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-20 h-[88px] rounded-2xl object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="w-20 h-[88px] rounded-2xl flex items-center justify-center"
-                      style={{ background: '#FFE3C5' }}
-                    >
-                      <span className="text-xs font-bold text-center px-1" style={{ color: D.primary }}>
-                        {product.name}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1 flex justify-center gap-6">
-                  <div className="text-center">
-                    <div className="flex items-center gap-1 justify-center mb-0.5">
-                      <TrendingUp className="w-3 h-3" style={{ color: D.primary }} />
-                      <p className="text-lg font-extrabold" style={{ color: D.primary }}>
-                        ₹{product.daily_income.toLocaleString('en-IN')}
-                      </p>
-                    </div>
-                    <p className="text-[10px] font-medium" style={{ color: D.textSec }}>Daily Income</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg font-extrabold mb-0.5" style={{ color: D.textPrimary }}>
-                      ₹{product.total_income.toLocaleString('en-IN')}
-                    </p>
-                    <p className="text-[10px] font-medium" style={{ color: D.textSec }}>Total Income</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Price + Button */}
-              <div
-                className="px-4 py-3 flex items-center justify-between"
-                style={{ borderTop: `1px solid ${D.border}` }}
-              >
-                <p className="text-sm font-semibold" style={{ color: D.textSec }}>
-                  Price:{' '}
-                  <span className="text-lg font-extrabold" style={{ color: D.primary }}>
-                    ₹{product.price.toLocaleString('en-IN')}
-                  </span>
-                </p>
+        {/* Tabs */}
+        <div className="px-5">
+          <div
+            className="flex p-1.5 rounded-full"
+            style={{ background: '#fff', boxShadow: '0 4px 14px rgba(242,90,0,0.12)' }}
+          >
+            {(['daily', 'vip'] as const).map((tab) => {
+              const isActive = activeTab === tab;
+              return (
                 <button
-                  className="px-6 py-2.5 rounded-full text-sm font-extrabold text-white transition-all active:scale-[0.97]"
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="flex-1 py-3 rounded-full text-[16px] font-bold transition-all"
                   style={{
-                    background: investingProductId === product.id ? '#9CA3AF' : D.btnGrad,
-                    boxShadow: investingProductId === product.id ? 'none' : D.shadowGreen,
-                    pointerEvents: investingProductId === product.id ? 'none' : 'auto',
+                    background: isActive ? BTN_GRAD : 'transparent',
+                    color: isActive ? '#fff' : ORANGE_DARK,
+                    boxShadow: isActive ? '0 6px 16px rgba(242,90,0,0.35)' : 'none',
                   }}
-                  onClick={() => handleInvest(product)}
-                  disabled={investingProductId === product.id}
                 >
-                  {investingProductId === product.id ? (
-                    <span className="flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" /> Investing...
-                    </span>
-                  ) : 'Buy Now'}
+                  {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
                 </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="text-center py-16" style={{ color: D.textSec }}>
-            No products available
+              );
+            })}
           </div>
-        )}
+        </div>
+
+        {/* Cards */}
+        <div className="px-5 pt-6 pb-8 space-y-6">
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="w-9 h-9 animate-spin" style={{ color: ORANGE }} />
+            </div>
+          ) : products && products.length > 0 ? (
+            products.map((product, idx) => {
+              const isSpecial = product.is_special_offer || idx === 0;
+              const label = isSpecial ? 'Special plan' : (product.description || product.name);
+              return (
+                <div
+                  key={product.id}
+                  className="rounded-[24px] overflow-hidden bg-white"
+                  style={{ boxShadow: '0 8px 24px rgba(242,90,0,0.10)' }}
+                >
+                  {/* Top badge row */}
+                  <div className="flex items-start justify-between px-5 pt-5">
+                    <div
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white font-bold text-[14px]"
+                      style={{ background: BTN_GRAD }}
+                    >
+                      {isSpecial && <Leaf className="w-4 h-4" fill="#4CAF50" stroke="#4CAF50" />}
+                      <span>{label}</span>
+                    </div>
+                    <div
+                      className="px-4 py-2 rounded-full text-white font-bold text-[14px]"
+                      style={{ background: BTN_GRAD }}
+                    >
+                      Days: {product.duration_days}
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="flex items-center px-5 pt-3 pb-2 gap-3">
+                    <div className="shrink-0 w-[130px] h-[130px] flex items-center justify-center">
+                      {product.image_url ? (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <div
+                          className="w-full h-full rounded-2xl flex items-center justify-center"
+                          style={{ background: '#FFE3C5' }}
+                        >
+                          <span className="text-xs font-bold text-center px-1" style={{ color: ORANGE }}>
+                            {product.name}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 flex justify-around">
+                      <div className="text-center">
+                        <p className="text-[22px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                          ₹{product.daily_income.toLocaleString('en-IN')}
+                        </p>
+                        <p className="text-[12px] mt-1 text-gray-600 font-medium">Daily Income</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[22px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                          ₹{product.total_income.toLocaleString('en-IN')}
+                        </p>
+                        <p className="text-[12px] mt-1 text-gray-600 font-medium">Total Income</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Price */}
+                  <div className="px-5 pb-4">
+                    <p className="text-[20px] font-extrabold text-center text-gray-900">
+                      Price: ₹{product.price.toLocaleString('en-IN')}
+                    </p>
+                  </div>
+
+                  {/* Buy Now button */}
+                  <div className="px-4 pb-4">
+                    <button
+                      onClick={() => handleInvest(product)}
+                      disabled={investingProductId === product.id}
+                      className="w-full text-white font-bold text-[18px] transition-all active:scale-[0.98] disabled:opacity-60"
+                      style={{
+                        height: 56,
+                        borderRadius: 999,
+                        background: investingProductId === product.id ? '#9CA3AF' : BTN_GRAD,
+                        boxShadow: investingProductId === product.id ? 'none' : '0 8px 20px rgba(242,90,0,0.32)',
+                      }}
+                    >
+                      {investingProductId === product.id ? (
+                        <span className="inline-flex items-center gap-2">
+                          <Loader2 className="w-5 h-5 animate-spin" /> Investing...
+                        </span>
+                      ) : 'Buy Now'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-center py-16 text-gray-500">No products available</div>
+          )}
+        </div>
       </div>
     </AppLayout>
   );
