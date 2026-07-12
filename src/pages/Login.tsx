@@ -1,120 +1,57 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Phone, Lock, Gift, User, Eye, EyeOff, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
 
 const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
-const APP_NAME = 'Veltrix';
-const LOGO_URL = 'https://files.catbox.moe/czrznu.jpg';
+const ORANGE = '#FF6A1A';
+const ORANGE_DARK = '#F25A00';
 
-/* ── Farmer Bazar Logo SVG (tractor + wheat badge) ── */
-const FarmerLogo = () => (
-  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Background circle */}
-    <circle cx="40" cy="40" r="38" fill="url(#bgGrad)" />
-    {/* Outer leaf ring left */}
-    <ellipse cx="14" cy="38" rx="5" ry="12" fill="#66BB6A" opacity="0.7" transform="rotate(-35 14 38)" />
-    <ellipse cx="11" cy="44" rx="4" ry="10" fill="#4CAF50" opacity="0.8" transform="rotate(-50 11 44)" />
-    {/* Outer leaf ring right */}
-    <ellipse cx="66" cy="38" rx="5" ry="12" fill="#66BB6A" opacity="0.7" transform="rotate(35 66 38)" />
-    <ellipse cx="69" cy="44" rx="4" ry="10" fill="#4CAF50" opacity="0.8" transform="rotate(50 69 44)" />
-    {/* Top wheat stalks */}
-    <path d="M28 28 Q27 20 30 16" stroke="#8BC34A" strokeWidth="1.5" strokeLinecap="round"/>
-    <ellipse cx="30" cy="15" rx="3" ry="5" fill="#8BC34A" transform="rotate(-10 30 15)"/>
-    <path d="M40 24 Q40 16 40 12" stroke="#8BC34A" strokeWidth="1.5" strokeLinecap="round"/>
-    <ellipse cx="40" cy="11" rx="3" ry="5" fill="#8BC34A"/>
-    <path d="M52 28 Q53 20 50 16" stroke="#8BC34A" strokeWidth="1.5" strokeLinecap="round"/>
-    <ellipse cx="50" cy="15" rx="3" ry="5" fill="#8BC34A" transform="rotate(10 50 15)"/>
-    {/* Tractor body */}
-    <rect x="28" y="42" width="28" height="14" rx="3" fill="#2E7D32"/>
-    <rect x="28" y="38" width="16" height="8" rx="2" fill="#388E3C"/>
-    {/* Tractor cab window */}
-    <rect x="30" y="39.5" width="12" height="5" rx="1.5" fill="#B3E5FC"/>
-    {/* Exhaust pipe */}
-    <rect x="42" y="34" width="3" height="8" rx="1.5" fill="#1B5E20"/>
-    <circle cx="43.5" cy="33" r="2.5" fill="#1B5E20"/>
-    {/* Front bumper */}
-    <rect x="54" y="46" width="5" height="7" rx="1.5" fill="#1B5E20"/>
-    {/* Big rear wheel */}
-    <circle cx="32" cy="57" r="8" fill="#1B5E20" stroke="#4CAF50" strokeWidth="1.5"/>
-    <circle cx="32" cy="57" r="4" fill="#2E7D32"/>
-    <circle cx="32" cy="57" r="1.5" fill="#81C784"/>
-    {/* Small front wheel */}
-    <circle cx="56" cy="57" r="5" fill="#1B5E20" stroke="#4CAF50" strokeWidth="1.5"/>
-    <circle cx="56" cy="57" r="2" fill="#2E7D32"/>
-    {/* Ground line */}
-    <path d="M18 64 Q40 66 62 64" stroke="#4CAF50" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
-    {/* Banner ribbon */}
-    <path d="M20 70 L22 67 L60 67 L62 70 L60 73 L22 73 Z" fill="#1B5E20"/>
-    <path d="M20 70 L23 68 L22 70 L23 72 Z" fill="#4CAF50"/>
-    <path d="M62 70 L59 68 L60 70 L59 72 Z" fill="#4CAF50"/>
-    <text x="41" y="71.5" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold" fontFamily="Arial">FARMER</text>
+/* Diamond/V logo */
+const BrandLogo = () => (
+  <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
     <defs>
-      <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stopColor="#E8F5E9"/>
-        <stop offset="100%" stopColor="#C8E6C9"/>
-      </radialGradient>
+      <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#FFB27A" />
+        <stop offset="60%" stopColor="#FF7A2E" />
+        <stop offset="100%" stopColor="#E24E00" />
+      </linearGradient>
+      <linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#FF8A3D" />
+        <stop offset="100%" stopColor="#C93F00" />
+      </linearGradient>
     </defs>
+    <path d="M10 22 L38 22 L50 50 L28 44 Z" fill="url(#lg1)" />
+    <path d="M90 22 L62 22 L50 50 L72 44 Z" fill="url(#lg1)" />
+    <path d="M28 44 L72 44 L50 92 Z" fill="url(#lg2)" />
+    <path d="M50 50 L50 92 L28 44 Z" fill="#ffffff" opacity="0.12" />
   </svg>
 );
 
-/* ── Input icon components ── */
-const IconUser = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="8" r="4" fill="#BDBDBD"/>
-    <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="#BDBDBD" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
+const FieldLabel = ({ icon: Icon, text }: { icon: any; text: string }) => (
+  <div className="flex items-center gap-2 mb-2">
+    <Icon className="w-5 h-5" style={{ color: ORANGE }} strokeWidth={2.2} />
+    <span className="font-bold text-[15px] text-gray-900">{text}</span>
+  </div>
 );
 
-const IconPhone = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <rect x="5" y="2" width="14" height="20" rx="3" fill="#4FC3F7"/>
-    <rect x="8" y="5" width="8" height="11" rx="1" fill="#fff"/>
-    <circle cx="12" cy="19" r="1" fill="#fff"/>
-  </svg>
-);
+const inputWrap: React.CSSProperties = {
+  height: 56,
+  background: '#fff',
+  border: `1.5px solid ${ORANGE}55`,
+  borderRadius: 14,
+};
 
-const IconLock = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <rect x="5" y="11" width="14" height="10" rx="2.5" fill="#4FC3F7"/>
-    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#4FC3F7" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="12" cy="16" r="1.5" fill="#fff"/>
-  </svg>
-);
-
-const IconEye = ({ off }: { off?: boolean }) =>
-  off ? (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" stroke="#BDBDBD" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" stroke="#BDBDBD" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="1" y1="1" x2="23" y2="23" stroke="#BDBDBD" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  ) : (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#BDBDBD" strokeWidth="2"/>
-      <circle cx="12" cy="12" r="3" stroke="#BDBDBD" strokeWidth="2"/>
-    </svg>
-  );
-
-const IconReferral = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="5" r="2.5" fill="#4FC3F7"/>
-    <circle cx="4.5" cy="18" r="2.5" fill="#4FC3F7"/>
-    <circle cx="19.5" cy="18" r="2.5" fill="#4FC3F7"/>
-    <path d="M12 7.5v4M12 11.5l-7.5 4.5M12 11.5l7.5 4.5" stroke="#4FC3F7" strokeWidth="1.8" strokeLinecap="round"/>
-  </svg>
-);
-
-/* ── Main component ── */
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signUp, user } = useAuth();
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -130,8 +67,6 @@ const Login = () => {
     if (ref) { setIsLogin(false); setReferralCode(ref); }
   }, [location.search]);
 
-  // Redirect whenever user state becomes non-null — covers the async gap between
-  // signIn() returning and React committing the setUser() state update.
   useEffect(() => {
     if (user) {
       const from = (location.state as any)?.from?.pathname || '/';
@@ -139,7 +74,6 @@ const Login = () => {
     }
   }, [user, navigate, location.state]);
 
-  // Sync render fallback: if user is already in state, skip the login page
   if (user) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,167 +90,166 @@ const Login = () => {
       if (isLogin) {
         const { error } = await signIn(mobile, password);
         if (error) { toast.error('Invalid phone number or password'); return; }
-        toast.success('Login successful! Redirecting...');
-        // Navigate immediately as primary path; useEffect above is the fallback
+        toast.success('Login successful!');
         navigate('/', { replace: true });
       } else {
         const { error } = await signUp(mobile, password, fullName, referralCode);
         if (error) { toast.error(error.message || 'Registration failed'); return; }
-        toast.success('Account created successfully! Redirecting...');
+        toast.success('Account created!');
         navigate('/', { replace: true });
       }
     } finally { setLoading(false); }
   };
 
-  const inputStyle: React.CSSProperties = {
-    height: 52,
-    background: '#F7F8FA',
-    border: '1px solid #E0E0E0',
-    borderRadius: 15,
-  };
-
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-5 py-10"
-      style={{ background: '#F4F6F8', fontFamily: "'Inter', 'Poppins', sans-serif" }}
+      className="min-h-screen w-full relative overflow-hidden flex flex-col"
+      style={{
+        background: 'linear-gradient(180deg, #FFE4CC 0%, #FFF6EE 32%, #FFFFFF 55%, #FFFFFF 78%, #FFE0C2 100%)',
+        fontFamily: "'Poppins', 'Inter', sans-serif",
+      }}
     >
-      {/* ── Logo ── */}
-      <div className="flex flex-col items-center mb-7">
-        <div
-          className="w-[104px] h-[104px] rounded-[22px] bg-white flex items-center justify-center mb-4"
-          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.10)' }}
-        >
-          <img
-            src={LOGO_URL}
-            alt={APP_NAME}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <p
-          className="font-extrabold text-xl"
-          style={{ color: '#4CAF50', letterSpacing: '0.5px' }}
-        >
-          — {APP_NAME} —
-        </p>
+      {/* Decorative circles */}
+      <div className="absolute -left-16 top-16 w-56 h-56 rounded-full" style={{ background: '#FFCFA5', opacity: 0.35 }} />
+      <div className="absolute right-6 top-40 w-4 h-4 rounded-full" style={{ background: '#FFB37A', opacity: 0.5 }} />
+      <div className="absolute right-10 top-56 w-2 h-2 rounded-full" style={{ background: '#FFB37A', opacity: 0.6 }} />
+      {/* Dot grid */}
+      <div className="absolute right-4 top-24 grid grid-cols-6 gap-1.5 opacity-40">
+        {Array.from({ length: 36 }).map((_, i) => (
+          <div key={i} className="w-1 h-1 rounded-full" style={{ background: ORANGE }} />
+        ))}
       </div>
 
-      {/* ── Form card ── */}
+      {/* Bottom skyline silhouette */}
       <div
-        className="w-full max-w-[340px] rounded-[20px] bg-white px-5 py-6"
-        style={{ boxShadow: '0 4px 28px rgba(0,0,0,0.08)', border: '1px solid #ECECEC' }}
-      >
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[13px]">
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+        style={{
+          background: 'linear-gradient(180deg, transparent 0%, #FFD3AC 60%, #FFB77A 100%)',
+          clipPath: 'polygon(0 40%, 8% 55%, 15% 45%, 22% 60%, 30% 50%, 38% 62%, 46% 48%, 55% 58%, 63% 45%, 72% 60%, 82% 50%, 92% 62%, 100% 55%, 100% 100%, 0 100%)',
+          opacity: 0.7,
+        }}
+      />
 
-          {/* Nickname */}
-          {!isLogin && (
-            <div className="flex items-center gap-3 px-4" style={inputStyle}>
-              <IconUser />
+      {/* Content */}
+      <div className="relative z-10 flex-1 flex flex-col items-center px-6 pt-10 pb-8 max-w-md mx-auto w-full">
+        <BrandLogo />
+        <h1 className="mt-4 text-[38px] font-extrabold text-gray-900 leading-tight">
+          {isLogin ? 'Welcome Back!' : 'Welcome!'}
+        </h1>
+        <p className="text-gray-500 text-[15px] mt-1 mb-8">
+          {isLogin ? 'Login to continue your journey' : 'Create your account to get started'}
+        </p>
+
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
+          {/* Phone */}
+          <div>
+            <FieldLabel icon={Phone} text="Phone (India)" />
+            <div className="flex items-center px-4" style={inputWrap}>
+              <div className="flex items-center gap-1.5 pr-3 shrink-0">
+                <div className="w-7 h-5 rounded-sm overflow-hidden flex flex-col shadow-sm">
+                  <div className="flex-1" style={{ background: '#FF9933' }} />
+                  <div className="flex-1 bg-white relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full border" style={{ borderColor: '#000080' }} />
+                    </div>
+                  </div>
+                  <div className="flex-1" style={{ background: '#138808' }} />
+                </div>
+                <span className="font-semibold text-gray-800 text-[15px]">+91</span>
+                <ChevronDown className="w-4 h-4 text-gray-500" />
+              </div>
+              <div className="w-px h-6 bg-gray-200 mr-3" />
               <input
-                type="text"
-                placeholder="Nickname"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="flex-1 bg-transparent text-sm outline-none text-gray-700 placeholder:text-gray-400"
-                style={{ fontFamily: 'inherit' }}
+                type="tel"
+                placeholder="Enter your mobile number"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                inputMode="numeric"
+                maxLength={10}
+                className="flex-1 bg-transparent text-[15px] outline-none text-gray-800 placeholder:text-gray-400"
               />
             </div>
-          )}
-
-          {/* Phone */}
-          <div className="flex items-center gap-2 px-4" style={inputStyle}>
-            <IconPhone />
-            <span className="text-sm font-bold shrink-0" style={{ color: '#555' }}>+91</span>
-            <div className="w-px h-5 shrink-0" style={{ background: '#D8D8D8' }} />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="flex-1 bg-transparent text-sm outline-none text-gray-700 placeholder:text-gray-400"
-              inputMode="numeric"
-              maxLength={10}
-              style={{ fontFamily: 'inherit' }}
-            />
           </div>
 
           {/* Password */}
-          <div className="flex items-center gap-3 px-4" style={inputStyle}>
-            <IconLock />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="flex-1 bg-transparent text-sm outline-none text-gray-700 placeholder:text-gray-400"
-              style={{ fontFamily: 'inherit' }}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="shrink-0 flex items-center"
-            >
-              <IconEye off={showPassword} />
-            </button>
+          <div>
+            <FieldLabel icon={Lock} text="Password" />
+            <div className="flex items-center px-4" style={inputWrap}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="flex-1 bg-transparent text-[15px] outline-none text-gray-800 placeholder:text-gray-400"
+              />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="shrink-0 text-gray-500">
+                {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
 
-          {/* Refer code */}
           {!isLogin && (
-            <div className="flex items-center gap-3 px-4" style={inputStyle}>
-              <IconReferral />
-              <input
-                type="text"
-                placeholder="Enter refer code"
-                value={referralCode}
-                readOnly={!!lockedRef}
-                onChange={(e) => setReferralCode(e.target.value)}
-                className="flex-1 bg-transparent text-sm outline-none text-gray-700 placeholder:text-gray-400"
-                style={{ fontFamily: 'inherit' }}
-              />
-            </div>
+            <>
+              {/* Refer Code */}
+              <div>
+                <FieldLabel icon={Gift} text="Refer Code (Optional)" />
+                <div className="flex items-center px-4" style={inputWrap}>
+                  <input
+                    type="text"
+                    placeholder="Enter refer code"
+                    value={referralCode}
+                    readOnly={!!lockedRef}
+                    onChange={(e) => setReferralCode(e.target.value)}
+                    className="flex-1 bg-transparent text-[15px] outline-none text-gray-800 placeholder:text-gray-400"
+                  />
+                </div>
+              </div>
+
+              {/* Nickname */}
+              <div>
+                <FieldLabel icon={User} text="Nickname" />
+                <div className="flex items-center px-4" style={inputWrap}>
+                  <input
+                    type="text"
+                    placeholder="Enter your nickname"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="flex-1 bg-transparent text-[15px] outline-none text-gray-800 placeholder:text-gray-400"
+                  />
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Register / Login button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full font-extrabold text-white text-sm flex items-center justify-center gap-2 mt-1 transition-all active:scale-[0.98] disabled:opacity-60"
+            className="w-full text-white font-bold text-[18px] transition-all active:scale-[0.98] disabled:opacity-60 mt-2"
             style={{
-              height: 52,
-              borderRadius: 20,
-              background: 'linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)',
-              boxShadow: '0 6px 20px rgba(76,175,80,0.40)',
-              letterSpacing: '1.5px',
-              fontFamily: 'inherit',
+              height: 58,
+              borderRadius: 16,
+              background: `linear-gradient(180deg, ${ORANGE} 0%, ${ORANGE_DARK} 100%)`,
+              boxShadow: '0 10px 24px rgba(242,90,0,0.35)',
             }}
           >
-            {loading ? 'Please wait...' : (isLogin ? 'LOGIN NOW 🚀' : 'REGISTER NOW 🚀')}
+            {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Sign Up')}
           </button>
 
-          {/* Toggle login/register */}
-          <button
-            type="button"
-            onClick={() => setIsLogin(!isLogin)}
-            className="w-full text-sm text-center font-medium transition-colors"
-            style={{
-              height: 48,
-              borderRadius: 20,
-              border: '1.5px solid #E0E0E0',
-              background: '#fff',
-              color: '#555',
-              fontFamily: 'inherit',
-            }}
-          >
-            {isLogin ? "Don't have an account? " : 'Have an account? '}
-            <span style={{ color: '#4CAF50', fontWeight: 700 }}>
-              {isLogin ? 'Register' : 'Login'}
-            </span>
-          </button>
-
+          {/* Toggle */}
+          <p className="text-center text-[14px] text-gray-500 mt-2">
+            {isLogin ? "Don't have an account? " : 'Already have an account? '}
+            <button
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+              className="font-bold"
+              style={{ color: ORANGE_DARK }}
+            >
+              {isLogin ? 'Sign Up' : 'Login'}
+            </button>
+          </p>
         </form>
       </div>
-
-      {/* Bottom safe spacing */}
-      <div className="h-8" />
     </div>
   );
 };
