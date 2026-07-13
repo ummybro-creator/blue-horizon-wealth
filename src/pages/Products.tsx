@@ -55,25 +55,28 @@ const Products = () => {
           fontFamily: "'Poppins', 'Inter', sans-serif",
         }}
       >
-        {/* Decorative orange slices */}
-        <div className="absolute top-2 left-0 w-24 h-24 pointer-events-none opacity-90">
-          <svg viewBox="0 0 100 100" fill="none">
-            <ellipse cx="30" cy="20" rx="14" ry="8" fill="#2E7D32" transform="rotate(-30 30 20)" />
-            <ellipse cx="45" cy="12" rx="10" ry="6" fill="#43A047" transform="rotate(-10 45 12)" />
+        {/* Decorative leaves top-left */}
+        <div className="absolute top-4 left-0 w-24 h-20 pointer-events-none">
+          <svg viewBox="0 0 100 80" fill="none">
+            <ellipse cx="18" cy="18" rx="16" ry="9" fill="#2E7D32" transform="rotate(-25 18 18)" />
+            <ellipse cx="38" cy="10" rx="12" ry="7" fill="#43A047" transform="rotate(-5 38 10)" />
+            <ellipse cx="30" cy="32" rx="10" ry="6" fill="#388E3C" transform="rotate(20 30 32)" />
           </svg>
         </div>
-        <div className="absolute top-0 right-0 w-28 h-28 pointer-events-none">
-          <svg viewBox="0 0 120 120" fill="none">
-            <circle cx="90" cy="55" r="34" fill="#FF8A3D" />
-            <circle cx="90" cy="55" r="28" fill="#FFB27A" />
-            <g stroke="#fff" strokeWidth="1.5" opacity="0.7">
-              <line x1="90" y1="27" x2="90" y2="83" />
-              <line x1="62" y1="55" x2="118" y2="55" />
-              <line x1="70" y1="35" x2="110" y2="75" />
-              <line x1="110" y1="35" x2="70" y2="75" />
+        {/* Decorative half orange top-right */}
+        <div className="absolute -top-2 -right-2 w-32 h-32 pointer-events-none">
+          <svg viewBox="0 0 130 130" fill="none">
+            <ellipse cx="55" cy="18" rx="14" ry="8" fill="#2E7D32" transform="rotate(-25 55 18)" />
+            <ellipse cx="42" cy="28" rx="10" ry="6" fill="#43A047" transform="rotate(25 42 28)" />
+            <circle cx="95" cy="60" r="42" fill="#FF6A1A" />
+            <circle cx="95" cy="60" r="34" fill="#FFB27A" />
+            <g stroke="#FFF3E6" strokeWidth="2" opacity="0.9">
+              <line x1="95" y1="26" x2="95" y2="94" />
+              <line x1="61" y1="60" x2="129" y2="60" />
+              <line x1="71" y1="36" x2="119" y2="84" />
+              <line x1="119" y1="36" x2="71" y2="84" />
             </g>
-            <ellipse cx="70" cy="20" rx="10" ry="6" fill="#2E7D32" transform="rotate(-20 70 20)" />
-            <ellipse cx="60" cy="30" rx="8" ry="5" fill="#43A047" transform="rotate(30 60 30)" />
+            <circle cx="95" cy="60" r="6" fill="#FFE0B2" />
           </svg>
         </div>
 
