@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Gift, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface WelcomePopupProps {
@@ -15,6 +15,10 @@ const bonusTiers = [
   { deposit: 8000, bonus: 2300 },
   { deposit: 10000, bonus: 2800 },
 ];
+
+const ORANGE = '#FF6A1A';
+const ORANGE_DARK = '#F25A00';
+const GRAD = `linear-gradient(135deg, ${ORANGE} 0%, #FF8A3D 100%)`;
 
 export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   const navigate = useNavigate();
@@ -33,111 +37,161 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="w-full max-w-[300px] animate-scale-in overflow-hidden rounded-2xl shadow-2xl">
-
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{
+        background: 'rgba(30,10,0,0.55)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        fontFamily: "'Poppins', 'Inter', sans-serif",
+      }}
+    >
+      <div
+        className="w-full max-w-[340px] animate-scale-in overflow-hidden relative"
+        style={{
+          borderRadius: 28,
+          background: '#fff',
+          boxShadow: '0 24px 60px rgba(242,90,0,0.35), 0 8px 24px rgba(0,0,0,0.15)',
+        }}
+      >
         {/* Header */}
         <div
-          className="relative px-4 pt-4 pb-3"
-          style={{
-            background:
-              'linear-gradient(135deg, #FF5A14 0%, #FF7A1A 100%)',
-          }}
+          className="relative px-5 pt-6 pb-8 text-center overflow-hidden"
+          style={{ background: GRAD }}
         >
+          {/* soft decorative circles */}
+          <div
+            className="absolute -top-8 -left-8 w-28 h-28 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.14)' }}
+          />
+          <div
+            className="absolute -bottom-10 -right-6 w-32 h-32 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.10)' }}
+          />
+          <Sparkles
+            className="absolute top-4 left-5 w-4 h-4 text-white/70"
+          />
+          <Sparkles
+            className="absolute bottom-6 right-8 w-3.5 h-3.5 text-white/60"
+          />
+
           <button
             onClick={handleClose}
-            className="absolute top-2.5 right-2.5 w-6 h-6 flex items-center justify-center rounded-full bg-white/20 text-white"
+            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full transition active:scale-90"
+            style={{ background: 'rgba(255,255,255,0.25)' }}
+            aria-label="Close"
           >
-            <X className="w-3 h-3" />
+            <X className="w-4 h-4 text-white" />
           </button>
 
-          <div className="text-center">
-            <h2 className="text-sm font-extrabold text-white flex items-center justify-center gap-1.5">
-              🎁 First Deposit Bonus
-            </h2>
+          <div
+            className="mx-auto mb-3 w-14 h-14 rounded-2xl flex items-center justify-center"
+            style={{
+              background: 'rgba(255,255,255,0.22)',
+              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.35)',
+            }}
+          >
+            <Gift className="w-7 h-7 text-white" />
+          </div>
 
-            <p className="text-white/75 text-[10px] mt-0.5">
-              Each account can claim once
-            </p>
+          <h2 className="text-white font-extrabold text-[19px] leading-tight tracking-tight">
+            First Deposit Bonus
+          </h2>
+          <p className="text-white/85 text-[11.5px] mt-1 font-medium">
+            Claim once per account — bigger deposit, bigger reward
+          </p>
+        </div>
+
+        {/* Tiers card */}
+        <div
+          className="relative -mt-5 mx-3 rounded-2xl bg-white"
+          style={{ boxShadow: '0 6px 20px rgba(242,90,0,0.12)' }}
+        >
+          <div className="px-4 py-2">
+            {bonusTiers.map((tier, index) => (
+              <div key={tier.deposit}>
+                <div className="flex items-center justify-between py-2.5">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-extrabold"
+                      style={{ background: '#FFF3E6', color: ORANGE_DARK }}
+                    >
+                      {index + 1}
+                    </div>
+                    <div>
+                      <p className="text-[12.5px] font-bold text-gray-800 leading-none">
+                        Deposit{' '}
+                        <span style={{ color: ORANGE_DARK }}>
+                          ₹{tier.deposit.toLocaleString('en-IN')}
+                        </span>
+                      </p>
+                      <p className="text-[10px] text-gray-400 mt-1">
+                        Get extra bonus reward
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="text-[14px] font-extrabold"
+                      style={{ color: ORANGE_DARK }}
+                    >
+                      +₹{tier.bonus}
+                    </span>
+                    <button
+                      onClick={handleDeposit}
+                      className="px-3 py-1.5 rounded-full text-[10.5px] font-bold text-white transition active:scale-95"
+                      style={{
+                        background: GRAD,
+                        boxShadow: '0 4px 10px rgba(242,90,0,0.32)',
+                      }}
+                    >
+                      Claim
+                    </button>
+                  </div>
+                </div>
+
+                {index < bonusTiers.length - 1 && (
+                  <div className="border-b border-dashed border-orange-100" />
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Tiers */}
-        <div className="bg-white px-3 py-2 space-y-0">
-          {bonusTiers.map((tier, index) => (
-            <div key={tier.deposit}>
-              <div className="flex items-center justify-between py-1.5">
-                <div>
-                  <p className="text-xs font-bold text-gray-800">
-                    Deposit{' '}
-                    <span className="text-red-500">
-                      ₹{tier.deposit.toLocaleString('en-IN')}
-                    </span>
-                  </p>
-
-                  <p className="text-[10px] text-gray-400">
-                    Get extra bonus reward
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-extrabold text-red-500">
-                    +₹{tier.bonus}
-                  </span>
-
-                  <button
-                    onClick={handleDeposit}
-                    className="px-3 py-1 rounded-full text-[10px] font-bold text-white"
-                    style={{
-                      background:
-                        'linear-gradient(135deg, #FF5A14 0%, #FF7A1A 100%)',
-                    }}
-                  >
-                    Deposit
-                  </button>
-                </div>
-              </div>
-
-              {index < bonusTiers.length - 1 && (
-                <div className="border-b border-dashed border-orange-200" />
-              )}
-            </div>
-          ))}
-        </div>
-
         {/* Footer */}
-        <div className="bg-white px-3 pb-3 pt-1 flex items-center justify-between border-t border-gray-100">
-
+        <div className="px-4 pt-3 pb-4 flex items-center justify-between">
           <label
-            className="flex items-center gap-1.5 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer select-none"
             onClick={() => setNoReminder(!noReminder)}
           >
             <div
-              className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                noReminder
-                  ? 'border-[#FF5A14] bg-[#FF5A14]'
-                  : 'border-gray-400'
-              }`}
+              className="w-4 h-4 rounded-md border-2 flex items-center justify-center transition-all"
+              style={{
+                borderColor: noReminder ? ORANGE : '#D1D5DB',
+                background: noReminder ? ORANGE : 'transparent',
+              }}
             >
               {noReminder && (
-                <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                <svg viewBox="0 0 12 12" className="w-2.5 h-2.5 text-white">
+                  <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               )}
             </div>
-
-            <span className="text-[10px] text-gray-500">
-              No more reminders today
+            <span className="text-[10.5px] text-gray-500 font-medium">
+              Don't show again today
             </span>
           </label>
 
           <button
             onClick={handleDeposit}
-            className="px-4 py-1.5 rounded-full text-xs font-bold text-white"
+            className="px-4 py-2 rounded-full text-[12px] font-extrabold text-white transition active:scale-95"
             style={{
-              background:
-                'linear-gradient(135deg, #FF5A14 0%, #FF7A1A 100%)',
+              background: GRAD,
+              boxShadow: '0 6px 14px rgba(242,90,0,0.35)',
             }}
           >
-            Deposit Now
+            Deposit Now →
           </button>
         </div>
       </div>
