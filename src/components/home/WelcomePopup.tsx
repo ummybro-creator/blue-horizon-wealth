@@ -47,103 +47,103 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
       }}
     >
       <div
-        className="w-full max-w-[340px] animate-scale-in overflow-hidden relative"
+        className="w-full max-w-[300px] animate-scale-in overflow-hidden relative"
         style={{
-          borderRadius: 28,
+          borderRadius: 22,
           background: '#fff',
-          boxShadow: '0 24px 60px rgba(242,90,0,0.35), 0 8px 24px rgba(0,0,0,0.15)',
+          boxShadow: '0 20px 50px rgba(242,90,0,0.30), 0 6px 20px rgba(0,0,0,0.12)',
         }}
       >
         {/* Header */}
         <div
-          className="relative px-5 pt-6 pb-8 text-center overflow-hidden"
+          className="relative px-4 pt-4 pb-6 text-center overflow-hidden"
           style={{ background: GRAD }}
         >
           {/* soft decorative circles */}
           <div
-            className="absolute -top-8 -left-8 w-28 h-28 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.14)' }}
+            className="absolute -top-6 -left-6 w-24 h-24 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.12)' }}
           />
           <div
-            className="absolute -bottom-10 -right-6 w-32 h-32 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.10)' }}
+            className="absolute -bottom-8 -right-5 w-28 h-28 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.08)' }}
           />
           <Sparkles
-            className="absolute top-4 left-5 w-4 h-4 text-white/70"
+            className="absolute top-3 left-4 w-3.5 h-3.5 text-white/60"
           />
           <Sparkles
-            className="absolute bottom-6 right-8 w-3.5 h-3.5 text-white/60"
+            className="absolute bottom-5 right-7 w-3 h-3 text-white/50"
           />
 
           <button
             onClick={handleClose}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full transition active:scale-90"
-            style={{ background: 'rgba(255,255,255,0.25)' }}
+            className="absolute top-2.5 right-2.5 w-7 h-7 flex items-center justify-center rounded-full transition active:scale-90"
+            style={{ background: 'rgba(255,255,255,0.22)' }}
             aria-label="Close"
           >
-            <X className="w-4 h-4 text-white" />
+            <X className="w-3.5 h-3.5 text-white" />
           </button>
 
           <div
-            className="mx-auto mb-3 w-14 h-14 rounded-2xl flex items-center justify-center"
+            className="mx-auto mb-2.5 w-12 h-12 rounded-xl flex items-center justify-center"
             style={{
-              background: 'rgba(255,255,255,0.22)',
-              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.35)',
+              background: 'rgba(255,255,255,0.20)',
+              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.30)',
             }}
           >
-            <Gift className="w-7 h-7 text-white" />
+            <Gift className="w-6 h-6 text-white" />
           </div>
 
-          <h2 className="text-white font-extrabold text-[19px] leading-tight tracking-tight">
+          <h2 className="text-white font-extrabold text-[16px] leading-tight tracking-tight">
             First Deposit Bonus
           </h2>
-          <p className="text-white/85 text-[11.5px] mt-1 font-medium">
-            Claim once per account — bigger deposit, bigger reward
+          <p className="text-white/80 text-[10px] mt-0.5 font-medium">
+            Claim once — bigger deposit, bigger reward
           </p>
         </div>
 
         {/* Tiers card */}
         <div
-          className="relative -mt-5 mx-3 rounded-2xl bg-white"
-          style={{ boxShadow: '0 6px 20px rgba(242,90,0,0.12)' }}
+          className="relative -mt-4 mx-2.5 rounded-xl bg-white"
+          style={{ boxShadow: '0 4px 16px rgba(242,90,0,0.10)' }}
         >
-          <div className="px-4 py-2">
+          <div className="px-3 py-1.5">
             {bonusTiers.map((tier, index) => (
               <div key={tier.deposit}>
-                <div className="flex items-center justify-between py-2.5">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-2">
                     <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-extrabold"
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-extrabold"
                       style={{ background: '#FFF3E6', color: ORANGE_DARK }}
                     >
                       {index + 1}
                     </div>
                     <div>
-                      <p className="text-[12.5px] font-bold text-gray-800 leading-none">
+                      <p className="text-[11px] font-bold text-gray-800 leading-none">
                         Deposit{' '}
                         <span style={{ color: ORANGE_DARK }}>
                           ₹{tier.deposit.toLocaleString('en-IN')}
                         </span>
                       </p>
-                      <p className="text-[10px] text-gray-400 mt-1">
+                      <p className="text-[9px] text-gray-400 mt-0.5">
                         Get extra bonus reward
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <span
-                      className="text-[14px] font-extrabold"
+                      className="text-[12px] font-extrabold"
                       style={{ color: ORANGE_DARK }}
                     >
                       +₹{tier.bonus}
                     </span>
                     <button
                       onClick={handleDeposit}
-                      className="px-3 py-1.5 rounded-full text-[10.5px] font-bold text-white transition active:scale-95"
+                      className="px-2.5 py-1 rounded-full text-[9.5px] font-bold text-white transition active:scale-95"
                       style={{
                         background: GRAD,
-                        boxShadow: '0 4px 10px rgba(242,90,0,0.32)',
+                        boxShadow: '0 3px 8px rgba(242,90,0,0.28)',
                       }}
                     >
                       Claim
@@ -160,35 +160,35 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
         </div>
 
         {/* Footer */}
-        <div className="px-4 pt-3 pb-4 flex items-center justify-between">
+        <div className="px-3.5 pt-2.5 pb-3 flex items-center justify-between">
           <label
-            className="flex items-center gap-2 cursor-pointer select-none"
+            className="flex items-center gap-1.5 cursor-pointer select-none"
             onClick={() => setNoReminder(!noReminder)}
           >
             <div
-              className="w-4 h-4 rounded-md border-2 flex items-center justify-center transition-all"
+              className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-all"
               style={{
                 borderColor: noReminder ? ORANGE : '#D1D5DB',
                 background: noReminder ? ORANGE : 'transparent',
               }}
             >
               {noReminder && (
-                <svg viewBox="0 0 12 12" className="w-2.5 h-2.5 text-white">
+                <svg viewBox="0 0 12 12" className="w-2 h-2 text-white">
                   <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
             </div>
-            <span className="text-[10.5px] text-gray-500 font-medium">
+            <span className="text-[9.5px] text-gray-500 font-medium">
               Don't show again today
             </span>
           </label>
 
           <button
             onClick={handleDeposit}
-            className="px-4 py-2 rounded-full text-[12px] font-extrabold text-white transition active:scale-95"
+            className="px-3 py-1.5 rounded-full text-[10.5px] font-extrabold text-white transition active:scale-95"
             style={{
               background: GRAD,
-              boxShadow: '0 6px 14px rgba(242,90,0,0.35)',
+              boxShadow: '0 4px 10px rgba(242,90,0,0.30)',
             }}
           >
             Deposit Now →
