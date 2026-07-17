@@ -1,30 +1,40 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Star, TrendingUp } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCreateInvestment } from '@/hooks/useInvestments';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
+
+const ORANGE = '#FF6A1A';
+const ORANGE_DARK = '#F25A00';
+const BTN_GRAD = `linear-gradient(180deg, ${ORANGE} 0%, ${ORANGE_DARK} 100%)`;
+const PRODUCT_IMG = 'https://files.catbox.moe/9xmkkp.jpg';
 
 export function FeaturedProduct() {
   const navigate = useNavigate();
+  const { wallet } = useAuth();
+  const createInvestment = useCreateInvestment();
+  const [investing, setInvesting] = useState(false);
 
   const { data: product } = useQuery({
     queryKey: ['featured-product'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('products')
         .select('*')
         .eq('is_enabled', true)
         .eq('is_special_offer', true)
-        .order('price', { ascending: false })
+        .order('price', { ascending: true })
         .limit(1)
         .maybeSingle();
-      if (error) throw error;
       if (data) return data;
-      // Fallback to any product
       const { data: fallback } = await supabase
         .from('products')
         .select('*')
         .eq('is_enabled', true)
-        .order('price', { ascending: false })
+        .order('price', { ascending: true })
         .limit(1)
         .maybeSingle();
       return fallback;
@@ -33,60 +43,99 @@ export function FeaturedProduct() {
 
   if (!product) return null;
 
+  const handleInvest = async () => {
+    const currentBalance = wallet?.total_balance ?? 0;
+    if (currentBalance < Number(product.price)) {
+      toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
+      navigate('/recharge');
+      return;
+    }
+    setInvesting(true);
+    try {
+      await createInvestment.mutateAsync(product.id);
+      toast.success('Investment successful!', {
+        description: `You invested ₹${Number(product.price).toLocaleString('en-IN')} in ${product.name}`,
+      });
+    } catch (error: any) {
+      if (error.message === 'Insufficient balance') {
+        toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
+        navigate('/recharge');
+      } else {
+        toast.error('Investment failed', { description: error.message || 'Please try again.' });
+      }
+    } finally {
+      setInvesting(false);
+    }
+  };
+
   return (
-    <div className="px-4 mb-2">
+    <div className="px-4 mb-2" style={{ fontFamily: "'Poppins', 'Inter', sans-serif" }}>
       <h3 className="text-sm font-bold text-foreground mb-2 px-1">⭐ Featured Product</h3>
-      <button
-        onClick={() => navigate('/products')}
-        className="w-full text-left overflow-hidden transition-all active:scale-[0.98]"
+      <div
+        className="rounded-[22px] bg-white overflow-hidden relative"
         style={{
-          background: 'linear-gradient(135deg, #fff 0%, #f0fdf4 100%)',
-          borderRadius: '20px',
-          boxShadow: '8px 8px 24px rgba(52,168,83,0.15), -4px -4px 12px rgba(255,255,255,0.9), 0 0 0 1px rgba(52,168,83,0.08)',
+          boxShadow: '0 8px 24px rgba(242,90,0,0.12)',
+          border: '4px solid #FFE4CC',
         }}
       >
-        <div className="flex items-center gap-4 p-4">
-          {/* Product image */}
-          <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0"
-            style={{
-              background: 'linear-gradient(135deg, hsl(140,52%,43%) 0%, hsl(140,60%,55%) 100%)',
-              boxShadow: '4px 4px 12px rgba(52,168,83,0.3), -2px -2px 8px rgba(255,255,255,0.7)',
-            }}>
-            {product.image_url && product.image_url !== '/placeholder.svg' ? (
-              <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <Star className="w-7 h-7 text-white" />
+        {/* Days badge top-right */}
+        <div
+          className="absolute top-3 right-3 px-3 py-1.5 rounded-[12px] text-white font-extrabold text-[13px] leading-none"
+          style={{ background: BTN_GRAD, boxShadow: '0 4px 10px rgba(242,90,0,0.28)' }}
+        >
+          Days: {product.duration_days}
+        </div>
+
+        <div className="flex px-3 pt-3 pb-2 gap-2">
+          {/* Left: image */}
+          <div className="w-[42%] shrink-0 flex items-center justify-center">
+            <img src={PRODUCT_IMG} alt={product.name} className="w-full h-auto object-contain" />
+          </div>
+
+          {/* Right: info */}
+          <div className="flex-1 flex flex-col pt-1">
+            <h2 className="text-[20px] font-extrabold text-gray-900 leading-tight mb-3">
+              {product.name}
+            </h2>
+            <div className="flex gap-3 mb-1">
+              <div>
+                <p className="text-[17px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                  ₹{Number(product.daily_income).toLocaleString('en-IN')}
+                </p>
+                <p className="text-[10px] text-gray-500 font-medium mt-0.5">Daily Income</p>
               </div>
-            )}
-          </div>
-
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              {product.is_special_offer && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-                  style={{ background: 'linear-gradient(135deg, hsl(140,52%,43%), hsl(140,60%,38%))' }}>
-                  Special Offer
-                </span>
-              )}
-            </div>
-            <p className="font-bold text-foreground text-sm truncate">{product.name}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {product.duration_days} days · Total ₹{Number(product.total_income).toLocaleString('en-IN')}
-            </p>
-          </div>
-
-          {/* Price & Income */}
-          <div className="shrink-0 text-right">
-            <p className="text-lg font-extrabold text-primary">₹{Number(product.price).toLocaleString('en-IN')}</p>
-            <div className="flex items-center gap-1 justify-end mt-0.5">
-              <TrendingUp className="w-3 h-3 text-green-600" />
-              <span className="text-xs font-bold text-green-600">+₹{Number(product.daily_income).toLocaleString('en-IN')}/day</span>
+              <div>
+                <p className="text-[17px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                  ₹{Number(product.total_income).toLocaleString('en-IN')}
+                </p>
+                <p className="text-[10px] text-gray-500 font-medium mt-0.5">Total Revenue</p>
+              </div>
             </div>
           </div>
         </div>
-      </button>
+
+        {/* Bottom row: Price + Invest */}
+        <div className="flex items-center justify-between px-4 pb-3 pt-1">
+          <p className="text-[18px] font-extrabold text-gray-900">
+            Price: <span style={{ color: ORANGE }}>₹{Number(product.price).toLocaleString('en-IN')}</span>
+          </p>
+          <button
+            onClick={handleInvest}
+            disabled={investing}
+            className="text-white font-extrabold text-[15px] transition-all active:scale-[0.98] disabled:opacity-60"
+            style={{
+              height: 42,
+              minWidth: 120,
+              borderRadius: 999,
+              background: investing ? '#9CA3AF' : BTN_GRAD,
+              boxShadow: investing ? 'none' : '0 6px 14px rgba(242,90,0,0.32)',
+              padding: '0 22px',
+            }}
+          >
+            {investing ? <Loader2 className="w-4 h-4 animate-spin inline" /> : 'Invest'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
