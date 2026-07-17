@@ -4,6 +4,7 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { BannerSlider } from '@/components/home/BannerSlider';
 import { QuickMenu } from '@/components/home/QuickMenu';
 import { RecentPayments } from '@/components/home/RecentPayments';
+import { FeaturedProduct } from '@/components/home/FeaturedProduct';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
 
 const Index = () => {
@@ -31,6 +32,11 @@ const Index = () => {
 
       {/* ── Quick Menu ── */}
       <QuickMenu />
+
+      {/* ── Featured Product ── */}
+      <div className="mt-4">
+        <FeaturedProduct />
+      </div>
 
       {/* ── Recent Activity ── */}
       <RecentPayments />

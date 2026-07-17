@@ -27,6 +27,7 @@ import ActivePlans from "./pages/ActivePlans";
 import Earnings from "./pages/Earnings";
 import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
+import TeamMembers from "./pages/TeamMembers";
 import BecomePromoter from "./pages/BecomePromoter";
 
 // ================= ADMIN PAGES =================
@@ -198,6 +199,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <BecomePromoter />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/team-members"
+                element={
+                  <ProtectedRoute>
+                    <TeamMembers />
                   </ProtectedRoute>
                 }
               />

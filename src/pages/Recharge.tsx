@@ -10,8 +10,8 @@ const Recharge = () => {
   const { wallet } = useAuth();
 
   const handleRecharge = () => {
-    if (!amount || amount < 250) {
-      alert("Minimum recharge amount is ₹250");
+    if (!amount || amount < 700) {
+      alert("Minimum recharge amount is ₹700");
       return;
     }
     navigate(`/payment?amount=${amount}`);
@@ -52,14 +52,14 @@ const Recharge = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value ? Number(e.target.value) : "")}
           />
-          <p className="text-xs text-muted-foreground mt-2">Minimum recharge amount ₹250</p>
+          <p className="text-xs text-muted-foreground mt-2">Minimum recharge amount ₹700</p>
         </div>
 
         {/* Quick Amount */}
         <div className="clay-card p-5">
           <p className="font-bold text-foreground text-sm mb-3">Quick Amount</p>
           <div className="grid grid-cols-3 gap-3">
-            {[250, 500, 1000, 2000, 5000, 8500].map((amt) => (
+            {[700, 1500, 3000, 5000, 8000, 10000].map((amt) => (
               <button
                 key={amt}
                 onClick={() => setAmount(amt)}
