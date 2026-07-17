@@ -286,75 +286,24 @@ const Team = () => {
         </button>
       </div>
 
-      {/* ── Team Members ── */}
+      {/* ── Team Members Link ── */}
       <div className="mx-4 mt-4 mb-6">
-        <h3 className="text-base font-bold mb-3" style={{ color: D.textPrimary }}>Team Members</h3>
-        <div
-          className="rounded-[20px] overflow-hidden"
+        <button
+          onClick={() => navigate('/team-members')}
+          className="w-full flex items-center justify-between px-4 py-4 rounded-[20px]"
           style={{ background: D.card, boxShadow: D.shadowCard }}
         >
-          <div
-            className="grid grid-cols-4 gap-2 px-4 py-3 text-xs font-semibold"
-            style={{ background: '#F9FAFB', color: D.textSec, borderBottom: `1px solid ${D.border}` }}
-          >
-            <span>User</span>
-            <span className="text-center">Level</span>
-            <span className="text-center">Joined</span>
-            <span className="text-right">Status</span>
-          </div>
-
-          {isLoading ? (
-            <div className="p-8 text-center" style={{ color: D.textSec }}>Loading...</div>
-          ) : members.length === 0 ? (
-            <div className="p-8 text-center">
-              <Users className="w-10 h-10 mx-auto mb-2" style={{ color: '#D1FAE5' }} />
-              <p className="text-sm" style={{ color: D.textSec }}>No team members yet</p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: D.iconBg }}>
+              <Users className="w-5 h-5" style={{ color: D.primary }} />
             </div>
-          ) : (
-            members.map((member, index) => (
-              <div
-                key={member.id}
-                className={cn('grid grid-cols-4 gap-2 px-4 py-3 items-center')}
-                style={{
-                  borderBottom: index !== members.length - 1 ? `1px solid ${D.border}` : 'none',
-                }}
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: '#FFE3C5' }}
-                  >
-                    <span className="text-xs font-bold" style={{ color: D.primary }}>
-                      {(member?.name ?? 'U').charAt(0)}
-                    </span>
-                  </div>
-                  <span className="text-sm font-medium truncate" style={{ color: D.textPrimary }}>
-                    {member?.name ?? 'User'}
-                  </span>
-                </div>
-                <div className="text-center">
-                  <span
-                    className="text-xs px-2 py-0.5 rounded-full font-medium"
-                    style={{ background: '#FFE3C5', color: D.primary }}
-                  >
-                    L{member.level}
-                  </span>
-                </div>
-                <p className="text-xs text-center" style={{ color: D.textSec }}>
-                  {new Date(member.joinedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                </p>
-                <div className="text-right">
-                  <span
-                    className="text-xs px-2 py-0.5 rounded-full font-medium"
-                    style={{ background: '#FFE3C5', color: D.primary }}
-                  >
-                    Active
-                  </span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+            <div className="text-left">
+              <p className="text-sm font-bold" style={{ color: D.textPrimary }}>Team Members</p>
+              <p className="text-xs" style={{ color: D.textSec }}>View all your team members</p>
+            </div>
+          </div>
+          <ChevronRight className="w-5 h-5" style={{ color: D.textSec }} />
+        </button>
       </div>
     </AppLayout>
   );
