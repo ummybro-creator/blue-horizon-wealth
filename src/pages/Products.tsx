@@ -17,7 +17,15 @@ const Products = () => {
   const [activeTab, setActiveTab] = useState<'daily' | 'vip'>('daily');
   const [investingProductId, setInvestingProductId] = useState<string | null>(null);
 
-  const { data: products, isLoading } = useProducts(activeTab);
+  const { data: productsRaw, isLoading } = useProducts(activeTab);
+
+  // Pin ₹294 plan to top for daily tab
+  const products = productsRaw ? (() => {
+    if (activeTab !== 'daily') return productsRaw;
+    const pinned = productsRaw.find(p => Number(p.price) === 294);
+    if (!pinned) return productsRaw;
+    return [pinned, ...productsRaw.filter(p => p.id !== pinned.id)];
+  })() : productsRaw;
   const { wallet } = useAuth();
   const createInvestment = useCreateInvestment();
 
