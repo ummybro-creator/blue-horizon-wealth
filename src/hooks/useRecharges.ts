@@ -13,7 +13,7 @@ export interface Recharge {
   processed_at: string | null;
 }
 
-const MIN_RECHARGE_AMOUNT = 250;
+const MIN_RECHARGE_AMOUNT = 298;
 
 /* =========================
    GET USER RECHARGES
