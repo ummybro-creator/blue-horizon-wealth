@@ -12,7 +12,7 @@ const ORANGE      = '#FF7A1A';
 const ORANGE_DARK = '#FF6B00';
 const FONT        = "'Poppins', sans-serif";
 const HEADING_FONT = "'Baloo 2', 'Poppins', sans-serif";
-const LOGO_URL     = 'https://files.catbox.moe/wax8r6.jpg';
+const LOGO_URL     = 'https://files.catbox.moe/wb477s.jpg';
 
 /* ── Inline SVG icons (flat orange, consistent style) ── */
 const IconUser = () => (
