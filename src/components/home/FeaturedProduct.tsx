@@ -7,10 +7,10 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
-const ORANGE = '#FF6A1A';
-const ORANGE_DARK = '#F25A00';
-const BTN_GRAD = `linear-gradient(180deg, ${ORANGE} 0%, ${ORANGE_DARK} 100%)`;
-const PRODUCT_IMG = 'https://files.catbox.moe/9xmkkp.jpg';
+const ORANGE      = '#FF6A00';
+const BTN_GRAD    = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
+const GREEN_GRAD  = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
+const BTN_SHADOW  = '0 8px 20px rgba(255,106,0,0.38)';
 
 export function FeaturedProduct() {
   const navigate = useNavigate();
@@ -69,67 +69,94 @@ export function FeaturedProduct() {
   };
 
   return (
-    <div className="px-4 mb-2" style={{ fontFamily: "'Poppins', 'Inter', sans-serif" }}>
-      <h3 className="text-sm font-bold text-foreground mb-2 px-1">⭐ Featured Product</h3>
+    <div className="px-4 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+      <h3
+        className="text-sm font-bold mb-3 px-1"
+        style={{ color: '#2B2B2B' }}
+      >
+        ⭐ Featured Product
+      </h3>
+
+      {/* Card */}
       <div
-        className="rounded-[22px] bg-white overflow-hidden relative"
+        className="rounded-[24px] relative overflow-visible"
         style={{
-          boxShadow: '0 8px 24px rgba(242,90,0,0.12)',
-          border: '4px solid #FFE4CC',
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          boxShadow: '0 8px 32px rgba(255,106,0,0.12), 0 2px 8px rgba(0,0,0,0.05)',
+          border: '1px solid rgba(255,255,255,0.75)',
         }}
       >
-        {/* Days badge top-right */}
-        <div
-          className="absolute top-3 right-3 px-3 py-1.5 rounded-[12px] text-white font-extrabold text-[13px] leading-none"
-          style={{ background: BTN_GRAD, boxShadow: '0 4px 10px rgba(242,90,0,0.28)' }}
-        >
-          Days: {product.duration_days}
+        {/* Top badges */}
+        <div className="flex items-start justify-between px-4 pt-4">
+          <div
+            className="px-4 py-1.5 rounded-full text-white font-bold text-[13px]"
+            style={{ background: BTN_GRAD, boxShadow: '0 4px 10px rgba(255,106,0,0.30)' }}
+          >
+            {product.name}
+          </div>
+          <div
+            className="px-4 py-1.5 rounded-full text-white font-bold text-[13px]"
+            style={{ background: GREEN_GRAD, boxShadow: '0 4px 10px rgba(46,125,50,0.32)' }}
+          >
+            Days: {product.duration_days}
+          </div>
         </div>
 
-        <div className="flex px-3 pt-3 pb-2 gap-2">
-          {/* Left: image */}
-          <div className="w-[42%] shrink-0 flex items-center justify-center">
-            <img src={PRODUCT_IMG} alt={product.name} className="w-full h-auto object-contain" />
+        {/* Body */}
+        <div className="flex px-3 pt-3 pb-2 gap-2 items-center">
+          {/* Image */}
+          <div
+            className="w-[42%] shrink-0 flex items-center justify-center"
+            style={{ filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.14))' }}
+          >
+            <img
+              src="https://files.catbox.moe/9xmkkp.jpg"
+              alt={product.name}
+              className="w-full h-auto object-contain"
+            />
           </div>
 
-          {/* Right: info */}
-          <div className="flex-1 flex flex-col pt-1">
-            <h2 className="text-[20px] font-extrabold text-gray-900 leading-tight mb-3">
-              {product.name}
-            </h2>
-            <div className="flex gap-3 mb-1">
-              <div>
-                <p className="text-[17px] font-extrabold leading-tight" style={{ color: ORANGE }}>
-                  ₹{Number(product.daily_income).toLocaleString('en-IN')}
-                </p>
-                <p className="text-[10px] text-gray-500 font-medium mt-0.5">Daily Income</p>
-              </div>
-              <div>
-                <p className="text-[17px] font-extrabold leading-tight" style={{ color: ORANGE }}>
-                  ₹{Number(product.total_income).toLocaleString('en-IN')}
-                </p>
-                <p className="text-[10px] text-gray-500 font-medium mt-0.5">Total Revenue</p>
-              </div>
+          {/* Stats */}
+          <div className="flex-1 flex items-stretch">
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <p className="text-[18px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                ₹{Number(product.daily_income).toLocaleString('en-IN')}
+              </p>
+              <p className="text-[10px] text-center mt-0.5 font-medium" style={{ color: '#8A8A8A' }}>
+                Daily<br />Income
+              </p>
+            </div>
+            <div className="w-px self-stretch" style={{ background: '#E5E7EB', margin: '4px 0' }} />
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <p className="text-[18px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+                ₹{Number(product.total_income).toLocaleString('en-IN')}
+              </p>
+              <p className="text-[10px] text-center mt-0.5 font-medium" style={{ color: '#8A8A8A' }}>
+                Total<br />Revenue
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom row: Price + Invest */}
-        <div className="flex items-center justify-between px-4 pb-3 pt-1">
-          <p className="text-[18px] font-extrabold text-gray-900">
+        {/* Price + Invest */}
+        <div className="flex items-center justify-between px-4 pb-4 pt-1">
+          <p className="text-[16px] font-extrabold" style={{ color: '#2B2B2B' }}>
             Price: <span style={{ color: ORANGE }}>₹{Number(product.price).toLocaleString('en-IN')}</span>
           </p>
           <button
             onClick={handleInvest}
             disabled={investing}
-            className="text-white font-extrabold text-[15px] transition-all active:scale-[0.98] disabled:opacity-60"
+            className="text-white font-bold text-[14px] transition-all active:scale-[0.98] disabled:opacity-60"
             style={{
-              height: 42,
-              minWidth: 120,
+              height: 40,
+              minWidth: 110,
               borderRadius: 999,
               background: investing ? '#9CA3AF' : BTN_GRAD,
-              boxShadow: investing ? 'none' : '0 6px 14px rgba(242,90,0,0.32)',
-              padding: '0 22px',
+              boxShadow: investing ? 'none' : BTN_SHADOW,
+              padding: '0 20px',
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             {investing ? <Loader2 className="w-4 h-4 animate-spin inline" /> : 'Invest'}

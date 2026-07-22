@@ -4,6 +4,20 @@ import { ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useAuth } from "@/contexts/AuthContext";
 
+const ORANGE    = '#FF6A00';
+const BTN_GRAD  = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
+const BTN_SHADOW = '0 10px 24px rgba(255,106,0,0.38)';
+
+const CARD: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.85)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
+  border: '1px solid rgba(255,255,255,0.75)',
+  borderRadius: 24,
+  padding: '20px',
+};
+
 const Recharge = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState<number | "">("");
@@ -19,69 +33,91 @@ const Recharge = () => {
 
   return (
     <AppLayout>
-      {/* Header */}
-      <div className="clay-header pt-12 pb-8 px-4">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-white/15 backdrop-blur flex items-center justify-center">
-            <ArrowLeft className="w-5 h-5 text-white" />
+      <div style={{ fontFamily: "'Poppins', sans-serif" }}>
+        {/* Header */}
+        <div className="clay-header pt-12 pb-8 px-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95"
+              style={{ background: 'rgba(255,255,255,0.18)' }}
+            >
+              <ArrowLeft className="w-5 h-5 text-white" />
+            </button>
+            <h1 className="text-xl font-bold text-white">Recharge</h1>
+          </div>
+        </div>
+
+        <div className="px-4 py-5 space-y-4">
+          {/* Balance Cards */}
+          <div className="grid grid-cols-2 gap-3 -mt-4">
+            <div style={CARD}>
+              <p className="text-xs font-medium" style={{ color: '#8A8A8A' }}>Current Balance</p>
+              <p className="text-xl font-extrabold mt-1" style={{ color: ORANGE }}>
+                ₹{wallet?.total_balance ?? 0}
+              </p>
+            </div>
+            <div style={CARD}>
+              <p className="text-xs font-medium" style={{ color: '#8A8A8A' }}>Recharge Balance</p>
+              <p className="text-xl font-extrabold mt-1" style={{ color: ORANGE }}>
+                ₹{wallet?.recharge_balance ?? 0}
+              </p>
+            </div>
+          </div>
+
+          {/* Amount Input */}
+          <div style={CARD}>
+            <label className="block text-sm font-bold mb-2" style={{ color: '#2B2B2B' }}>
+              Enter Amount
+            </label>
+            <input
+              type="number"
+              placeholder="Recharge Amount"
+              className="w-full h-12 rounded-2xl px-4 outline-none font-semibold"
+              style={{
+                background: '#FFF4EE',
+                border: '1px solid rgba(255,106,0,0.15)',
+                color: '#2B2B2B',
+                fontFamily: "'Poppins', sans-serif",
+              }}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value ? Number(e.target.value) : "")}
+            />
+            <p className="text-xs mt-2" style={{ color: '#8A8A8A' }}>
+              Minimum recharge amount ₹298
+            </p>
+          </div>
+
+          {/* Quick Amount */}
+          <div style={CARD}>
+            <p className="font-bold text-sm mb-3" style={{ color: '#2B2B2B' }}>Quick Amount</p>
+            <div className="grid grid-cols-3 gap-3">
+              {[298, 500, 1000, 3000, 5000, 10000].map((amt) => (
+                <button
+                  key={amt}
+                  onClick={() => setAmount(amt)}
+                  className="h-12 rounded-2xl font-bold text-sm transition-all active:scale-95"
+                  style={
+                    amount === amt
+                      ? { background: BTN_GRAD, color: '#fff', boxShadow: BTN_SHADOW }
+                      : { background: '#FFF4EE', color: '#2B2B2B', border: '1px solid rgba(255,106,0,0.12)' }
+                  }
+                >
+                  ₹{amt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Recharge Button */}
+          <button
+            onClick={handleRecharge}
+            className="w-full py-4 rounded-full text-base font-bold text-white transition-all active:scale-[0.97]"
+            style={{ background: BTN_GRAD, boxShadow: BTN_SHADOW }}
+          >
+            Recharge Now
           </button>
-          <h1 className="text-xl font-bold text-white">Recharge</h1>
         </div>
-      </div>
-
-      <div className="px-4 py-5 space-y-5">
-        {/* Balance Cards */}
-        <div className="grid grid-cols-2 gap-3 -mt-4">
-          <div className="clay-card p-4">
-            <p className="text-xs text-muted-foreground font-medium">Current Balance</p>
-            <p className="text-xl font-extrabold text-primary mt-1">₹{wallet?.total_balance ?? 0}</p>
-          </div>
-          <div className="clay-card p-4">
-            <p className="text-xs text-muted-foreground font-medium">Recharge Balance</p>
-            <p className="text-xl font-extrabold text-primary mt-1">₹{wallet?.recharge_balance ?? 0}</p>
-          </div>
-        </div>
-
-        {/* Amount Input */}
-        <div className="clay-card p-5">
-          <label className="block text-sm font-bold text-foreground mb-2">Enter Amount</label>
-          <input
-            type="number"
-            placeholder="Recharge Amount"
-            className="w-full h-12 rounded-2xl clay-inset px-4 outline-none text-foreground font-semibold"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value ? Number(e.target.value) : "")}
-          />
-          <p className="text-xs text-muted-foreground mt-2">Minimum recharge amount ₹298</p>
-        </div>
-
-        {/* Quick Amount */}
-        <div className="clay-card p-5">
-          <p className="font-bold text-foreground text-sm mb-3">Quick Amount</p>
-          <div className="grid grid-cols-3 gap-3">
-            {[298, 500, 1000, 3000, 5000, 10000].map((amt) => (
-              <button
-                key={amt}
-                onClick={() => setAmount(amt)}
-                className={`h-12 rounded-2xl font-bold text-sm transition-all active:scale-95 ${
-                  amount === amt 
-                    ? 'clay-button' 
-                    : 'clay-inset text-foreground hover:shadow-clay'
-                }`}
-              >
-                ₹{amt}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Recharge Button */}
-        <button
-          className="w-full clay-button py-4 text-base font-bold transition-all active:scale-[0.97]"
-          onClick={handleRecharge}
-        >
-          Recharge Now
-        </button>
       </div>
     </AppLayout>
   );

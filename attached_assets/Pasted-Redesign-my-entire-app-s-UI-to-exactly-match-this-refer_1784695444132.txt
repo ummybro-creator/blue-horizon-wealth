@@ -1,0 +1,46 @@
+Redesign my entire app's UI to exactly match this reference design system. Apply it consistently across every screen. Do not simplify or skip any visual detail.
+
+## COLOR PALETTE
+- Background: soft peach/blush gradient (#FFF4EE → #FFEAE0)
+- Primary accent (orange gradient): #FF8A00 → #FF6A00, used on active tabs, badges, buttons
+- Secondary accent (green gradient): #4CAF50 → #2E7D32, used only on "Days" badges
+- Card background: white/off-white with slight transparency (rgba(255,255,255,0.85)) for glass effect
+- Primary text: dark charcoal #2B2B2B (bold)
+- Secondary text: medium gray #8A8A8A
+- Price/number accents: orange #FF6A00, bold
+
+## TOP TAB BAR
+- Rounded outer container (border-radius: 28px), glassmorphism: semi-transparent white background with soft blurred orange glow bleeding from top corners (backdrop-filter: blur(20px))
+- Two pill-shaped tabs inside
+- Active tab: solid orange gradient pill, white bold text, soft drop shadow
+- Inactive tab: transparent, gray text, no border
+
+## CARDS (repeat this exact structure for every item/product/plan card)
+- Border-radius: 24–28px
+- Background: white glass with subtle transparency + backdrop blur
+- Soft outer drop shadow (large, low-opacity, warm-toned)
+- Padding: generous (24px+)
+- Top-left: pill-shaped orange gradient badge with bold white label (e.g. category/product name)
+- Top-right: pill-shaped green gradient badge, white bold text (e.g. "Days: X"), rotated/attached to top-right corner with a slight overlap outside the card edge
+- Image area: product image floats with its own soft drop shadow, no background box
+- Data row: two columns separated by a thin vertical divider line; each column has a large bold orange number + smaller gray label stacked below/beside it
+- Below that: a bold dark text line for key info (e.g. "Price: ₹XX")
+- CTA button: full-width, pill-shaped (border-radius: 999px), solid orange gradient, bold white uppercase-weight text, soft shadow beneath it
+
+## TYPOGRAPHY
+- Rounded, friendly sans-serif (e.g. Poppins, Nunito, or similar rounded geometric font)
+- Headings/badges: bold, white
+- Numbers/prices: extra bold, orange
+- Labels: regular weight, gray, smaller size
+
+## SPACING & LAYOUT
+- Generous vertical spacing between cards (20–24px)
+- Consistent horizontal page padding (~16px)
+- Consistent internal card padding
+- All corners rounded — no sharp edges anywhere except bottom nav
+
+## BOTTOM NAVIGATION (EXCEPTION)
+- Do NOT apply glassmorphism, blur, or transparency here
+- Keep it flat, solid, simple, standard mobile nav bar style (clean icons + labels, subtle top border or shadow only)
+
+Apply this exact system to every screen in the app (home, product listing, detail pages, wallet, profile, etc.) so the entire app feels like one cohesive premium design language, matching the reference image pixel-for-pixel in style.

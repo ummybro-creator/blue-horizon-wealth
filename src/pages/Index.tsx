@@ -15,14 +15,11 @@ const Index = () => {
     <AppLayout>
       {/* ── Header ── */}
       <div
-        className="px-4 pt-12 pb-5 text-center"
-        style={{
-          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
-          borderRadius: '0 0 30px 30px',
-          boxShadow: '0 6px 20px rgba(240,68,56,0.28)',
-        }}
+        className="px-4 pt-12 pb-5 text-center clay-header"
       >
-        <h1 className="text-[22px] font-extrabold text-white">Home</h1>
+        <h1 className="text-[22px] font-extrabold text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
+          Home
+        </h1>
       </div>
 
       {/* ── Banner ── */}
@@ -44,10 +41,10 @@ const Index = () => {
       {/* ── Floating Telegram Button ── */}
       <button
         onClick={() => window.open('https://t.me/tatanmak', '_blank')}
-        className="fixed bottom-[80px] right-4 w-14 h-14 rounded-full flex items-center justify-center z-40 transition-all active:scale-95"
+        className="fixed bottom-[72px] right-4 w-14 h-14 rounded-full flex items-center justify-center z-40 transition-all active:scale-95"
         style={{
-          background: 'linear-gradient(135deg, #FF5A0A, #FF6F1F)',
-          boxShadow: '0 6px 20px rgba(34,197,94,0.35)',
+          background: 'linear-gradient(135deg, #FF8A00, #FF6A00)',
+          boxShadow: '0 6px 20px rgba(255,106,0,0.40)',
         }}
       >
         <Send className="w-6 h-6 text-white" />

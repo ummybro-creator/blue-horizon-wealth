@@ -14,42 +14,41 @@ export function BottomNavigation() {
 
   return (
     <nav
-      className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-24px)] max-w-md"
-      style={{ paddingBottom: 'max(0px, env(safe-area-inset-bottom))' }}
+      className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="clay-nav flex items-center justify-around h-[68px] px-3">
+      {/* Flat, solid bottom nav — no glassmorphism, no blur */}
+      <div
+        className="bottom-nav-flat flex items-center justify-around h-[62px] px-2"
+      >
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className="relative flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-300"
+              className="relative flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200"
             >
-              <div
-                className="flex items-center justify-center w-11 h-9 rounded-2xl transition-all duration-300"
-                style={{
-                  background: isActive
-                    ? 'linear-gradient(135deg, #FF7A00 0%, #FFA726 100%)'
-                    : 'transparent',
-                  boxShadow: isActive
-                    ? '0 8px 20px rgba(255,122,0,0.35), inset 0 1px 0 rgba(255,255,255,0.5)'
-                    : 'none',
-                  transform: isActive ? 'translateY(-2px)' : 'none',
-                }}
-              >
-                <item.icon
-                  className="w-[22px] h-[22px] transition-all duration-300"
-                  style={{ color: isActive ? '#FFFFFF' : '#B08968' }}
-                  strokeWidth={isActive ? 2.5 : 2}
-                />
-              </div>
+              <item.icon
+                className="w-[22px] h-[22px] transition-all duration-200"
+                style={{ color: isActive ? '#FF6A00' : '#AAAAAA' }}
+                strokeWidth={isActive ? 2.5 : 1.8}
+              />
               <span
-                className="text-[10px] font-bold tracking-wide transition-all duration-300"
-                style={{ color: isActive ? '#FF7A00' : '#B08968' }}
+                className="text-[10px] font-semibold transition-all duration-200"
+                style={{
+                  color: isActive ? '#FF6A00' : '#AAAAAA',
+                  fontFamily: "'Poppins', sans-serif",
+                }}
               >
                 {item.label}
               </span>
+              {isActive && (
+                <span
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full"
+                  style={{ background: 'linear-gradient(90deg, #FF8A00, #FF6A00)' }}
+                />
+              )}
             </button>
           );
         })}

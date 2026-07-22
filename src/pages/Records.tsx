@@ -87,8 +87,8 @@ const Records = () => {
 
   return (
     <div
-      className="min-h-screen max-w-lg mx-auto"
-      style={{ background: 'linear-gradient(180deg, #e8f5e9 0%, #f1f8f2 40%, #f7faf7 100%)', fontFamily: 'Inter, sans-serif' }}
+      className="min-h-screen max-w-lg mx-auto app-bg"
+      style={{ fontFamily: "'Poppins', sans-serif" }}
     >
       {/* ── HEADER ── */}
       <div className="px-4 pt-12 pb-4 flex items-center gap-3">
@@ -105,22 +105,22 @@ const Records = () => {
       </div>
 
       {/* ── PAGE SWITCHER ── */}
-      <div className="mx-4 mb-4 flex rounded-2xl p-1" style={{ background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+      <div className="mx-4 mb-4 tab-glass-container flex p-1.5">
         <button
           onClick={() => { setPage('withdraw'); setFilter('all'); }}
-          className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
+          className="flex-1 py-2.5 rounded-full text-sm font-bold transition-all"
           style={page === 'withdraw'
-            ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
-            : { color: '#6b7280' }}
+            ? { background: 'linear-gradient(135deg,#FF8A00,#FF6A00)', color: '#fff', boxShadow: '0 8px 20px rgba(255,106,0,0.38)' }
+            : { color: '#8A8A8A' }}
         >
           Withdrawals
         </button>
         <button
           onClick={() => { setPage('recharge'); setFilter('all'); }}
-          className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
+          className="flex-1 py-2.5 rounded-full text-sm font-bold transition-all"
           style={page === 'recharge'
-            ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
-            : { color: '#6b7280' }}
+            ? { background: 'linear-gradient(135deg,#FF8A00,#FF6A00)', color: '#fff', boxShadow: '0 8px 20px rgba(255,106,0,0.38)' }
+            : { color: '#8A8A8A' }}
         >
           Recharges
         </button>
@@ -158,8 +158,8 @@ const Records = () => {
             onClick={() => setFilter(tab.id)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all"
             style={filter === tab.id
-              ? { background: 'linear-gradient(135deg,#FF5A0A,#FF6F1F)', color: '#fff', boxShadow: '0 4px 12px rgba(34,197,94,0.3)' }
-              : { background: '#fff', color: '#6b7280', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}
+              ? { background: 'linear-gradient(135deg,#FF8A00,#FF6A00)', color: '#fff', boxShadow: '0 6px 16px rgba(255,106,0,0.35)' }
+              : { background: 'rgba(255,255,255,0.85)', color: '#8A8A8A', boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }}
           >
             {tab.id === 'pending' && <Clock className="w-3.5 h-3.5" />}
             {tab.id === 'done' && <CheckCircle2 className="w-3.5 h-3.5" />}

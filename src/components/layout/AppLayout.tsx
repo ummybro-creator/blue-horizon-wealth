@@ -8,7 +8,7 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className="min-h-screen max-w-lg mx-auto relative app-bg">
-      <main className="pb-28">
+      <main className="pb-20">
         {children}
       </main>
       <BottomNavigation />
