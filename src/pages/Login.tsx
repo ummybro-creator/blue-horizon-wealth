@@ -11,38 +11,55 @@ const passwordSchema = z.string().min(6, 'Password must be at least 6 characters
 const ORANGE      = '#FF7A1A';
 const ORANGE_DARK = '#FF6B00';
 const FONT        = "'Poppins', sans-serif";
+const HEADING_FONT = "'Baloo 2', 'Poppins', sans-serif";
+const LOGO_URL     = 'https://files.catbox.moe/wax8r6.jpg';
 
 /* ── Inline SVG icons (flat orange, consistent style) ── */
 const IconUser = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="8" r="4" stroke={ORANGE} strokeWidth="2" strokeLinecap="round"/>
-    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke={ORANGE} strokeWidth="2" strokeLinecap="round"/>
-  </svg>
+  <div style={{
+    width: 30, height: 30, borderRadius: '50%',
+    background: '#FFE1C7',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flexShrink: 0,
+  }}>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill={ORANGE}>
+      <circle cx="12" cy="8" r="4.2"/>
+      <path d="M4 21c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5" />
+    </svg>
+  </div>
 );
 
 const IconPhone = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <rect x="5" y="2" width="14" height="20" rx="3" stroke={ORANGE} strokeWidth="2"/>
-    <circle cx="12" cy="18" r="1" fill={ORANGE}/>
-    <line x1="9" y1="6" x2="15" y2="6" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+    <rect x="4" y="1.5" width="16" height="21" rx="3.2" fill={ORANGE}/>
+    <rect x="6.3" y="4" width="11.4" height="13.2" rx="1" fill="#FFF3E8"/>
+    <circle cx="12" cy="19.2" r="1.3" fill="#FFF3E8"/>
   </svg>
 );
 
 const IconLock = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <rect x="5" y="11" width="14" height="10" rx="2" stroke={ORANGE} strokeWidth="2"/>
-    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke={ORANGE} strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="12" cy="16" r="1.2" fill={ORANGE}/>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <rect x="4.5" y="10.5" width="15" height="11" rx="2.5" fill={ORANGE}/>
+    <path d="M7.5 10.5V7.2a4.5 4.5 0 0 1 9 0v3.3" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M9.7 15.2l1.4 1.5 3.2-3.3" stroke="#FFF3E8" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
   </svg>
 );
 
 const IconGift = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <rect x="3" y="10" width="18" height="11" rx="2" stroke={ORANGE} strokeWidth="2"/>
-    <path d="M3 10h18v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2Z" stroke={ORANGE} strokeWidth="2"/>
-    <path d="M12 4C12 4 9 6 9 8h6c0-2-3-4-3-4Z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-    <line x1="12" y1="8" x2="12" y2="21" stroke={ORANGE} strokeWidth="2"/>
-  </svg>
+  <div style={{
+    width: 30, height: 30, borderRadius: '50%',
+    border: `1.5px dashed ${ORANGE}`,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flexShrink: 0,
+  }}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="10" width="18" height="10" rx="1.5" fill={ORANGE}/>
+      <rect x="3" y="7" width="18" height="4" rx="1" fill={ORANGE}/>
+      <path d="M12 7C12 7 8.8 5 8.8 2.8A2.2 2.2 0 0 1 12 2.5C15.2 2.5 12 7 12 7Z" fill={ORANGE}/>
+      <path d="M12 7C12 7 15.2 5 15.2 2.8A2.2 2.2 0 0 0 12 2.5C8.8 2.5 12 7 12 7Z" fill={ORANGE}/>
+      <rect x="10.8" y="7" width="2.4" height="13" fill="#FFF3E8"/>
+    </svg>
+  </div>
 );
 
 /* ── Pill input field ── */
@@ -57,13 +74,13 @@ const PillField = ({ icon, left, right, children }: PillFieldProps) => (
     style={{
       display: 'flex',
       alignItems: 'center',
-      height: 60,
-      borderRadius: 28,
+      height: 68,
+      borderRadius: 24,
       background: '#FFFFFF',
-      border: '1.5px solid #E8D5C4',
-      paddingLeft: 18,
-      paddingRight: 16,
-      gap: 10,
+      border: '1.5px solid #EBDCCF',
+      paddingLeft: 20,
+      paddingRight: 20,
+      gap: 14,
       width: '100%',
       boxSizing: 'border-box',
       overflow: 'hidden',
@@ -81,67 +98,43 @@ const inputStyle: React.CSSProperties = {
   border: 'none',
   outline: 'none',
   background: 'transparent',
-  fontSize: 15,
+  fontSize: 17,
   fontFamily: FONT,
   color: '#3A2D26',
 };
 
-/* ── App icon with double border ── */
+/* ── App icon — new Havmor logo image ── */
 const AppIcon = () => (
-  <div style={{ position: 'relative', width: 120, height: 120, marginBottom: 16 }}>
-    {/* Outer orange border ring */}
-    <div style={{
-      position: 'absolute', inset: 0,
-      borderRadius: 28,
-      background: 'linear-gradient(135deg, #FF9A2E, #FF6B00)',
-      boxShadow: '0 8px 28px rgba(255,106,0,0.35)',
-    }} />
-    {/* Inner purple border ring */}
-    <div style={{
-      position: 'absolute', inset: 4,
-      borderRadius: 24,
-      background: 'linear-gradient(135deg, #B57BFF, #7B3FBF)',
-    }} />
-    {/* White inner padding */}
-    <div style={{
-      position: 'absolute', inset: 7,
-      borderRadius: 20,
-      background: '#fff',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
-      {/* V/Diamond logo */}
-      <svg width="68" height="68" viewBox="0 0 100 100" fill="none">
-        <defs>
-          <linearGradient id="aLg1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#FFB27A"/>
-            <stop offset="60%" stopColor="#FF7A2E"/>
-            <stop offset="100%" stopColor="#E24E00"/>
-          </linearGradient>
-          <linearGradient id="aLg2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FF8A3D"/>
-            <stop offset="100%" stopColor="#C93F00"/>
-          </linearGradient>
-        </defs>
-        <path d="M10 22 L38 22 L50 50 L28 44 Z" fill="url(#aLg1)"/>
-        <path d="M90 22 L62 22 L50 50 L72 44 Z" fill="url(#aLg1)"/>
-        <path d="M28 44 L72 44 L50 92 Z" fill="url(#aLg2)"/>
-        <path d="M50 50 L50 92 L28 44 Z" fill="#fff" opacity="0.12"/>
-      </svg>
-    </div>
+  <div style={{
+    width: 148,
+    height: 148,
+    marginBottom: 18,
+    borderRadius: 32,
+    overflow: 'hidden',
+    boxShadow: '0 10px 30px rgba(255,106,0,0.30)',
+    background: '#fff',
+  }}>
+    <img
+      src={LOGO_URL}
+      alt="Havmor logo"
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block',
+      }}
+    />
   </div>
 );
 
 /* ── Decorative dot divider ── */
 const DotDivider = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, marginTop: 6, marginBottom: 28 }}>
-    <div style={{ width: 24, height: 1.5, background: `linear-gradient(to left, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 10, marginBottom: 32 }}>
+    <div style={{ width: 30, height: 1.5, background: `linear-gradient(to left, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
     <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
     <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
     <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
-    <div style={{ width: 24, height: 1.5, background: `linear-gradient(to right, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
+    <div style={{ width: 30, height: 1.5, background: `linear-gradient(to right, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
   </div>
 );
 
@@ -205,7 +198,7 @@ const Login = () => {
       style={{
         minHeight: '100vh',
         width: '100%',
-        background: 'linear-gradient(180deg, #FDE8DC 0%, #FFF6EE 100%)',
+        background: 'linear-gradient(180deg, #FDE3D3 0%, #FFF7F0 45%)',
         fontFamily: FONT,
         display: 'flex',
         flexDirection: 'column',
@@ -214,22 +207,22 @@ const Login = () => {
         overflowX: 'hidden',
       }}
     >
-      <div style={{ width: '100%', maxWidth: 420, padding: '48px 20px 32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ width: '100%', maxWidth: 420, padding: '56px 20px 32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
         {/* ── App Icon ── */}
         <AppIcon />
 
         {/* ── App name ── */}
         <h1 style={{
-          fontSize: 38,
+          fontSize: 44,
           fontWeight: 800,
           color: ORANGE_DARK,
           letterSpacing: -0.5,
           lineHeight: 1,
           margin: 0,
-          fontFamily: FONT,
+          fontFamily: HEADING_FONT,
         }}>
-          Veltrix
+          Havmor
         </h1>
 
         {/* ── Dot divider ── */}
@@ -241,13 +234,13 @@ const Login = () => {
           style={{
             width: '100%',
             background: '#FDF6F0',
-            borderRadius: 32,
-            padding: '28px 20px 24px',
+            borderRadius: 34,
+            padding: '32px 22px 26px',
             border: '1.5px solid #F0DDD0',
-            boxShadow: '0 8px 32px rgba(255,120,40,0.10)',
+            boxShadow: '0 10px 36px rgba(255,120,40,0.12)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 14,
+            gap: 18,
           }}
         >
 
@@ -269,8 +262,8 @@ const Login = () => {
           <PillField
             icon={<IconPhone />}
             left={
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, paddingRight: 10, borderRight: '1.5px solid #E8D5C4', marginRight: 4, flexShrink: 0 }}>
-                <span style={{ fontSize: 15, fontWeight: 700, color: '#2B2B2B', fontFamily: FONT }}>+91</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 12, borderRight: '1.5px solid #EBDCCF', marginRight: 2, flexShrink: 0 }}>
+                <span style={{ fontSize: 17, fontWeight: 700, color: '#2B2B2B', fontFamily: FONT }}>+91</span>
               </div>
             }
           >
@@ -295,8 +288,8 @@ const Login = () => {
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, flexShrink: 0, color: ORANGE, display: 'flex', alignItems: 'center' }}
               >
                 {showPassword
-                  ? <Eye width={20} height={20} color={ORANGE} />
-                  : <EyeOff width={20} height={20} color={ORANGE} />}
+                  ? <Eye width={22} height={22} color={ORANGE} />
+                  : <EyeOff width={22} height={22} color={ORANGE} />}
               </button>
             }
           >
@@ -328,26 +321,26 @@ const Login = () => {
             type="submit"
             disabled={loading}
             style={{
-              marginTop: 6,
+              marginTop: 8,
               width: '100%',
-              height: 58,
-              borderRadius: 28,
+              height: 64,
+              borderRadius: 24,
               background: loading
                 ? '#CCC'
                 : `linear-gradient(135deg, ${ORANGE} 0%, ${ORANGE_DARK} 100%)`,
               color: '#fff',
               fontWeight: 700,
-              fontSize: 17,
+              fontSize: 19,
               fontFamily: FONT,
               letterSpacing: 1,
               textTransform: 'uppercase',
               border: 'none',
               cursor: loading ? 'not-allowed' : 'pointer',
-              boxShadow: '0 8px 24px rgba(255,106,0,0.38)',
+              boxShadow: '0 10px 26px rgba(255,106,0,0.40)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 8,
+              gap: 10,
               transition: 'opacity 0.2s',
               opacity: loading ? 0.7 : 1,
             }}
@@ -355,7 +348,7 @@ const Login = () => {
             {loading ? 'Please wait...' : (
               <>
                 {isLogin ? 'Login' : 'Register Now'}
-                {!isLogin && <span style={{ fontSize: 18 }}>🚀</span>}
+                {!isLogin && <span style={{ fontSize: 20 }}>🚀</span>}
               </>
             )}
           </button>
@@ -366,12 +359,12 @@ const Login = () => {
             onClick={() => setIsLogin(!isLogin)}
             style={{
               width: '100%',
-              height: 52,
-              borderRadius: 28,
+              height: 58,
+              borderRadius: 24,
               background: 'transparent',
               border: `1.5px solid ${ORANGE}`,
               color: ORANGE,
-              fontSize: 15,
+              fontSize: 16,
               fontFamily: FONT,
               fontWeight: 500,
               cursor: 'pointer',
