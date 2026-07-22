@@ -189,10 +189,7 @@ function ProductCard({ product, label, isInvesting, onInvest, btnGrad, greenGrad
       {/* ── Body: image + income stats ── */}
       <div className="flex items-center px-4 pt-4 pb-2 gap-2">
         {/* Product image */}
-        <div
-          className="shrink-0 w-[120px] h-[120px] flex items-center justify-center"
-          style={{ filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.14))' }}
-        >
+        <div className="shrink-0 w-[120px] h-[120px] flex items-center justify-center">
           {product.image_url ? (
             <img
               src={product.image_url}

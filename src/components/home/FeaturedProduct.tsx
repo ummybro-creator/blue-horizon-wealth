@@ -107,10 +107,7 @@ export function FeaturedProduct() {
         {/* Body */}
         <div className="flex px-3 pt-3 pb-2 gap-2 items-center">
           {/* Image */}
-          <div
-            className="w-[42%] shrink-0 flex items-center justify-center"
-            style={{ filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.14))' }}
-          >
+          <div className="w-[42%] shrink-0 flex items-center justify-center">
             <img
               src="https://files.catbox.moe/9xmkkp.jpg"
               alt={product.name}

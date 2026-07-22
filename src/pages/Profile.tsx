@@ -1,27 +1,31 @@
 import {
   Building2, FileText, ChevronRight, ShoppingBag,
-  Download, MessageSquare, BarChart3, LogOut, Wallet, Send
+  Download, MessageSquare, BarChart3, LogOut, Wallet, Send, Gift
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+/* ── Exact spec values ── */
 const ORANGE      = '#FF6A00';
-const BTN_GRAD    = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
-const BTN_SHADOW  = '0 10px 24px rgba(255,106,0,0.38)';
-const CARD_STYLE  = {
-  background: 'rgba(255,255,255,0.85)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
-  border: '1px solid rgba(255,255,255,0.75)',
-} as const;
+const BTN_GRAD    = 'linear-gradient(135deg, #FF9A2E 0%, #FF6A00 100%)';
+const BTN_SHADOW  = '0 6px 14px rgba(255,106,0,0.4)';
+
+const CARD: React.CSSProperties = {
+  borderRadius: 28,
+  background: 'rgba(255,255,255,0.75)',
+  backdropFilter: 'blur(18px)',
+  WebkitBackdropFilter: 'blur(18px)',
+  border: '1px solid rgba(255,255,255,0.9)',
+  boxShadow: '0 20px 40px rgba(255,150,80,0.18)',
+};
 
 const menuItems = [
   { icon: Building2,     label: 'About Company',  path: '/about',       iconColor: '#FF6A00', iconBg: '#FFE3C5' },
   { icon: BarChart3,     label: 'Income Record',   path: '/earnings',    iconColor: '#3B82F6', iconBg: '#EAF4FF' },
   { icon: FileText,      label: 'Withdraw Record', path: '/records',     iconColor: '#F59E0B', iconBg: '#FFF6E5' },
   { icon: MessageSquare, label: 'Redeem Code',     path: '/extra-bonus', iconColor: '#A855F7', iconBg: '#F3E8FF' },
+  { icon: Gift,          label: 'Daily Check-In',  path: '/checkin',     iconColor: '#22C55E', iconBg: '#DCFCE7' },
   { icon: Download,      label: 'App Download',    path: '#',            iconColor: '#FF6A00', iconBg: '#FFE3C5' },
 ];
 
@@ -40,13 +44,27 @@ const Profile = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen pb-10" style={{ fontFamily: "'Poppins', sans-serif" }}>
+      <div
+        className="min-h-screen pb-10"
+        style={{
+          fontFamily: "'Poppins', sans-serif",
+          background: 'linear-gradient(180deg, #FFEDE3 0%, #FDF2EC 100%)',
+          position: 'relative',
+        }}
+      >
+        {/* Orange blob at top */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at top left, rgba(255,138,0,0.45), transparent 55%), radial-gradient(circle at top right, rgba(255,138,0,0.3), transparent 50%)',
+          }}
+        />
 
         {/* ── Header ── */}
-        <div className="clay-header px-4 pt-10 pb-6">
+        <div className="relative z-10 clay-header px-5 pt-12 pb-6">
           {/* Title row */}
           <div className="relative flex items-center justify-center mb-5">
-            <h1 className="text-xl font-extrabold text-white">Profile</h1>
+            <h1 className="text-xl font-extrabold text-white">Account</h1>
             <button
               onClick={() => navigate('/active-plans')}
               className="absolute right-0 w-10 h-10 rounded-2xl flex items-center justify-center transition-all active:scale-95"
@@ -56,11 +74,11 @@ const Profile = () => {
             </button>
           </div>
 
-          {/* Avatar + Name */}
+          {/* Avatar + Name row */}
           <div className="flex items-center gap-4 mb-5">
             <div
               className="w-[68px] h-[68px] rounded-full overflow-hidden shrink-0"
-              style={{ border: '3px solid rgba(255,255,255,0.5)', boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}
+              style={{ border: '3px solid rgba(255,255,255,0.55)', boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}
             >
               <img src={AVATAR_URL} alt="avatar" className="w-full h-full object-cover" />
             </div>
@@ -70,7 +88,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Balance Card (inside header) */}
+          {/* Balance card (inside header) */}
           <div
             className="rounded-[20px] px-5 py-4 flex items-center justify-between mb-4"
             style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 4px 14px rgba(0,0,0,0.08)' }}
@@ -120,13 +138,13 @@ const Profile = () => {
         </div>
 
         {/* ── Menu Items ── */}
-        <div className="px-4 mt-5 space-y-3">
+        <div className="relative z-10 px-5 mt-6 space-y-3">
           {menuItems.map((item) => (
             <button
               key={item.label}
               onClick={() => navigate(item.path)}
-              className="w-full flex items-center gap-4 px-4 py-4 rounded-[20px] text-left transition-all active:scale-[0.98]"
-              style={CARD_STYLE}
+              className="w-full flex items-center gap-4 px-5 py-4 text-left transition-all active:scale-[0.98]"
+              style={CARD}
             >
               <div
                 className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0"
@@ -137,17 +155,17 @@ const Profile = () => {
               <span className="flex-1 font-semibold text-sm" style={{ color: '#2B2B2B' }}>
                 {item.label}
               </span>
-              <ChevronRight className="w-5 h-5" style={{ color: '#8A8A8A' }} />
+              <ChevronRight className="w-5 h-5 shrink-0" style={{ color: '#C0C0C0' }} />
             </button>
           ))}
         </div>
 
         {/* ── Become a Promoter ── */}
-        <div className="px-4 mt-3">
+        <div className="relative z-10 px-5 mt-3">
           <button
             onClick={() => navigate('/become-promoter')}
-            className="w-full flex items-center gap-4 px-4 py-4 rounded-[20px] text-left transition-all active:scale-[0.98]"
-            style={CARD_STYLE}
+            className="w-full flex items-center gap-4 px-5 py-4 text-left transition-all active:scale-[0.98]"
+            style={CARD}
           >
             <div
               className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0"
@@ -163,12 +181,12 @@ const Profile = () => {
                 Partner with Veltrix &amp; earn more
               </p>
             </div>
-            <ChevronRight className="w-5 h-5 shrink-0" style={{ color: '#8A8A8A' }} />
+            <ChevronRight className="w-5 h-5 shrink-0" style={{ color: '#C0C0C0' }} />
           </button>
         </div>
 
         {/* ── Sign Out ── */}
-        <div className="px-4 mt-5 mb-4">
+        <div className="relative z-10 px-5 mt-6 mb-4">
           <button
             onClick={async () => { await signOut(); navigate('/login'); }}
             className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-base font-extrabold text-white transition-all active:scale-[0.98]"
