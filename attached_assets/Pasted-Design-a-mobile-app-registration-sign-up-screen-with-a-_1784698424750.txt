@@ -1,0 +1,32 @@
+Design a mobile app registration/sign-up screen with a warm, playful dessert-brand aesthetic. Screen size: mobile portrait (9:19.5 ratio).
+
+Background: Soft peach-to-cream gradient (#FDE8DC to #FFF6EE), full screen.
+
+Header:
+
+- Centered app icon: rounded-square (32px radius), approximately 140x140px, double-bordered — outer border bright orange (#FF7A1A), inner border purple (#8B5FBF), with soft drop shadow. Icon artwork: use this logo image — <https://files.catbox.moe/wax8r6.jpg>
+- App name below icon: “Havmor” in bold, rounded sans-serif font (like Baloo 2 or Fredoka), color bright orange (#FF6B00), large size (~40px), centered.
+- Small decorative divider under the name: a thin orange line with 3 small dots, centered, fading outward from the middle.
+
+Form card:
+
+- Large rounded-rectangle container (32px radius), off-white/cream (#FDF6F0), positioned below header, generous padding, subtle border.
+
+Input fields (4 total, stacked vertically with approximately 16px gap). Each field is a pill-shaped rounded rectangle (28px radius), white/cream fill, thin tan border (#E8D5C4), with a left-aligned icon and gray placeholder text (#B8A99A):
+
+1. Nickname field — circular orange person/profile icon on the left, placeholder text “Nickname”
+1. Phone Number field — retro orange telephone emoji/icon, followed by bold black “+91” country code, placeholder text “Phone Number”
+1. Password field — orange padlock icon on left, placeholder “Password”, plus an orange “eye-slash” (hide/show password) icon on the far right
+1. Referral code field — orange circular badge/coupon icon, placeholder “Enter refer code”
+
+Primary button:
+
+- Full-width pill/rounded-rectangle button (28px radius), solid orange gradient fill (#FF7A1A to #FF6B00), bold white uppercase text “REGISTER NOW” centered, with a small white rocket emoji/icon to the right of the text. Subtle drop shadow beneath it.
+
+Secondary button:
+
+- Full-width pill-shaped outline button below it, transparent/cream fill, thin orange border, centered text: “Have an account? “ in orange regular weight + “Login” in orange bold weight.
+
+Typography: Rounded, friendly sans-serif throughout (Baloo 2, Fredoka, or Poppins SemiBold). Placeholder text light gray, labels/buttons in orange (#FF6B00) or black for emphasis (like “+91”).
+
+Overall style: Playful, dessert/ice-cream-brand feel, soft shadows, warm peach/orange/purple palette, generous rounded corners everywhere (pill buttons, rounded inputs, rounded card), consistent icon style (flat orange line icons with circular backgrounds).
