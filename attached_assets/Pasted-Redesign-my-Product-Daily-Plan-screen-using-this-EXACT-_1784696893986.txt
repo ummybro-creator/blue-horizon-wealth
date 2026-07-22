@@ -1,0 +1,99 @@
+Redesign my Product/Daily Plan screen using this EXACT specification. Do not interpret or approximate — use the literal values below.
+
+## SCREEN BACKGROUND
+background: linear-gradient(180deg, #FFEDE3 0%, #FDF2EC 100%);
+Soft blurred orange glow bleeding from top corners:
+background: radial-gradient(circle at top left, rgba(255,138,0,0.55), transparent 60%);
+
+## TOP TAB SWITCHER (container)
+- width: 100%, padding: 6px
+- border-radius: 32px
+- background: rgba(255,255,255,0.55)
+- backdrop-filter: blur(24px)
+- border: 1px solid rgba(255,255,255,0.6)
+- box-shadow: 0 8px 24px rgba(255,138,0,0.15)
+
+Active tab (pill):
+- border-radius: 26px
+- padding: 14px 28px
+- background: linear-gradient(135deg, #FF9A2E 0%, #FF6A00 100%)
+- color: #FFFFFF, font-weight: 700, font-size: 16px
+- box-shadow: 0 6px 14px rgba(255,106,0,0.4)
+
+Inactive tab:
+- background: transparent
+- color: #8A8A8A, font-weight: 600, font-size: 16px
+
+## PRODUCT CARD (repeat exactly for every product)
+- border-radius: 28px
+- background: rgba(255,255,255,0.75)
+- backdrop-filter: blur(18px)
+- border: 1px solid rgba(255,255,255,0.9)
+- box-shadow: 0 20px 40px rgba(255,150,80,0.18)
+- padding: 24px
+- margin-bottom: 20px
+- position: relative
+
+Top-left badge (product name, e.g. "Product A"):
+- position: absolute, top: -14px, left: 16px
+- border-radius: 18px
+- padding: 10px 20px
+- background: linear-gradient(135deg, #FF9A2E, #FF6A00)
+- color: #FFFFFF, font-weight: 700, font-size: 15px
+- box-shadow: 0 6px 12px rgba(255,106,0,0.35)
+
+Top-right badge (Days, e.g. "Days: 2"):
+- position: absolute, top: -14px, right: -6px
+- border-radius: 16px 16px 0 16px
+- padding: 10px 18px
+- background: linear-gradient(135deg, #57C25C, #2E7D32)
+- color: #FFFFFF, font-weight: 700, font-size: 15px
+- box-shadow: 0 6px 12px rgba(46,125,50,0.3)
+
+Product image:
+- max-width: 40%
+- background: transparent (no box, no fill, no shadow behind the image)
+- filter: none (do NOT add drop-shadow to the image itself)
+- display as a plain cutout image floating on the card — no separate container, box, or shadow of its own
+- only the CARD carries background + blur + shadow, never the image
+
+Data row (Daily Income | Total Income):
+- display: flex, justify-content: space-around, align-items: center
+- divider: 1px solid #E0D5CD, height: 40px, between columns
+- number: font-size: 28px, font-weight: 800, color: #FF6A00
+- label: font-size: 13px, font-weight: 500, color: #9B9B9B, line-height: 1.2
+- margin: 20px 0
+
+Price line:
+- font-size: 22px, font-weight: 800, color: #2B2B2B
+- margin: 20px 0
+
+CTA button:
+- width: 100%, border-radius: 999px
+- padding: 16px
+- background: linear-gradient(135deg, #FF9A2E, #FF6A00)
+- color: #FFFFFF, font-weight: 700, font-size: 17px
+- box-shadow: 0 10px 20px rgba(255,106,0,0.35)
+- text: "Buy Now"
+
+## LAYOUT
+- Cards stack vertically, full width minus 16px horizontal page padding
+- Vertical gap between cards: 20px
+
+## BOTTOM NAV (exception — flat, no glass)
+- background: #FFFFFF solid
+- border-top: 1px solid #EFEFEF
+- box-shadow: 0 -2px 8px rgba(0,0,0,0.05)
+- icons: 24px, active = #FF6A00, inactive = #9B9B9B
+- label: 11px under icon
+- NO blur, NO transparency, NO gradient
+
+## TYPOGRAPHY
+font-family: 'Poppins', 'Nunito', sans-serif
+
+## RULES
+- Apply this exact card/badge/button structure consistently across every product listed on this screen
+- Every corner rounded except bottom nav
+- Do not flatten the glass cards into solid opaque cards
+- Do not add any shadow or background box behind the product image — only the card itself has background/shadow
+- Do not substitute your own color values, shadow values, spacing, or radius — use the exact numbers above

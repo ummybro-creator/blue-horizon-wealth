@@ -7,11 +7,67 @@ import { useCreateInvestment } from '@/hooks/useInvestments';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
-const ORANGE       = '#FF6A00';
-const BTN_GRAD     = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
-const GREEN_GRAD   = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
-const BTN_SHADOW   = '0 8px 20px rgba(255,106,0,0.38)';
-const GREEN_SHADOW = '0 4px 12px rgba(46,125,50,0.35)';
+/* ─── Exact spec tokens ─────────────────────────────────── */
+const FONT       = "'Poppins', 'Nunito', sans-serif";
+const BTN_GRAD   = 'linear-gradient(135deg, #FF9A2E 0%, #FF6A00 100%)';
+const GREEN_GRAD = 'linear-gradient(135deg, #57C25C, #2E7D32)';
+
+/* Tab container */
+const TAB_WRAP: React.CSSProperties = {
+  borderRadius: 32,
+  background: 'rgba(255,255,255,0.55)',
+  backdropFilter: 'blur(24px)',
+  WebkitBackdropFilter: 'blur(24px)',
+  border: '1px solid rgba(255,255,255,0.6)',
+  boxShadow: '0 8px 24px rgba(255,138,0,0.15)',
+  padding: 6,
+  display: 'flex',
+};
+
+/* Card */
+const CARD: React.CSSProperties = {
+  borderRadius: 28,
+  background: 'rgba(255,255,255,0.75)',
+  backdropFilter: 'blur(18px)',
+  WebkitBackdropFilter: 'blur(18px)',
+  border: '1px solid rgba(255,255,255,0.9)',
+  boxShadow: '0 20px 40px rgba(255,150,80,0.18)',
+  padding: 24,
+  paddingTop: 32,          /* extra headroom so content sits below the -14px badges */
+  position: 'relative',
+};
+
+/* Top-left name badge */
+const NAME_BADGE: React.CSSProperties = {
+  position: 'absolute',
+  top: -14,
+  left: 16,
+  borderRadius: 18,
+  padding: '10px 20px',
+  background: BTN_GRAD,
+  color: '#FFFFFF',
+  fontWeight: 700,
+  fontSize: 15,
+  boxShadow: '0 6px 12px rgba(255,106,0,0.35)',
+  fontFamily: FONT,
+  whiteSpace: 'nowrap',
+};
+
+/* Top-right days badge */
+const DAYS_BADGE: React.CSSProperties = {
+  position: 'absolute',
+  top: -14,
+  right: -6,
+  borderRadius: '16px 16px 0 16px',
+  padding: '10px 18px',
+  background: GREEN_GRAD,
+  color: '#FFFFFF',
+  fontWeight: 700,
+  fontSize: 15,
+  boxShadow: '0 6px 12px rgba(46,125,50,0.3)',
+  fontFamily: FONT,
+  whiteSpace: 'nowrap',
+};
 
 const Products = () => {
   const navigate = useNavigate();
@@ -20,7 +76,7 @@ const Products = () => {
 
   const { data: productsRaw, isLoading } = useProducts(activeTab);
 
-  // Pin ₹294 plan to top for daily tab
+  /* Pin ₹294 plan to top for daily tab */
   const products = productsRaw ? (() => {
     if (activeTab !== 'daily') return productsRaw;
     const pinned = productsRaw.find(p => Number(p.price) === 294);
@@ -58,38 +114,49 @@ const Products = () => {
 
   return (
     <AppLayout>
+      {/* ── Screen background + orange top glow ── */}
       <div
-        className="min-h-screen"
-        style={{ fontFamily: "'Poppins', sans-serif" }}
+        className="min-h-screen relative"
+        style={{ background: 'linear-gradient(180deg, #FFEDE3 0%, #FDF2EC 100%)', fontFamily: FONT }}
       >
+        {/* Orange blob: top-left + top-right */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(circle at top left, rgba(255,138,0,0.55), transparent 60%), ' +
+              'radial-gradient(circle at top right, rgba(255,138,0,0.38), transparent 55%)',
+          }}
+        />
+
         {/* ── Header ── */}
-        <div className="pt-12 pb-4 text-center px-5">
-          <h1
-            className="text-[24px] font-extrabold"
-            style={{ color: '#2B2B2B' }}
-          >
+        <div className="relative z-10 pt-12 pb-4 text-center px-5">
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: '#2B2B2B', fontFamily: FONT }}>
             Plan Store
           </h1>
         </div>
 
-        {/* ── Tab Bar ── */}
-        <div className="px-5 mb-6">
-          <div
-            className="tab-glass-container flex p-1.5"
-            style={{ padding: '6px' }}
-          >
+        {/* ── Tab Switcher ── */}
+        <div className="relative z-10 px-5 mb-8">
+          <div style={TAB_WRAP}>
             {(['daily', 'vip'] as const).map((tab) => {
-              const isActive = activeTab === tab;
+              const active = activeTab === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className="flex-1 py-3 rounded-full text-[15px] font-bold transition-all duration-250"
+                  className="flex-1 transition-all duration-200"
                   style={{
-                    background: isActive ? BTN_GRAD : 'transparent',
-                    color: isActive ? '#FFFFFF' : '#8A8A8A',
-                    boxShadow: isActive ? BTN_SHADOW : 'none',
-                    fontFamily: "'Poppins', sans-serif",
+                    borderRadius: 26,
+                    padding: '14px 28px',
+                    background: active ? BTN_GRAD : 'transparent',
+                    color: active ? '#FFFFFF' : '#8A8A8A',
+                    fontWeight: active ? 700 : 600,
+                    fontSize: 16,
+                    fontFamily: FONT,
+                    boxShadow: active ? '0 6px 14px rgba(255,106,0,0.4)' : 'none',
+                    border: 'none',
+                    cursor: 'pointer',
                   }}
                 >
                   {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
@@ -99,11 +166,11 @@ const Products = () => {
           </div>
         </div>
 
-        {/* ── Cards ── */}
-        <div className="px-4 pb-8 space-y-5">
+        {/* ── Product Cards ── */}
+        <div className="relative z-10 px-4 pb-10">
           {isLoading ? (
             <div className="flex justify-center py-16">
-              <Loader2 className="w-9 h-9 animate-spin" style={{ color: ORANGE }} />
+              <Loader2 className="w-9 h-9 animate-spin" style={{ color: '#FF6A00' }} />
             </div>
           ) : products && products.length > 0 ? (
             products.map((product) => {
@@ -116,19 +183,11 @@ const Products = () => {
                   label={label}
                   isInvesting={isInvesting}
                   onInvest={handleInvest}
-                  btnGrad={BTN_GRAD}
-                  greenGrad={GREEN_GRAD}
-                  btnShadow={BTN_SHADOW}
-                  greenShadow={GREEN_SHADOW}
-                  orange={ORANGE}
                 />
               );
             })
           ) : (
-            <div
-              className="text-center py-16 text-base font-medium"
-              style={{ color: '#8A8A8A' }}
-            >
+            <div style={{ textAlign: 'center', paddingTop: 64, color: '#8A8A8A', fontSize: 15, fontWeight: 500 }}>
               No products available
             </div>
           )}
@@ -138,148 +197,127 @@ const Products = () => {
   );
 };
 
-/* ── Product Card ── */
+/* ── Product Card ──────────────────────────────────────────── */
 interface CardProps {
   product: Product;
   label: string;
   isInvesting: boolean;
   onInvest: (p: Product) => void;
-  btnGrad: string;
-  greenGrad: string;
-  btnShadow: string;
-  greenShadow: string;
-  orange: string;
 }
 
-function ProductCard({ product, label, isInvesting, onInvest, btnGrad, greenGrad, btnShadow, greenShadow, orange }: CardProps) {
+function ProductCard({ product, label, isInvesting, onInvest }: CardProps) {
+  const FONT = "'Poppins', 'Nunito', sans-serif";
+
   return (
-    <div
-      className="relative rounded-[24px] overflow-visible"
-      style={{
-        background: 'rgba(255,255,255,0.85)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 8px 32px rgba(255,106,0,0.12), 0 2px 8px rgba(0,0,0,0.05)',
-        border: '1px solid rgba(255,255,255,0.75)',
-      }}
-    >
-      {/* ── Top badge row ── */}
-      <div className="flex items-start justify-between px-5 pt-5">
-        {/* Orange label badge */}
-        <div
-          className="px-4 py-2 rounded-full text-white font-bold text-[13px] leading-none"
-          style={{ background: btnGrad, boxShadow: '0 4px 12px rgba(255,106,0,0.32)', fontFamily: "'Poppins', sans-serif" }}
-        >
-          {label}
-        </div>
+    /* Outer wrapper: margin-top gives vertical room so the -14px badge is fully visible */
+    <div style={{ position: 'relative', marginTop: 24, marginBottom: 20 }}>
+      <div style={CARD}>
 
-        {/* Green "Days" badge — top-right, slightly overflows card edge */}
-        <div
-          className="px-4 py-2 rounded-full text-white font-bold text-[13px] leading-none"
-          style={{
-            background: greenGrad,
-            boxShadow: greenShadow,
-            fontFamily: "'Poppins', sans-serif",
-          }}
-        >
-          Days: {product.duration_days}
-        </div>
-      </div>
+        {/* ── Top-left badge: product name ── */}
+        <div style={NAME_BADGE}>{label}</div>
 
-      {/* ── Body: image + income stats ── */}
-      <div className="flex items-center px-4 pt-4 pb-2 gap-2">
-        {/* Product image */}
-        <div className="shrink-0 w-[120px] h-[120px] flex items-center justify-center">
-          {product.image_url ? (
-            <img
-              src={product.image_url}
-              alt={product.name}
-              className="w-full h-full object-contain"
-            />
-          ) : (
-            <div
-              className="w-full h-full rounded-2xl flex items-center justify-center"
-              style={{ background: '#FFE3C5' }}
-            >
-              <span className="text-xs font-bold text-center px-2" style={{ color: orange }}>
-                {product.name}
+        {/* ── Top-right badge: days ── */}
+        <div style={DAYS_BADGE}>Days: {product.duration_days}</div>
+
+        {/* ── Body: image (left) + income stats (right) ── */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 0 }}>
+          {/* Product image — plain cutout, no shadow, no container */}
+          <div style={{ width: '40%', flexShrink: 0 }}>
+            {product.image_url ? (
+              <img
+                src={product.image_url}
+                alt={product.name}
+                style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '1',
+                  borderRadius: 16,
+                  background: '#FFE3C5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#FF6A00', textAlign: 'center', padding: '0 6px' }}>
+                  {product.name}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Income columns */}
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', margin: '20px 0' }}>
+            {/* Daily Income */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: 28, fontWeight: 800, color: '#FF6A00', fontFamily: FONT, lineHeight: 1.1 }}>
+                ₹{product.daily_income.toLocaleString('en-IN')}
+              </span>
+              <span style={{ fontSize: 13, fontWeight: 500, color: '#9B9B9B', marginTop: 4, lineHeight: 1.2, textAlign: 'center', fontFamily: FONT }}>
+                Daily<br />Income
               </span>
             </div>
-          )}
-        </div>
 
-        {/* Income stats with vertical divider */}
-        <div className="flex-1 flex items-stretch">
-          {/* Daily Income */}
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <p
-              className="text-[22px] font-extrabold leading-tight"
-              style={{ color: orange, fontFamily: "'Poppins', sans-serif" }}
-            >
-              ₹{product.daily_income.toLocaleString('en-IN')}
-            </p>
-            <p
-              className="text-[11px] mt-1 font-medium text-center"
-              style={{ color: '#8A8A8A' }}
-            >
-              Daily<br />Income
-            </p>
-          </div>
+            {/* Vertical divider */}
+            <div style={{ width: 1, height: 40, background: '#E0D5CD', flexShrink: 0 }} />
 
-          {/* Thin vertical divider */}
-          <div
-            className="w-px self-stretch"
-            style={{ background: '#E5E7EB', margin: '4px 0' }}
-          />
-
-          {/* Total Income */}
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <p
-              className="text-[22px] font-extrabold leading-tight"
-              style={{ color: orange, fontFamily: "'Poppins', sans-serif" }}
-            >
-              ₹{product.total_income.toLocaleString('en-IN')}
-            </p>
-            <p
-              className="text-[11px] mt-1 font-medium text-center"
-              style={{ color: '#8A8A8A' }}
-            >
-              Total<br />Income
-            </p>
+            {/* Total Income */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: 28, fontWeight: 800, color: '#FF6A00', fontFamily: FONT, lineHeight: 1.1 }}>
+                ₹{product.total_income.toLocaleString('en-IN')}
+              </span>
+              <span style={{ fontSize: 13, fontWeight: 500, color: '#9B9B9B', marginTop: 4, lineHeight: 1.2, textAlign: 'center', fontFamily: FONT }}>
+                Total<br />Income
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ── Price ── */}
-      <div className="px-5 pb-3">
-        <p
-          className="text-[18px] font-extrabold text-center"
-          style={{ color: '#2B2B2B', fontFamily: "'Poppins', sans-serif" }}
-        >
+        {/* ── Price ── */}
+        <p style={{
+          fontSize: 22,
+          fontWeight: 800,
+          color: '#2B2B2B',
+          textAlign: 'center',
+          margin: '20px 0',
+          fontFamily: FONT,
+        }}>
           Price: ₹{product.price.toLocaleString('en-IN')}
         </p>
-      </div>
 
-      {/* ── Buy Now button ── */}
-      <div className="px-4 pb-5">
+        {/* ── Buy Now button ── */}
         <button
           onClick={() => onInvest(product)}
           disabled={isInvesting}
-          className="w-full text-white font-bold text-[17px] transition-all active:scale-[0.98] disabled:opacity-60"
           style={{
-            height: 54,
+            width: '100%',
             borderRadius: 999,
-            background: isInvesting ? '#9CA3AF' : btnGrad,
-            boxShadow: isInvesting ? 'none' : btnShadow,
-            fontFamily: "'Poppins', sans-serif",
+            padding: 16,
+            background: isInvesting ? '#9CA3AF' : 'linear-gradient(135deg, #FF9A2E, #FF6A00)',
+            color: '#FFFFFF',
+            fontWeight: 700,
+            fontSize: 17,
+            fontFamily: FONT,
+            boxShadow: isInvesting ? 'none' : '0 10px 20px rgba(255,106,0,0.35)',
+            border: 'none',
+            cursor: isInvesting ? 'not-allowed' : 'pointer',
+            opacity: isInvesting ? 0.7 : 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
           }}
         >
           {isInvesting ? (
-            <span className="inline-flex items-center gap-2">
-              <Loader2 className="w-5 h-5 animate-spin" /> Investing...
-            </span>
+            <>
+              <Loader2 style={{ width: 20, height: 20, animation: 'spin 1s linear infinite' }} />
+              Investing...
+            </>
           ) : 'Buy Now'}
         </button>
+
       </div>
     </div>
   );
