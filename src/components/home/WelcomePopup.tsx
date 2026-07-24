@@ -1,200 +1,209 @@
-import { useState } from 'react';
-import { X, Gift, Sparkles } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { X } from 'lucide-react';
 
 interface WelcomePopupProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const bonusTiers = [
-  { deposit: 100, bonus: 30 },
-  { deposit: 500, bonus: 175 },
-  { deposit: 1000, bonus: 350 },
-  { deposit: 5000, bonus: 2000 },
-  { deposit: 8000, bonus: 2300 },
-  { deposit: 10000, bonus: 2800 },
-];
-
-const ORANGE = '#FF6A1A';
-const ORANGE_DARK = '#F25A00';
-const GRAD = `linear-gradient(135deg, ${ORANGE} 0%, #FF8A3D 100%)`;
+const ORANGE      = '#F5821F';
+const ORANGE_DARK = '#E8600F';
+const FONT        = "'Poppins', sans-serif";
 
 export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
-  const navigate = useNavigate();
-  const [noReminder, setNoReminder] = useState(false);
-
   if (!isOpen) return null;
 
-  const handleDeposit = () => {
+  const handleClose = () => {
+    sessionStorage.setItem('hidePopupToday', 'true');
     onClose();
-    navigate('/recharge');
   };
 
-  const handleClose = () => {
-    if (noReminder) sessionStorage.setItem('hidePopupToday', 'true');
-    onClose();
+  const handleTelegram = () => {
+    window.open('https://t.me/+wakuiooJ5s9iOWJl', '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{
-        background: 'rgba(30,10,0,0.55)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        fontFamily: "'Poppins', 'Inter', sans-serif",
+        position: 'fixed',
+        inset: 0,
+        zIndex: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+        background: 'rgba(20,8,0,0.60)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+        fontFamily: FONT,
       }}
     >
       <div
-        className="w-full max-w-[300px] animate-scale-in overflow-hidden relative"
         style={{
-          borderRadius: 22,
-          background: '#fff',
-          boxShadow: '0 20px 50px rgba(242,90,0,0.30), 0 6px 20px rgba(0,0,0,0.12)',
+          width: '100%',
+          maxWidth: 340,
+          background: '#FFFFFF',
+          borderRadius: 24,
+          boxShadow: '0 24px 60px rgba(0,0,0,0.28), 0 8px 24px rgba(242,90,0,0.18)',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        {/* Header */}
-        <div
-          className="relative px-4 pt-4 pb-6 text-center overflow-hidden"
-          style={{ background: GRAD }}
+        {/* ── Close button ── */}
+        <button
+          onClick={handleClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute',
+            top: 14,
+            right: 14,
+            width: 30,
+            height: 30,
+            borderRadius: '50%',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+            padding: 0,
+          }}
         >
-          {/* soft decorative circles */}
-          <div
-            className="absolute -top-6 -left-6 w-24 h-24 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.12)' }}
-          />
-          <div
-            className="absolute -bottom-8 -right-5 w-28 h-28 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.08)' }}
-          />
-          <Sparkles
-            className="absolute top-3 left-4 w-3.5 h-3.5 text-white/60"
-          />
-          <Sparkles
-            className="absolute bottom-5 right-7 w-3 h-3 text-white/50"
-          />
+          <X size={22} color={ORANGE} strokeWidth={2.5} />
+        </button>
 
-          <button
-            onClick={handleClose}
-            className="absolute top-2.5 right-2.5 w-7 h-7 flex items-center justify-center rounded-full transition active:scale-90"
-            style={{ background: 'rgba(255,255,255,0.22)' }}
-            aria-label="Close"
-          >
-            <X className="w-3.5 h-3.5 text-white" />
-          </button>
+        {/* ── Content ── */}
+        <div style={{ padding: '28px 24px 24px' }}>
 
-          <div
-            className="mx-auto mb-2.5 w-12 h-12 rounded-xl flex items-center justify-center"
-            style={{
-              background: 'rgba(255,255,255,0.20)',
-              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.30)',
-            }}
-          >
-            <Gift className="w-6 h-6 text-white" />
-          </div>
-
-          <h2 className="text-white font-extrabold text-[16px] leading-tight tracking-tight">
-            First Deposit Bonus
+          {/* Title */}
+          <h2 style={{
+            textAlign: 'center',
+            fontSize: 17,
+            fontWeight: 800,
+            color: '#1A1A1A',
+            margin: '0 0 10px',
+            letterSpacing: 0.3,
+            fontFamily: FONT,
+            lineHeight: 1.3,
+          }}>
+            🚨 IMPORTANT NOTICE 🚨
           </h2>
-          <p className="text-white/80 text-[10px] mt-0.5 font-medium">
-            Claim once — bigger deposit, bigger reward
-          </p>
-        </div>
 
-        {/* Tiers card */}
-        <div
-          className="relative -mt-4 mx-2.5 rounded-xl bg-white"
-          style={{ boxShadow: '0 4px 16px rgba(242,90,0,0.10)' }}
-        >
-          <div className="px-3 py-1.5">
-            {bonusTiers.map((tier, index) => (
-              <div key={tier.deposit}>
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-extrabold"
-                      style={{ background: '#FFF3E6', color: ORANGE_DARK }}
-                    >
-                      {index + 1}
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-bold text-gray-800 leading-none">
-                        Deposit{' '}
-                        <span style={{ color: ORANGE_DARK }}>
-                          ₹{tier.deposit.toLocaleString('en-IN')}
-                        </span>
-                      </p>
-                      <p className="text-[9px] text-gray-400 mt-0.5">
-                        Get extra bonus reward
-                      </p>
-                    </div>
-                  </div>
+          {/* Orange divider */}
+          <div style={{
+            height: 2.5,
+            background: `linear-gradient(90deg, transparent, ${ORANGE}, transparent)`,
+            borderRadius: 2,
+            marginBottom: 18,
+          }} />
 
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className="text-[12px] font-extrabold"
-                      style={{ color: ORANGE_DARK }}
-                    >
-                      +₹{tier.bonus}
-                    </span>
-                    <button
-                      onClick={handleDeposit}
-                      className="px-2.5 py-1 rounded-full text-[9.5px] font-bold text-white transition active:scale-95"
-                      style={{
-                        background: GRAD,
-                        boxShadow: '0 3px 8px rgba(242,90,0,0.28)',
-                      }}
-                    >
-                      Claim
-                    </button>
-                  </div>
-                </div>
+          {/* Notice rows */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-                {index < bonusTiers.length - 1 && (
-                  <div className="border-b border-dashed border-orange-100" />
-                )}
-              </div>
-            ))}
+            <Row>
+              <span>🎉</span>
+              <span>
+                Welcome to{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>Havmor Official Platform</span>!
+              </span>
+            </Row>
+
+            <Row>
+              <span>🌟</span>
+              <span>
+                <strong>Launch Bonus:</strong> All new users will receive an instant{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>₹12 Check-in Reward</span>.
+              </span>
+            </Row>
+
+            <Row>
+              <span>📅</span>
+              <span>
+                Launch Date:{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>25th July 2026</span>
+              </span>
+            </Row>
+
+            <Row>
+              <span>🤩</span>
+              <span>
+                Every refer Each:{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>₹6</span>
+              </span>
+            </Row>
+
+            <Row>
+              <span>💰</span>
+              <span>
+                <strong>Minimum Recharge:</strong>{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>₹298</span>
+              </span>
+            </Row>
+
+            <Row>
+              <span>🏦</span>
+              <span>
+                <strong>Minimum Withdrawal:</strong>{' '}
+                <span style={{ color: ORANGE, fontWeight: 700 }}>180.00rs</span>
+              </span>
+            </Row>
+
+            <Row>
+              <span>🎯</span>
+              <span>
+                Start earning today and enjoy exclusive early access benefits!
+              </span>
+            </Row>
+
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="px-3.5 pt-2.5 pb-3 flex items-center justify-between">
-          <label
-            className="flex items-center gap-1.5 cursor-pointer select-none"
-            onClick={() => setNoReminder(!noReminder)}
-          >
-            <div
-              className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-all"
-              style={{
-                borderColor: noReminder ? ORANGE : '#D1D5DB',
-                background: noReminder ? ORANGE : 'transparent',
-              }}
-            >
-              {noReminder && (
-                <svg viewBox="0 0 12 12" className="w-2 h-2 text-white">
-                  <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </div>
-            <span className="text-[9.5px] text-gray-500 font-medium">
-              Don't show again today
-            </span>
-          </label>
-
+          {/* Join Telegram button */}
           <button
-            onClick={handleDeposit}
-            className="px-3 py-1.5 rounded-full text-[10.5px] font-extrabold text-white transition active:scale-95"
+            onClick={handleTelegram}
             style={{
-              background: GRAD,
-              boxShadow: '0 4px 10px rgba(242,90,0,0.30)',
+              marginTop: 22,
+              width: '100%',
+              height: 54,
+              borderRadius: 14,
+              border: 'none',
+              background: `linear-gradient(180deg, #FF9A2E 0%, ${ORANGE} 55%, ${ORANGE_DARK} 100%)`,
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 17,
+              fontFamily: FONT,
+              cursor: 'pointer',
+              boxShadow: `0 8px 22px rgba(245,130,30,0.50), 0 0 32px rgba(247,147,30,0.28)`,
+              transition: 'transform 0.1s',
+              letterSpacing: 0.2,
             }}
+            onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)'; }}
+            onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
+            onTouchStart={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)'; }}
+            onTouchEnd={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
           >
-            Deposit Now →
+            Join Telegram
           </button>
+
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ── Helper: single notice row ───────────────────────────────────────── */
+function Row({ children }: { children: [React.ReactNode, React.ReactNode] }) {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: 10,
+      fontSize: 14,
+      color: '#2B2B2B',
+      fontFamily: "'Poppins', sans-serif",
+      lineHeight: 1.5,
+    }}>
+      <span style={{ fontSize: 18, flexShrink: 0, lineHeight: 1.4 }}>{children[0]}</span>
+      <span style={{ flex: 1 }}>{children[1]}</span>
     </div>
   );
 }
