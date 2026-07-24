@@ -135,43 +135,17 @@ const AppIcon = () => (
       borderRadius: 31,
       background: 'linear-gradient(135deg, #B98BFA, #7B2FF7)',
     }}/>
-    {/* White inner pad */}
+    {/* Logo image */}
     <div style={{
       position: 'absolute', inset: 10,
       borderRadius: 24,
-      background: '#fff',
       overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     }}>
-      <svg width="92" height="92" viewBox="0 0 100 100" fill="none">
-        <defs>
-          <linearGradient id="swirl" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%"   stopColor="#E4C7FF"/>
-            <stop offset="55%"  stopColor="#C393FF"/>
-            <stop offset="100%" stopColor="#8A4FDB"/>
-          </linearGradient>
-          <linearGradient id="cupG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stopColor="#FFFFFF"/>
-            <stop offset="100%" stopColor="#F1E6DC"/>
-          </linearGradient>
-        </defs>
-        {/* cup */}
-        <path d="M30 62 L70 62 L64 90 Q50 95 36 90 Z" fill="url(#cupG)" stroke="#DDD0C2" strokeWidth="1"/>
-        {/* scoops */}
-        <circle cx="50" cy="54" r="17" fill="url(#swirl)"/>
-        <circle cx="38" cy="46" r="13" fill="url(#swirl)"/>
-        <circle cx="62" cy="46" r="13" fill="url(#swirl)"/>
-        <circle cx="50" cy="36" r="12" fill="url(#swirl)"/>
-        {/* drizzle */}
-        <path d="M40 40 Q50 47 60 40" stroke="#6B2FB3" strokeWidth="2.2" strokeLinecap="round" opacity="0.45"/>
-        {/* sprinkles */}
-        <circle cx="44" cy="33" r="1.8" fill="#FFD166"/>
-        <circle cx="57" cy="38" r="1.8" fill="#FF6B6B"/>
-        <circle cx="50" cy="27" r="1.8" fill="#4CD4B0"/>
-        <circle cx="62" cy="33" r="1.4" fill="#FFD166"/>
-      </svg>
+      <img
+        src="https://files.catbox.moe/dhn1d3.jpg"
+        alt="Havmor logo"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
     </div>
   </div>
 );
@@ -402,7 +376,6 @@ const Login = () => {
             {loading ? 'Please wait…' : (
               <>
                 {isLogin ? 'Login' : 'Register Now'}
-                {!isLogin && <span style={{ fontSize: 20 }}>🚀</span>}
               </>
             )}
           </button>
