@@ -1,0 +1,151 @@
+📐 Design System PRD — "Warm Glass" UI Kit
+1. Design Language Overview
+Style: Neumorphic-glassmorphism hybrid — soft frosted cards floating on a warm gradient backdrop, with glowing pill buttons and colored corner-ribbon tags.
+Mood: Energetic, trustworthy, mobile-commerce.
+Base shape language: Very large corner radii (24–32px), pill-shaped buttons (999px radius), soft drop shadows, no hard edges anywhere.
+2. Color Palette
+Primary (Orange — brand/CTA)
+--orange-500: #FF7A1A   /* base */
+--orange-600: #F5690A   /* gradient end / pressed */
+--orange-400: #FF9A4D   /* gradient start / highlight */
+--orange-glow: rgba(255, 122, 26, 0.45)  /* shadow/glow */
+Secondary (Green — status/tag accent)
+--green-500: #3FA84A
+--green-600: #2E8C3B
+--green-glow: rgba(63, 168, 74, 0.35)
+Neutrals
+--bg-cream: #FDEDE6      /* page background base */
+--card-white: #FFFFFF    /* card fill, ~85–95% opacity */
+--text-dark: #2B2B2B     /* headings, prices */
+--text-gray: #8A8A8A     /* secondary labels ("Daily", "Income") */
+--divider: #E5E0DC
+Gradients
+css
+/* Page background */
+background: radial-gradient(circle at top left, #FF9A4D 0%, #FDEDE6 40%);
+
+/* Primary button */
+background: linear-gradient(180deg, #FF9A4D 0%, #FF7A1A 60%, #F5690A 100%);
+
+/* Tab pill (active) */
+background: linear-gradient(180deg, #FFA85C 0%, #FF7A1A 100%);
+
+/* Corner ribbon (orange tag e.g. "Product A") */
+background: linear-gradient(135deg, #FF9A4D, #FF7A1A);
+
+/* Corner ribbon (green tag e.g. "Days: 2") */
+background: linear-gradient(135deg, #4FB85A, #2E8C3B);
+
+/* Card glass overlay */
+background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+3. Glassmorphism / Blur Spec
+css
+.glass-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 28px;
+}
+
+Used on: top tab container, product cards. Product cards sit on a slightly translucent white so the orange page-glow bleeds through at the edges.
+
+4. Shadow System
+css
+/* Card elevation */
+box-shadow: 0 12px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+
+/* Primary button (glow) */
+box-shadow: 0 8px 20px var(--orange-glow), inset 0 1px 2px rgba(255,255,255,0.4);
+
+/* Active tab pill */
+box-shadow: 0 6px 14px var(--orange-glow);
+
+/* Green tag ribbon */
+box-shadow: 0 4px 10px var(--green-glow);
+
+/* Inner card "pressed" edge (top highlight) */
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+5. Typography
+Font family: Poppins / Nunito Sans (rounded geometric sans), fallback -apple-system
+--fs-display: 28px / weight 700   /* prices, e.g. ₹40 */
+--fs-h2: 20px / weight 700        /* "Product A", tab labels */
+--fs-body: 16px / weight 400      /* "Daily", "Income" labels */
+--fs-price-tag: 22px / weight 700 /* "Price: ₹79" */
+--fs-button: 18px / weight 700    /* "Buy Now" */
+
+Currency symbol (₹, or $) always same weight as the number, colored --orange-500.
+6. Spacing & Layout Grid
+Page padding (horizontal):        20px
+Card padding (internal):          24px
+Gap between stacked cards:        20px
+Card corner radius:               28px
+Button height:                    56px
+Button corner radius:             999px (full pill)
+Tab bar height:                   64px
+Tab pill padding:                 14px vertical / 24px horizontal
+Ribbon tag: absolute positioned, top-left / top-right, 
+   offset -8px outside card edge, 12px 20px padding, radius 12px 12px 12px 0
+Icon/image container: 140px width, centered vertically in card, slight drop shadow under product image
+Divider between two stats (e.g. Daily | Total): 1px, --divider, 32px height, centered
+7. Component Specs
+7.1 Top Tab Switcher
+Container: glass pill, full width minus padding, height 64px, radius 28px
+Active tab: filled orange gradient pill, white bold text, inset within container with ~6px margin
+Inactive tab: transparent, gray text (--text-gray)
+7.2 Item Card
+Outer: white/glass card, radius 28px, shadow (card elevation)
+Corner ribbon top-left: category/name label, orange gradient
+Corner ribbon top-right: status tag, green gradient
+Body: image/thumbnail left-weighted or centered, stat row right-aligned or centered with divider
+Price line: bold dark text, currency in orange
+CTA: full-width pill button at card bottom, orange gradient + glow shadow, white bold label, 16px margin from price above
+7.3 Stat Pair (e.g. "Daily / Total")
+Two columns separated by 1px vertical divider
+Value: 24px bold orange
+Label below value: 14px --text-gray, centered
+7.4 Primary Button (Pill CTA)
+css
+.btn-primary {
+  height: 56px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #FF9A4D, #FF7A1A 60%, #F5690A);
+  box-shadow: 0 8px 20px rgba(255,122,26,0.45), inset 0 1px 2px rgba(255,255,255,0.4);
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+.btn-primary:active { transform: scale(0.98); filter: brightness(0.95); }
+8. Screen Templates (apply the kit above — swap in your real data/copy)
+Home / Listing Screen
+Top: tab switcher (2 category tabs)
+Below: vertical scroll list of glass item-cards using the Item Card spec
+Each card: name ribbon, status ribbon, image, two stat values, price, CTA button
+Product Detail Screen
+Large image at top on cream gradient background
+Glass info card below with title, full stat breakdown, description block, sticky CTA pill button pinned to bottom (same button spec, elevated with glow shadow)
+Profile / Account Screen
+Header: glass card with avatar circle, name, and a horizontal stat row (3 columns, same divider style as stat pair)
+List of glass rows below (order history, settings, support) — same 28px radius, lighter shadow, icon left + label + chevron right
+Logout as outline-orange pill button, not filled
+Cart / Checkout Screen
+Line items as compact glass cards (radius 20px, less padding)
+Sticky bottom bar: glass panel with total on left, CTA pill button on right
+9. Reusable CSS Variables Block
+css
+:root {
+  --orange-400: #FF9A4D;
+  --orange-500: #FF7A1A;
+  --orange-600: #F5690A;
+  --green-500: #3FA84A;
+  --green-600: #2E8C3B;
+  --bg-cream: #FDEDE6;
+  --card-white: #FFFFFF;
+  --text-dark: #2B2B2B;
+  --text-gray: #8A8A8A;
+  --divider: #E5E0DC;
+  --radius-card: 28px;
+  --radius-btn: 999px;
+  --shadow-card: 0 12px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-btn: 0 8px 20px rgba(255,122,26,0.45);
+}
