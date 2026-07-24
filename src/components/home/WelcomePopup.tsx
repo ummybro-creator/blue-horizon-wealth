@@ -13,7 +13,6 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
   if (!isOpen) return null;
 
   const handleClose = () => {
-    sessionStorage.setItem('hidePopupToday', 'true');
     onClose();
   };
 

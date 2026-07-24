@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Send } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { BannerSlider } from '@/components/home/BannerSlider';
@@ -8,8 +8,14 @@ import { FeaturedProduct } from '@/components/home/FeaturedProduct';
 import { WelcomePopup } from '@/components/home/WelcomePopup';
 
 const Index = () => {
-  const hideToday = sessionStorage.getItem('hidePopupToday') === 'true';
-  const [showPopup, setShowPopup] = useState(!hideToday);
+  const [showPopup, setShowPopup] = useState(true);
+
+  // Re-open popup whenever the home nav button is tapped (even if already on home)
+  useEffect(() => {
+    const handler = () => setShowPopup(true);
+    window.addEventListener('show-home-popup', handler);
+    return () => window.removeEventListener('show-home-popup', handler);
+  }, []);
 
   return (
     <AppLayout>

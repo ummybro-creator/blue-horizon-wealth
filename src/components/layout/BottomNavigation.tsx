@@ -26,7 +26,13 @@ export function BottomNavigation() {
           return (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                if (item.path === '/' && location.pathname === '/') {
+                  window.dispatchEvent(new CustomEvent('show-home-popup'));
+                } else {
+                  navigate(item.path);
+                }
+              }}
               className="relative flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200"
             >
               <item.icon
