@@ -122,23 +122,17 @@ const inputStyle: React.CSSProperties = {
 /* ── App icon with purple gradient ring ─────────────────────────────── */
 const AppIcon = () => (
   <div style={{ position: 'relative', width: 140, height: 140, marginBottom: 18 }}>
-    {/* Outer orange glow ring */}
+    {/* Purple gradient ring only */}
     <div style={{
       position: 'absolute', inset: 0,
       borderRadius: 36,
-      background: 'linear-gradient(135deg, #FF9A2E, #FF6B00)',
-      boxShadow: '0 12px 32px rgba(255,106,0,0.35)',
-    }}/>
-    {/* Purple gradient ring */}
-    <div style={{
-      position: 'absolute', inset: 5,
-      borderRadius: 31,
       background: 'linear-gradient(135deg, #B98BFA, #7B2FF7)',
+      boxShadow: '0 10px 28px rgba(123,47,247,0.30)',
     }}/>
     {/* Logo image */}
     <div style={{
-      position: 'absolute', inset: 10,
-      borderRadius: 24,
+      position: 'absolute', inset: 5,
+      borderRadius: 30,
       overflow: 'hidden',
     }}>
       <img
