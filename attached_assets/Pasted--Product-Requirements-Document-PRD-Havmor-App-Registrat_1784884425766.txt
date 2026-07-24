@@ -1,0 +1,211 @@
+# Product Requirements Document (PRD)
+## Havmor App — Registration / Sign-Up Screen
+
+**Document Type:** UI/UX Design Specification
+**Screen Name:** Registration Screen (Auth Flow)
+**Platform:** Mobile (iOS / Android)
+**Version:** 1.0
+
+---
+
+## 1. Overview
+
+This PRD documents the exact visual and functional specification of the **Havmor Registration screen**, a branded sign-up form used to onboard new users into the Havmor app (ice-cream/dessert brand). The screen follows a warm, playful, dessert-themed aesthetic using a peach background with purple and orange brand accents.
+
+---
+
+## 2. Screen Objective
+
+- Allow a new user to create an account using **Nickname, Phone Number, Password**, and an optional **Referral Code**.
+- Reinforce brand identity (Havmor logo/mascot, purple + orange palette) at the top of the screen.
+- Provide a clear path to switch to the Login screen for existing users.
+
+---
+
+## 3. Layout Structure (Top to Bottom)
+
+| # | Section | Description |
+|---|---------|-------------|
+| 1 | Status/Safe area | Standard device top padding |
+| 2 | Brand Icon (App Logo) | Rounded-square icon with soft-serve ice cream illustration, purple gradient frame |
+| 3 | Brand Name | "Havmor" wordmark in bold orange |
+| 4 | Decorative Divider | Dotted line ornament (line–dot–dot–dot–line) in orange |
+| 5 | Form Card | Large rounded-corner card/sheet containing all inputs and actions |
+| 6 | Input: Nickname | Text field with avatar/person icon |
+| 7 | Input: Phone Number | Text field with telephone icon + fixed "+91" country code prefix |
+| 8 | Input: Password | Text field with lock icon + right-aligned show/hide (eye) toggle |
+| 9 | Input: Referral Code | Text field with referral/gift icon (optional field) |
+| 10 | Primary CTA | "REGISTER NOW 🚀" solid orange gradient button |
+| 11 | Secondary CTA | "Have an account? **Login**" outlined button/link |
+| 12 | Bottom safe area | Standard device bottom padding |
+
+---
+
+## 4. Color Palette
+
+| Element | Color | Hex (approx.) |
+|---|---|---|
+| Screen background | Soft peach gradient | `#FCE8DC` → `#FDF2EA` |
+| Card/sheet background | Off-white / cream | `#FBF6F0` |
+| Brand wordmark "Havmor" | Vivid orange | `#F5821F` |
+| Logo frame gradient | Purple gradient | `#7B2FF7` → `#B98BFA` |
+| Primary button | Orange gradient | `#F7931E` → `#F5641E` |
+| Primary button text | White | `#FFFFFF` |
+| Input border | Light warm gray | `#E4D9CE` |
+| Input background | White | `#FFFFFF` |
+| Input placeholder text | Medium gray | `#A8A8A8` |
+| Icon badges (circular backgrounds) | Soft peach | `#FBDCC4` |
+| Icon glyphs | Orange/terracotta | `#E8752C` |
+| Secondary button border/text | Orange | `#F5821F` |
+| "Login" text (bold accent) | Deep orange | `#E8600F` |
+
+---
+
+## 5. Typography
+
+| Element | Font Weight | Approx. Size | Notes |
+|---|---|---|---|
+| "Havmor" wordmark | Extra Bold / Black | 36–40 sp | Rounded sans-serif, brand font |
+| Input placeholder text | Regular/Medium | 17–18 sp | Neutral rounded sans-serif |
+| "+91" country code | Bold | 18 sp | Black/dark gray, high contrast |
+| Primary button label | Bold/Black | 18–20 sp | Letter-spacing slightly increased, uppercase |
+| Secondary button label | Regular + Bold mix | 16 sp | "Have an account?" regular, "Login" bold orange |
+
+Recommended font family: a rounded, friendly sans-serif such as **Poppins**, **Baloo 2**, or **Nunito** to match the playful dessert branding.
+
+---
+
+## 6. Component Specifications
+
+### 6.1 Brand Icon
+- Shape: Rounded square (superellipse), corner radius ~28% of width
+- Size: ~160×160 dp, centered horizontally
+- Border: Double-ring purple gradient frame (outer ring lighter, inner ring saturated)
+- Content: Illustrated soft-serve ice cream cup with sprinkles, blueberries, vanilla flower garnish
+- Drop shadow: soft, diffused, purple-tinted, offset downward
+
+### 6.2 Divider Ornament
+- Style: horizontal line – 3 dots – horizontal line, centered under wordmark
+- Color: orange (`#F5821F`), ~40% opacity on the line strokes, full opacity dots
+- Spacing: 8dp between elements
+
+### 6.3 Form Card
+- Shape: Rounded rectangle, large corner radius (~32 dp) on all corners
+- Background: Off-white/cream, subtle shadow separating it from page background
+- Padding: ~24 dp internal padding on all sides
+- Vertical gap between fields: ~20 dp
+
+### 6.4 Input Fields (shared spec)
+- Height: ~64 dp
+- Corner radius: ~20 dp (pill-ish rounded rectangle)
+- Border: 1 dp solid, light warm-gray (`#E4D9CE`)
+- Background: White
+- Leading element: circular icon badge (~44 dp diameter, peach background, orange glyph), positioned ~16 dp from left edge
+- Text: placeholder in gray, left-aligned, ~16 dp gap from icon
+- Trailing element (Password field only): eye/eye-slash toggle icon, orange, right-aligned ~16 dp from right edge
+
+**Field-specific details:**
+1. **Nickname** — leading icon: person/avatar silhouette in circle
+2. **Phone Number** — leading icon: retro telephone handset; immediately followed by static, non-editable **"+91"** country code label in bold black, then placeholder "Phone Number"
+3. **Password** — leading icon: padlock; input is masked (dots) by default; trailing eye-slash icon toggles visibility; currently shown in "hidden" state
+4. **Enter refer code** — leading icon: referral/network icon (interlinked dotted circles); optional field, no asterisk
+
+### 6.5 Primary Button — "REGISTER NOW 🚀"
+- Full width within card padding
+- Height: ~60 dp
+- Corner radius: ~18 dp
+- Background: orange gradient, left-to-right or top-to-bottom (lighter → deeper orange)
+- Text: white, bold, uppercase, centered
+- Trailing rocket emoji/icon after text
+- Shadow: soft orange glow beneath button
+
+### 6.6 Secondary Button — "Have an account? Login"
+- Full width, same corner radius as primary (~18 dp)
+- Background: transparent / matches card background
+- Border: 1–1.5 dp solid orange
+- Text: two-tone — "Have an account? " in regular orange-brown, "Login" in bold deeper orange
+- Height: ~56 dp
+
+---
+
+## 7. Interaction & Functional Requirements
+
+| Field | Validation | Keyboard Type | Required |
+|---|---|---|---|
+| Nickname | 2–30 characters, alphanumeric + spaces | Default text | Yes |
+| Phone Number | 10-digit number, India (+91) format enforced | Numeric | Yes |
+| Password | Min 6–8 characters; masked by default; toggle to reveal | Default (secure) | Yes |
+| Refer Code | Alphanumeric, optional; validated against server if entered | Default text | No |
+
+- **REGISTER NOW** button:
+  - Disabled/dimmed state until Nickname, Phone Number, and Password are validly filled
+  - On tap: triggers OTP verification or account creation API call
+  - Shows loading spinner in place of text while request is in flight
+- **Login link**: navigates user to the Login screen, preserving any entered data where reasonable
+- **Eye icon** on Password: toggles between masked (`•••••`) and plain text display; icon swaps between "eye" and "eye-slash"
+- **Country code (+91)**: fixed/non-editable prefix; may be tappable to open country picker if international support is added later
+
+---
+
+## 8. States to Design
+
+1. Default (empty) — as shown in reference
+2. Focused input (border/shadow highlight in orange or purple)
+3. Filled input
+4. Error/validation state (red border + inline error text below field)
+5. Button disabled vs. enabled
+6. Button loading state
+7. Keyboard-open layout (card scrolls/compresses to keep CTA visible)
+
+---
+
+## 9. Accessibility Notes
+
+- Minimum tap target size: 44×44 dp for all icons/toggles
+- Color contrast: ensure placeholder gray meets at least AA contrast against white input background, or darken on focus
+- All icons should have accessible labels (e.g., "Toggle password visibility")
+- Support dynamic text scaling without breaking input field height
+
+---
+
+## 10. Assets Needed
+
+- Havmor app icon / mascot illustration (as provided)
+- Icon set: person/avatar, telephone, padlock, eye / eye-slash, referral/network
+- Rocket emoji or custom icon asset for button
+- Orange and purple gradient definitions for design tokens
+
+---
+
+## 11. Design Tokens Summary (for handoff)
+
+```
+color/background/screen: #FCE8DC → #FDF2EA (gradient)
+color/background/card: #FBF6F0
+color/brand/orange-primary: #F5821F
+color/brand/orange-deep: #E8600F
+color/brand/purple: #7B2FF7 → #B98BFA (gradient)
+color/input/border: #E4D9CE
+color/input/background: #FFFFFF
+color/input/placeholder: #A8A8A8
+color/icon/badge-bg: #FBDCC4
+color/icon/glyph: #E8752C
+
+radius/card: 32dp
+radius/input: 20dp
+radius/button: 18dp
+radius/icon-badge: 999dp (circle)
+
+spacing/field-gap: 20dp
+spacing/card-padding: 24dp
+height/input: 64dp
+height/button-primary: 60dp
+height/button-secondary: 56dp
+```
+
+---
+
+## 12. Out of Scope
+- Social login (Google/Apple/Facebook) — not present in this design
+- Terms & Conditions checkbox — not present in this design
+- Forgot password flow — not applicable to registration screen
