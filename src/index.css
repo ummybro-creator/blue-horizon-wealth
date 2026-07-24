@@ -16,69 +16,80 @@
 
 @layer base {
   :root {
-    --background: 20 100% 97%;
+    /* ── Surfaces (matches reference peach background) ── */
+    --background: 22 89% 93%;      /* #FDE8DC */
     --foreground: 0 0% 17%;
 
-    --card: 0 0% 100%;
+    --card: 28 76% 97%;            /* #FDF6F0 */
     --card-foreground: 0 0% 17%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 17%;
 
-    --primary: 24 100% 50%;        /* #FF6A00 */
+    /* ── Primary orange (reference button / wordmark) ── */
+    --primary: 25 100% 55%;        /* #FF7A1A */
+    --primary-dark: 25 100% 50%;   /* #FF6B00 */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 30 100% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 20 60% 95%;
+    --muted: 28 44% 95%;
     --muted-foreground: 0 0% 54%;  /* #8A8A8A */
 
     --accent: 45 100% 51%;
     --accent-foreground: 0 0% 17%;
 
+    /* ── Purple accent (reference app-icon inner ring) ── */
+    --purple: 268 50% 50%;         /* #7B3FBF */
+    --purple-light: 266 100% 74%;  /* #B57BFF */
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 123 39% 49%;        /* green for Days badge */
+    --success: 123 39% 49%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 20 60% 90%;
-    --input: 20 60% 92%;
-    --ring: 24 100% 50%;
+    --border: 28 44% 84%;          /* #E8D5C4 — pill field border */
+    --card-border: 25 51% 88%;     /* #F0DDD0 — auth card border */
+    --input: 28 44% 88%;
+    --ring: 25 100% 55%;
 
     --radius: 1.5rem;
+    --radius-pill: 28px;
 
-    /* Design tokens */
-    --gradient-primary: linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%);
-    --gradient-header: linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%);
-    --gradient-green: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    --gradient-bg: linear-gradient(180deg, #FFF4EE 0%, #FFEAE0 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 100%);
+    /* ── Design tokens ── */
+    --gradient-primary: linear-gradient(135deg, #FF7A1A 0%, #FF6B00 100%);
+    --gradient-header:  linear-gradient(135deg, #FF7A1A 0%, #FF6B00 100%);
+    --gradient-green:   linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+    --gradient-bg:      linear-gradient(180deg, #FDE8DC 0%, #FFF6EE 100%);
+    --gradient-purple:  linear-gradient(135deg, #B57BFF 0%, #7B3FBF 100%);
+    --gradient-glass:   linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 100%);
 
-    --shadow-clay: 0 12px 40px rgba(255,106,0,0.12), 0 2px 8px rgba(255,106,0,0.06);
-    --shadow-clay-sm: 0 6px 20px rgba(255,106,0,0.10);
-    --shadow-clay-lg: 0 24px 60px rgba(255,106,0,0.16), 0 4px 12px rgba(255,106,0,0.08);
-    --shadow-clay-button: 0 10px 24px rgba(255,106,0,0.38);
-    --shadow-card: 0 8px 32px rgba(255,106,0,0.10), 0 2px 8px rgba(0,0,0,0.04);
-    --shadow-elevated: var(--shadow-clay-lg);
-    --shadow-button: var(--shadow-clay-button);
-    --shadow-glass: 0 8px 32px rgba(255,106,0,0.10);
+    --shadow-clay:        0 12px 40px rgba(255,106,0,0.12), 0 2px 8px rgba(255,106,0,0.06);
+    --shadow-clay-sm:     0 6px 20px rgba(255,106,0,0.10);
+    --shadow-clay-lg:     0 24px 60px rgba(255,106,0,0.16), 0 4px 12px rgba(255,106,0,0.08);
+    --shadow-clay-button: 0 8px 24px rgba(255,106,0,0.38);
+    --shadow-card:        0 8px 32px rgba(255,120,40,0.10);
+    --shadow-icon:        0 8px 28px rgba(255,106,0,0.35);
+    --shadow-elevated:    var(--shadow-clay-lg);
+    --shadow-button:      var(--shadow-clay-button);
+    --shadow-glass:       0 8px 32px rgba(255,106,0,0.10);
 
-    --color-money: 24 100% 50%;
+    --color-money: 25 100% 55%;
     --color-charcoal: #2B2B2B;
 
-    --sidebar-background: 20 100% 97%;
+    --sidebar-background: 22 89% 93%;
     --sidebar-foreground: 0 0% 17%;
-    --sidebar-primary: 24 100% 50%;
+    --sidebar-primary: 25 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 20 100% 95%;
+    --sidebar-accent: 22 100% 95%;
     --sidebar-accent-foreground: 0 0% 17%;
-    --sidebar-border: 20 60% 90%;
-    --sidebar-ring: 24 100% 50%;
+    --sidebar-border: 28 44% 84%;
+    --sidebar-ring: 25 100% 55%;
   }
 
   .dark {
@@ -88,7 +99,7 @@
     --card-foreground: 30 20% 95%;
     --popover: 20 25% 12%;
     --popover-foreground: 30 20% 95%;
-    --primary: 24 100% 55%;
+    --primary: 25 100% 55%;
     --primary-foreground: 0 0% 100%;
     --secondary: 30 100% 60%;
     --secondary-foreground: 0 0% 100%;
@@ -100,7 +111,7 @@
     --destructive-foreground: 0 0% 95%;
     --border: 20 25% 20%;
     --input: 20 25% 20%;
-    --ring: 24 100% 55%;
+    --ring: 25 100% 55%;
   }
 }
 
@@ -113,8 +124,9 @@
   .gradient-primary { background: var(--gradient-primary); }
   .gradient-header  { background: var(--gradient-header); }
   .gradient-green   { background: var(--gradient-green); }
+  .gradient-purple  { background: var(--gradient-purple); }
 
-  /* ── Glass Cards ── */
+  /* ── Glass Cards (existing app system — unchanged) ── */
   .clay-card {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(20px) saturate(160%);
@@ -153,7 +165,7 @@
 
   /* ── Buttons ── */
   .clay-button {
-    background: linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%);
+    background: var(--gradient-primary);
     border-radius: 999px;
     box-shadow: var(--shadow-clay-button);
     color: #fff;
@@ -169,7 +181,7 @@
 
   /* ── Header ── */
   .clay-header {
-    background: linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%);
+    background: var(--gradient-primary);
     border-radius: 0 0 30px 30px;
     box-shadow: 0 8px 24px rgba(255,106,0,0.28);
     position: relative;
@@ -201,7 +213,7 @@
     box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.05);
   }
 
-  /* ── Inputs ── */
+  /* ── Inputs (existing glass style — unchanged) ── */
   .clay-input {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
@@ -234,14 +246,14 @@
 
   /* ── Page background — soft peach/blush gradient ── */
   .app-bg {
-    background: linear-gradient(180deg, #FFF4EE 0%, #FFEAE0 100%);
+    background: var(--gradient-bg);
     min-height: 100vh;
     position: relative;
   }
 
   /* Admin pages */
   .admin-bg {
-    background: linear-gradient(180deg, #FFF4EE 0%, #FFEAE0 100%);
+    background: var(--gradient-bg);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -269,6 +281,141 @@
   @keyframes liquidShimmer {
     0%   { background-position: -200% 0; }
     100% { background-position:  200% 0; }
+  }
+
+  /* ============================================================
+     AUTH SCREEN — solid (non-glass) components matching the
+     Havmor reference 1:1: peach bg, cream card, pill fields,
+     double-border app icon, dot divider.
+     ============================================================ */
+
+  .auth-bg {
+    background: var(--gradient-bg);
+    min-height: 100vh;
+  }
+
+  .auth-card {
+    background: hsl(var(--card));
+    border-radius: 32px;
+    padding: 28px 20px 24px;
+    border: 1.5px solid hsl(var(--card-border));
+    box-shadow: var(--shadow-card);
+  }
+
+  .auth-title {
+    font-size: 38px;
+    font-weight: 800;
+    color: #FF6B00;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .pill-field {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    border-radius: var(--radius-pill);
+    background: #FFFFFF;
+    border: 1.5px solid hsl(var(--border));
+    padding: 0 16px 0 18px;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .pill-field input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    color: #3A2D26;
+    width: 100%;
+  }
+
+  .pill-field input::placeholder {
+    color: #B9A99C;
+  }
+
+  .pill-field__prefix {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 10px;
+    border-right: 1.5px solid hsl(var(--border));
+    margin-right: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2B2B2B;
+  }
+
+  .btn-outline-primary {
+    width: 100%;
+    height: 52px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    border: 1.5px solid #FF7A1A;
+    color: #FF7A1A;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+  }
+
+  .dot-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .dot-divider__line {
+    width: 24px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: linear-gradient(to right, #FF7A1A, transparent);
+  }
+
+  .dot-divider__line--left {
+    background: linear-gradient(to left, #FF7A1A, transparent);
+  }
+
+  .dot-divider__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #FF7A1A;
+  }
+
+  .app-icon-badge {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .app-icon-badge__outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #FF9A2E, #FF6B00);
+    box-shadow: var(--shadow-icon);
+  }
+
+  .app-icon-badge__inner {
+    position: absolute;
+    inset: 4px;
+    border-radius: 24px;
+    background: var(--gradient-purple);
+  }
+
+  .app-icon-badge__art {
+    position: absolute;
+    inset: 7px;
+    border-radius: 20px;
+    background: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
