@@ -142,7 +142,7 @@ const AppIcon = () => (
       overflow: 'hidden',
     }}>
       <img
-        src="https://files.catbox.moe/dhn1d3.jpg"
+        src="/havmor-logo.png"
         alt="Havmor logo"
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
