@@ -1,6 +1,6 @@
 import {
   Building2, FileText, ChevronRight, ShoppingBag,
-  Download, MessageSquare, BarChart3, LogOut, Wallet, Send, Gift
+  Download, MessageSquare, BarChart3, LogOut, Wallet, Send, Gift, Headphones
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,12 +22,13 @@ const CARD: React.CSSProperties = {
 };
 
 const menuItems = [
-  { icon: Building2,     label: 'About Company',  path: '/about',       iconColor: '#FF6A00', iconBg: '#FFE3C5' },
-  { icon: BarChart3,     label: 'Income Record',   path: '/earnings',    iconColor: '#3B82F6', iconBg: '#EAF4FF' },
-  { icon: FileText,      label: 'Withdraw Record', path: '/records',     iconColor: '#F59E0B', iconBg: '#FFF6E5' },
-  { icon: MessageSquare, label: 'Redeem Code',     path: '/extra-bonus', iconColor: '#A855F7', iconBg: '#F3E8FF' },
-  { icon: Gift,          label: 'Daily Check-In',  path: '/checkin',     iconColor: '#22C55E', iconBg: '#DCFCE7' },
-  { icon: Download,      label: 'App Download',    path: '#',            iconColor: '#FF6A00', iconBg: '#FFE3C5' },
+  { icon: Building2,     label: 'About Company',      path: '/about',       iconColor: '#FF6A00', iconBg: '#FFE3C5' },
+  { icon: BarChart3,     label: 'Income Record',       path: '/earnings',    iconColor: '#3B82F6', iconBg: '#EAF4FF' },
+  { icon: FileText,      label: 'Withdraw Record',     path: '/records',     iconColor: '#F59E0B', iconBg: '#FFF6E5' },
+  { icon: MessageSquare, label: 'Redeem Code',         path: '/extra-bonus', iconColor: '#A855F7', iconBg: '#F3E8FF' },
+  { icon: Gift,          label: 'Daily Check-In',      path: '/checkin',     iconColor: '#22C55E', iconBg: '#DCFCE7' },
+  { icon: Headphones,    label: 'Customer Support',    path: '/support',     iconColor: '#0EA5E9', iconBg: '#E0F2FE' },
+  { icon: Download,      label: 'App Download',        path: '#',            iconColor: '#FF6A00', iconBg: '#FFE3C5' },
 ];
 
 const AVATAR_URL = 'https://files.catbox.moe/imjd3p.jpg';
