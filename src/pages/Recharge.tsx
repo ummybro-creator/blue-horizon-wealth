@@ -38,7 +38,7 @@ const Recharge = () => {
         <div className="clay-header pt-12 pb-8 px-4">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/')}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95"
               style={{ background: 'rgba(255,255,255,0.18)' }}
             >
