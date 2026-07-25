@@ -14,12 +14,7 @@ interface LazyImageProps {
   wrapperStyle?: React.CSSProperties;
 }
 
-const shimmer = (
-  <div
-    className="w-full h-full animate-pulse rounded-inherit"
-    style={{ background: 'linear-gradient(90deg, #f0ece8 25%, #e8e4e0 50%, #f0ece8 75%)', backgroundSize: '200% 100%' }}
-  />
-);
+const shimmer = <div className="w-full h-full" />;
 
 const defaultFallback = (
   <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-inherit">
