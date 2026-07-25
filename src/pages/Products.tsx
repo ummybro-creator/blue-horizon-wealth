@@ -6,6 +6,7 @@ import { useProducts, Product } from '@/hooks/useProducts';
 import { useCreateInvestment } from '@/hooks/useInvestments';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 const ORANGE       = '#FF6A00';
 const BTN_GRAD     = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
@@ -191,17 +192,28 @@ function ProductCard({ product, label, isInvesting, onInvest, btnGrad, greenGrad
         {/* Product image */}
         <div className="shrink-0 w-[120px] h-[120px] flex items-center justify-center">
           {product.image_url ? (
-            <img
+            <LazyImage
               src={product.image_url}
               alt={product.name}
               className="w-full h-full object-contain"
+              wrapperClassName="w-full h-full"
+              fallback={
+                <div
+                  className="w-full h-full rounded-2xl flex items-center justify-center"
+                  style={{ background: '#FFE3C5' }}
+                >
+                  <span className="text-xs font-bold text-center px-2" style={{ color: ORANGE }}>
+                    {product.name}
+                  </span>
+                </div>
+              }
             />
           ) : (
             <div
               className="w-full h-full rounded-2xl flex items-center justify-center"
               style={{ background: '#FFE3C5' }}
             >
-              <span className="text-xs font-bold text-center px-2" style={{ color: orange }}>
+              <span className="text-xs font-bold text-center px-2" style={{ color: ORANGE }}>
                 {product.name}
               </span>
             </div>

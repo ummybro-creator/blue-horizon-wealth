@@ -1,0 +1,72 @@
+Here's a detailed, developer-ready prompt based on your requirements:
+
+Project Fix Request: Image Loading Performance & Recharge Screen Navigation Bug
+1. Optimize Image Loading Speed (Image URLs, Not Direct Uploads)
+
+Current Issue: Images are loading very slowly across the app. Images are being loaded via external URLs/links (not uploaded directly to the server), which is likely causing performance bottlenecks.
+
+Requirements:
+
+Implement lazy loading for all images so only visible (in-viewport) images load initially, and off-screen images load as the user scrolls.
+Add image caching (both memory cache and disk cache) so previously loaded images don't need to be fetched again from the URL every time.
+Show a placeholder/skeleton loader or blurred low-res thumbnail while the full image loads, instead of a blank space, to improve perceived performance.
+Implement progressive image loading (low-quality image first, then high-quality) if supported by the image source.
+Resize/compress images on the fly if the source allows (e.g., using image CDN query parameters to request a smaller resolution matching the display size, instead of loading full-size images unnecessarily).
+Add error handling with retry logic and a fallback placeholder image if the URL fails to load or times out.
+Set a reasonable timeout for image requests so the UI doesn't hang indefinitely on slow links.
+If using Flutter: use cached_network_image package. If using React Native: use react-native-fast-image or similar optimized library. If using native Android/iOS: use Glide/Coil (Android) or SDWebImage/Kingfisher (iOS).
+Ensure images are loaded asynchronously and never block the main UI thread.
+
+Goal: Significantly reduce image load time and improve smoothness of scrolling/browsing screens that display multiple images.
+
+2. Fix Back Button Not Working on Recharge Payment/QR Code Screen
+
+Current Issue: On the recharge screen where the payment QR code is displayed for the user to scan and pay, when the user tries to press the back button (device back button or in-app back arrow) to exit/cancel that screen, it does not respond — the screen gets stuck and doesn't navigate back.
+
+Requirements:
+
+Identify why the back navigation is being blocked on the QR code/payment screen — check for:
+Any WillPopScope / PopScope (Flutter) or BackHandler (React Native) that might be intercepting and not properly handling the back action.
+Any ongoing API call, WebSocket connection, or payment status polling that might be preventing navigation.
+Any modal, dialog, or overlay still active on top of the screen blocking touch/back events.
+Any infinite loading state or stuck UI thread caused by payment status checking logic.
+Ensure that pressing back:
+Properly cancels/exits the payment QR screen and navigates the user to the previous screen (recharge selection or home).
+If a payment is in progress, optionally show a confirmation dialog ("Are you sure you want to cancel this payment?") before navigating back — but this dialog itself must work correctly and not get stuck.
+Cleans up any active listeners, timers, or polling intervals for payment status when the user leaves the screen (to avoid memory leaks or stuck states).
+Test back navigation using:
+Device hardware/gesture back button (Android)
+In-app back arrow/icon (if present in the UI)
+Swipe-back gesture (iOS)
+Make sure this fix does not break the automatic navigation that should happen when payment is successfully completed (i.e., don't just disable back handling entirely — handle it properly).
+
+Goal: User should always be able to exit the QR/payment screen smoothly using back navigation, without the app freezing or becoming unresponsive.
+
+3. General Bug Hunt & Fix (Self-Audit)
+
+Requirement:
+
+Perform a thorough manual and automated review of the entire application/codebase to identify any additional bugs, crashes, broken UI elements, unhandled exceptions, console/log errors, or unexpected behavior — beyond the two issues mentioned above.
+Check especially for:
+Console errors/warnings in logs (Android Logcat / Xcode console / browser dev tools, depending on platform).
+Broken navigation flows (screens that don't go back/forward correctly, similar to issue #2).
+Memory leaks (unclosed listeners, timers, streams).
+API calls that fail silently without proper error handling or user feedback.
+UI overflow, layout breaking on different screen sizes.
+Null/undefined reference errors.
+Document each bug found with:
+Screen/module name
+Steps to reproduce
+Root cause
+Fix applied
+Fix all identified issues and verify they don't introduce new regressions elsewhere in the app.
+
+Goal: Deliver a more stable, bug-free version of the app beyond just the two specifically reported issues.
+
+Deliverables Expected:
+
+Faster image loading with caching and lazy loading implemented.
+Fully working back navigation on the recharge/QR payment screen.
+A summary report of any additional bugs found and fixed during the audit.
+
+Want me to tailor this further for a specific tech stack (Flutter, React Native, Android native, iOS native, or web)? That'll let me make the instructions more precise with exact library/code-level suggestions.

@@ -6,6 +6,7 @@ import { useCreateInvestment } from '@/hooks/useInvestments';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 const ORANGE      = '#FF6A00';
 const BTN_GRAD    = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
@@ -108,10 +109,12 @@ export function FeaturedProduct() {
         <div className="flex px-3 pt-3 pb-2 gap-2 items-center">
           {/* Image */}
           <div className="w-[42%] shrink-0 flex items-center justify-center">
-            <img
+            <LazyImage
               src="https://files.catbox.moe/9xmkkp.jpg"
               alt={product.name}
               className="w-full h-auto object-contain"
+              wrapperClassName="w-full"
+              wrapperStyle={{ aspectRatio: '1 / 1' }}
             />
           </div>
 

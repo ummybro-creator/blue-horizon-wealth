@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { ArrowLeft, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,33 +22,47 @@ const Payment = () => {
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const [rechargeId, setRechargeId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCreatingRecharge, setIsCreatingRecharge] = useState(false);
 
+  // Ref guards prevent duplicate recharge creation on StrictMode double-invoke or remounts
+  const creatingRef = useRef(false);
+  const rechargeIdRef = useRef<string | null>(null);
+
+  // Create recharge record once on mount
   useEffect(() => {
-    const run = async () => {
-      if (!amount || amount === '0' || isCreatingRecharge || rechargeId) return;
-      setIsCreatingRecharge(true);
-      try {
-        const result = await createRecharge.mutateAsync({ amount: parseInt(amount) });
+    if (!amount || amount === '0') return;
+    if (creatingRef.current || rechargeIdRef.current) return;
+    creatingRef.current = true;
+
+    createRecharge
+      .mutateAsync({ amount: parseInt(amount) })
+      .then((result) => {
+        rechargeIdRef.current = result.id;
         setRechargeId(result.id);
-      } catch {
+      })
+      .catch(() => {
         toast.error('Failed to create recharge request');
         navigate('/recharge');
-      }
-    };
-    run();
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount]);
+  }, []);
 
+  // Single interval for the countdown — does NOT depend on timeLeft so it's created once
   useEffect(() => {
-    if (timeLeft <= 0) {
-      toast.error('Session expired. Please try again.');
-      navigate('/recharge');
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft((p) => p - 1), 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          toast.error('Session expired. Please try again.');
+          navigate('/recharge');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    // Clean up on unmount (e.g. user navigates back) — prevents memory leak / stuck state
     return () => clearInterval(timer);
-  }, [timeLeft, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);

@@ -5,6 +5,7 @@ import {
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 /* ── Exact spec values ── */
 const ORANGE      = '#FF6A00';
@@ -80,7 +81,7 @@ const Profile = () => {
               className="w-[68px] h-[68px] rounded-full overflow-hidden shrink-0"
               style={{ border: '3px solid rgba(255,255,255,0.55)', boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}
             >
-              <img src={AVATAR_URL} alt="avatar" className="w-full h-full object-cover" />
+              <LazyImage src={AVATAR_URL} alt="avatar" className="w-full h-full object-cover" wrapperClassName="w-full h-full" />
             </div>
             <div>
               <p className="text-[17px] font-extrabold leading-tight text-white">{userName}</p>

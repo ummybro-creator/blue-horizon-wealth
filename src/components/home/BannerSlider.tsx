@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 const banners = [
   { id: 1, image: 'https://files.catbox.moe/7rm8nz.jpg' },
@@ -27,10 +28,11 @@ export function BannerSlider() {
       >
         {banners.map((banner) => (
           <div key={banner.id} className="min-w-full h-52">
-            <img
+            <LazyImage
               src={banner.image}
               alt={`Banner ${banner.id}`}
               className="w-full h-full object-cover"
+              wrapperClassName="w-full h-full"
             />
           </div>
         ))}
