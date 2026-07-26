@@ -130,7 +130,7 @@ const Recharge = () => {
                 { icon: <ScanLine className="w-3.5 h-3.5 text-white" />, text: 'Tap "Recharge Now" — a UPI QR code will be generated for you.' },
                 { icon: <ScanLine className="w-3.5 h-3.5 text-white" />, text: 'Scan the QR with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment.' },
                 { icon: <Copy className="w-3.5 h-3.5 text-white" />, text: 'After payment, copy your UTR / Reference number from your UPI app and paste it on the next screen.' },
-                { icon: <Clock className="w-3.5 h-3.5 text-white" />, text: 'Your wallet will be credited within 5–10 minutes after verification. Do not pay multiple times for the same order.' },
+                { icon: <Clock className="w-3.5 h-3.5 text-white" />, text: 'Funds will be credited automatically after successful payment.' },
               ].map(({ icon, text }, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <span

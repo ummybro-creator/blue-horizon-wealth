@@ -75,7 +75,7 @@ export function FeaturedProduct() {
         className="text-sm font-bold mb-3 px-1"
         style={{ color: '#2B2B2B' }}
       >
-        ⭐ Featured Product
+        Featured Product
       </h3>
 
       {/* Card */}
