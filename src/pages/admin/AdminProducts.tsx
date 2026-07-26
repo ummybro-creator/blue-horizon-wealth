@@ -14,7 +14,7 @@ interface Product {
   is_special_offer: boolean; description: string | null;
 }
 
-const defaultTags = ['🔥 Hot Selling', '⭐ Most Buying', '💎 Best Value', '🚀 Trending', '👑 Premium', '🎯 Popular'];
+const defaultTags = ['Hot Selling', 'Most Buying', 'Best Value', 'Trending', 'Premium', 'Popular'];
 
 const AdminProducts = () => {
   const [showForm, setShowForm] = useState(false);
@@ -29,7 +29,7 @@ const AdminProducts = () => {
 
   const saveMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      const tag = data.tag || (data.is_special_offer ? '🔥 Hot Selling' : '');
+      const tag = data.tag || (data.is_special_offer ? 'Hot Selling' : '');
       const productData = {
         name: data.name, price: parseFloat(data.price), daily_income: parseFloat(data.daily_income),
         total_income: parseFloat(data.total_income), duration_days: parseInt(data.duration_days),
@@ -118,7 +118,7 @@ const AdminProducts = () => {
               </div>
               <div>
                 <label className="text-sm text-muted-foreground mb-1 block">Custom Tag (override)</label>
-                <Input value={formData.tag} onChange={(e) => setFormData({ ...formData, tag: e.target.value })} className="rounded-2xl clay-inset border-none" placeholder="e.g., 🏆 Best Seller" />
+                <Input value={formData.tag} onChange={(e) => setFormData({ ...formData, tag: e.target.value })} className="rounded-2xl clay-inset border-none" placeholder="e.g., Best Seller" />
               </div>
               <div><label className="text-sm text-muted-foreground mb-1 block">Image URL</label><Input value={formData.image_url} onChange={(e) => setFormData({ ...formData, image_url: e.target.value })} className="rounded-2xl clay-inset border-none" /></div>
               <div className="flex items-center gap-2"><Switch checked={formData.is_special_offer} onCheckedChange={(checked) => setFormData({ ...formData, is_special_offer: checked })} /><label className="text-sm text-muted-foreground">Special Offer Badge</label></div>

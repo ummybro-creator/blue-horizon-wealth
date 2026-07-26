@@ -1,6 +1,6 @@
 import {
   Building2, FileText, ChevronRight, ShoppingBag,
-  Download, MessageSquare, BarChart3, LogOut, Wallet, Send, Gift, Headphones
+  Download, MessageSquare, BarChart3, LogOut, Wallet, Send, Gift, Headphones, Zap
 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -107,7 +107,7 @@ const Profile = () => {
               className="flex items-center gap-1.5 px-5 py-3 rounded-full text-sm font-extrabold text-white transition-all active:scale-95"
               style={{ background: BTN_GRAD, boxShadow: BTN_SHADOW }}
             >
-              ⚡ Recharge
+              <Zap className="w-4 h-4" /> Recharge
             </button>
           </div>
 

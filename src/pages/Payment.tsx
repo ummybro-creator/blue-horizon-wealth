@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { ArrowLeft, Clock } from 'lucide-react';
+import { ArrowLeft, Clock, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -178,7 +178,7 @@ const Payment = () => {
 
         {/* Warning */}
         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-3 flex items-center gap-2">
-          <span className="text-amber-600 dark:text-amber-400">⚠️</span>
+          <AlertTriangle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
           <p className="text-sm text-amber-700 dark:text-amber-300">
             Payment can only be made once. Multiple payments are not valid!!!
           </p>

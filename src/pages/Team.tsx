@@ -32,7 +32,7 @@ const Team = () => {
   };
 
   const handleShare = async () => {
-    const shareText = `🎉 Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`;
+    const shareText = `Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`;
     if (navigator.share) {
       try { await navigator.share({ title: 'Join & Start Earning!', text: shareText, url: referralLink }); }
       catch { handleCopy(referralLink, 'Referral link'); }
@@ -40,12 +40,12 @@ const Team = () => {
   };
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent(`🎉 Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`);
+    const text = encodeURIComponent(`Join & Start Earning! Use my referral code: ${referralCode}\n\nEarn up to ₹350 per referral!\n${referralLink}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
   const handleTelegram = () => {
-    const text = encodeURIComponent(`🎉 Join & Start Earning! Use my referral code: ${referralCode}\nEarn up to ₹350 per referral!`);
+    const text = encodeURIComponent(`Join & Start Earning! Use my referral code: ${referralCode}\nEarn up to ₹350 per referral!`);
     const url  = encodeURIComponent(referralLink);
     window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
   };

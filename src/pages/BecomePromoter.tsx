@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Send, Users, Megaphone, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Send, Users, Megaphone, CheckCircle2, XCircle, Trophy, DollarSign, BarChart3, Handshake } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const BecomePromoter = () => {
     setStatus('sending');
     try {
       const message =
-        `📢 PROMOTER APPLICATION\n\n` +
+        `PROMOTER APPLICATION\n\n` +
         `Contact: ${form.contact}\n` +
         `Audience: ${form.audience || 'Not specified'}\n` +
         `Strategy: ${form.strategy}\n\n` +
@@ -215,10 +215,11 @@ const BecomePromoter = () => {
 
             {status === 'error' && (
               <div
-                className="px-4 py-3 rounded-[14px] text-sm font-semibold text-center"
+                className="flex items-center gap-2 px-4 py-3 rounded-[14px] text-sm font-semibold"
                 style={{ background: '#FEE2E2', color: '#B91C1C' }}
               >
-                ❌ Something went wrong. Please try again.
+                <XCircle className="w-4 h-4 shrink-0" />
+                Something went wrong. Please try again.
               </div>
             )}
 
@@ -240,9 +241,13 @@ const BecomePromoter = () => {
                   Submitting…
                 </span>
               ) : isSent ? (
-                '✅ Application Submitted'
+                <span className="flex items-center justify-center gap-2">
+                  <CheckCircle2 className="w-4 h-4" /> Application Submitted
+                </span>
               ) : (
-                '🚀 Submit Application'
+                <span className="flex items-center justify-center gap-2">
+                  <Send className="w-4 h-4" /> Submit Application
+                </span>
               )}
             </button>
 
@@ -262,13 +267,15 @@ const BecomePromoter = () => {
               Why become a promoter?
             </p>
             {[
-              { emoji: '💰', text: 'Earn commissions on every referral you bring' },
-              { emoji: '🏆', text: 'Exclusive rewards and early access to new features' },
-              { emoji: '📊', text: 'Track your earnings in real-time on the dashboard' },
-              { emoji: '🤝', text: 'Dedicated support from the Veltrix team' },
-            ].map(({ emoji, text }) => (
+              { icon: DollarSign, text: 'Earn commissions on every referral you bring',      color: '#22C55E', bg: '#DCFCE7' },
+              { icon: Trophy,     text: 'Exclusive rewards and early access to new features', color: '#F59E0B', bg: '#FEF3C7' },
+              { icon: BarChart3,  text: 'Track your earnings in real-time on the dashboard', color: '#3B82F6', bg: '#EAF4FF' },
+              { icon: Handshake,  text: 'Dedicated support from the Veltrix team',           color: '#D9040A', bg: '#FEE2E2' },
+            ].map(({ icon: Icon, text, color, bg }) => (
               <div key={text} className="flex items-center gap-3 py-2">
-                <span className="text-base">{emoji}</span>
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: bg }}>
+                  <Icon className="w-4 h-4" style={{ color }} />
+                </div>
                 <p className="text-[12px] font-medium" style={{ color: D.textPrimary }}>{text}</p>
               </div>
             ))}
