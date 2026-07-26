@@ -1,69 +1,34 @@
-# Veltrix - FMCG Investment Platform
+# Veltrix App
 
-## Overview
-Veltrix is a React + Vite FMCG investment platform with a mobile-first design. Users recharge wallets, invest in products, earn daily income, withdraw funds, and refer others through a 3-level referral commission system. Admins have a full dashboard for managing users, transactions, products, and settings.
+A multi-page earnings/referral platform built with React + TypeScript (Vite) on the frontend and Express + PostgreSQL on the backend.
 
-## Architecture
+## Stack
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, React Router v6
+- **Backend**: Express (Node.js), PostgreSQL (via `pg`)
+- **Auth**: JWT (SESSION_SECRET)
 
-### Frontend
-- **Framework**: React 18 + TypeScript + Vite (port 5000)
-- **Routing**: React Router v6
-- **State**: TanStack React Query for server state
-- **UI**: Radix UI primitives + Tailwind CSS + shadcn/ui components
-- **Charts**: Recharts
-
-### Backend
-- **Server**: Custom Express.js API server (port 3001 in dev)
-- **Database**: Replit built-in PostgreSQL (via `DATABASE_URL` env var)
-- **Auth**: JWT-based (30-day tokens stored in localStorage as `veltrix_auth_token`)
-- **Client layer**: `src/lib/api-client.ts` — drop-in Supabase-compatible wrapper
-
-### Key Data Flow
-- Vite dev server proxies all `/api` requests → Express server on :3001
-- Express handles auth, CRUD, and all RPC-style business logic
-- `src/integrations/supabase/client.ts` re-exports `apiClient` as `supabase` (zero frontend changes needed)
-
-## Running the App
+## Running the app
+```sh
+bun run dev
 ```
-npm run dev
-```
-Starts both the Express API server (port 3001) and Vite dev server (port 5000) via `concurrently`.
+- Vite dev server → port 5000 (frontend)
+- Express API server → port 3001 (backend)
 
-## Admin Credentials
-- Email: `ummybro@gmail.com`
-- Password: `mamuda@2023`
-- Admin login URL: `/admin/login`
+## User preferences
+- **Frontend only**: All edits go in `src/`. Do not touch `server/` or backend code.
 
-## Environment Variables
-- `DATABASE_URL` — Replit PostgreSQL connection string (auto-provided)
-- `SESSION_SECRET` — JWT secret (defaults to built-in dev key)
-- `API_PORT` — Express port (defaults to 3001)
+## Key frontend directories
+- `src/pages/` — all page-level components (Login, Register, Dashboard, Profile, etc.)
+- `src/components/` — shared UI components
+- `src/contexts/` — React context providers (auth, etc.)
+- `src/hooks/` — custom hooks
+- `src/lib/` — utilities and API helpers
+- `src/data/` — static data / mock data
 
-## Key Files
-- `server/index.js` — Complete Express backend (schema init, auth, CRUD, RPC)
-- `src/lib/api-client.ts` — Supabase-compatible client wrapper (uses fetch → Express)
-- `src/integrations/supabase/client.ts` — Re-exports `apiClient` as `supabase`
-- `src/contexts/AuthContext.tsx` — Auth state (JWT, profile, wallet, admin check)
-- `src/pages/` — All page components (user + admin)
-- `src/components/admin/` — Admin layout and components
-- `vite.config.ts` — Vite config with `/api` proxy to :3001
-
-## Database Schema (18 tables)
-`users`, `profiles`, `wallets`, `user_roles`, `products`, `investments`, `recharges`, `withdrawals`, `bank_details`, `daily_checkins`, `referrals`, `app_settings`, `sliders`, `notifications`, `support_tickets`, `admin_logs`, `transaction_ledger`, `user_devices`, `referral_deposit_bonuses`
-
-## Auth Design
-- Regular users: phone number → stored as `phone@app.local` email in users table
-- Admin: uses real email `ummybro@gmail.com` directly
-- Both paths handled in `AuthContext.signIn`: detects `@` in input to route correctly
-
-## Features
-- Phone-based authentication (password login)
-- Wallet system (recharge, withdrawal, bonus, income balances)
-- Product investment with daily income crediting
-- 3-level referral commission system (L1=13%, L2=5%, L3=2%, configurable)
-- Daily check-in bonus
-- Admin dashboard with stats, user management, recharge/withdrawal approval
-- Revenue chart (30-day)
-- Support ticket system
-- Notification system
-- App settings (UPI, QR code, support contacts, withdrawal/recharge toggles)
+## Environment variables
+| Variable | Purpose |
+|---|---|
+| `SESSION_SECRET` | JWT signing secret (set in Replit Secrets) |
+| `DATABASE_URL` | PostgreSQL connection string (backend only) |
+| `VITE_SUPABASE_URL` | Supabase project URL (set in .replit userenv) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key (set in .replit userenv) |
