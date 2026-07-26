@@ -109,6 +109,34 @@ const Recharge = () => {
             </div>
           </div>
 
+          {/* Instructions */}
+          <div style={{ ...CARD, padding: '18px 20px' }}>
+            <p className="font-bold text-sm mb-3" style={{ color: '#2B2B2B' }}>
+              📋 Recharge Instructions
+            </p>
+            <div className="space-y-2.5">
+              {[
+                { n: '1', text: 'Enter or select your recharge amount (minimum ₹298).' },
+                { n: '2', text: 'Tap "Recharge Now" — a UPI QR code will be generated for you.' },
+                { n: '3', text: 'Scan the QR with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment.' },
+                { n: '4', text: 'After payment, copy your UTR / Reference number from your UPI app and paste it on the next screen.' },
+                { n: '5', text: 'Your wallet will be credited within 5–10 minutes after verification. Do not pay multiple times for the same order.' },
+              ].map(({ n, text }) => (
+                <div key={n} className="flex items-start gap-2.5">
+                  <span
+                    className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold text-white mt-0.5"
+                    style={{ background: BTN_GRAD }}
+                  >
+                    {n}
+                  </span>
+                  <p className="text-xs leading-relaxed" style={{ color: '#555', fontFamily: "'Poppins', sans-serif" }}>
+                    {text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Recharge Button */}
           <button
             onClick={handleRecharge}

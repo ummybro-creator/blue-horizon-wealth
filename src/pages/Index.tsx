@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Send } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { BannerSlider } from '@/components/home/BannerSlider';
 import { QuickMenu } from '@/components/home/QuickMenu';
@@ -43,18 +42,6 @@ const Index = () => {
 
       {/* ── Recent Activity ── */}
       <RecentPayments />
-
-      {/* ── Floating Telegram Button ── */}
-      <button
-        onClick={() => window.open('https://t.me/tatanmak', '_blank')}
-        className="fixed bottom-[72px] right-4 w-14 h-14 rounded-full flex items-center justify-center z-40 transition-all active:scale-95"
-        style={{
-          background: 'linear-gradient(135deg, #FF8A00, #FF6A00)',
-          boxShadow: '0 6px 20px rgba(255,106,0,0.40)',
-        }}
-      >
-        <Send className="w-6 h-6 text-white" />
-      </button>
 
       {/* ── Welcome Popup ── */}
       <WelcomePopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
