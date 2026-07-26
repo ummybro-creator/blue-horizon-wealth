@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ClipboardList, QrCode, ScanLine, Copy, Clock } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -92,7 +92,7 @@ const Recharge = () => {
           <div style={CARD}>
             <p className="font-bold text-sm mb-3" style={{ color: '#2B2B2B' }}>Quick Amount</p>
             <div className="grid grid-cols-3 gap-3">
-              {[298, 500, 1000, 3000, 5000, 10000].map((amt) => (
+              {[700, 298, 450, 850, 1000, 2000, 2600, 3000, 9800].map((amt) => (
                 <button
                   key={amt}
                   onClick={() => setAmount(amt)}
@@ -103,31 +103,41 @@ const Recharge = () => {
                       : { background: '#FFF4EE', color: '#2B2B2B', border: '1px solid rgba(255,106,0,0.12)' }
                   }
                 >
-                  ₹{amt}
+                  ₹{amt.toLocaleString('en-IN')}
                 </button>
               ))}
             </div>
           </div>
 
+          {/* Recharge Button (above instructions) */}
+          <button
+            onClick={handleRecharge}
+            className="w-full py-4 rounded-full text-base font-bold text-white transition-all active:scale-[0.97]"
+            style={{ background: BTN_GRAD, boxShadow: BTN_SHADOW }}
+          >
+            Recharge Now
+          </button>
+
           {/* Instructions */}
           <div style={{ ...CARD, padding: '18px 20px' }}>
-            <p className="font-bold text-sm mb-3" style={{ color: '#2B2B2B' }}>
-              📋 Recharge Instructions
-            </p>
+            <div className="flex items-center gap-2 mb-3">
+              <ClipboardList className="w-4 h-4" style={{ color: ORANGE }} />
+              <p className="font-bold text-sm" style={{ color: '#2B2B2B' }}>Recharge Instructions</p>
+            </div>
             <div className="space-y-2.5">
               {[
-                { n: '1', text: 'Enter or select your recharge amount (minimum ₹298).' },
-                { n: '2', text: 'Tap "Recharge Now" — a UPI QR code will be generated for you.' },
-                { n: '3', text: 'Scan the QR with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment.' },
-                { n: '4', text: 'After payment, copy your UTR / Reference number from your UPI app and paste it on the next screen.' },
-                { n: '5', text: 'Your wallet will be credited within 5–10 minutes after verification. Do not pay multiple times for the same order.' },
-              ].map(({ n, text }) => (
-                <div key={n} className="flex items-start gap-2.5">
+                { icon: <QrCode className="w-3.5 h-3.5 text-white" />, text: 'Enter or select your recharge amount (minimum ₹298).' },
+                { icon: <ScanLine className="w-3.5 h-3.5 text-white" />, text: 'Tap "Recharge Now" — a UPI QR code will be generated for you.' },
+                { icon: <ScanLine className="w-3.5 h-3.5 text-white" />, text: 'Scan the QR with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment.' },
+                { icon: <Copy className="w-3.5 h-3.5 text-white" />, text: 'After payment, copy your UTR / Reference number from your UPI app and paste it on the next screen.' },
+                { icon: <Clock className="w-3.5 h-3.5 text-white" />, text: 'Your wallet will be credited within 5–10 minutes after verification. Do not pay multiple times for the same order.' },
+              ].map(({ icon, text }, i) => (
+                <div key={i} className="flex items-start gap-2.5">
                   <span
-                    className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold text-white mt-0.5"
+                    className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
                     style={{ background: BTN_GRAD }}
                   >
-                    {n}
+                    {icon}
                   </span>
                   <p className="text-xs leading-relaxed" style={{ color: '#555', fontFamily: "'Poppins', sans-serif" }}>
                     {text}
@@ -136,15 +146,6 @@ const Recharge = () => {
               ))}
             </div>
           </div>
-
-          {/* Recharge Button */}
-          <button
-            onClick={handleRecharge}
-            className="w-full py-4 rounded-full text-base font-bold text-white transition-all active:scale-[0.97]"
-            style={{ background: BTN_GRAD, boxShadow: BTN_SHADOW }}
-          >
-            Recharge Now
-          </button>
         </div>
       </div>
     </AppLayout>
