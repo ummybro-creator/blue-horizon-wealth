@@ -39,9 +39,9 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
       <div
         style={{
           width: '100%',
-          maxWidth: 340,
+          maxWidth: 300,
           background: '#FFFFFF',
-          borderRadius: 24,
+          borderRadius: 20,
           boxShadow: '0 24px 60px rgba(0,0,0,0.28), 0 8px 24px rgba(242,90,0,0.18)',
           position: 'relative',
           overflow: 'hidden',
@@ -72,15 +72,15 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
         </button>
 
         {/* ── Content ── */}
-        <div style={{ padding: '28px 24px 24px' }}>
+        <div style={{ padding: '20px 18px 18px' }}>
 
           {/* Title */}
           <h2 style={{
             textAlign: 'center',
-            fontSize: 17,
+            fontSize: 14,
             fontWeight: 800,
             color: '#1A1A1A',
-            margin: '0 0 10px',
+            margin: '0 0 8px',
             letterSpacing: 0.3,
             fontFamily: FONT,
             lineHeight: 1.3,
@@ -90,14 +90,14 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
 
           {/* Orange divider */}
           <div style={{
-            height: 2.5,
+            height: 2,
             background: `linear-gradient(90deg, transparent, ${ORANGE}, transparent)`,
             borderRadius: 2,
-            marginBottom: 18,
+            marginBottom: 12,
           }} />
 
           {/* Notice rows */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
 
             <Row>
               <span>🎉</span>
@@ -160,18 +160,18 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
           <button
             onClick={handleTelegram}
             style={{
-              marginTop: 22,
+              marginTop: 14,
               width: '100%',
-              height: 54,
-              borderRadius: 14,
+              height: 42,
+              borderRadius: 11,
               border: 'none',
               background: `linear-gradient(180deg, #FF9A2E 0%, ${ORANGE} 55%, ${ORANGE_DARK} 100%)`,
               color: '#fff',
               fontWeight: 700,
-              fontSize: 17,
+              fontSize: 14,
               fontFamily: FONT,
               cursor: 'pointer',
-              boxShadow: `0 8px 22px rgba(245,130,30,0.50), 0 0 32px rgba(247,147,30,0.28)`,
+              boxShadow: `0 6px 16px rgba(245,130,30,0.45), 0 0 24px rgba(247,147,30,0.22)`,
               transition: 'transform 0.1s',
               letterSpacing: 0.2,
             }}
@@ -195,13 +195,13 @@ function Row({ children }: { children: [React.ReactNode, React.ReactNode] }) {
     <div style={{
       display: 'flex',
       alignItems: 'flex-start',
-      gap: 10,
-      fontSize: 14,
+      gap: 7,
+      fontSize: 12,
       color: '#2B2B2B',
       fontFamily: "'Poppins', sans-serif",
-      lineHeight: 1.5,
+      lineHeight: 1.45,
     }}>
-      <span style={{ fontSize: 18, flexShrink: 0, lineHeight: 1.4 }}>{children[0]}</span>
+      <span style={{ fontSize: 14, flexShrink: 0, lineHeight: 1.4 }}>{children[0]}</span>
       <span style={{ flex: 1 }}>{children[1]}</span>
     </div>
   );
