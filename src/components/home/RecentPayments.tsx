@@ -4,9 +4,11 @@ import { cn } from '@/lib/utils';
 
 const firstNames = ['Rahul', 'Priya', 'Amit', 'Sneha', 'Vikram', 'Anjali', 'Deepak', 'Pooja', 'Rajesh', 'Neha', 'Suresh', 'Kavita', 'Arjun', 'Manisha', 'Ravi'];
 
-function randomAmount() {
-  const amounts = [1000, 1500, 2000, 2500, 3000, 5000, 7000, 8000, 10000, 15000, 20000, 25000, 30000, 50000];
-  return amounts[Math.floor(Math.random() * amounts.length)];
+function randomAmount(type: 'recharge' | 'withdraw') {
+  const rechargeAmounts = [298, 450, 700, 850, 1000, 2000, 2600, 3000, 9800];
+  const withdrawAmounts = [180, 250, 350, 500, 750, 1000, 1500, 2000];
+  const pool = type === 'recharge' ? rechargeAmounts : withdrawAmounts;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function randomId() {
@@ -19,7 +21,7 @@ function generateFakeTransaction() {
     id: Math.random().toString(36).substr(2, 9),
     name: firstNames[Math.floor(Math.random() * firstNames.length)],
     maskedId: randomId(),
-    amount: randomAmount(),
+    amount: randomAmount(isWithdraw ? 'withdraw' : 'recharge'),
     type: isWithdraw ? 'withdraw' : 'recharge',
     time: `${Math.floor(Math.random() * 59 + 1)} min ago`,
   };

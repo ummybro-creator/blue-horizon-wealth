@@ -6,7 +6,7 @@ const names = ['Raj K.', 'Priya S.', 'Amit P.', 'Neha R.', 'Vikram M.', 'Sunita 
 const generatePayment = () => ({
   id: `TXN${Date.now()}${Math.random()}`,
   name: names[Math.floor(Math.random() * names.length)],
-  amount: Math.floor(500 + Math.random() * 49500),
+  amount: [298, 450, 700, 850, 1000, 2000, 2600, 3000, 9800][Math.floor(Math.random() * 9)],
   userId: `****${Math.floor(1000 + Math.random() * 9000)}`,
   isNew: true,
 });
