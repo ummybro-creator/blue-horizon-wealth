@@ -11,7 +11,7 @@ const menuItems = [
   { icon: Landmark,      label: 'Withdraw', path: '/withdraw', iconColor: '#A855F7', iconBg: '#F3E8FF' },
   { icon: Package,       label: 'Orders',   path: '/records',  iconColor: '#EF4444', iconBg: '#FEE2E2' },
   { icon: FileText,      label: 'Record',   path: '/records',  iconColor: '#06B6D4', iconBg: '#ECFEFF' },
-  { icon: MessageCircle, label: 'Support',  path: '/support',  iconColor: '#F97316', iconBg: '#FFF0E5' },
+  { icon: MessageCircle, label: 'Support',  path: '/contact-support',  iconColor: '#F97316', iconBg: '#FFF0E5' },
   { icon: Send,          label: 'Group',    path: '/telegram', iconColor: '#FF6A00', iconBg: '#FFE3C5' },
 ];
 

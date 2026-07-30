@@ -5,7 +5,7 @@ const actions = [
   { icon: Calendar, label: 'Check In', path: '/checkin', color: 'text-primary' },
   { icon: Gift, label: 'Bonus', path: '/bonus', color: 'text-accent' },
   { icon: FileText, label: 'Records', path: '/records', color: 'text-success' },
-  { icon: Headphones, label: 'Support', path: '/support', color: 'text-primary' },
+  { icon: Headphones, label: 'Support', path: '/contact-support', color: 'text-primary' },
   { icon: Send, label: 'Telegram', path: '/telegram', color: 'text-primary' },
 ];
 

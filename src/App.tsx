@@ -29,6 +29,7 @@ import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
 import TeamMembers from "./pages/TeamMembers";
 import BecomePromoter from "./pages/BecomePromoter";
+import ContactSupport from "./pages/ContactSupport";
 
 // ================= ADMIN PAGES =================
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -159,6 +160,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Support />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/contact-support"
+                element={
+                  <ProtectedRoute>
+                    <ContactSupport />
                   </ProtectedRoute>
                 }
               />
