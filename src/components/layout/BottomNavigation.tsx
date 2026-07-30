@@ -37,13 +37,13 @@ export function BottomNavigation() {
             >
               <item.icon
                 className="w-[22px] h-[22px] transition-all duration-200"
-                style={{ color: isActive ? '#FF6A00' : '#AAAAAA' }}
+                style={{ color: isActive ? '#16A34A' : '#AAAAAA' }}
                 strokeWidth={isActive ? 2.5 : 1.8}
               />
               <span
                 className="text-[10px] font-semibold transition-all duration-200"
                 style={{
-                  color: isActive ? '#FF6A00' : '#AAAAAA',
+                  color: isActive ? '#16A34A' : '#AAAAAA',
                   fontFamily: "'Poppins', sans-serif",
                 }}
               >
@@ -52,7 +52,7 @@ export function BottomNavigation() {
               {isActive && (
                 <span
                   className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full"
-                  style={{ background: 'linear-gradient(90deg, #FF8A00, #FF6A00)' }}
+                  style={{ background: 'linear-gradient(90deg, #22C55E, #16A34A)' }}
                 />
               )}
             </button>
