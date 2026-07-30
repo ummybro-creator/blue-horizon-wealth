@@ -58,7 +58,7 @@ export function RecentPayments() {
           background: 'rgba(255,255,255,0.85)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
+          boxShadow: '0 8px 24px rgba(22,163,74,0.08), 0 2px 6px rgba(0,0,0,0.04)',
           border: '1px solid rgba(255,255,255,0.72)',
         }}
       >
@@ -73,12 +73,12 @@ export function RecentPayments() {
           >
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: tx.type === 'withdraw' ? '#FEE2E2' : '#FFE3C5' }}
+              style={{ background: tx.type === 'withdraw' ? '#FEE2E2' : '#DCFCE7' }}
             >
               {tx.type === 'withdraw' ? (
                 <ArrowDownCircle className="w-4 h-4" style={{ color: '#EF4444' }} />
               ) : (
-                <ArrowUpCircle className="w-4 h-4" style={{ color: '#FF6A00' }} />
+                <ArrowUpCircle className="w-4 h-4" style={{ color: '#16A34A' }} />
               )}
             </div>
             <div className="flex-1 min-w-0">
@@ -95,7 +95,7 @@ export function RecentPayments() {
             <div className="text-right">
               <p
                 className="text-sm font-bold"
-                style={{ color: tx.type === 'withdraw' ? '#EF4444' : '#FF6A00' }}
+                style={{ color: tx.type === 'withdraw' ? '#EF4444' : '#16A34A' }}
               >
                 {tx.type === 'withdraw' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN')}
               </p>

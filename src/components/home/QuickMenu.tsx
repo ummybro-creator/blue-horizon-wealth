@@ -5,14 +5,14 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const menuItems = [
-  { icon: DollarSign,    label: 'CheckIn',  path: '/checkin',  iconColor: '#FF6A00', iconBg: '#FFE3C5' },
+  { icon: DollarSign,    label: 'CheckIn',  path: '/checkin',  iconColor: '#16A34A', iconBg: '#DCFCE7' },
   { icon: Mail,          label: 'Invite',   path: '/team',     iconColor: '#3B82F6', iconBg: '#EAF4FF' },
   { icon: CreditCard,    label: 'Recharge', path: '/recharge', iconColor: '#F59E0B', iconBg: '#FFF6E5' },
   { icon: Landmark,      label: 'Withdraw', path: '/withdraw', iconColor: '#A855F7', iconBg: '#F3E8FF' },
   { icon: Package,       label: 'Orders',   path: '/records',  iconColor: '#EF4444', iconBg: '#FEE2E2' },
   { icon: FileText,      label: 'Record',   path: '/records',  iconColor: '#06B6D4', iconBg: '#ECFEFF' },
-  { icon: MessageCircle, label: 'Support',  path: '/contact-support',  iconColor: '#F97316', iconBg: '#FFF0E5' },
-  { icon: Send,          label: 'Group',    path: '/telegram', iconColor: '#FF6A00', iconBg: '#FFE3C5' },
+  { icon: MessageCircle, label: 'Support',  path: '/contact-support',  iconColor: '#F97316', iconBg: '#F0FDF4' },
+  { icon: Send,          label: 'Group',    path: '/telegram', iconColor: '#16A34A', iconBg: '#DCFCE7' },
 ];
 
 export function QuickMenu() {
@@ -26,7 +26,7 @@ export function QuickMenu() {
           background: 'rgba(255,255,255,0.85)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
+          boxShadow: '0 8px 24px rgba(22,163,74,0.08), 0 2px 6px rgba(0,0,0,0.04)',
           border: '1px solid rgba(255,255,255,0.72)',
         }}
       >

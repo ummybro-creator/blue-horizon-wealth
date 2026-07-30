@@ -2,15 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send, Headphones, MessageCircle, Clock, Shield, HelpCircle, ChevronRight } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 
-const ORANGE     = '#FF6A00';
-const BTN_GRAD   = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
-const BTN_SHADOW = '0 10px 24px rgba(255,106,0,0.38)';
+const ORANGE     = '#16A34A';
+const BTN_GRAD   = 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)';
+const BTN_SHADOW = '0 10px 24px rgba(22,163,74,0.38)';
 
 const CARD: React.CSSProperties = {
   background: 'rgba(255,255,255,0.88)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
-  boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
+  boxShadow: '0 8px 24px rgba(22,163,74,0.08), 0 2px 6px rgba(0,0,0,0.04)',
   border: '1px solid rgba(255,255,255,0.75)',
   borderRadius: 24,
 };
@@ -80,7 +80,7 @@ const ContactSupport = () => {
 
             <div
               className="flex items-center gap-4 rounded-2xl px-4 py-3 mb-4"
-              style={{ background: '#FFF4EE', border: '1px solid rgba(255,106,0,0.14)' }}
+              style={{ background: '#F0FDF4', border: '1px solid rgba(22,163,74,0.14)' }}
             >
               <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
@@ -120,7 +120,7 @@ const ContactSupport = () => {
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-8 h-8 rounded-xl flex items-center justify-center"
-                      style={{ background: '#FFF4EE' }}
+                      style={{ background: '#F0FDF4' }}
                     >
                       <Icon className="w-4 h-4" style={{ color: ORANGE }} />
                     </div>
@@ -140,7 +140,7 @@ const ContactSupport = () => {
             </div>
             <div className="space-y-2">
               {faqs.map(({ q, a }) => (
-                <details key={q} className="group rounded-2xl overflow-hidden" style={{ background: '#FFF4EE' }}>
+                <details key={q} className="group rounded-2xl overflow-hidden" style={{ background: '#F0FDF4' }}>
                   <summary
                     className="flex items-center justify-between px-4 py-3 cursor-pointer list-none text-xs font-semibold"
                     style={{ color: '#2B2B2B' }}
@@ -159,8 +159,8 @@ const ContactSupport = () => {
             onClick={() => navigate('/support')}
             className="w-full py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.97]"
             style={{
-              background: '#FFF4EE',
-              border: '1.5px solid rgba(255,106,0,0.2)',
+              background: '#F0FDF4',
+              border: '1.5px solid rgba(22,163,74,0.2)',
               color: ORANGE,
             }}
           >
