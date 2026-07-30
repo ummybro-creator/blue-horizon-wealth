@@ -80,77 +80,88 @@ export function FeaturedProduct() {
 
       {/* Card */}
       <div
-        className="rounded-[20px] flex items-center gap-3 px-3 py-3"
+        className="rounded-[24px] relative overflow-visible"
         style={{
           background: 'rgba(255,255,255,0.85)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 6px 20px rgba(255,106,0,0.10), 0 2px 6px rgba(0,0,0,0.04)',
+          boxShadow: '0 8px 32px rgba(255,106,0,0.12), 0 2px 8px rgba(0,0,0,0.05)',
           border: '1px solid rgba(255,255,255,0.75)',
         }}
       >
-        {/* Image */}
-        <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0" style={{ background: '#FFF4EE' }}>
-          <LazyImage
-            src="https://files.catbox.moe/9xmkkp.jpg"
-            alt={product.name}
-            className="w-full h-full object-cover"
-            wrapperClassName="w-full h-full"
-          />
+        {/* Top badges */}
+        <div className="flex items-start justify-between px-4 pt-4">
+          <div
+            className="px-4 py-1.5 rounded-full text-white font-bold text-[13px]"
+            style={{ background: BTN_GRAD, boxShadow: '0 4px 10px rgba(255,106,0,0.30)' }}
+          >
+            {product.name}
+          </div>
+          <div
+            className="px-4 py-1.5 rounded-full text-white font-bold text-[13px]"
+            style={{ background: GREEN_GRAD, boxShadow: '0 4px 10px rgba(46,125,50,0.32)' }}
+          >
+            Days: {product.duration_days}
+          </div>
         </div>
 
-        {/* Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-0.5">
-            <p className="text-[13px] font-extrabold truncate" style={{ color: '#2B2B2B' }}>{product.name}</p>
-            <span
-              className="shrink-0 px-1.5 py-0.5 rounded-full text-white font-bold text-[9px]"
-              style={{ background: GREEN_GRAD }}
-            >
-              {product.duration_days}d
-            </span>
+        {/* Body */}
+        <div className="flex px-3 pt-3 pb-2 gap-2 items-center">
+          {/* Image */}
+          <div className="w-[42%] shrink-0 flex items-center justify-center">
+            <LazyImage
+              src="https://files.catbox.moe/9xmkkp.jpg"
+              alt={product.name}
+              className="w-full h-auto object-contain"
+              wrapperClassName="w-full"
+              wrapperStyle={{ aspectRatio: '1 / 1' }}
+            />
           </div>
-          <div className="flex items-center gap-3">
-            <div>
-              <p className="text-[12px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+
+          {/* Stats */}
+          <div className="flex-1 flex items-stretch">
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <p className="text-[18px] font-extrabold leading-tight" style={{ color: ORANGE }}>
                 ₹{Number(product.daily_income).toLocaleString('en-IN')}
               </p>
-              <p className="text-[9px] font-medium" style={{ color: '#8A8A8A' }}>Daily</p>
+              <p className="text-[10px] text-center mt-0.5 font-medium" style={{ color: '#8A8A8A' }}>
+                Daily<br />Income
+              </p>
             </div>
-            <div className="w-px h-6" style={{ background: '#E5E7EB' }} />
-            <div>
-              <p className="text-[12px] font-extrabold leading-tight" style={{ color: ORANGE }}>
+            <div className="w-px self-stretch" style={{ background: '#E5E7EB', margin: '4px 0' }} />
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <p className="text-[18px] font-extrabold leading-tight" style={{ color: ORANGE }}>
                 ₹{Number(product.total_income).toLocaleString('en-IN')}
               </p>
-              <p className="text-[9px] font-medium" style={{ color: '#8A8A8A' }}>Total</p>
-            </div>
-            <div className="w-px h-6" style={{ background: '#E5E7EB' }} />
-            <div>
-              <p className="text-[12px] font-extrabold leading-tight" style={{ color: '#2B2B2B' }}>
-                ₹{Number(product.price).toLocaleString('en-IN')}
+              <p className="text-[10px] text-center mt-0.5 font-medium" style={{ color: '#8A8A8A' }}>
+                Total<br />Revenue
               </p>
-              <p className="text-[9px] font-medium" style={{ color: '#8A8A8A' }}>Price</p>
             </div>
           </div>
         </div>
 
-        {/* Invest button */}
-        <button
-          onClick={handleInvest}
-          disabled={investing}
-          className="shrink-0 text-white font-bold text-[12px] transition-all active:scale-[0.97] disabled:opacity-60"
-          style={{
-            height: 34,
-            minWidth: 70,
-            borderRadius: 999,
-            background: investing ? '#9CA3AF' : BTN_GRAD,
-            boxShadow: investing ? 'none' : BTN_SHADOW,
-            padding: '0 14px',
-            fontFamily: "'Poppins', sans-serif",
-          }}
-        >
-          {investing ? <Loader2 className="w-3.5 h-3.5 animate-spin inline" /> : 'Invest'}
-        </button>
+        {/* Price + Invest */}
+        <div className="flex items-center justify-between px-4 pb-4 pt-1">
+          <p className="text-[16px] font-extrabold" style={{ color: '#2B2B2B' }}>
+            Price: <span style={{ color: ORANGE }}>₹{Number(product.price).toLocaleString('en-IN')}</span>
+          </p>
+          <button
+            onClick={handleInvest}
+            disabled={investing}
+            className="text-white font-bold text-[14px] transition-all active:scale-[0.98] disabled:opacity-60"
+            style={{
+              height: 40,
+              minWidth: 110,
+              borderRadius: 999,
+              background: investing ? '#9CA3AF' : BTN_GRAD,
+              boxShadow: investing ? 'none' : BTN_SHADOW,
+              padding: '0 20px',
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            {investing ? <Loader2 className="w-4 h-4 animate-spin inline" /> : 'Invest'}
+          </button>
+        </div>
       </div>
     </div>
   );
