@@ -160,31 +160,6 @@ const Profile = () => {
           ))}
         </div>
 
-        {/* ── Become a Promoter ── */}
-        <div className="relative z-10 px-5 mt-3">
-          <button
-            onClick={() => navigate('/become-promoter')}
-            className="w-full flex items-center gap-4 px-5 py-4 text-left transition-all active:scale-[0.98]"
-            style={CARD}
-          >
-            <div
-              className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0"
-              style={{ background: '#FFE4E4' }}
-            >
-              <Send className="w-5 h-5" style={{ color: '#D9040A' }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm leading-tight" style={{ color: '#2B2B2B' }}>
-                Become a Promoter
-              </p>
-              <p className="text-[11px] mt-0.5 font-medium" style={{ color: '#8A8A8A' }}>
-                Partner with Veltrix &amp; earn more
-              </p>
-            </div>
-            <ChevronRight className="w-5 h-5 shrink-0" style={{ color: '#C0C0C0' }} />
-          </button>
-        </div>
-
         {/* ── Sign Out ── */}
         <div className="relative z-10 px-5 mt-6 mb-4">
           <button
