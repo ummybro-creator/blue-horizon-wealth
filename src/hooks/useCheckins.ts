@@ -57,37 +57,23 @@ export function useTodayCheckin() {
 export function useCreateCheckin() {
   const queryClient = useQueryClient();
   const { user, refreshWallet } = useAuth();
-  
+
   return useMutation({
-    mutationFn: async ({ bonusAmount }: { bonusAmount: number }) => {
+    // The reward amount is decided entirely on the server (Day 1-7 cycle).
+    mutationFn: async (_vars?: { bonusAmount?: number }) => {
       if (!user) throw new Error('Not authenticated');
-      
-      const today = new Date().toISOString().split('T')[0];
-      
-      const { data, error } = await supabase
-        .from('daily_checkins')
-        .insert({
-          user_id: user.id,
-          checked_in_at: today,
-          bonus_amount: bonusAmount,
-        })
-        .select()
-        .single();
-      
+
+      const { data, error } = await (supabase.rpc as any)('perform_checkin');
+
       if (error) {
-        if (error.code === '23505') {
+        if (/already checked in/i.test(error.message)) {
           throw new Error('Already checked in today');
         }
         throw error;
       }
-      
-      // Call RPC function to add bonus
-      await supabase.rpc('add_bonus', {
-        p_user_id: user.id,
-        p_amount: bonusAmount
-      });
-      
-      return data;
+
+      const row = Array.isArray(data) ? data[0] : data;
+      return row as { day_number: number; bonus_amount: number; new_balance: number };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['checkins'] });
