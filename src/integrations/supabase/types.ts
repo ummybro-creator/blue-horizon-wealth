@@ -738,7 +738,7 @@ export type Database = {
       }
       get_dashboard_stats: { Args: never; Returns: Json }
       get_revenue_chart: {
-        Args: { p_days?: number }
+        Args: { p_days: number }
         Returns: {
           log_date: string
           profit_amount: number
@@ -755,6 +755,7 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_blocked: { Args: { _user_id: string }; Returns: boolean }
+      is_staff: { Args: never; Returns: boolean }
       log_admin_action: {
         Args: {
           p_action: string
