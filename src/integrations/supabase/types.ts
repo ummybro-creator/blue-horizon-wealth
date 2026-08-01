@@ -765,6 +765,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      perform_checkin: {
+        Args: never
+        Returns: {
+          bonus_amount: number
+          day_number: number
+          new_balance: number
+        }[]
+      }
       record_ledger: {
         Args: {
           p_amount: number
