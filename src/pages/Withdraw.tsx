@@ -56,7 +56,12 @@ const Withdraw = () => {
       });
       navigate('/');
     } catch (error: any) {
-      toast.error(error.message || 'Failed to submit withdrawal request');
+      const raw: string = error?.message || 'Failed to submit withdrawal request';
+      if (raw.includes('WITHDRAWAL_LOCKED')) {
+        setLockMessage(raw.split('WITHDRAWAL_LOCKED:').pop()!.trim());
+        return;
+      }
+      toast.error(raw);
     }
   };
 
