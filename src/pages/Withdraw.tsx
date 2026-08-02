@@ -25,6 +25,7 @@ const CARD: React.CSSProperties = {
 const Withdraw = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
+  const [lockMessage, setLockMessage] = useState<string | null>(null);
   const { wallet } = useAuth();
   const { data: settings } = useAppSettings();
   const { data: bankDetails } = useBankDetails();
