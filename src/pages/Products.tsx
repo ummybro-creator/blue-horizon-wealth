@@ -33,12 +33,6 @@ const Products = () => {
   const createInvestment = useCreateInvestment();
 
   const handleInvest = async (product: Product) => {
-    const currentBalance = wallet?.total_balance ?? 0;
-    if (currentBalance < product.price) {
-      toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
-      navigate('/recharge');
-      return;
-    }
     setInvestingProductId(product.id);
     try {
       await createInvestment.mutateAsync(product.id);
@@ -46,11 +40,12 @@ const Products = () => {
         description: `You invested ₹${product.price.toLocaleString('en-IN')} in ${product.name}`,
       });
     } catch (error: any) {
-      if (error.message === 'Insufficient balance') {
-        toast.error('Insufficient Balance', { description: 'Please recharge your wallet to invest.' });
+      const msg: string = error?.message || 'Please try again.';
+      if (msg.toLowerCase().includes('insufficient')) {
+        toast.error('Insufficient Deposit Balance', { description: msg });
         navigate('/recharge');
       } else {
-        toast.error('Investment failed', { description: error.message || 'Please try again.' });
+        toast.error('Investment failed', { description: msg });
       }
     } finally {
       setInvestingProductId(null);
