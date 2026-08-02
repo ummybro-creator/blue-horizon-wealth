@@ -7,6 +7,7 @@ import { useAppSettings } from '@/hooks/useAppSettings';
 import { useCreateWithdrawal } from '@/hooks/useWithdrawals';
 import { useBankDetails } from '@/hooks/useBankDetails';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const ORANGE    = '#FF6A00';
 const BTN_GRAD  = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
@@ -25,6 +26,7 @@ const CARD: React.CSSProperties = {
 const Withdraw = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
+  const [lockMessage, setLockMessage] = useState<string | null>(null);
   const { wallet } = useAuth();
   const { data: settings } = useAppSettings();
   const { data: bankDetails } = useBankDetails();
@@ -55,7 +57,12 @@ const Withdraw = () => {
       });
       navigate('/');
     } catch (error: any) {
-      toast.error(error.message || 'Failed to submit withdrawal request');
+      const raw: string = error?.message || 'Failed to submit withdrawal request';
+      if (raw.includes('WITHDRAWAL_LOCKED')) {
+        setLockMessage(raw.split('WITHDRAWAL_LOCKED:').pop()!.trim());
+        return;
+      }
+      toast.error(raw);
     }
   };
 
@@ -168,6 +175,42 @@ const Withdraw = () => {
           </button>
         </div>
       </div>
+
+      <Dialog open={!!lockMessage} onOpenChange={(o) => !o && setLockMessage(null)}>
+        <DialogContent
+          className="max-w-[320px] p-6 border-0"
+          style={{ ...CARD, fontFamily: "'Poppins', sans-serif" }}
+        >
+          <div className="text-center">
+            <div
+              className="w-14 h-14 rounded-full mx-auto flex items-center justify-center mb-3"
+              style={{ background: '#FFF4EE' }}
+            >
+              <AlertCircle className="w-7 h-7" style={{ color: ORANGE }} />
+            </div>
+            <h3 className="text-lg font-extrabold mb-2" style={{ color: '#2B2B2B' }}>
+              Withdrawal Locked
+            </h3>
+            <p className="text-sm mb-5" style={{ color: '#8A8A8A' }}>
+              {lockMessage}
+            </p>
+            <button
+              onClick={() => { setLockMessage(null); navigate('/products'); }}
+              className="w-full py-3 rounded-full font-bold text-white text-sm"
+              style={{ background: BTN_GRAD, boxShadow: BTN_SHADOW }}
+            >
+              View VIP Plans
+            </button>
+            <button
+              onClick={() => setLockMessage(null)}
+              className="w-full py-3 mt-2 rounded-full font-semibold text-sm"
+              style={{ background: '#FFF4EE', color: ORANGE }}
+            >
+              Close
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   );
 };
