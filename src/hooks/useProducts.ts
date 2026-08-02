@@ -34,7 +34,9 @@ export function useProducts(category?: 'daily' | 'vip') {
       if (error) throw error;
       return data as Product[];
     },
-    staleTime: 0, // Always refetch to get latest admin changes
-    refetchOnWindowFocus: true,
+    // Cached briefly so the plan store opens instantly; admin edits appear within a minute.
+    staleTime: 60_000,
+    refetchOnWindowFocus: false,
+
   });
 }
