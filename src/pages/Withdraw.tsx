@@ -7,6 +7,7 @@ import { useAppSettings } from '@/hooks/useAppSettings';
 import { useCreateWithdrawal } from '@/hooks/useWithdrawals';
 import { useBankDetails } from '@/hooks/useBankDetails';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const ORANGE    = '#FF6A00';
 const BTN_GRAD  = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
