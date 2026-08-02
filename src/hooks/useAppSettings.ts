@@ -29,7 +29,9 @@ export function useAppSettings() {
       if (error) throw error;
       return data as AppSettings | null;
     },
-    staleTime: 0, // Always refetch to get latest admin changes
-    refetchOnWindowFocus: true,
+    // Cached briefly so screens open instantly; admin changes still appear within a minute.
+    staleTime: 60_000,
+    refetchOnWindowFocus: false,
+
   });
 }
