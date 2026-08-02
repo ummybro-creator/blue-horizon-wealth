@@ -77,26 +77,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshProfile = async () => { if (user?.id) await fetchProfile(user.id); };
   const refreshWallet  = async () => { if (user?.id) await fetchWallet(user.id); };
 
-  // Apply a session object to local state — everything in one synchronous pass
+  // Apply a session object to local state.
+  // The UI is unblocked as soon as the session is known; profile/wallet/role
+  // load in the background so the app opens instantly.
   const applySession = useCallback(async (sess: AuthSession | null) => {
-    setLoading(true);
     setSession(sess);
     setUser(sess?.user ?? null);
     if (sess?.user) {
-      setIsAdmin(false);
-      await Promise.allSettled([
+      setRolesLoading(true);
+      setLoading(false);
+      void Promise.allSettled([
         fetchAdminRole(sess.user.id),
         fetchProfile(sess.user.id),
         fetchWallet(sess.user.id),
-      ]);
-      setLoading(false);
+      ]).then(() => setRolesLoading(false));
     } else {
       setIsAdmin(false);
+      setRolesLoading(false);
       setProfile(null);
       setWallet(null);
       setLoading(false);
     }
   }, [fetchAdminRole, fetchProfile, fetchWallet]);
+
 
   useEffect(() => {
     localStorage.removeItem('veltrix_auth_token');
