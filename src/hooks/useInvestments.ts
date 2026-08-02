@@ -50,10 +50,7 @@ export function useCreateInvestment() {
         });
 
       if (error) {
-        if (error.message.includes('Insufficient balance')) {
-          throw new Error('Insufficient balance');
-        }
-        throw error;
+        throw new Error(error.message);
       }
 
       return data;
