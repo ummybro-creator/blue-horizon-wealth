@@ -8,10 +8,11 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRouteProps) {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, rolesLoading, isAdmin } = useAuth();
   const location = useLocation();
 
-  if (loading) {
+  // Admin routes must wait for the role check; user routes render immediately.
+  if (loading || (requireAdmin && rolesLoading)) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -26,6 +27,7 @@ export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRout
   if (requireAdmin && !isAdmin) {
     return <Navigate to="/" replace />;
   }
+
 
   return <>{children}</>;
 }
