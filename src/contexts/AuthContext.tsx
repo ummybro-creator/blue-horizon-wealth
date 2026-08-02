@@ -9,6 +9,7 @@ interface AuthContextType {
   user: AuthUser | null;
   session: AuthSession | null;
   loading: boolean;
+  rolesLoading: boolean;
   isAdmin: boolean;
   profile: Profile | null;
   wallet: Wallet | null;
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [session, setSession] = useState<AuthSession | null>(null);
   const [loading, setLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [wallet, setWallet] = useState<Wallet | null>(null);
@@ -160,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, profile, wallet, signUp, signIn, signOut, refreshProfile, refreshWallet }}>
+    <AuthContext.Provider value={{ user, session, loading, rolesLoading, isAdmin, profile, wallet, signUp, signIn, signOut, refreshProfile, refreshWallet }}>
       {children}
     </AuthContext.Provider>
   );
