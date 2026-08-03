@@ -281,7 +281,7 @@
      ============================================================ */
 
   .auth-bg {
-    background: var(--gradient-bg);
+    background: #FFFFFF;
     min-height: 100vh;
   }
 
