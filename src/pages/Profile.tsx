@@ -48,17 +48,10 @@ const Profile = () => {
         className="min-h-screen pb-10"
         style={{
           fontFamily: "'Poppins', sans-serif",
-          background: 'linear-gradient(180deg, #FFEDE3 0%, #FDF2EC 100%)',
+          background: '#FFFFFF',
           position: 'relative',
         }}
       >
-        {/* Orange blob at top */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle at top left, rgba(255,138,0,0.45), transparent 55%), radial-gradient(circle at top right, rgba(255,138,0,0.3), transparent 50%)',
-          }}
-        />
 
         {/* ── Header ── */}
         <div className="relative z-10 clay-header px-5 pt-12 pb-6">
