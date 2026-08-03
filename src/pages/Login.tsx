@@ -4,176 +4,64 @@ import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
+import coverAsset from '@/assets/auth-cover.jpg.asset.json';
+import logoAsset from '@/assets/coolio-logo.png.asset.json';
 
-const phoneSchema    = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit mobile number');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
-/* ── Design tokens (PRD §4 / §11) ──────────────────────────────────── */
-const ORANGE       = '#F5821F';   // brand primary
-const ORANGE_DEEP  = '#E8600F';   // "Login" bold accent
-const ICON_BG      = '#FBDCC4';   // icon badge background (peach)
-const ICON_GLYPH   = '#E8752C';   // icon glyph color
-const INPUT_BORDER = '#E4D9CE';
-const CARD_BG      = '#FBF6F0';
-const PLACEHOLDER  = '#A8A8A8';
-const FONT         = "'Poppins', sans-serif";
+/* ── Reference design tokens ─────────────────────────────── */
+const ORANGE = '#F07222';
+const ORANGE_DEEP = '#E2611A';
+const FIELD_BG = '#FDF6F1';
+const FIELD_BORDER = '#F5E3D6';
+const PLACEHOLDER = '#A9A9A9';
+const MUTED = '#9B9B9B';
+const FONT = "'Poppins', sans-serif";
 
-/* ── Icon badges (44×44 dp circle, peach bg, orange glyphs) ─────────── */
-const IconUser = () => (
-  <div style={{
-    width: 44, height: 44, borderRadius: '50%',
-    background: ICON_BG,
-    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-  }}>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="7.5" r="4" fill={ICON_GLYPH}/>
-      <path d="M3.5 20.5c0-4.14 3.8-7.5 8.5-7.5s8.5 3.36 8.5 7.5" stroke={ICON_GLYPH} strokeWidth="2" strokeLinecap="round" fill="none"/>
-    </svg>
-  </div>
-);
-
-const IconPhone = () => (
-  <div style={{
-    width: 44, height: 44, borderRadius: '50%',
-    background: ICON_BG,
-    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-  }}>
-    {/* Retro telephone handset */}
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
-        fill={ICON_GLYPH}
-      />
-    </svg>
-  </div>
-);
-
-const IconLock = () => (
-  <div style={{
-    width: 44, height: 44, borderRadius: '50%',
-    background: ICON_BG,
-    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-  }}>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <rect x="5" y="11" width="14" height="10" rx="2.5" fill={ICON_GLYPH}/>
-      <path d="M8 11V7.5a4 4 0 0 1 8 0V11" stroke={ICON_GLYPH} strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-      <circle cx="12" cy="16" r="1.4" fill="#fff"/>
-    </svg>
-  </div>
-);
-
-const IconReferral = () => (
-  <div style={{
-    width: 44, height: 44, borderRadius: '50%',
-    background: ICON_BG,
-    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-  }}>
-    {/* Network / referral icon — 3 connected circles */}
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="5" r="2.5" fill={ICON_GLYPH}/>
-      <circle cx="5"  cy="19" r="2.5" fill={ICON_GLYPH}/>
-      <circle cx="19" cy="19" r="2.5" fill={ICON_GLYPH}/>
-      <line x1="12" y1="7.5" x2="5.8"  y2="16.5" stroke={ICON_GLYPH} strokeWidth="1.6" strokeLinecap="round"/>
-      <line x1="12" y1="7.5" x2="18.2" y2="16.5" stroke={ICON_GLYPH} strokeWidth="1.6" strokeLinecap="round"/>
-    </svg>
-  </div>
-);
-
-/* ── Input field wrapper ─────────────────────────────────────────────── */
-interface PillFieldProps {
-  icon: React.ReactNode;
-  left?: React.ReactNode;
-  right?: React.ReactNode;
-  children: React.ReactNode;
-}
-const PillField = ({ icon, left, right, children }: PillFieldProps) => (
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    height: 64,
-    borderRadius: 20,           /* PRD §6.4: ~20dp */
-    background: '#FFFFFF',
-    border: `1px solid ${INPUT_BORDER}`,
-    paddingLeft: 12,
-    paddingRight: 14,
-    gap: 10,
-    width: '100%',
-    boxSizing: 'border-box',
-  }}>
-    <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{icon}</span>
-    {left}
-    <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center' }}>{children}</div>
-    {right && (
-      <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{right}</span>
-    )}
-  </div>
-);
+const fieldWrap: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  height: 58,
+  borderRadius: 999,
+  background: FIELD_BG,
+  border: `1px solid ${FIELD_BORDER}`,
+  padding: '0 22px',
+  gap: 12,
+  width: '100%',
+  boxSizing: 'border-box',
+};
 
 const inputStyle: React.CSSProperties = {
   flex: 1,
+  minWidth: 0,
   border: 'none',
   outline: 'none',
   background: 'transparent',
-  fontSize: 17,
+  fontSize: 15.5,
   fontFamily: FONT,
-  color: '#3D2C22',
+  fontWeight: 400,
+  color: '#2B2B2B',
 };
 
-/* ── App icon with purple gradient ring ─────────────────────────────── */
-const AppIcon = () => (
-  <div style={{ position: 'relative', width: 140, height: 140, marginBottom: 18 }}>
-    {/* Purple gradient ring only */}
-    <div style={{
-      position: 'absolute', inset: 0,
-      borderRadius: 36,
-      background: 'linear-gradient(135deg, #B98BFA, #7B2FF7)',
-      boxShadow: '0 10px 28px rgba(123,47,247,0.30)',
-    }}/>
-    {/* Logo image */}
-    <div style={{
-      position: 'absolute', inset: 5,
-      borderRadius: 30,
-      overflow: 'hidden',
-    }}>
-      <img
-        src="/havmor-logo.png"
-        alt="Havmor logo"
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-    </div>
-  </div>
-);
-
-/* ── Decorative dot-line divider ─────────────────────────────────────── */
-const DotDivider = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 10, marginBottom: 28 }}>
-    <div style={{ width: 32, height: 1.5, background: `linear-gradient(to left, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
-    <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
-    <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
-    <div style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE }}/>
-    <div style={{ width: 32, height: 1.5, background: `linear-gradient(to right, ${ORANGE}, transparent)`, borderRadius: 2 }}/>
-  </div>
-);
-
-/* ── Main component ──────────────────────────────────────────────────── */
 const Login = () => {
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { signIn, signUp, user } = useAuth();
 
-  const [isLogin, setIsLogin]           = useState(false);
-  const [mobile, setMobile]             = useState('');
-  const [password, setPassword]         = useState('');
-  const [fullName, setFullName]         = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [mobile, setMobile] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading]           = useState(false);
+  const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const lockedRef = new URLSearchParams(location.search).get('ref');
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const ref = params.get('ref');
+    const ref = new URLSearchParams(location.search).get('ref');
     if (ref) { setIsLogin(false); setReferralCode(ref); }
   }, [location.search]);
 
@@ -199,7 +87,7 @@ const Login = () => {
     try {
       if (isLogin) {
         const { error } = await signIn(mobile, password);
-        if (error) { toast.error('Invalid phone number or password'); return; }
+        if (error) { toast.error('Invalid mobile number or password'); return; }
         toast.success('Login successful!');
         navigate('/', { replace: true });
       } else {
@@ -215,218 +103,223 @@ const Login = () => {
     <div style={{
       minHeight: '100vh',
       width: '100%',
-      background: 'linear-gradient(180deg, #FCE8DC 0%, #FDF2EA 100%)',
+      background: '#FFFFFF',
       fontFamily: FONT,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
       overflowX: 'hidden',
     }}>
-      <div style={{ width: '100%', maxWidth: 420, padding: '52px 20px 36px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ width: '100%', maxWidth: 440, margin: '0 auto', position: 'relative' }}>
 
-        {/* App icon */}
-        <AppIcon />
+        {/* ── Hero cover banner ── */}
+        <div style={{ width: '100%', height: 268, overflow: 'hidden', background: ORANGE }}>
+          <img
+            src={coverAsset.url}
+            alt="Coolio Ice Cream cover"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
 
-        {/* Brand wordmark */}
-        <h1 style={{
-          fontSize: 38,
-          fontWeight: 800,
-          color: ORANGE,
-          letterSpacing: -0.5,
-          lineHeight: 1,
-          margin: 0,
-          fontFamily: FONT,
+        {/* ── White sheet ── */}
+        <div style={{
+          position: 'relative',
+          marginTop: -34,
+          background: '#FFFFFF',
+          borderTopLeftRadius: 34,
+          borderTopRightRadius: 34,
+          padding: '0 24px 40px',
+          minHeight: 'calc(100vh - 234px)',
+          boxSizing: 'border-box',
         }}>
-          Havmor
-        </h1>
 
-        {/* Decorative divider */}
-        <DotDivider />
-
-        {/* ── Form card ── */}
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            width: '100%',
-            background: CARD_BG,
-            borderRadius: 32,
-            padding: '28px 22px 24px',
-            border: '1px solid #EDE0D4',
-            boxShadow: '0 16px 40px rgba(200,120,60,0.10)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-          }}
-        >
-
-          {/* Nickname (register only) */}
-          {!isLogin && (
-            <PillField icon={<IconUser />}>
-              <input
-                style={{ ...inputStyle }}
-                type="text"
-                placeholder="Nickname"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </PillField>
-          )}
-
-          {/* Phone Number */}
-          <PillField
-            icon={<IconPhone />}
-            left={
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                paddingRight: 10, borderRight: `1.5px solid ${INPUT_BORDER}`,
-                marginRight: 2, flexShrink: 0,
-              }}>
-                <span style={{ fontSize: 17, fontWeight: 800, color: '#2B2B2B', fontFamily: FONT }}>+91</span>
-              </div>
-            }
-          >
-            <input
-              style={inputStyle}
-              type="tel"
-              placeholder="Phone Number"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              inputMode="numeric"
-              maxLength={10}
+          {/* Circular logo badge overlapping the sheet */}
+          <div style={{
+            position: 'absolute',
+            top: -62,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 124,
+            height: 124,
+            borderRadius: '50%',
+            background: '#FFFFFF',
+            padding: 7,
+            boxSizing: 'border-box',
+            boxShadow: '0 6px 18px rgba(0,0,0,0.10)',
+          }}>
+            <img
+              src={logoAsset.url}
+              alt="Coolio Ice Cream logo"
+              style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }}
             />
-          </PillField>
+          </div>
 
-          {/* Password */}
-          <PillField
-            icon={<IconLock />}
-            right={
+          {/* ── Tabs ── */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 56,
+            paddingTop: 78,
+            marginBottom: 34,
+          }}>
+            {[{ label: 'Login', active: isLogin }, { label: 'Register', active: !isLogin }].map(t => (
+              <button
+                key={t.label}
+                type="button"
+                onClick={() => setIsLogin(t.label === 'Login')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: '0 2px 9px',
+                  cursor: 'pointer',
+                  fontFamily: FONT,
+                  fontSize: 21,
+                  fontWeight: t.active ? 700 : 500,
+                  color: t.active ? ORANGE : '#A5A5A5',
+                  borderBottom: t.active ? `4px solid ${ORANGE}` : '4px solid transparent',
+                  borderRadius: 2,
+                  transition: 'color .2s',
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* ── Form ── */}
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {!isLogin && (
+              <div style={fieldWrap}>
+                <input
+                  style={inputStyle}
+                  type="text"
+                  placeholder="Enter nickname"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+            )}
+
+            {/* Mobile */}
+            <div style={fieldWrap}>
+              <span style={{ fontSize: 17, fontWeight: 700, color: ORANGE, fontFamily: FONT }}>+91</span>
+              <span style={{ width: 1, height: 26, background: '#EBD9CB', flexShrink: 0 }} />
+              <input
+                style={inputStyle}
+                type="tel"
+                inputMode="numeric"
+                maxLength={10}
+                placeholder="Enter mobile number"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+              />
+            </div>
+
+            {/* Password */}
+            <div style={fieldWrap}>
+              <input
+                style={inputStyle}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <button
                 type="button"
                 aria-label="Toggle password visibility"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, flexShrink: 0, display: 'flex', alignItems: 'center' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', flexShrink: 0 }}
               >
                 {showPassword
-                  ? <Eye    width={20} height={20} color={ICON_GLYPH} />
-                  : <EyeOff width={20} height={20} color={ICON_GLYPH} />}
+                  ? <EyeOff width={22} height={22} color={ORANGE} />
+                  : <Eye width={22} height={22} color={ORANGE} />}
               </button>
-            }
-          >
-            <input
-              style={inputStyle}
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </PillField>
+            </div>
 
-          {/* Referral code (register only) */}
-          {!isLogin && (
-            <PillField icon={<IconReferral />}>
-              <input
-                style={inputStyle}
-                type="text"
-                placeholder="Enter refer code"
-                value={referralCode}
-                readOnly={!!lockedRef}
-                onChange={(e) => setReferralCode(e.target.value)}
-              />
-            </PillField>
-          )}
-
-          {/* ── Primary CTA ── */}
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              marginTop: 6,
-              width: '100%',
-              height: 60,
-              borderRadius: 18,
-              background: loading
-                ? '#D4C0B4'
-                : 'linear-gradient(180deg, #F7931E 0%, #F5821F 50%, #F5641E 100%)',
-              color: '#fff',
-              fontWeight: 800,
-              fontSize: 18,
-              fontFamily: FONT,
-              letterSpacing: 1.2,
-              textTransform: 'uppercase',
-              border: 'none',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              boxShadow: loading ? 'none' : '0 8px 24px rgba(245,100,30,0.50), 0 0 40px rgba(247,147,30,0.35), 0 0 8px rgba(245,130,30,0.40)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              transition: 'opacity 0.2s, transform 0.1s',
-              opacity: loading ? 0.75 : 1,
-            }}
-            onMouseDown={e => { if (!loading) (e.currentTarget as HTMLElement).style.transform = 'scale(0.985)'; }}
-            onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
-          >
-            {loading ? 'Please wait…' : (
-              <>
-                {isLogin ? 'Login' : 'Register Now'}
-              </>
+            {!isLogin && (
+              <div style={fieldWrap}>
+                <input
+                  style={inputStyle}
+                  type="text"
+                  placeholder="Enter refer code (optional)"
+                  value={referralCode}
+                  readOnly={!!lockedRef}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                />
+              </div>
             )}
-          </button>
 
-          {/* ── Secondary / toggle ── */}
-          <button
-            type="button"
-            onClick={() => setIsLogin(!isLogin)}
-            style={{
-              width: '100%',
-              height: 56,
-              borderRadius: 18,
-              background: 'transparent',
-              border: `1.5px solid ${ORANGE}`,
-              boxShadow: `0 4px 16px rgba(245,130,30,0.22), 0 0 20px rgba(245,130,30,0.14)`,
-              fontSize: 15.5,
-              fontFamily: FONT,
-              fontWeight: 400,
-              color: ORANGE,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 4,
-            }}
-          >
-            {isLogin ? (
-              <>
-                <span>Don't have an account?</span>
-                <span style={{ fontWeight: 700, color: ORANGE_DEEP }}>&nbsp;Sign Up</span>
-              </>
-            ) : (
-              <>
-                <span>Have an account?</span>
-                <span style={{ fontWeight: 700, color: ORANGE_DEEP }}>&nbsp;Login</span>
-              </>
+            {/* Remember / Forgot */}
+            {isLogin && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '6px 4px 4px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                  <span
+                    onClick={() => setRemember(!remember)}
+                    style={{
+                      width: 22, height: 22, borderRadius: 6,
+                      border: `2px solid ${ORANGE}`,
+                      background: remember ? ORANGE : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {remember && (
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 12.5l5 5L20 6.5" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: '#2B2B2B', fontFamily: FONT }}>Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => toast.info('Please contact support to reset your password')}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: FONT, fontSize: 15, fontWeight: 600, color: ORANGE }}
+                >
+                  Forgot password?
+                </button>
+              </div>
             )}
-          </button>
 
-        </form>
+            {/* Primary CTA */}
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                marginTop: 14,
+                width: '100%',
+                height: 62,
+                borderRadius: 999,
+                border: 'none',
+                background: loading ? '#E5C7B2' : `linear-gradient(180deg, #F5852F 0%, ${ORANGE} 55%, ${ORANGE_DEEP} 100%)`,
+                color: '#FFFFFF',
+                fontFamily: FONT,
+                fontWeight: 700,
+                fontSize: 19,
+                letterSpacing: 1.4,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                boxShadow: loading ? 'none' : '0 10px 22px rgba(240,114,34,0.35)',
+              }}
+            >
+              {loading ? 'PLEASE WAIT…' : (isLogin ? 'LOGIN' : 'REGISTER')}
+            </button>
+
+            {/* Footer switch */}
+            <div style={{ textAlign: 'center', marginTop: 18, fontSize: 15.5, color: MUTED, fontFamily: FONT }}>
+              {isLogin ? "Don't have an account? " : 'Already have an account? '}
+              <button
+                type="button"
+                onClick={() => setIsLogin(!isLogin)}
+                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: FONT, fontSize: 15.5, fontWeight: 700, color: ORANGE }}
+              >
+                {isLogin ? 'Register' : 'Login'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+
+      <style>{`input::placeholder { color: ${PLACEHOLDER}; opacity: 1; }`}</style>
     </div>
   );
 };
 
-/* Inject placeholder colour via a global style tag so we don't need extra deps */
-const PlaceholderStyle = () => (
-  <style>{`
-    input::placeholder { color: ${PLACEHOLDER}; opacity: 1; }
-  `}</style>
-);
-
-const LoginWithStyle = () => (
-  <>
-    <PlaceholderStyle />
-    <Login />
-  </>
-);
-
-export default LoginWithStyle;
+export default Login;
