@@ -17,11 +17,11 @@
 
 @layer base {
   :root {
-    /* ── Surfaces (matches reference peach background) ── */
-    --background: 22 89% 93%;      /* #FDE8DC */
+    /* ── Surfaces (clean white) ── */
+    --background: 0 0% 100%;
     --foreground: 0 0% 17%;
 
-    --card: 28 76% 97%;            /* #FDF6F0 */
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 17%;
 
     --popover: 0 0% 100%;
