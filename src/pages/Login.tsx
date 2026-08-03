@@ -4,8 +4,8 @@ import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
-import coverAsset from '@/assets/auth-cover.jpg.asset.json';
-import logoAsset from '@/assets/coolio-logo.png.asset.json';
+const coverAsset = { url: '/brand/auth-cover.jpg' };
+const logoAsset = { url: '/brand/coolio-logo.png' };
 
 const phoneSchema = z.string().regex(/^[0-9]{10}$/, 'Please enter a valid 10-digit mobile number');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
