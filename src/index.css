@@ -231,25 +231,22 @@
   .shadow-button   { box-shadow: var(--shadow-clay-button); }
 
   .glass-card {
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: #FFFFFF;
+    border: 1px solid rgba(17, 24, 39, 0.06);
     box-shadow: var(--shadow-card);
     border-radius: 24px;
   }
 
-  /* ── Page background — soft peach/blush gradient ── */
+  /* ── Page background — clean white ── */
   .app-bg {
-    background: var(--gradient-bg);
+    background: #FFFFFF;
     min-height: 100vh;
     position: relative;
   }
 
   /* Admin pages */
   .admin-bg {
-    background: var(--gradient-bg);
-    background-attachment: fixed;
+    background: #FFFFFF;
     min-height: 100vh;
   }
 
