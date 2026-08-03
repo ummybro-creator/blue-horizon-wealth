@@ -77,11 +77,11 @@ export function FeaturedProduct() {
       <div
         className="rounded-[24px] relative overflow-visible"
         style={{
-          background: 'rgba(255,255,255,0.85)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: '#FFFFFF',
+          backdropFilter: 'blur(0px)',
+          WebkitBackdropFilter: 'blur(0px)',
           boxShadow: '0 8px 32px rgba(255,106,0,0.12), 0 2px 8px rgba(0,0,0,0.05)',
-          border: '1px solid rgba(255,255,255,0.75)',
+          border: '1px solid #FFFFFF',
         }}
       >
         {/* Top badges */}

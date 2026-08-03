@@ -14,11 +14,11 @@ const BTN_GRAD  = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
 const BTN_SHADOW = '0 10px 24px rgba(255,106,0,0.38)';
 
 const CARD: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.85)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  boxShadow: '0 8px 24px rgba(255,106,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
-  border: '1px solid rgba(255,255,255,0.75)',
+  background: '#FFFFFF',
+  backdropFilter: 'blur(0px)',
+  WebkitBackdropFilter: 'blur(0px)',
+  boxShadow: '0 8px 24px rgba(17,24,39,0.08), 0 1px 3px rgba(17,24,39,0.05)',
+  border: '1px solid #FFFFFF',
   borderRadius: 24,
   padding: '20px',
 };

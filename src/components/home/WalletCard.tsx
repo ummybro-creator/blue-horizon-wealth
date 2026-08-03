@@ -22,11 +22,11 @@ export function WalletCard() {
       <div
         className="rounded-[24px] p-5"
         style={{
-          background: 'rgba(255,255,255,0.88)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: '#FFFFFF',
+          backdropFilter: 'blur(0px)',
+          WebkitBackdropFilter: 'blur(0px)',
           boxShadow: '0 16px 48px rgba(255,106,0,0.14), 0 4px 12px rgba(0,0,0,0.06)',
-          border: '1px solid rgba(255,255,255,0.78)',
+          border: '1px solid #FFFFFF',
           fontFamily: "'Poppins', sans-serif",
         }}
       >

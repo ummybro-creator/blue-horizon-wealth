@@ -14,9 +14,9 @@ const BTN_SHADOW  = '0 6px 14px rgba(255,106,0,0.4)';
 
 const CARD: React.CSSProperties = {
   borderRadius: 28,
-  background: 'rgba(255,255,255,0.75)',
-  backdropFilter: 'blur(18px)',
-  WebkitBackdropFilter: 'blur(18px)',
+  background: '#FFFFFF',
+  backdropFilter: 'blur(0px)',
+  WebkitBackdropFilter: 'blur(0px)',
   border: '1px solid rgba(255,255,255,0.9)',
   boxShadow: '0 20px 40px rgba(255,150,80,0.18)',
 };
@@ -48,17 +48,10 @@ const Profile = () => {
         className="min-h-screen pb-10"
         style={{
           fontFamily: "'Poppins', sans-serif",
-          background: 'linear-gradient(180deg, #FFEDE3 0%, #FDF2EC 100%)',
+          background: '#FFFFFF',
           position: 'relative',
         }}
       >
-        {/* Orange blob at top */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle at top left, rgba(255,138,0,0.45), transparent 55%), radial-gradient(circle at top right, rgba(255,138,0,0.3), transparent 50%)',
-          }}
-        />
 
         {/* ── Header ── */}
         <div className="relative z-10 clay-header px-5 pt-12 pb-6">
@@ -91,7 +84,7 @@ const Profile = () => {
           {/* Balance card (inside header) */}
           <div
             className="rounded-[20px] px-5 py-4 flex items-center justify-between mb-4"
-            style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 4px 14px rgba(0,0,0,0.08)' }}
+            style={{ background: '#FFFFFF', boxShadow: '0 4px 14px rgba(0,0,0,0.08)' }}
           >
             <div>
               <div className="flex items-center gap-1.5 mb-1">
@@ -114,7 +107,7 @@ const Profile = () => {
           {/* Stats Row */}
           <div
             className="rounded-[20px] grid grid-cols-3 overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(255,255,255,0.6)' }}
+            style={{ background: '#FFFFFF', border: '1px solid rgba(255,255,255,0.6)' }}
           >
             {[
               { label: 'Recharge', value: wallet?.recharge_balance    ?? 0 },

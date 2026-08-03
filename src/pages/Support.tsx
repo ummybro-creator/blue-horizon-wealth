@@ -339,7 +339,7 @@ const Support = () => {
         className="fixed bottom-0 left-0 right-0 max-w-lg mx-auto px-4 py-3"
         style={{
           background: 'rgba(247,242,238,0.96)',
-          backdropFilter: 'blur(12px)',
+          backdropFilter: 'blur(0px)',
           borderTop: '1px solid rgba(255,106,0,0.10)',
           paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
         }}

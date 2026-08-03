@@ -23,11 +23,11 @@ export function QuickMenu() {
       <div
         className="p-4 rounded-[24px]"
         style={{
-          background: 'rgba(255,255,255,0.85)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: '#FFFFFF',
+          backdropFilter: 'blur(0px)',
+          WebkitBackdropFilter: 'blur(0px)',
           boxShadow: '0 8px 24px rgba(22,163,74,0.08), 0 2px 6px rgba(0,0,0,0.04)',
-          border: '1px solid rgba(255,255,255,0.72)',
+          border: '1px solid #FFFFFF',
         }}
       >
         <div className="grid grid-cols-4 gap-3">

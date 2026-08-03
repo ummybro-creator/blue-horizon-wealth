@@ -17,11 +17,11 @@
 
 @layer base {
   :root {
-    /* ── Surfaces (matches reference peach background) ── */
-    --background: 22 89% 93%;      /* #FDE8DC */
+    /* ── Surfaces (clean white) ── */
+    --background: 0 0% 100%;
     --foreground: 0 0% 17%;
 
-    --card: 28 76% 97%;            /* #FDF6F0 */
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 17%;
 
     --popover: 0 0% 100%;
@@ -66,16 +66,16 @@
     --gradient-primary: linear-gradient(135deg, #FF7A1A 0%, #FF6B00 100%);
     --gradient-header:  linear-gradient(135deg, #FF7A1A 0%, #FF6B00 100%);
     --gradient-green:   linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    --gradient-bg:      linear-gradient(180deg, #FDE8DC 0%, #FFF6EE 100%);
-    --gradient-purple:  linear-gradient(135deg, #B57BFF 0%, #7B3FBF 100%);
-    --gradient-glass:   linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 100%);
+   --gradient-bg:      #FFFFFF;
+   --gradient-purple:  linear-gradient(135deg, #B57BFF 0%, #7B3FBF 100%);
+   --gradient-glass:   #FFFFFF;
 
-    --shadow-clay:        0 12px 40px rgba(255,106,0,0.12), 0 2px 8px rgba(255,106,0,0.06);
-    --shadow-clay-sm:     0 6px 20px rgba(255,106,0,0.10);
-    --shadow-clay-lg:     0 24px 60px rgba(255,106,0,0.16), 0 4px 12px rgba(255,106,0,0.08);
-    --shadow-clay-button: 0 8px 24px rgba(255,106,0,0.38);
-    --shadow-card:        0 8px 32px rgba(255,120,40,0.10);
-    --shadow-icon:        0 8px 28px rgba(255,106,0,0.35);
+   --shadow-clay:        0 8px 24px rgba(17,24,39,0.08), 0 2px 6px rgba(17,24,39,0.05);
+   --shadow-clay-sm:     0 4px 14px rgba(17,24,39,0.07);
+   --shadow-clay-lg:     0 16px 40px rgba(17,24,39,0.10), 0 4px 10px rgba(17,24,39,0.06);
+   --shadow-clay-button: 0 8px 24px rgba(255,106,0,0.32);
+   --shadow-card:        0 6px 20px rgba(17,24,39,0.08), 0 1px 3px rgba(17,24,39,0.05);
+   --shadow-icon:        0 8px 28px rgba(255,106,0,0.35);
     --shadow-elevated:    var(--shadow-clay-lg);
     --shadow-button:      var(--shadow-clay-button);
     --shadow-glass:       0 8px 32px rgba(255,106,0,0.10);
@@ -127,34 +127,28 @@
   .gradient-green   { background: var(--gradient-green); }
   .gradient-purple  { background: var(--gradient-purple); }
 
-  /* ── Glass Cards (existing app system — unchanged) ── */
+  /* ── Solid white cards with soft shadow ── */
   .clay-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    background: #FFFFFF;
     border-radius: 24px;
     box-shadow: var(--shadow-card);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(17, 24, 39, 0.06);
     position: relative;
     overflow: hidden;
   }
 
   .clay-card-sm {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: #FFFFFF;
     border-radius: 20px;
     box-shadow: var(--shadow-clay-sm);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(17, 24, 39, 0.06);
   }
 
   .clay-card-lg {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    background: #FFFFFF;
     border-radius: 28px;
     box-shadow: var(--shadow-clay-lg);
-    border: 1px solid rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(17, 24, 39, 0.06);
   }
 
   .clay-inset {
@@ -237,34 +231,30 @@
   .shadow-button   { box-shadow: var(--shadow-clay-button); }
 
   .glass-card {
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: #FFFFFF;
+    border: 1px solid rgba(17, 24, 39, 0.06);
     box-shadow: var(--shadow-card);
     border-radius: 24px;
   }
 
-  /* ── Page background — soft peach/blush gradient ── */
+  /* ── Page background — clean white ── */
   .app-bg {
-    background: var(--gradient-bg);
+    background: #FFFFFF;
     min-height: 100vh;
     position: relative;
   }
 
   /* Admin pages */
   .admin-bg {
-    background: var(--gradient-bg);
-    background-attachment: fixed;
+    background: #FFFFFF;
     min-height: 100vh;
   }
 
   .admin-card {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(20px);
+    background: #FFFFFF;
     border-radius: 20px;
     box-shadow: var(--shadow-card);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(17, 24, 39, 0.06);
   }
 
   .admin-inset {
@@ -291,7 +281,7 @@
      ============================================================ */
 
   .auth-bg {
-    background: var(--gradient-bg);
+    background: #FFFFFF;
     min-height: 100vh;
   }
 

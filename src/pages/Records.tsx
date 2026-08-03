@@ -159,7 +159,7 @@ const Records = () => {
             className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all"
             style={filter === tab.id
               ? { background: 'linear-gradient(135deg,#FF8A00,#FF6A00)', color: '#fff', boxShadow: '0 6px 16px rgba(255,106,0,0.35)' }
-              : { background: 'rgba(255,255,255,0.85)', color: '#8A8A8A', boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }}
+              : { background: '#FFFFFF', color: '#8A8A8A', boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }}
           >
             {tab.id === 'pending' && <Clock className="w-3.5 h-3.5" />}
             {tab.id === 'done' && <CheckCircle2 className="w-3.5 h-3.5" />}
