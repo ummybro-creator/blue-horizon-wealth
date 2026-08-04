@@ -1,4 +1,4 @@
-import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift, MessageCircle, Send, ArrowRight } from 'lucide-react';
+import { Copy, Share2, Users, User, TrendingUp, ChevronRight, Gift, MessageCircle, Send, ArrowRight, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { toast } from 'sonner';
