@@ -123,9 +123,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const cleanPhone = phone.replace(/\D/g, '');
       const email = `${cleanPhone}@app.local`;
+      const cleanRef = (referralCode || '').trim().toUpperCase();
       const { error } = await supabase.auth.signUp({
         email, password,
-        options: { data: { full_name: fullName || '', phone: cleanPhone, referral_code: referralCode || '' } },
+        options: { data: { full_name: fullName || '', phone: cleanPhone, referral_code: cleanRef } },
       });
       if (error) return { error: new Error((error as any).message || String(error)) };
       return { error: null };

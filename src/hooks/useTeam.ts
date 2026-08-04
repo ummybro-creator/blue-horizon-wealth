@@ -8,6 +8,7 @@ interface TeamMember {
   phone: string;
   level: number;
   joinedAt: string;
+  totalRecharge: number;
 }
 
 interface TeamStats {
@@ -20,102 +21,49 @@ interface TeamStats {
   level3Recharges: number;
 }
 
+const emptyStats: TeamStats = {
+  level1Members: 0,
+  level2Members: 0,
+  level3Members: 0,
+  totalMembers: 0,
+  level1Recharges: 0,
+  level2Recharges: 0,
+  level3Recharges: 0,
+};
+
 export function useTeam() {
   const { user } = useAuth();
 
   return useQuery({
     queryKey: ['team', user?.id],
     queryFn: async (): Promise<{ members: TeamMember[]; stats: TeamStats }> => {
-      if (!user?.id) {
-        return {
-          members: [],
-          stats: {
-            level1Members: 0,
-            level2Members: 0,
-            level3Members: 0,
-            totalMembers: 0,
-            level1Recharges: 0,
-            level2Recharges: 0,
-            level3Recharges: 0,
-          },
-        };
+      if (!user?.id) return { members: [], stats: emptyStats };
+
+      // Server-side function: returns the full 3-level downline for the
+      // signed-in user (profiles of other users aren't directly readable).
+      const { data, error } = await supabase.rpc('get_my_team' as never);
+      if (error) throw error;
+
+      const members: TeamMember[] = ((data as any[]) || []).map((row) => ({
+        id: row.id,
+        name: row.name || 'User',
+        phone: row.phone || '',
+        level: Number(row.level) || 1,
+        joinedAt: row.joined_at,
+        totalRecharge: Number(row.total_recharge) || 0,
+      }));
+
+      const stats: TeamStats = { ...emptyStats };
+      for (const m of members) {
+        if (m.level === 1) { stats.level1Members++; stats.level1Recharges += m.totalRecharge; }
+        else if (m.level === 2) { stats.level2Members++; stats.level2Recharges += m.totalRecharge; }
+        else if (m.level === 3) { stats.level3Members++; stats.level3Recharges += m.totalRecharge; }
       }
+      stats.totalMembers = stats.level1Members + stats.level2Members + stats.level3Members;
 
-      // Fetch referrals where current user is the referrer
-      const { data: referrals, error: referralsError } = await supabase
-        .from('referrals')
-        .select('referred_id, level, created_at')
-        .eq('referrer_id', user.id);
-
-      if (referralsError) throw referralsError;
-
-      // Get referred user profiles
-      const referredIds = referrals?.map(r => r.referred_id) || [];
-      
-      let members: TeamMember[] = [];
-      
-      if (referredIds.length > 0) {
-        const { data: profiles, error: profilesError } = await supabase
-          .from('profiles')
-          .select('id, full_name, phone_number, created_at')
-          .in('id', referredIds);
-
-        if (profilesError) throw profilesError;
-
-        members = (profiles || []).map(profile => {
-          const referral = referrals?.find(r => r.referred_id === profile.id);
-          return {
-            id: profile.id,
-            name: profile.full_name || 'User',
-            phone: profile.phone_number,
-            level: referral?.level || 1,
-            joinedAt: profile.created_at,
-          };
-        });
-      }
-
-      // Calculate stats
-      const level1Members = members.filter(m => m.level === 1).length;
-      const level2Members = members.filter(m => m.level === 2).length;
-      const level3Members = members.filter(m => m.level === 3).length;
-
-      // Get approved recharges from team members
-      let level1Recharges = 0;
-      let level2Recharges = 0;
-      let level3Recharges = 0;
-
-      if (referredIds.length > 0) {
-        const { data: recharges, error: rechargesError } = await supabase
-          .from('recharges')
-          .select('user_id, amount')
-          .in('user_id', referredIds)
-          .eq('status', 'approved');
-
-        if (!rechargesError && recharges) {
-          recharges.forEach(recharge => {
-            const referral = referrals?.find(r => r.referred_id === recharge.user_id);
-            if (referral) {
-              if (referral.level === 1) level1Recharges += Number(recharge.amount);
-              else if (referral.level === 2) level2Recharges += Number(recharge.amount);
-              else if (referral.level === 3) level3Recharges += Number(recharge.amount);
-            }
-          });
-        }
-      }
-
-      return {
-        members,
-        stats: {
-          level1Members,
-          level2Members,
-          level3Members,
-          totalMembers: level1Members + level2Members + level3Members,
-          level1Recharges,
-          level2Recharges,
-          level3Recharges,
-        },
-      };
+      return { members, stats };
     },
     enabled: !!user?.id,
+    staleTime: 0,
   });
 }
