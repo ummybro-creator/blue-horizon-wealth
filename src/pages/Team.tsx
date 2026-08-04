@@ -246,6 +246,26 @@ const Team = () => {
           </button>
         </div>
 
+        {/* ── Team Deposits Link ── */}
+        <div className="mx-4 mt-4">
+          <button
+            onClick={() => navigate('/team-deposits')}
+            className="w-full flex items-center justify-between px-4 py-4"
+            style={CARD}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#FFE3C5' }}>
+                <Wallet className="w-5 h-5" style={{ color: ORANGE }} />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-bold" style={{ color: '#2B2B2B' }}>Team Deposits</p>
+                <p className="text-xs" style={{ color: '#8A8A8A' }}>See how much your team has deposited</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5" style={{ color: '#8A8A8A' }} />
+          </button>
+        </div>
+
         {/* ── Team Members Link ── */}
         <div className="mx-4 mt-4 mb-6">
           <button
@@ -265,6 +285,7 @@ const Team = () => {
             <ChevronRight className="w-5 h-5" style={{ color: '#8A8A8A' }} />
           </button>
         </div>
+
 
       </div>
     </AppLayout>
