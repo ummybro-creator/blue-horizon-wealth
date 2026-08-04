@@ -31,6 +31,7 @@ const Earnings = lazy(() => import("./pages/Earnings"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const TeamMembers = lazy(() => import("./pages/TeamMembers"));
+const TeamDeposits = lazy(() => import("./pages/TeamDeposits"));
 const BecomePromoter = lazy(() => import("./pages/BecomePromoter"));
 const ContactSupport = lazy(() => import("./pages/ContactSupport"));
 
@@ -107,6 +108,7 @@ const App = () => {
                 <Route path="/bank-details" element={<ProtectedRoute><BankDetails /></ProtectedRoute>} />
                 <Route path="/become-promoter" element={<ProtectedRoute><BecomePromoter /></ProtectedRoute>} />
                 <Route path="/team-members" element={<ProtectedRoute><TeamMembers /></ProtectedRoute>} />
+                <Route path="/team-deposits" element={<ProtectedRoute><TeamDeposits /></ProtectedRoute>} />
                 <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
                 <Route path="/active-plans" element={<ProtectedRoute><ActivePlans /></ProtectedRoute>} />
                 <Route path="/earnings" element={<ProtectedRoute><Earnings /></ProtectedRoute>} />
