@@ -31,6 +31,7 @@ const Earnings = lazy(() => import("./pages/Earnings"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const TeamMembers = lazy(() => import("./pages/TeamMembers"));
+const TeamDeposits = lazy(() => import("./pages/TeamDeposits"));
 const BecomePromoter = lazy(() => import("./pages/BecomePromoter"));
 const ContactSupport = lazy(() => import("./pages/ContactSupport"));
 
