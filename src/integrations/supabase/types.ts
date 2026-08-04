@@ -737,6 +737,17 @@ export type Database = {
         Returns: boolean
       }
       get_dashboard_stats: { Args: never; Returns: Json }
+      get_my_team: {
+        Args: never
+        Returns: {
+          id: string
+          joined_at: string
+          level: number
+          name: string
+          phone: string
+          total_recharge: number
+        }[]
+      }
       get_revenue_chart: {
         Args: { p_days: number }
         Returns: {
