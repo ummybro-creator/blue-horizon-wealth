@@ -217,7 +217,7 @@ const Payment = () => {
               disabled={isSubmitting || !rechargeId}
               className="h-12 px-6 bg-primary hover:bg-primary/90"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              {isSubmitting ? "Verifying..." : "Submit"}
             </Button>
           </div>
         </div>
