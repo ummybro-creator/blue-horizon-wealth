@@ -110,6 +110,8 @@ const AdminSettings = () => {
       { label: 'Withdraw Charge (%)', key: 'withdraw_charge_percent', placeholder: '0', type: 'number' },
       { label: 'Withdraw Delay (hours)', key: 'withdraw_delay_hours', placeholder: '0', type: 'number' },
       { label: 'Deposit Multiplier for Withdrawal', key: 'withdrawal_deposit_multiplier', placeholder: '3', type: 'number' },
+      { label: 'Auto-Approve Max Amount (₹)', key: 'auto_approve_max_amount', placeholder: '50000', type: 'number' },
+      { label: 'UTR Length (digits)', key: 'utr_length', placeholder: '12', type: 'number' },
     ]},
   ];
 
