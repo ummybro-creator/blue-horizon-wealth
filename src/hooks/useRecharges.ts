@@ -78,8 +78,15 @@ export function useCreateRecharge() {
 }
 
 /* =========================
-   UPDATE UTR NUMBER
+   SUBMIT UTR + AUTO VERIFICATION
+   All validation & approval happens server-side
 ========================= */
+export interface VerifyRechargeResult {
+  status: 'approved' | 'pending';
+  amount?: number;
+  message: string;
+}
+
 export function useUpdateRechargeUTR() {
   const queryClient = useQueryClient();
 
@@ -91,18 +98,33 @@ export function useUpdateRechargeUTR() {
       rechargeId: string;
       utrNumber: string;
     }) => {
-      const { data, error } = await supabase
-        .from('recharges')
-        .update({ utr_number: utrNumber })
-        .eq('id', rechargeId)
-        .select()
-        .single();
+      const { data, error } = await supabase.functions.invoke('verify-recharge', {
+        body: { recharge_id: rechargeId, utr_number: utrNumber },
+      });
 
-      if (error) throw error;
-      return data;
+      // Edge function returns non-2xx with a JSON { error } payload
+      if (error) {
+        let message = 'Could not verify your payment. Please try again.';
+        const ctx = (error as { context?: Response }).context;
+        if (ctx && typeof ctx.json === 'function') {
+          try {
+            const body = await ctx.json();
+            if (body?.error) message = body.error;
+          } catch {
+            /* ignore */
+          }
+        }
+        throw new Error(message);
+      }
+
+      if (data?.error) throw new Error(data.error);
+      return data as VerifyRechargeResult;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recharges'] });
+      queryClient.invalidateQueries({ queryKey: ['wallet'] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['ledger'] });
     },
   });
 }

@@ -15,7 +15,9 @@ const AdminSettings = () => {
     checkin_bonus_amount: '', minimum_withdrawal: '', minimum_recharge: '',
     maximum_withdrawal: '', withdraw_charge_percent: '', withdraw_delay_hours: '',
     withdrawal_deposit_multiplier: '',
+    auto_approve_max_amount: '', utr_length: '',
     withdraw_enabled: true, recharge_enabled: true, earnings_paused: false,
+    auto_approve_recharge: true,
   });
 
   const { data: settings, isLoading } = useQuery({
@@ -42,9 +44,12 @@ const AdminSettings = () => {
       withdraw_charge_percent: settings.withdraw_charge_percent?.toString() || '0',
       withdraw_delay_hours: settings.withdraw_delay_hours?.toString() || '0',
       withdrawal_deposit_multiplier: (settings as any).withdrawal_deposit_multiplier?.toString() || '3',
+      auto_approve_max_amount: (settings as any).auto_approve_max_amount?.toString() || '50000',
+      utr_length: (settings as any).utr_length?.toString() || '12',
       withdraw_enabled: settings.withdraw_enabled ?? true,
       recharge_enabled: settings.recharge_enabled ?? true,
       earnings_paused: settings.earnings_paused ?? false,
+      auto_approve_recharge: (settings as any).auto_approve_recharge ?? true,
     });
   }, [settings]);
 
@@ -66,6 +71,9 @@ const AdminSettings = () => {
         withdraw_charge_percent: parseFloat(formData.withdraw_charge_percent) || 0,
         withdraw_delay_hours: parseInt(formData.withdraw_delay_hours) || 0,
         withdrawal_deposit_multiplier: parseInt(formData.withdrawal_deposit_multiplier) || 3,
+        auto_approve_recharge: formData.auto_approve_recharge,
+        auto_approve_max_amount: parseFloat(formData.auto_approve_max_amount) || 50000,
+        utr_length: parseInt(formData.utr_length) || 12,
         withdraw_enabled: formData.withdraw_enabled,
         recharge_enabled: formData.recharge_enabled,
         earnings_paused: formData.earnings_paused,
@@ -102,6 +110,8 @@ const AdminSettings = () => {
       { label: 'Withdraw Charge (%)', key: 'withdraw_charge_percent', placeholder: '0', type: 'number' },
       { label: 'Withdraw Delay (hours)', key: 'withdraw_delay_hours', placeholder: '0', type: 'number' },
       { label: 'Deposit Multiplier for Withdrawal', key: 'withdrawal_deposit_multiplier', placeholder: '3', type: 'number' },
+      { label: 'Auto-Approve Max Amount (₹)', key: 'auto_approve_max_amount', placeholder: '50000', type: 'number' },
+      { label: 'UTR Length (digits)', key: 'utr_length', placeholder: '12', type: 'number' },
     ]},
   ];
 
@@ -144,6 +154,13 @@ const AdminSettings = () => {
               <p className="text-[10px] text-muted-foreground">Stop all daily income generation</p>
             </div>
             <Switch checked={formData.earnings_paused} onCheckedChange={v => setFormData({...formData, earnings_paused: v})} />
+          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-foreground">Auto Payment Verification</p>
+              <p className="text-[10px] text-muted-foreground">Instantly approve deposits with a valid, unused UTR</p>
+            </div>
+            <Switch checked={formData.auto_approve_recharge} onCheckedChange={v => setFormData({...formData, auto_approve_recharge: v})} />
           </div>
         </div>
       </div>

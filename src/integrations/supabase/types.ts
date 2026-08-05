@@ -51,6 +51,8 @@ export type Database = {
         Row: {
           app_logo_url: string | null
           app_name: string | null
+          auto_approve_max_amount: number
+          auto_approve_recharge: boolean
           checkin_bonus_amount: number | null
           created_at: string | null
           deposit_bonus_percent: number | null
@@ -76,6 +78,7 @@ export type Database = {
           support_whatsapp: string | null
           telegram_group_link: string | null
           updated_at: string | null
+          utr_length: number
           withdraw_charge_percent: number | null
           withdraw_delay_hours: number | null
           withdraw_enabled: boolean | null
@@ -84,6 +87,8 @@ export type Database = {
         Insert: {
           app_logo_url?: string | null
           app_name?: string | null
+          auto_approve_max_amount?: number
+          auto_approve_recharge?: boolean
           checkin_bonus_amount?: number | null
           created_at?: string | null
           deposit_bonus_percent?: number | null
@@ -109,6 +114,7 @@ export type Database = {
           support_whatsapp?: string | null
           telegram_group_link?: string | null
           updated_at?: string | null
+          utr_length?: number
           withdraw_charge_percent?: number | null
           withdraw_delay_hours?: number | null
           withdraw_enabled?: boolean | null
@@ -117,6 +123,8 @@ export type Database = {
         Update: {
           app_logo_url?: string | null
           app_name?: string | null
+          auto_approve_max_amount?: number
+          auto_approve_recharge?: boolean
           checkin_bonus_amount?: number | null
           created_at?: string | null
           deposit_bonus_percent?: number | null
@@ -142,6 +150,7 @@ export type Database = {
           support_whatsapp?: string | null
           telegram_group_link?: string | null
           updated_at?: string | null
+          utr_length?: number
           withdraw_charge_percent?: number | null
           withdraw_delay_hours?: number | null
           withdraw_enabled?: boolean | null
@@ -364,6 +373,7 @@ export type Database = {
       recharges: {
         Row: {
           amount: number
+          auto_verified: boolean
           id: string
           processed_at: string | null
           processed_by: string | null
@@ -375,6 +385,7 @@ export type Database = {
         }
         Insert: {
           amount: number
+          auto_verified?: boolean
           id?: string
           processed_at?: string | null
           processed_by?: string | null
@@ -386,6 +397,7 @@ export type Database = {
         }
         Update: {
           amount?: number
+          auto_verified?: boolean
           id?: string
           processed_at?: string | null
           processed_by?: string | null

@@ -105,13 +105,22 @@ const Payment = () => {
     }
     setIsSubmitting(true);
     try {
-      await updateRechargeUTR.mutateAsync({ rechargeId, utrNumber: utrNumber.trim() });
-      toast.success('Recharge request submitted!', {
-        description: 'Your request will be processed within 24 hours.',
+      const result = await updateRechargeUTR.mutateAsync({
+        rechargeId,
+        utrNumber: utrNumber.trim(),
       });
+      if (result?.status === 'approved') {
+        toast.success('Payment verified instantly!', {
+          description: result.message || 'Your balance has been credited.',
+        });
+      } else {
+        toast.success('UTR submitted', {
+          description: result?.message || 'Your deposit is being reviewed.',
+        });
+      }
       navigate('/');
-    } catch {
-      toast.error('Failed to submit recharge request');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to submit recharge request');
     } finally {
       setIsSubmitting(false);
     }
@@ -189,12 +198,18 @@ const Payment = () => {
           <h3 className="font-semibold text-foreground">
             Submit UTR / Reference No. after payment
           </h3>
+          <p className="text-xs text-muted-foreground">
+            Your balance is credited <span className="font-semibold text-primary">instantly</span> once
+            the 12-digit UTR from your UPI app is verified.
+          </p>
           <div className="flex gap-2">
             <Input
               type="text"
-              placeholder="UTR (UPI Ref. ID)"
+              inputMode="numeric"
+              maxLength={12}
+              placeholder="12-digit UTR (UPI Ref. ID)"
               value={utrNumber}
-              onChange={(e) => setUtrNumber(e.target.value)}
+              onChange={(e) => setUtrNumber(e.target.value.replace(/\D/g, ''))}
               className="flex-1 h-12"
             />
             <Button
@@ -202,7 +217,7 @@ const Payment = () => {
               disabled={isSubmitting || !rechargeId}
               className="h-12 px-6 bg-primary hover:bg-primary/90"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              {isSubmitting ? "Verifying..." : "Submit"}
             </Button>
           </div>
         </div>
