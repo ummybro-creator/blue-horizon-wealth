@@ -105,13 +105,22 @@ const Payment = () => {
     }
     setIsSubmitting(true);
     try {
-      await updateRechargeUTR.mutateAsync({ rechargeId, utrNumber: utrNumber.trim() });
-      toast.success('Recharge request submitted!', {
-        description: 'Your request will be processed within 24 hours.',
+      const result = await updateRechargeUTR.mutateAsync({
+        rechargeId,
+        utrNumber: utrNumber.trim(),
       });
+      if (result?.status === 'approved') {
+        toast.success('Payment verified instantly!', {
+          description: result.message || 'Your balance has been credited.',
+        });
+      } else {
+        toast.success('UTR submitted', {
+          description: result?.message || 'Your deposit is being reviewed.',
+        });
+      }
       navigate('/');
-    } catch {
-      toast.error('Failed to submit recharge request');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to submit recharge request');
     } finally {
       setIsSubmitting(false);
     }
