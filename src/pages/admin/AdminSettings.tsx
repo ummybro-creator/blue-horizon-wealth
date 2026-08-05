@@ -155,6 +155,13 @@ const AdminSettings = () => {
             </div>
             <Switch checked={formData.earnings_paused} onCheckedChange={v => setFormData({...formData, earnings_paused: v})} />
           </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-foreground">Auto Payment Verification</p>
+              <p className="text-[10px] text-muted-foreground">Instantly approve deposits with a valid, unused UTR</p>
+            </div>
+            <Switch checked={formData.auto_approve_recharge} onCheckedChange={v => setFormData({...formData, auto_approve_recharge: v})} />
+          </div>
         </div>
       </div>
 
