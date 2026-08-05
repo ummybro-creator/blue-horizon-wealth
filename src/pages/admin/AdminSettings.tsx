@@ -15,7 +15,9 @@ const AdminSettings = () => {
     checkin_bonus_amount: '', minimum_withdrawal: '', minimum_recharge: '',
     maximum_withdrawal: '', withdraw_charge_percent: '', withdraw_delay_hours: '',
     withdrawal_deposit_multiplier: '',
+    auto_approve_max_amount: '', utr_length: '',
     withdraw_enabled: true, recharge_enabled: true, earnings_paused: false,
+    auto_approve_recharge: true,
   });
 
   const { data: settings, isLoading } = useQuery({
