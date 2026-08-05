@@ -44,9 +44,12 @@ const AdminSettings = () => {
       withdraw_charge_percent: settings.withdraw_charge_percent?.toString() || '0',
       withdraw_delay_hours: settings.withdraw_delay_hours?.toString() || '0',
       withdrawal_deposit_multiplier: (settings as any).withdrawal_deposit_multiplier?.toString() || '3',
+      auto_approve_max_amount: (settings as any).auto_approve_max_amount?.toString() || '50000',
+      utr_length: (settings as any).utr_length?.toString() || '12',
       withdraw_enabled: settings.withdraw_enabled ?? true,
       recharge_enabled: settings.recharge_enabled ?? true,
       earnings_paused: settings.earnings_paused ?? false,
+      auto_approve_recharge: (settings as any).auto_approve_recharge ?? true,
     });
   }, [settings]);
 
