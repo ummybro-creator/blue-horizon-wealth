@@ -29,6 +29,16 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [react()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            "vendor-react": ["react", "react-dom", "react-router-dom"],
+            "vendor-data": ["@tanstack/react-query", "@supabase/supabase-js"],
+          },
+        },
+      },
+    },
     resolve: {
       alias: { "@": path.resolve(__dirname, "./src") },
     },
