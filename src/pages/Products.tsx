@@ -4,14 +4,15 @@ import { Loader2 } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useProducts, Product } from '@/hooks/useProducts';
 import { useCreateInvestment } from '@/hooks/useInvestments';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { LazyImage } from '@/components/ui/LazyImage';
 
-const ORANGE = '#FF6A00';
-const ORANGE_GRAD = 'linear-gradient(180deg, #FF9A26 0%, #F97008 55%, #F26400 100%)';
-const GREEN_GRAD = 'linear-gradient(180deg, #55B45A 0%, #35953C 100%)';
-const BTN_SHADOW = '0 10px 22px rgba(249,112,8,0.42), inset 0 1px 0 rgba(255,255,255,0.45)';
-const FONT = "'Poppins', sans-serif";
+const ORANGE       = '#FF6A00';
+const BTN_GRAD     = 'linear-gradient(135deg, #FF8A00 0%, #FF6A00 100%)';
+const GREEN_GRAD   = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
+const BTN_SHADOW   = '0 8px 20px rgba(255,106,0,0.38)';
+const GREEN_SHADOW = '0 4px 12px rgba(46,125,50,0.35)';
 
 const Products = () => {
   const navigate = useNavigate();
@@ -20,13 +21,15 @@ const Products = () => {
 
   const { data: productsRaw, isLoading } = useProducts(activeTab);
 
+  // Pin ₹294 plan to top for daily tab
   const products = productsRaw ? (() => {
     if (activeTab !== 'daily') return productsRaw;
-    const pinned = productsRaw.find((p) => Number(p.price) === 294);
+    const pinned = productsRaw.find(p => Number(p.price) === 294);
     if (!pinned) return productsRaw;
-    return [pinned, ...productsRaw.filter((p) => p.id !== pinned.id)];
+    return [pinned, ...productsRaw.filter(p => p.id !== pinned.id)];
   })() : productsRaw;
 
+  const { wallet } = useAuth();
   const createInvestment = useCreateInvestment();
 
   const handleInvest = async (product: Product) => {
@@ -51,32 +54,25 @@ const Products = () => {
 
   return (
     <AppLayout>
-      <div className="relative min-h-screen overflow-hidden" style={{ fontFamily: FONT, background: '#F6F2F0' }}>
-        {/* Orange arc backdrop behind tab bar */}
-        <div
-          className="absolute left-0 right-0 top-0 pointer-events-none"
-          style={{
-            height: 150,
-            background: 'linear-gradient(180deg, #FF7A00 0%, #F96A00 100%)',
-            borderBottomLeftRadius: '46% 100%',
-            borderBottomRightRadius: '46% 100%',
-          }}
-        />
+      <div
+        className="min-h-screen"
+        style={{ fontFamily: "'Poppins', sans-serif" }}
+      >
+        {/* ── Header ── */}
+        <div className="pt-12 pb-4 text-center px-5">
+          <h1
+            className="text-[24px] font-extrabold"
+            style={{ color: '#2B2B2B' }}
+          >
+            Plan Store
+          </h1>
+        </div>
 
         {/* ── Tab Bar ── */}
-        <div className="relative px-4 pt-5">
+        <div className="px-5 mb-6">
           <div
-            className="flex"
-            style={{
-              padding: 8,
-              borderRadius: 30,
-              background: 'linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.86) 100%)',
-              backdropFilter: 'blur(22px) saturate(150%)',
-              WebkitBackdropFilter: 'blur(22px) saturate(150%)',
-              border: '1.5px solid rgba(255,255,255,0.85)',
-              boxShadow:
-                '0 12px 30px rgba(249,112,8,0.20), inset 0 1px 0 rgba(255,255,255,0.9)',
-            }}
+            className="tab-glass-container flex p-1.5"
+            style={{ padding: '6px' }}
           >
             {(['daily', 'vip'] as const).map((tab) => {
               const isActive = activeTab === tab;
@@ -84,20 +80,15 @@ const Products = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className="flex-1 transition-all duration-300 active:scale-[0.985]"
+                  className="flex-1 py-3 rounded-full text-[15px] font-bold transition-all duration-250"
                   style={{
-                    height: 54,
-                    borderRadius: 22,
-                    fontSize: 19,
-                    fontWeight: 700,
-                    letterSpacing: '-0.2px',
+                    background: isActive ? BTN_GRAD : 'transparent',
                     color: isActive ? '#FFFFFF' : '#8A8A8A',
-                    background: isActive ? ORANGE_GRAD : 'transparent',
-                    border: isActive ? '1.5px solid rgba(255,255,255,0.75)' : '1.5px solid transparent',
                     boxShadow: isActive ? BTN_SHADOW : 'none',
+                    fontFamily: "'Poppins', sans-serif",
                   }}
                 >
-                  {tab === 'daily' ? 'Daily Plan' : 'Welflare Plan'}
+                  {tab === 'daily' ? 'Daily Plan' : 'Welfare Plan'}
                 </button>
               );
             })}
@@ -105,23 +96,35 @@ const Products = () => {
         </div>
 
         {/* ── Cards ── */}
-        <div className="relative px-4 pt-6 pb-8" style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+        <div className="px-4 pb-8 space-y-5">
           {isLoading ? (
             <div className="flex justify-center py-16">
               <Loader2 className="w-9 h-9 animate-spin" style={{ color: ORANGE }} />
             </div>
           ) : products && products.length > 0 ? (
-            products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                label={product.description || product.name}
-                isInvesting={investingProductId === product.id}
-                onInvest={handleInvest}
-              />
-            ))
+            products.map((product) => {
+              const label = product.description || product.name;
+              const isInvesting = investingProductId === product.id;
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  label={label}
+                  isInvesting={isInvesting}
+                  onInvest={handleInvest}
+                  btnGrad={BTN_GRAD}
+                  greenGrad={GREEN_GRAD}
+                  btnShadow={BTN_SHADOW}
+                  greenShadow={GREEN_SHADOW}
+                  orange={ORANGE}
+                />
+              );
+            })
           ) : (
-            <div className="text-center py-16 text-base font-medium" style={{ color: '#8A8A8A' }}>
+            <div
+              className="text-center py-16 text-base font-medium"
+              style={{ color: '#8A8A8A' }}
+            >
               No products available
             </div>
           )}
@@ -137,146 +140,154 @@ interface CardProps {
   label: string;
   isInvesting: boolean;
   onInvest: (p: Product) => void;
+  btnGrad: string;
+  greenGrad: string;
+  btnShadow: string;
+  greenShadow: string;
+  orange: string;
 }
 
-function ProductCard({ product, label, isInvesting, onInvest }: CardProps) {
+function ProductCard({ product, label, isInvesting, onInvest, btnGrad, greenGrad, btnShadow, greenShadow, orange }: CardProps) {
   return (
     <div
-      className="relative"
+      className="relative rounded-[24px] overflow-visible"
       style={{
-        borderRadius: 28,
-        paddingTop: 62,
-        background: 'linear-gradient(155deg, rgba(255,255,255,0.94) 0%, rgba(250,245,242,0.86) 100%)',
-        backdropFilter: 'blur(24px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(140%)',
-        border: '1.5px solid rgba(255,255,255,0.9)',
-        boxShadow:
-          '0 18px 40px rgba(203,150,110,0.20), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95)',
+        background: '#FFFFFF',
+        backdropFilter: 'blur(0px)',
+        WebkitBackdropFilter: 'blur(0px)',
+        boxShadow: '0 8px 32px rgba(255,106,0,0.12), 0 2px 8px rgba(0,0,0,0.05)',
+        border: '1px solid #FFFFFF',
       }}
     >
-      {/* Orange label badge — top-left, overlapping edge */}
-      <div
-        className="absolute text-white"
-        style={{
-          top: -6,
-          left: -4,
-          padding: '13px 20px',
-          borderRadius: 22,
-          fontSize: 20,
-          fontWeight: 700,
-          lineHeight: 1,
-          background: ORANGE_GRAD,
-          border: '1.5px solid rgba(255,255,255,0.6)',
-          boxShadow: '0 10px 22px rgba(249,112,8,0.35), inset 0 1px 0 rgba(255,255,255,0.4)',
-          maxWidth: '62%',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {label}
+      {/* ── Top badge row ── */}
+      <div className="flex items-start justify-between px-5 pt-5">
+        {/* Orange label badge */}
+        <div
+          className="px-4 py-2 rounded-full text-white font-bold text-[13px] leading-none"
+          style={{ background: btnGrad, boxShadow: '0 4px 12px rgba(255,106,0,0.32)', fontFamily: "'Poppins', sans-serif" }}
+        >
+          {label}
+        </div>
+
+        {/* Green "Days" badge — top-right, slightly overflows card edge */}
+        <div
+          className="px-4 py-2 rounded-full text-white font-bold text-[13px] leading-none"
+          style={{
+            background: greenGrad,
+            boxShadow: greenShadow,
+            fontFamily: "'Poppins', sans-serif",
+          }}
+        >
+          Days: {product.duration_days}
+        </div>
       </div>
 
-      {/* Green Days badge — top-right, overlapping edge */}
-      <div
-        className="absolute text-white"
-        style={{
-          top: -6,
-          right: -4,
-          padding: '13px 18px',
-          borderRadius: 22,
-          fontSize: 18,
-          fontWeight: 600,
-          lineHeight: 1,
-          background: GREEN_GRAD,
-          border: '1.5px solid rgba(255,255,255,0.45)',
-          boxShadow: '0 10px 22px rgba(53,149,60,0.35), inset 0 1px 0 rgba(255,255,255,0.35)',
-        }}
-      >
-        Days: {product.duration_days}
-      </div>
-
-      {/* Body: image + income stats */}
-      <div className="flex items-center gap-2 px-4">
-        <div className="shrink-0" style={{ width: 130, height: 130 }}>
+      {/* ── Body: image + income stats ── */}
+      <div className="flex items-center px-4 pt-4 pb-2 gap-2">
+        {/* Product image */}
+        <div className="shrink-0 w-[120px] h-[120px] flex items-center justify-center">
           {product.image_url ? (
             <LazyImage
               src={product.image_url}
               alt={product.name}
               className="w-full h-full object-contain"
               wrapperClassName="w-full h-full"
-              wrapperStyle={{ filter: 'drop-shadow(0 14px 18px rgba(90,60,40,0.28))' }}
-              fallback={<ImgFallback name={product.name} />}
+              fallback={
+                <div
+                  className="w-full h-full rounded-2xl flex items-center justify-center"
+                  style={{ background: '#FFE3C5' }}
+                >
+                  <span className="text-xs font-bold text-center px-2" style={{ color: ORANGE }}>
+                    {product.name}
+                  </span>
+                </div>
+              }
             />
           ) : (
-            <ImgFallback name={product.name} />
+            <div
+              className="w-full h-full rounded-2xl flex items-center justify-center"
+              style={{ background: '#FFE3C5' }}
+            >
+              <span className="text-xs font-bold text-center px-2" style={{ color: ORANGE }}>
+                {product.name}
+              </span>
+            </div>
           )}
         </div>
 
+        {/* Income stats with vertical divider */}
         <div className="flex-1 flex items-stretch">
-          <StatBlock value={product.daily_income} label="Daily Income" />
-          <div className="w-px self-stretch" style={{ background: 'rgba(0,0,0,0.10)', margin: '10px 0' }} />
-          <StatBlock value={product.total_income} label="Total Income" />
+          {/* Daily Income */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <p
+              className="text-[22px] font-extrabold leading-tight"
+              style={{ color: orange, fontFamily: "'Poppins', sans-serif" }}
+            >
+              ₹{product.daily_income.toLocaleString('en-IN')}
+            </p>
+            <p
+              className="text-[11px] mt-1 font-medium text-center"
+              style={{ color: '#8A8A8A' }}
+            >
+              Daily<br />Income
+            </p>
+          </div>
+
+          {/* Thin vertical divider */}
+          <div
+            className="w-px self-stretch"
+            style={{ background: '#E5E7EB', margin: '4px 0' }}
+          />
+
+          {/* Total Income */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <p
+              className="text-[22px] font-extrabold leading-tight"
+              style={{ color: orange, fontFamily: "'Poppins', sans-serif" }}
+            >
+              ₹{product.total_income.toLocaleString('en-IN')}
+            </p>
+            <p
+              className="text-[11px] mt-1 font-medium text-center"
+              style={{ color: '#8A8A8A' }}
+            >
+              Total<br />Income
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Price */}
-      <div className="px-5" style={{ paddingTop: 14 }}>
-        <p className="text-center" style={{ color: '#3A3A3A', fontSize: 27, fontWeight: 700, letterSpacing: '-0.4px' }}>
+      {/* ── Price ── */}
+      <div className="px-5 pb-3">
+        <p
+          className="text-[18px] font-extrabold text-center"
+          style={{ color: '#2B2B2B', fontFamily: "'Poppins', sans-serif" }}
+        >
           Price: ₹{product.price.toLocaleString('en-IN')}
         </p>
       </div>
 
-      {/* Buy Now */}
-      <div style={{ padding: '16px 22px 22px' }}>
+      {/* ── Buy Now button ── */}
+      <div className="px-4 pb-5">
         <button
           onClick={() => onInvest(product)}
           disabled={isInvesting}
-          className="w-full text-white transition-all active:scale-[0.98] disabled:opacity-60"
+          className="w-full text-white font-bold text-[17px] transition-all active:scale-[0.98] disabled:opacity-60"
           style={{
-            height: 62,
+            height: 54,
             borderRadius: 999,
-            fontSize: 22,
-            fontWeight: 700,
-            background: isInvesting ? '#9CA3AF' : ORANGE_GRAD,
-            border: '1.5px solid rgba(255,255,255,0.5)',
-            boxShadow: isInvesting ? 'none' : BTN_SHADOW,
+            background: isInvesting ? '#9CA3AF' : btnGrad,
+            boxShadow: isInvesting ? 'none' : btnShadow,
+            fontFamily: "'Poppins', sans-serif",
           }}
         >
           {isInvesting ? (
             <span className="inline-flex items-center gap-2">
               <Loader2 className="w-5 h-5 animate-spin" /> Investing...
             </span>
-          ) : (
-            'Buy Now'
-          )}
+          ) : 'Buy Now'}
         </button>
       </div>
-    </div>
-  );
-}
-
-function StatBlock({ value, label }: { value: number; label: string }) {
-  const [first, second] = label.split(' ');
-  return (
-    <div className="flex-1 px-2">
-      <div className="flex items-baseline gap-1.5 flex-wrap">
-        <span style={{ color: ORANGE, fontSize: 27, fontWeight: 700, lineHeight: 1.1 }}>
-          ₹{Number(value).toLocaleString('en-IN')}
-        </span>
-        <span style={{ color: '#8A8A8A', fontSize: 16, fontWeight: 500 }}>{first}</span>
-      </div>
-      <p style={{ color: '#8A8A8A', fontSize: 16, fontWeight: 500, marginTop: 6 }}>{second}</p>
-    </div>
-  );
-}
-
-function ImgFallback({ name }: { name: string }) {
-  return (
-    <div className="w-full h-full rounded-2xl flex items-center justify-center" style={{ background: '#FFE3C5' }}>
-      <span className="text-xs font-bold text-center px-2" style={{ color: ORANGE }}>
-        {name}
-      </span>
     </div>
   );
 }
