@@ -119,7 +119,7 @@ export function WelcomePopup({ isOpen, onClose }: WelcomePopupProps) {
               <span>📅</span>
               <span>
                 Launch Date:{' '}
-                <span style={{ color: ORANGE, fontWeight: 700 }}>09th Aug 2026</span>
+                <span style={{ color: ORANGE, fontWeight: 700 }}>14th Aug 2026</span>
               </span>
             </Row>
 
